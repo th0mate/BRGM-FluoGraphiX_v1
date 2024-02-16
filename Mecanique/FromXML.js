@@ -52,8 +52,13 @@ function convertirXMLenMV(xmlString) {
         const a148Value = time.querySelector("a148").getAttribute("v");
         const a144Value = time.querySelector("a144").getAttribute("v");
 
+        if (getTime(timeValue) === "NaN/NaN/N-NaN:NaN:NaN") {
+            continue;
+        }
+
         mvContent += ` ${setEspaces(i + 1, 4)} ${getTime(timeValue)} 0   ${setEspaces(around(a145Value), 5)}     ${setEspaces(around(a146Value),5)}     ${setEspaces(around(a147Value),5)}    ${setEspaces(around(a148Value),5)}     ${setEspaces(around(a144Value),5)}     13.20     10.63     0.000\n`;
     }
 
     return mvContent;
 }
+

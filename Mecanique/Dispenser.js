@@ -1,7 +1,7 @@
 /**
  * Traite le fichier sélectionné par l'utilisateur
  */
-function traiterFichierXML() {
+function traiterFichier() {
     const inputFichier = document.getElementById('fileInput');
     const fichier = inputFichier.files[0];
 

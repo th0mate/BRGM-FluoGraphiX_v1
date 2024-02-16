@@ -53,8 +53,10 @@ function convertirTexteenMV(texte) {
         const a148Value = colonnes[6];
         const a144Value = colonnes[7];
 
-        //si plus de deux colonnes sont vides, on passe à la ligne suivante
 
+        if (getTime(timeValue) === "NaN/NaN/N-NaN:NaN:NaN") {
+            continue;
+        }
 
         mvContent += ` ${setEspaces(i, 4)} ${getTime(timeValue)} 0   ${setEspaces(around(a145Value), 5)}     ${setEspaces(around(a146Value), 5)}     ${setEspaces(around(a147Value), 5)}    ${setEspaces(around(a148Value), 5)}     ${setEspaces(around(a144Value), 5)}     13.20     10.63     0.000\n`;
     }
