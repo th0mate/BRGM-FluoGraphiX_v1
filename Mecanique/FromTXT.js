@@ -13,6 +13,7 @@ function chargerTexteFichier(fichier, callback) {
 
 /**
  * Traite le fichier sélectionné par l'utilisateur
+ * @returns {string} le contenu du fichier .mv
  */
 function traiterFichierTexte() {
     const inputFichier = document.getElementById('textFileInput');
@@ -46,12 +47,13 @@ function convertirTexteenMV(texte) {
 
     for (let i = 1; i < lignes.length; i++) {
         const colonnes = lignes[i].split('\t');
-        const timeValue = colonnes[0]/* + ' ' + colonnes[1]*/;
+        const timeValue = colonnes[0]/* + ' ' + colonnes[1]*/; // la colonne 1 contient un long nombre étrange
         const a145Value = colonnes[3];
         const a146Value = colonnes[4];
         const a147Value = colonnes[5];
         const a148Value = colonnes[6];
         const a144Value = colonnes[7];
+        //Dans le fichier txt d'exemple fourni, les autres colonnes sont vides. Elles sont pas utilisées ici.
 
 
         if (getTime(timeValue) === "NaN/NaN/N-NaN:NaN:NaN") {
