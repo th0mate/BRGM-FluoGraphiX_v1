@@ -3,13 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>essais</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="text/javascript" src="Mecanique/Utils.js" defer></script>
     <script type="text/javascript" src="Mecanique/FromXML.js" defer></script>
     <script type="text/javascript" src="Mecanique/FromTXT.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+
+    <script type="text/javascript" src="Mecanique/Graphics.js" defer></script>
     <script type="text/javascript" src="Mecanique/Dispenser.js" defer></script>
 </head>
 <body>
 <input type="file" id="fileInput">
 <button onclick="traiterFichier()">Traiter le fichier</button>
+<br>
+<canvas id="graphique"></canvas>
 </body>
 </html>

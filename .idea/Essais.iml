@@ -8,5 +8,10 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="chart.js" level="application" />
+    <orderEntry type="library" name="moment" level="application" />
+    <orderEntry type="library" name="chartjs-adapter-moment" level="application" />
+    <orderEntry type="library" name="chartjs-plugin-annotation" level="application" />
+    <orderEntry type="library" name="luxon" level="application" />
   </component>
 </module>

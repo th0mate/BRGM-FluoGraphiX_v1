@@ -1,5 +1,5 @@
 /**
- * Traite le fichier sélectionné par l'utilisateur
+ * Traite le fichier sélectionné par l'utilisateur et redirige le contenu du fichier vers la fonction de traitement appropriée
  */
 function traiterFichier() {
     const inputFichier = document.getElementById('fileInput');
@@ -15,13 +15,13 @@ function traiterFichier() {
             reader.onload = function () {
                 const xmlString = reader.result;
                 const mvContent = convertirXMLenMV(xmlString);
-                console.log(mvContent);
+                afficherGraphique(mvContent);
             };
         } else if (fichier.name.split('.').pop() === "txt") {
             chargerTexteFichier(fichier, function (contenuFichier) {
                 const mvContent = convertirTexteenMV(contenuFichier);
                 if (mvContent) {
-                    console.log(mvContent);
+                    afficherGraphique(mvContent);
                 } else {
                     console.error("Erreur lors du traitement du fichier texte.");
                 }

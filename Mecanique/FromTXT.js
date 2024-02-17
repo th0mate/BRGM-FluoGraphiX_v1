@@ -53,7 +53,7 @@ function convertirTexteenMV(texte) {
         const a147Value = colonnes[5];
         const a148Value = colonnes[6];
         const a144Value = colonnes[7];
-        //Dans le fichier txt d'exemple fourni, les autres colonnes sont vides. Elles sont pas utilisées ici.
+        //Dans le fichier txt d'exemple fourni, les autres colonnes sont vides. Elles ne sont pas utilisées ici.
 
 
         if (getTime(timeValue) === "NaN/NaN/N-NaN:NaN:NaN") {
