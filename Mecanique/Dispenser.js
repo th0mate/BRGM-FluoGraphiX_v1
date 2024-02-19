@@ -15,7 +15,6 @@ function traiterFichier() {
             reader.onload = function () {
                 const xmlString = reader.result;
                 const mvContent = convertirXMLenMV(xmlString);
-                console.log(mvContent);
                 afficherGraphique(mvContent);
             };
         } else if (fichier.name.split('.').pop() === "txt") {
@@ -28,8 +27,13 @@ function traiterFichier() {
                 }
             });
         } else if (fichier.name.split('.').pop() === "mv") {
-            chargerTexteFichier(fichier, function (contenuFichier) {
-                afficherGraphique(contenuFichier);
+            getStringDepuisFichierMV(fichier, function (mvContent) {
+                if (mvContent) {
+                    console.log(mvContent);
+                    afficherGraphique(mvContent);
+                } else {
+                    console.error("Erreur lors de la lecture du fichier .mv.");
+                }
             });
         }
         else {
@@ -37,5 +41,16 @@ function traiterFichier() {
         }
     } else {
         console.error("Aucun fichier sélectionné.");
+    }
+}
+
+/**
+ * Réinitialise le zoom du graphique comme il était d'origine
+ */
+function resetZoom() {
+    const canvas = document.getElementById('graphique');
+    const existingChart = Chart.getChart(canvas);
+    if (existingChart) {
+        existingChart.resetZoom();
     }
 }

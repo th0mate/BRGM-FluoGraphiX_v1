@@ -10,6 +10,7 @@
     <script type="text/javascript" src="Mecanique/FromTXT.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/moment"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+    <script type="text/javascript" src="Mecanique/FromMV.js" defer></script>
 
     <script type="text/javascript" src="Mecanique/Graphics.js" defer></script>
     <script type="text/javascript" src="Mecanique/Dispenser.js" defer></script>
@@ -17,6 +18,7 @@
 <body>
 <input type="file" id="fileInput">
 <button onclick="traiterFichier()">Traiter le fichier</button>
+<button onclick="resetZoom()">Réinitialiser le Zoom</button>
 <br>
 <canvas id="graphique" style="max-width: 95%; max-height: 90vh"></canvas>
 </body>

@@ -11,31 +11,9 @@ function chargerTexteFichier(fichier, callback) {
     reader.readAsText(fichier);
 }
 
-/**
- * Traite le fichier sélectionné par l'utilisateur
- * @returns {string} le contenu du fichier .mv
- */
-function traiterFichierTexte() {
-    const inputFichier = document.getElementById('textFileInput');
-    const fichier = inputFichier.files[0];
-
-    if (fichier) {
-        chargerTexteFichier(fichier, function (contenuFichier) {
-            const mvContent = convertirTexteenMV(contenuFichier);
-            if (mvContent) {
-                return mvContent;
-            } else {
-                console.error("Erreur lors du traitement du fichier texte.");
-            }
-        });
-    } else {
-        console.error("Aucun fichier sélectionné.");
-    }
-    return null;
-}
 
 /**
- * Convertit un fichier texte en fichier .mv pour le GGUN-FL Fluorometer #453
+ * Convertit un fichier texte en fichier .mv
  * @param texte le contenu du fichier texte
  * @returns {string} le contenu du fichier .mv
  */

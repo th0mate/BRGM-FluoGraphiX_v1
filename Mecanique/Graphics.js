@@ -1,5 +1,7 @@
-
-
+/**
+ * Traite les données pour les afficher sous forme de graphique
+ * @param mvContent le contenu du fichier .mv à afficher
+ */
 function afficherGraphique(mvContent) {
     const lignes = mvContent.split('\n');
     const labels = [];
@@ -68,7 +70,7 @@ function afficherGraphique(mvContent) {
                         parser: 'YYYY-MM-DDTHH:mm:ss.SSSZ', // Format ISO
                         unit: 'minute',
                         displayFormats: {
-                            minute: 'YYYY-MM-DD HH:mm'
+                            minute: 'DD/MM/YYYY-HH:mm:SS'
                         }
                     },
                     position: 'bottom',
