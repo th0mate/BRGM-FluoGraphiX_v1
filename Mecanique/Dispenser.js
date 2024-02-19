@@ -15,6 +15,7 @@ function traiterFichier() {
             reader.onload = function () {
                 const xmlString = reader.result;
                 const mvContent = convertirXMLenMV(xmlString);
+                console.log(mvContent);
                 afficherGraphique(mvContent);
             };
         } else if (fichier.name.split('.').pop() === "txt") {
@@ -25,6 +26,10 @@ function traiterFichier() {
                 } else {
                     console.error("Erreur lors du traitement du fichier texte.");
                 }
+            });
+        } else if (fichier.name.split('.').pop() === "mv") {
+            chargerTexteFichier(fichier, function (contenuFichier) {
+                afficherGraphique(contenuFichier);
             });
         }
         else {

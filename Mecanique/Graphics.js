@@ -7,15 +7,19 @@ function afficherGraphique(mvContent) {
 
     for (let i = 3; i < lignes.length; i++) {
         const colonnes = lignes[i].split(/\s+/);
-        const timeValue = colonnes[2] + ' ' + colonnes[3];
+        const timeValue = colonnes[2];
         const a145Value = parseFloat(colonnes[7]);
         const a146Value = parseFloat(colonnes[8]);
         const a147Value = parseFloat(colonnes[9]);
 
-        labels.push(timeValue);
-        dataTracer1.push(a145Value);
-        dataTracer2.push(a146Value);
-        dataTracer3.push(a147Value);
+        const timeDate = moment(timeValue, 'DD/MM/YY-HH:mm:ss', true);
+        console.log(timeDate);
+        if (timeDate.isValid()) {
+            labels.push(timeDate.toISOString());
+            dataTracer1.push({ x: timeDate.toISOString(), y: a145Value });
+            dataTracer2.push({ x: timeDate.toISOString(), y: a146Value });
+            dataTracer3.push({ x: timeDate.toISOString(), y: a147Value });
+        }
     }
 
     const data = {
@@ -45,6 +49,12 @@ function afficherGraphique(mvContent) {
         ]
     };
 
+    const canvas = document.getElementById('graphique');
+    const existingChart = Chart.getChart(canvas);
+    if (existingChart) {
+        existingChart.destroy();
+    }
+
     const ctx = document.getElementById('graphique').getContext('2d');
     new Chart(ctx, {
         type: 'line',
@@ -54,7 +64,7 @@ function afficherGraphique(mvContent) {
                 x: {
                     type: 'time',
                     time: {
-                        parser: 'YYYY-MM-DD HH:mm:ss',
+                        parser: 'YYYY-MM-DDTHH:mm:ss.SSSZ', // Format ISO
                         unit: 'minute',
                         displayFormats: {
                             minute: 'YYYY-MM-DD HH:mm'
@@ -64,7 +74,7 @@ function afficherGraphique(mvContent) {
                     ticks: {
                         source: 'labels',
                         autoSkip: true,
-                        maxTicksLimit: 20 // Essayez d'ajuster cela en fonction du nombre de points de données
+                        maxTicksLimit: 20
                     }
                 },
                 y: {
@@ -78,7 +88,7 @@ function afficherGraphique(mvContent) {
                             type: 'line',
                             mode: 'vertical',
                             scaleID: 'x',
-                            value: '2023-10-17 23:00:00',
+                            value: '2023-10-17T23:00:00.000Z',
                             borderColor: 'red',
                             borderWidth: 2,
                             label: {
@@ -90,7 +100,7 @@ function afficherGraphique(mvContent) {
                             type: 'line',
                             mode: 'vertical',
                             scaleID: 'x',
-                            value: '2023-10-17 23:05:00',
+                            value: '2023-10-17T23:05:00.000Z',
                             borderColor: 'blue',
                             borderWidth: 2,
                             label: {
