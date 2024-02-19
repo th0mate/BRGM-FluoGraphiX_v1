@@ -35,8 +35,7 @@ function traiterFichier() {
                     console.error("Erreur lors de la lecture du fichier .mv.");
                 }
             });
-        }
-        else {
+        } else {
             console.error("Ce type de fichier n'est pas pris en charge");
         }
     } else {
@@ -54,3 +53,64 @@ function resetZoom() {
         existingChart.resetZoom();
     }
 }
+
+/**
+ * Affiche tous les points sur le graphique si le nombre de points est inférieur à 100, sinon les masque si ce n'est pas déjà fait
+ */
+function displayPoints() {
+    const canvas = document.getElementById('graphique');
+    const existingChart = Chart.getChart(canvas);
+    if (existingChart) {
+        const nbPoints = getNbPoints();
+        if (getNbPoints() < 100) {
+            existingChart.options.datasets.line.pointRadius = 3;
+            existingChart.options.elements.point.display = true;
+            existingChart.update();
+        } else {
+            if (existingChart.options.datasets.line.pointRadius !== 0) {
+                existingChart.options.datasets.line.pointRadius = 0;
+                existingChart.update();
+            }
+        }
+
+    }
+}
+
+/**
+ * Retourne le nombre de points sur le graphique affichés à l'écran, en se mettant à jour dès que le zoom sur le graphique change
+ */
+function getNbPoints() {
+    const canvas = document.getElementById('graphique');
+    const chart = Chart.getChart(canvas);
+
+    // Récupérer les échelles des axes
+    const xAxis = chart.scales['x'];
+    const yAxis = chart.scales['y'];
+
+    // Récupérer les graduations des axes X et Y
+    const xTicks = xAxis.getTicks();
+    const yTicks = yAxis.getTicks();
+
+    // Nombre de points actuellement visibles sur l'axe X (basé sur les graduations)
+    const visiblePointsX = xTicks.length;
+
+    // Nombre de points actuellement visibles sur l'axe Y (basé sur les graduations)
+    const visiblePointsY = yTicks.length;
+    return visiblePointsX * visiblePointsY;
+
+}
+
+let isOptimise = false;
+
+function optimise() {
+    isOptimise = !isOptimise;
+}
+
+function getOptimise() {
+    return isOptimise;
+}
+
+
+document.getElementById('graphique').onwheel = function () {
+    //displayPoints();
+};

@@ -3,7 +3,7 @@
  * Ajoute des espaces pour aligner les chiffres
  * @param n le nombre à aligner
  * @param e le nombre d'espaces à ajouter au maximum
- * @returns {string}
+ * @returns {string} le nombre aligné avec le bon nombre d'espaces
  */
 function setEspaces(n, e) {
     let string = "";
@@ -16,7 +16,7 @@ function setEspaces(n, e) {
 /**
  * Convertit une date ISO en date et heure au format "dd/mm/yy-hh:mm:ss"
  * @param string la date ISO à convertir
- * @returns {string}
+ * @returns {string} la date et l'heure au format attendu
  */
 function getTime(string) {
     let date = new Date(string);
@@ -32,7 +32,7 @@ function getTime(string) {
 /**
  * Vérifie le nombre de décimales et ajoute des zéros si nécessaire pour avoir 2 décimales après la virgule en arrondissant
  * @param double le nombre à traiter
- * @returns {number|string}
+ * @returns {number|string} le nombre avec 2 décimales après la virgule
  */
 function around(double) {
     const trait =  Math.round(double * 100) / 100;
@@ -43,3 +43,4 @@ function around(double) {
     }
     return trait;
 }
+

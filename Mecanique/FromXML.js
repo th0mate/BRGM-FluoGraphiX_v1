@@ -11,7 +11,7 @@
 /**
  * Charge un fichier XML en texte pour pouvoir le manipuler
  * @param xmlString le contenu du fichier XML
- * @returns {Document|null}
+ * @returns {Document|null} le fichier XML chargé
  */
 function chargerXML(xmlString) {
     const parser = new DOMParser();
@@ -33,7 +33,7 @@ function chargerXML(xmlString) {
 /**
  * Convertit un fichier XML en fichier .mv pour le GGUN-FL Fluorometer #453
  * @param xmlString le contenu du fichier XML
- * @returns {string}
+ * @returns {string} le contenu du fichier .mv
  */
 function convertirXMLenMV(xmlString) {
     const xmlDoc = chargerXML(xmlString);

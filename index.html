@@ -16,10 +16,10 @@
     <script type="text/javascript" src="Mecanique/Dispenser.js" defer></script>
 </head>
 <body>
-<input type="file" id="fileInput">
-<button onclick="traiterFichier()">Traiter le fichier</button>
+<input type="file" id="fileInput" onchange="traiterFichier()">
+<input type="checkbox" onchange="optimise()">Optimiser
 <button onclick="resetZoom()">Réinitialiser le Zoom</button>
 <br>
-<canvas id="graphique" style="max-width: 95%; max-height: 90vh"></canvas>
+<canvas id="graphique" onmouseover="displayPoints()" style="max-width: 95%; max-height: 90vh"></canvas>
 </body>
 </html>

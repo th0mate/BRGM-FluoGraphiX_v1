@@ -9,12 +9,14 @@ function afficherGraphique(mvContent) {
     const dataTracer2 = [];
     const dataTracer3 = [];
 
+    console.log(getOptimise());
     for (let i = 3; i < lignes.length; i++) {
         const colonnes = lignes[i].split(/\s+/);
         const timeValue = colonnes[2];
-        const a145Value = parseFloat(colonnes[4]);
-        const a146Value = parseFloat(colonnes[5]);
-        const a147Value = parseFloat(colonnes[6]);
+
+        const a145Value = around(parseFloat(colonnes[4]));
+        const a146Value = around([5]);
+        const a147Value = around(parseFloat(colonnes[6]));
 
         const timeDate = moment(timeValue, 'DD/MM/YY-HH:mm:ss', true);
         if (timeDate.isValid()) {
@@ -53,6 +55,7 @@ function afficherGraphique(mvContent) {
     };
 
     const canvas = document.getElementById('graphique');
+
     const existingChart = Chart.getChart(canvas);
     if (existingChart) {
         existingChart.destroy();
@@ -114,9 +117,10 @@ function afficherGraphique(mvContent) {
                     ]
                 },
                 crosshair: {
+                    enabled: true,
                     line: {color: 'rgba(255, 0, 0, 0.5)', width: 2},
                     sync: {
-                        enabled: false,
+                        enabled: true,
                     },
                 },
                 zoom: {
@@ -143,6 +147,19 @@ function afficherGraphique(mvContent) {
         }
     });
 }
+
+
+/**
+ * Arrondi un nombre à 0 décimales. Par exemple, 1.52 devient 1.5, 1.39 devient 1.4
+ */
+function around(double) {
+    if (getOptimise()) {
+        return Math.round(double * 1);
+    } else {
+        return double;
+    }
+}
+
 
 
 
