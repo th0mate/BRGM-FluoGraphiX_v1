@@ -1,4 +1,12 @@
 /**
+ * Gère le lien entre le HTML et le back
+ * @type {boolean} si l'optimisation est activée ou non
+ */
+
+
+let isOptimise = false;
+
+/**
  * Traite le fichier sélectionné par l'utilisateur et redirige le contenu du fichier vers la fonction de traitement appropriée
  */
 function traiterFichier() {
@@ -100,17 +108,25 @@ function getNbPoints() {
 
 }
 
-let isOptimise = false;
 
+/**
+ * Optimise l'affichage des points sur le graphique en arrondissant les valeurs des graduations aux entiers les plus proches
+ */
 function optimise() {
     isOptimise = !isOptimise;
 }
 
+/**
+ * Retourne si l'optimisation est activée ou non
+ * @returns {boolean} si l'optimisation est activée ou non
+ */
 function getOptimise() {
     return isOptimise;
 }
 
-
+/**
+ * Permet d'afficher les points ou non sur le graphique en fonction du niveau de zoom
+ */
 document.getElementById('graphique').onwheel = function () {
     //displayPoints();
 };
