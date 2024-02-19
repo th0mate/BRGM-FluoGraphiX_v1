@@ -15,7 +15,7 @@ function afficherGraphique(mvContent) {
         const timeValue = colonnes[2];
 
         const a145Value = around(parseFloat(colonnes[4]));
-        const a146Value = around([5]);
+        const a146Value = around(parseFloat(colonnes[5]));
         const a147Value = around(parseFloat(colonnes[6]));
 
         const timeDate = moment(timeValue, 'DD/MM/YY-HH:mm:ss', true);
