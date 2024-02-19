@@ -1,3 +1,5 @@
+
+
 function afficherGraphique(mvContent) {
     const lignes = mvContent.split('\n');
     const labels = [];
@@ -8,17 +10,16 @@ function afficherGraphique(mvContent) {
     for (let i = 3; i < lignes.length; i++) {
         const colonnes = lignes[i].split(/\s+/);
         const timeValue = colonnes[2];
-        const a145Value = parseFloat(colonnes[7]);
-        const a146Value = parseFloat(colonnes[8]);
-        const a147Value = parseFloat(colonnes[9]);
+        const a145Value = parseFloat(colonnes[4]);
+        const a146Value = parseFloat(colonnes[5]);
+        const a147Value = parseFloat(colonnes[6]);
 
         const timeDate = moment(timeValue, 'DD/MM/YY-HH:mm:ss', true);
-        console.log(timeDate);
         if (timeDate.isValid()) {
             labels.push(timeDate.toISOString());
-            dataTracer1.push({ x: timeDate.toISOString(), y: a145Value });
-            dataTracer2.push({ x: timeDate.toISOString(), y: a146Value });
-            dataTracer3.push({ x: timeDate.toISOString(), y: a147Value });
+            dataTracer1.push({x: timeDate.toISOString(), y: a145Value});
+            dataTracer2.push({x: timeDate.toISOString(), y: a146Value});
+            dataTracer3.push({x: timeDate.toISOString(), y: a147Value});
         }
     }
 
@@ -109,8 +110,38 @@ function afficherGraphique(mvContent) {
                             }
                         }
                     ]
+                },
+                crosshair: {
+                    line: {color: 'rgba(255, 0, 0, 0.5)', width: 2},
+                    sync: {
+                        enabled: false,
+                    },
+                },
+                zoom: {
+                    pan: {
+                        enabled: true,
+                        mode: 'xy',
+                    },
+                    zoom: {
+                        wheel: {
+                            enabled: true,
+                        },
+                        pinch: {
+                            enabled: true
+                        },
+                        mode: 'xy'
+                    }
+                },
+            },
+            datasets: {
+                line: {
+                    pointRadius: 0
                 }
             }
         }
     });
 }
+
+
+
+

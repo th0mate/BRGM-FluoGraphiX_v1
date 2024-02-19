@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>essais</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
     <script type="text/javascript" src="Mecanique/Utils.js" defer></script>
     <script type="text/javascript" src="Mecanique/FromXML.js" defer></script>
     <script type="text/javascript" src="Mecanique/FromTXT.js" defer></script>
@@ -17,6 +18,6 @@
 <input type="file" id="fileInput">
 <button onclick="traiterFichier()">Traiter le fichier</button>
 <br>
-<canvas id="graphique"></canvas>
+<canvas id="graphique" style="max-width: 95%; max-height: 90vh"></canvas>
 </body>
 </html>
