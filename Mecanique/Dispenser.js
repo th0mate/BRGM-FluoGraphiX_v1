@@ -23,6 +23,7 @@ function traiterFichier() {
             reader.onload = function () {
                 const xmlString = reader.result;
                 const mvContent = convertirXMLenMV(xmlString);
+                console.log(mvContent);
                 afficherGraphique(mvContent);
             };
         } else if (fichier.name.split('.').pop() === "txt") {

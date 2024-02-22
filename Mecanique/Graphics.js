@@ -149,17 +149,6 @@ function afficherGraphique(mvContent) {
 }
 
 
-/**
- * Arrondi un nombre à 0 décimales. Par exemple, 1.52 devient 1.5, 1.39 devient 1.4
- */
-function around(double) {
-    if (getOptimise()) {
-        return Math.round(double * 1);
-    } else {
-        return double;
-    }
-}
-
 
 
 

@@ -43,4 +43,3 @@ function around(double) {
     }
     return trait;
 }
-
