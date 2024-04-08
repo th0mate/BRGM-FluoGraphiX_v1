@@ -14,6 +14,7 @@ let contenuFichier = "";
 function traiterFichier() {
     const inputFichier = document.getElementById('fileInput');
     const fichiers = inputFichier.files;
+    contenuFichier = "";
 
     const promises = Array.from(fichiers).map(fichier => {
         if (fichier) {
@@ -41,7 +42,7 @@ function traiterFichier() {
                 });
             } else if (fichier.name.split('.').pop() === "mv") {
                 return new Promise((resolve, reject) => {
-                    getStringDepuisFichierMV(fichier, function (mvContent) {
+                    getStringDepuisFichierMV(fichier, getNbLignes() ,function (mvContent) {
                         if (mvContent !== '') {
                             resolve(mvContent);
                         } else {
@@ -59,7 +60,7 @@ function traiterFichier() {
 
     Promise.all(promises)
         .then(results => {
-            contenuFichier = results.join('');
+            contenuFichier += results.join('');
             console.log(contenuFichier);
             document.querySelector('.downloadFile').style.display = 'block';
             afficherGraphique(contenuFichier);
@@ -161,4 +162,11 @@ function telechargerFichier() {
         document.body.appendChild(element);
         element.click();
     }
+}
+
+function getNbLignes() {
+    if (contenuFichier === "") {
+        return 0;
+    }
+    return contenuFichier.split('\n').length;
 }
