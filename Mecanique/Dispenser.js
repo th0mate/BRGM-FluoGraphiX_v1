@@ -8,7 +8,6 @@ let isOptimise = false;
 let contenuFichier = "";
 let nbLignes = 0;
 
-
 /**
  * Traite le fichier sélectionné par l'utilisateur et redirige le contenu du fichier vers la fonction de traitement appropriée
  */
@@ -40,7 +39,7 @@ async function traiterFichier() {
                             contenuFichier += mvContent;
                             resolve();
                         } else {
-                            console.error("Erreur lors du traitement du fichier texte.");
+                            afficherMessageFlash("Erreur de lecture fichier texte : fichier invalide.", 'danger');
                         }
                     });
                 });
@@ -51,21 +50,22 @@ async function traiterFichier() {
                             contenuFichier += mvContent;
                             resolve();
                         } else {
-                            console.error("Erreur lors de la lecture du fichier .mv.");
+                            afficherMessageFlash("Erreur de lecture fichier MV : fichier invalide.", 'danger');
                         }
                     });
                 });
             } else {
-                console.error("Ce type de fichier n'est pas pris en charge");
+                afficherMessageFlash("Erreur : fichier non pris en charge.", 'danger')
             }
         } else {
-            console.error("Aucun fichier sélectionné.");
+            afficherMessageFlash("Aucun fichier n'a été join.", 'warning');
         }
     }
 
     console.log(contenuFichier);
     document.querySelector('.downloadFile').style.display = 'block';
     afficherGraphique(contenuFichier);
+    afficherMessageFlash("Fichier traité avec succès.", 'success');
 }
 
 
@@ -77,6 +77,9 @@ function resetZoom() {
     const existingChart = Chart.getChart(canvas);
     if (existingChart) {
         existingChart.resetZoom();
+        afficherMessageFlash("Zoom réinitialisé.", 'info');
+    } else {
+        afficherMessageFlash("Erreur générale : aucun graphique à réinitialiser.", 'danger');
     }
 }
 
@@ -161,5 +164,8 @@ function telechargerFichier() {
         element.download = 'export-' + new Date().toLocaleString().replace(/\/|:|,|\s/g, '-') + '.txt';
         document.body.appendChild(element);
         element.click();
+        afficherMessageFlash("Fichier téléchargé avec succès.", 'success');
+    } else {
+        afficherMessageFlash("Aucun fichier à télécharger : aucune donnée à exporter.", 'warning');
     }
 }
