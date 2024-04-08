@@ -22,7 +22,7 @@ function getStringDepuisFichierMV(fichier, callback) {
             const a144Value = colonnes[8];
 
 
-            mvContent += ` ${setEspaces(i, 4)} ${timeValue} 0 ${setEspaces(around(a145Value), 7)}     ${setEspaces(around(a146Value), 5)}     ${setEspaces(around(a147Value), 5)}    ${setEspaces(around(a148Value), 5)}     ${setEspaces(around(a144Value), 5)}     13.20     10.63     0.000\n`;
+            mvContent += ` ${setEspaces(i, 4)} ${timeValue} 0 ${setEspaces(around(a145Value), 7)}    ${setEspaces(around(a146Value), 6)}    ${setEspaces(around(a147Value), 6)}   ${setEspaces(around(a148Value), 6)}    ${setEspaces(around(a144Value), 6)}     13.20     10.63     0.000\n`;
         }
 
         callback(mvContent);
