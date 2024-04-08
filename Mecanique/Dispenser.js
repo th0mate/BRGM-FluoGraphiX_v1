@@ -5,6 +5,8 @@
 
 
 let isOptimise = false;
+let contenuFichier = "";
+
 
 /**
  * Traite le fichier sélectionné par l'utilisateur et redirige le contenu du fichier vers la fonction de traitement appropriée
@@ -12,8 +14,6 @@ let isOptimise = false;
 function traiterFichier() {
     const inputFichier = document.getElementById('fileInput');
     const fichiers = inputFichier.files;
-
-    let contenuFichier = "";
 
     const promises = Array.from(fichiers).map(fichier => {
         if (fichier) {
@@ -61,10 +61,12 @@ function traiterFichier() {
         .then(results => {
             contenuFichier = results.join('');
             console.log(contenuFichier);
+            document.querySelector('.downloadFile').style.display = 'block';
             afficherGraphique(contenuFichier);
         })
         .catch(error => console.error(error));
 }
+
 
 /**
  * Réinitialise le zoom du graphique comme il était d'origine
@@ -76,6 +78,7 @@ function resetZoom() {
         existingChart.resetZoom();
     }
 }
+
 
 /**
  * Affiche tous les points sur le graphique si le nombre de points est inférieur à 100, sinon les masque si ce n'est pas déjà fait
@@ -98,6 +101,7 @@ function displayPoints() {
 
     }
 }
+
 
 /**
  * Retourne le nombre de points sur le graphique affichés à l'écran, en se mettant à jour dès que le zoom sur le graphique change
@@ -127,6 +131,7 @@ function optimise() {
     isOptimise = !isOptimise;
 }
 
+
 /**
  * Retourne si l'optimisation est activée ou non
  * @returns {boolean} si l'optimisation est activée ou non
@@ -135,9 +140,25 @@ function getOptimise() {
     return isOptimise;
 }
 
+
 /**
  * Permet d'afficher les points ou non sur le graphique en fonction du niveau de zoom
  */
 document.getElementById('graphique').onwheel = function () {
     //displayPoints();
 };
+
+
+/**
+ * Télécharge un fichier .txt contenant le contenu de la variable globale contenuFichier
+ */
+function telechargerFichier() {
+    if (contenuFichier !== "") {
+        const element = document.createElement('a');
+        const file = new Blob([contenuFichier], {type: 'text/plain'});
+        element.href = URL.createObjectURL(file);
+        element.download = 'export-' + new Date().toLocaleString().replace(/\/|:|,|\s/g, '-') + '.txt';
+        document.body.appendChild(element);
+        element.click();
+    }
+}

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>essais</title>
-    <link rel="stylesheet" href="output.css">
+    <link rel="stylesheet" href="Ressources/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
     <script type="text/javascript" src="Mecanique/Utils.js" defer></script>
@@ -17,8 +17,12 @@
 </head>
 <body>
 <input type="file" id="fileInput" multiple onchange="traiterFichier()">
-<input type="checkbox" onchange="optimise()">Optimiser
+<label>
+    <input type="checkbox" onchange="optimise()">
+    Optimiser les données
+</label>
 <button onclick="resetZoom()">Réinitialiser le Zoom</button>
+<button class="downloadFile" onclick="telechargerFichier()">Télécharger le fichier</button>
 <br>
 <canvas id="graphique" onmouseover="displayPoints()" style="max-width: 95%; max-height: 90vh"></canvas>
 

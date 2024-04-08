@@ -8,8 +8,14 @@
 function getStringDepuisFichierMV(fichier, callback) {
     const reader = new FileReader();
     reader.onload = function (e) {
-        const lignes = e.target.result.split('\n');
-        let mvContent = "";
+        let lignes = e.target.result.split('\n');
+        lignes.splice(0, 3);
+        lignes.pop();
+
+
+        let mvContent = "                           GGUN-FL Fluorometer #453  -   Signals in mV\n";
+        mvContent += "                           -------------------------------------------\n";
+        mvContent += "    #  Time             R  Tracer 1  Tracer 2  Tracer 3 Turbidity  Baseline Battery V     T    Conductiv\n";
 
         for (let i = 1; i < lignes.length; i++) {
 
@@ -22,7 +28,7 @@ function getStringDepuisFichierMV(fichier, callback) {
             const a144Value = colonnes[8];
 
 
-            mvContent += ` ${setEspaces(i, 4)} ${timeValue} 0 ${setEspaces(around(a145Value), 7)}    ${setEspaces(around(a146Value), 6)}    ${setEspaces(around(a147Value), 6)}   ${setEspaces(around(a148Value), 6)}    ${setEspaces(around(a144Value), 6)}     13.20     10.63     0.000\n`;
+            mvContent += ` ${setEspaces(i, 4)} ${timeValue} 0 ${setEspaces(around(a145Value), 7)}    ${setEspaces(around(a146Value), 6)}    ${setEspaces(around(a147Value), 6)}    ${setEspaces(around(a148Value), 6)}    ${setEspaces(around(a144Value), 6)}     13.20     10.63     0.000\n`;
         }
 
         callback(mvContent);
