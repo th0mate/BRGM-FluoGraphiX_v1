@@ -106,18 +106,14 @@ function getNbPoints() {
     const canvas = document.getElementById('graphique');
     const chart = Chart.getChart(canvas);
 
-    // Récupérer les échelles des axes
     const xAxis = chart.scales['x'];
     const yAxis = chart.scales['y'];
 
-    // Récupérer les graduations des axes X et Y
     const xTicks = xAxis.getTicks();
     const yTicks = yAxis.getTicks();
 
-    // Nombre de points actuellement visibles sur l'axe X (basé sur les graduations)
     const visiblePointsX = xTicks.length;
 
-    // Nombre de points actuellement visibles sur l'axe Y (basé sur les graduations)
     const visiblePointsY = yTicks.length;
     return visiblePointsX * visiblePointsY;
 

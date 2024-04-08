@@ -30,15 +30,3 @@ function getStringDepuisFichierMV(fichier, callback) {
     reader.readAsText(fichier);
 }
 
-
-/*
-function getStringDepuisFichierMV(fichier, callback) {
-    const reader = new FileReader();
-    reader.onload = function (e) {
-        callback(e.target.result);
-    };
-    reader.readAsText(fichier);
-}
-
- */
-
