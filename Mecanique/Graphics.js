@@ -9,7 +9,6 @@ function afficherGraphique(mvContent) {
     const dataTracer2 = [];
     const dataTracer3 = [];
 
-    console.log(getOptimise());
     for (let i = 3; i < lignes.length; i++) {
         const colonnes = lignes[i].split(/\s+/);
         const timeValue = colonnes[2];

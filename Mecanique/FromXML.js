@@ -53,6 +53,7 @@ function convertirXMLenMV(xmlString) {
         const a144Value = time.querySelector("a144").getAttribute("v");
 
         if (getTime(timeValue) === "NaN/NaN/N-NaN:NaN:NaN") {
+            console.error("Erreur : dates incorrectes");
             continue;
         }
 
@@ -60,19 +61,4 @@ function convertirXMLenMV(xmlString) {
     }
 
     return mvContent;
-}
-
-/**
- * Vérifie le nombre de décimales et ajoute des zéros si nécessaire pour avoir 2 décimales après la virgule en arrondissant
- * @param double le nombre à traiter
- * @returns {number|string} le nombre avec 2 décimales après la virgule
- */
-function around(double) {
-    const trait =  Math.round(double * 100) / 100;
-    const parts = trait.toString().split(".");
-
-    if (parts.length < 2 || parts[1].length < 2) {
-        return trait.toFixed(2);
-    }
-    return trait;
 }

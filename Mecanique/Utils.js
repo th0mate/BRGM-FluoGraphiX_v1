@@ -38,8 +38,14 @@ function around(double) {
     const trait =  Math.round(double * 100) / 100;
     const parts = trait.toString().split(".");
 
-    if (parts.length < 2 || parts[1].length < 2) {
-        return trait.toFixed(2);
+    if (trait.toString().length === 7) {
+        return trait.toFixed(1);
     }
-    return trait;
+    if (trait.toString().length > 7) {
+        return Math.round(trait);
+    } else if (parts.length < 2 || parts[1].length < 2) {
+        return trait.toFixed(2);
+    } else {
+        return trait;
+    }
 }
