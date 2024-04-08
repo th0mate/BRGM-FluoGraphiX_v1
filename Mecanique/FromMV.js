@@ -2,19 +2,17 @@
  * Permet de lire le contenu d'un fichier MV et retourne le contenu du fichier en String
  * On refait tous les chiffres et nombres pour les aligner correctement
  * @param fichier le fichier à lire
- * @param nbLignes le nombre de lignes existantes d'un éventuel précédent fichier
  * @param callback la fonction à appeler une fois le fichier lu
  */
-function getStringDepuisFichierMV(fichier, nbLignes, callback) {
+function getStringDepuisFichierMV(fichier, callback) {
     const reader = new FileReader();
     reader.onload = function (e) {
         let lignes = e.target.result.split('\n');
-        console.log(nbLignes);
+
         lignes.splice(0, 3);
         lignes.pop();
 
         let mvContent = "";
-
         if (nbLignes === 0) {
             mvContent = "                           GGUN-FL Fluorometer #453  -   Signals in mV\n";
             mvContent += "                           -------------------------------------------\n";
@@ -34,6 +32,8 @@ function getStringDepuisFichierMV(fichier, nbLignes, callback) {
 
             mvContent += ` ${setEspaces((nbLignes + i), 4)} ${timeValue} 0 ${setEspaces(around(a145Value), 7)}    ${setEspaces(around(a146Value), 6)}    ${setEspaces(around(a147Value), 6)}    ${setEspaces(around(a148Value), 6)}    ${setEspaces(around(a144Value), 6)}     13.20     10.63     0.000\n`;
         }
+
+        nbLignes += lignes.length - 1;
 
         callback(mvContent);
     };

@@ -6,47 +6,52 @@
 
 let isOptimise = false;
 let contenuFichier = "";
+let nbLignes = 0;
 
 
 /**
  * Traite le fichier sélectionné par l'utilisateur et redirige le contenu du fichier vers la fonction de traitement appropriée
  */
-function traiterFichier() {
+async function traiterFichier() {
     const inputFichier = document.getElementById('fileInput');
     const fichiers = inputFichier.files;
     contenuFichier = "";
+    nbLignes = 0;
 
-    const promises = Array.from(fichiers).map(fichier => {
+    for (let i = 0; i < fichiers.length; i++) {
+        const fichier = fichiers[i];
         if (fichier) {
             if (fichier.name.split('.').pop() === "xml") {
-                return new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.readAsText(fichier);
+                const reader = new FileReader();
+                reader.readAsText(fichier);
+                await new Promise((resolve) => {
                     reader.onload = function () {
                         const xmlString = reader.result;
                         const mvContent = convertirXMLenMV(xmlString);
-                        resolve(mvContent);
+                        contenuFichier += mvContent;
+                        resolve();
                     };
-                    reader.onerror = reject;
                 });
             } else if (fichier.name.split('.').pop() === "txt") {
-                return new Promise((resolve, reject) => {
+                await new Promise((resolve) => {
                     chargerTexteFichier(fichier, function (contenuFichier) {
                         const mvContent = convertirTexteenMV(contenuFichier);
                         if (mvContent !== '') {
-                            resolve(mvContent);
+                            contenuFichier += mvContent;
+                            resolve();
                         } else {
-                            reject("Erreur lors du traitement du fichier texte.");
+                            console.error("Erreur lors du traitement du fichier texte.");
                         }
                     });
                 });
             } else if (fichier.name.split('.').pop() === "mv") {
-                return new Promise((resolve, reject) => {
-                    getStringDepuisFichierMV(fichier, getNbLignes() ,function (mvContent) {
+                await new Promise((resolve) => {
+                    getStringDepuisFichierMV(fichier, function (mvContent) {
                         if (mvContent !== '') {
-                            resolve(mvContent);
+                            contenuFichier += mvContent;
+                            resolve();
                         } else {
-                            reject("Erreur lors de la lecture du fichier .mv.");
+                            console.error("Erreur lors de la lecture du fichier .mv.");
                         }
                     });
                 });
@@ -56,16 +61,11 @@ function traiterFichier() {
         } else {
             console.error("Aucun fichier sélectionné.");
         }
-    });
+    }
 
-    Promise.all(promises)
-        .then(results => {
-            contenuFichier += results.join('');
-            console.log(contenuFichier);
-            document.querySelector('.downloadFile').style.display = 'block';
-            afficherGraphique(contenuFichier);
-        })
-        .catch(error => console.error(error));
+    console.log(contenuFichier);
+    document.querySelector('.downloadFile').style.display = 'block';
+    afficherGraphique(contenuFichier);
 }
 
 
@@ -162,11 +162,4 @@ function telechargerFichier() {
         document.body.appendChild(element);
         element.click();
     }
-}
-
-function getNbLignes() {
-    if (contenuFichier === "") {
-        return 0;
-    }
-    return contenuFichier.split('\n').length;
 }
