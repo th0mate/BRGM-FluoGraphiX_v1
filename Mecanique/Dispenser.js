@@ -33,13 +33,13 @@ async function traiterFichier() {
                 });
             } else if (fichier.name.split('.').pop() === "txt") {
                 await new Promise((resolve) => {
-                    chargerTexteFichier(fichier, function (contenuFichier) {
-                        const mvContent = convertirTexteenMV(contenuFichier);
-                        if (mvContent !== '') {
+                    chargerTexteFichier(fichier, function (txtContent) {
+                        if (txtContent !== '') {
+                            const mvContent = convertirTexteenMV(txtContent);
                             contenuFichier += mvContent;
                             resolve();
                         } else {
-                            afficherMessageFlash("Erreur de lecture fichier texte : fichier invalide.", 'danger');
+                            afficherMessageFlash("Erreur de lecture fichier TXT : fichier invalide.", 'danger');
                         }
                     });
                 });

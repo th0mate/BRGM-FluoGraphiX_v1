@@ -6,6 +6,7 @@
  */
 
 
+let problemes = false;
 
 
 /**
@@ -20,12 +21,12 @@ function chargerXML(xmlString) {
         const errors = xmlDoc.querySelectorAll("parsererror");
 
         if (errors.length > 0) {
-            console.error("Erreur lors du chargement du fichier XML :", errors[0].textContent);
+            afficherMessageFlash("Erreur lors du chargement du fichier XML", 'danger')
             return null;
         }
         return xmlDoc;
     } catch (error) {
-        console.error("Erreur lors du chargement du fichier XML :", error);
+        afficherMessageFlash("Erreur lors du chargement du fichier XML", 'danger')
         return null;
     }
 }
@@ -53,11 +54,15 @@ function convertirXMLenMV(xmlString) {
         const a144Value = time.querySelector("a144").getAttribute("v");
 
         if (getTime(timeValue) === "NaN/NaN/N-NaN:NaN:NaN") {
-            console.error("Erreur : dates incorrectes");
+            problemes = true;
             continue;
         }
 
         mvContent += ` ${setEspaces(i + 1, 4)} ${getTime(timeValue)} 0   ${setEspaces(around(a145Value), 5)}     ${setEspaces(around(a146Value),5)}     ${setEspaces(around(a147Value),5)}    ${setEspaces(around(a148Value),5)}     ${setEspaces(around(a144Value),5)}     13.20     10.63     0.000\n`;
+    }
+
+    if (problemes) {
+        afficherMessageFlash('Certaines données sont corrompues : Erreurs de dates', 'warning')
     }
 
     return mvContent;

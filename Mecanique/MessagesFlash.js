@@ -5,11 +5,6 @@
  * @returns {HTMLDivElement} : le message flash
  */
 function creerMessageFlash(message, type) {
-
-    if (document.querySelector('.alert')) {
-        animateUp(document.querySelector('.alert'));
-    }
-
     var div = document.createElement('div');
     div.className = 'alert alert-' + type;
     var img = document.createElement('img');
@@ -31,13 +26,17 @@ function creerMessageFlash(message, type) {
  * @param type{string} : le type de message (success, danger, warning, info)
  */
 function afficherMessageFlash(message, type) {
-    var flash = creerMessageFlash(message, type);
-    document.body.appendChild(flash);
+    if (document.getElementById('flash')) {
+        setTimeout(() => afficherMessageFlash(message, type), 2000);
+    } else {
+        var flash = creerMessageFlash(message, type);
+        document.body.appendChild(flash);
 
-    setTimeout(() => animateDown(flash), 100);
-    flash.addEventListener('click', () => {
-        animateUp(flash);
-    });
+        setTimeout(() => animateDown(flash), 100);
+        flash.addEventListener('click', () => {
+            animateUp(flash);
+        });
+    }
 }
 
 /**
@@ -59,6 +58,6 @@ function animateDown(element) {
 function animateUp(element) {
     element.style.top = '-100px';
     setTimeout(() => {
-        document.body.removeChild(element);
+        element.remove();
     }, 1000);
 }
