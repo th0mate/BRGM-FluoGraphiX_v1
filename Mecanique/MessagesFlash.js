@@ -39,6 +39,7 @@ function afficherMessageFlash(message, type) {
     }
 }
 
+
 /**
  * Crée une animation pour l'affichage de messages flash
  * @param element{element} : l'élément à animer
