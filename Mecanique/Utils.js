@@ -70,3 +70,14 @@ function around(double) {
         return trait;
     }
 }
+
+/**
+ * Retourne la date d'aujourd'hui en toutes lettres en français
+ */
+function getDateAujourdhui() {
+    const date = new Date();
+    const jours = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+    const mois = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+
+    return `${jours[date.getDay()]} ${date.getDate()} ${mois[date.getMonth()]} ${date.getFullYear()}`;
+}

@@ -14,7 +14,7 @@ function getStringDepuisFichierMV(fichier, callback) {
 
         let texteFinal = "";
         if (nbLignes === 0) {
-            texteFinal = "                           GGUN-FL Fluorometer #453  -   Signals in mV\n";
+            texteFinal = `                   FluoriGraphix - Export du ${getDateAujourdhui()} - Signaux en mV\n`;
             texteFinal += "                           -------------------------------------------\n";
             texteFinal += "    #  Time             R  Tracer 1  Tracer 2  Tracer 3 Turbidity  Baseline Battery V     T    Conductiv\n";
         }

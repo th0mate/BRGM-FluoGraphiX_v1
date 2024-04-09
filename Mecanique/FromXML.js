@@ -41,7 +41,7 @@ function convertirXMLenMV(xmlString) {
     let contenuFinal = "";
 
     if (nbLignes === 0) {
-        contenuFinal = "                           GGUN-FL Fluorometer #453  -   Signals in mV\n";
+        contenuFinal =  `                   FluoriGraphix - Export du ${getDateAujourdhui()} - Signaux en mV\n`;
         contenuFinal += "                           -------------------------------------------\n";
         contenuFinal += "    #  Time             R  Tracer 1  Tracer 2  Tracer 3 Turbidity  Baseline Battery V     T    Conductiv\n";
     }

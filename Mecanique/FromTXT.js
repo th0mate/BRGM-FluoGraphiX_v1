@@ -25,7 +25,7 @@ function convertirTexteenMV(texte) {
     let stringFinal = "";
 
     if (nbLignes === 0) {
-        stringFinal = "                           GGUN-FL Fluorometer #453  -   Signals in mV\n";
+        stringFinal =  `                   FluoriGraphix - Export du ${getDateAujourdhui()} - Signaux en mV\n`;
         stringFinal += "                           -------------------------------------------\n";
         stringFinal += "    #  Time             R  Tracer 1  Tracer 2  Tracer 3 Turbidity  Baseline Battery V     T    Conductiv\n";
     }
