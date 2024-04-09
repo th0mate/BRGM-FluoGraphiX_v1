@@ -14,7 +14,6 @@ async function traiterFichier() {
     const inputFichier = document.getElementById('fileInput');
     const fichiers = inputFichier.files;
     contenuFichier = "";
-    nbLignes = 0;
 
     for (let i = 0; i < fichiers.length; i++) {
         const fichier = fichiers[i];
@@ -68,7 +67,7 @@ async function traiterFichier() {
         }
     }
 
-    console.log(contenuFichier);
+    //(contenuFichier);
     document.querySelector('.downloadFile').style.display = 'block';
     if (contenuFichier !== "") {
         afficherGraphique(contenuFichier);
@@ -178,4 +177,8 @@ function telechargerFichier() {
     } else {
         afficherMessageFlash("Aucun fichier à télécharger : aucune donnée à exporter.", 'warning');
     }
+}
+
+function modifierFormat(cle) {
+    format = cle;
 }

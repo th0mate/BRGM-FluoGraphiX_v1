@@ -6,7 +6,6 @@
  */
 function getStringDepuisFichierMV(fichier, callback) {
     const reader = new FileReader();
-    let test = 0;
     reader.onload = function (e) {
         let lignes = e.target.result.split('\n');
 
@@ -34,10 +33,7 @@ function getStringDepuisFichierMV(fichier, callback) {
             const a148Value = colonnes[7];
             const a144Value = colonnes[8];
 
-
-            mvContent += ` ${setEspaces((nbLignes + i), 4)} ${timeValue} 0 ${setEspaces(around(a145Value), 7)}    ${setEspaces(around(a146Value), 6)}    ${setEspaces(around(a147Value), 6)}    ${setEspaces(around(a148Value), 6)}    ${setEspaces(around(a144Value), 6)}     13.20     10.63     0.000\n`;
-
-            test++;
+            mvContent += ` ${setEspaces((nbLignes + i), 4)} ${getTimeFromMV(timeValue)} 0 ${setEspaces(around(a145Value), 7)}    ${setEspaces(around(a146Value), 6)}    ${setEspaces(around(a147Value), 6)}    ${setEspaces(around(a148Value), 6)}    ${setEspaces(around(a144Value), 6)}     13.20     10.63     0.000\n`;
 
         }
 

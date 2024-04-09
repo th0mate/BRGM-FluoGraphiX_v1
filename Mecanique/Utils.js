@@ -1,4 +1,3 @@
-
 /**
  * Ajoute des espaces pour aligner les chiffres
  * @param n le nombre à aligner
@@ -7,7 +6,7 @@
  */
 function setEspaces(n, e) {
     let string = "";
-    for (let i = 0; i < e-n.toString().length; i++) {
+    for (let i = 0; i < e - n.toString().length; i++) {
         string += " ";
     }
     return string + n;
@@ -26,7 +25,28 @@ function getTime(string) {
     let hour = date.getHours().toString().length === 1 ? "0" + date.getHours() : date.getHours();
     let minutes = date.getMinutes().toString().length === 1 ? "0" + date.getMinutes() : date.getMinutes();
     let seconds = date.getSeconds().toString().length === 1 ? "0" + date.getSeconds() : date.getSeconds();
+
     return `${day}/${month}/${year}-${hour}:${minutes}:${seconds}`;
+}
+
+
+/**
+ * Convertit une date au format dd/mm/yy-hh:mm:ss ou yy/mm/dd-hh:mm:ss en date au format dd/mm/yy-hh:mm:ss
+ * format = 0 : le format donné est dd/mm/yy-hh:mm:ss
+ * format = 1 : le format donné est dd/mm/yy-hh:mm:ss
+ * format = 2 : le format donné est yy/mm/dd-hh:mm:ss
+ * @param string la date à convertir
+ */
+function getTimeFromMV(string) {
+    if (format.toString() === '0') {
+        return string;
+    }else if (format.toString() === '1') {
+        return string;
+    }else if (format.toString() === '2') {
+        const date = string.substring(0, 8);
+        const hour = string.substring(9, 17);
+        return date.substring(6, 8) + "/" + date.substring(3, 5) + "/" + date.substring(0, 2) + "-" + hour;
+    }
 }
 
 /**
@@ -35,7 +55,7 @@ function getTime(string) {
  * @returns {number|string} le nombre avec 2 décimales après la virgule
  */
 function around(double) {
-    const trait =  Math.round(double * 100) / 100;
+    const trait = Math.round(double * 100) / 100;
     const parts = trait.toString().split(".");
 
     if (trait.toString().length === 7) {
