@@ -33,6 +33,10 @@ function getStringDepuisFichierMV(fichier, callback) {
             const a148Value = colonnes[7];
             const a144Value = colonnes[8];
 
+            if (i === 1) {
+                premiereDate = getTimeFromMV(timeValue);
+            }
+
             texteFinal += ` ${setEspaces((nbLignes + i), 4)} ${getTimeFromMV(timeValue)} 0 ${setEspaces(around(a145Value), 7)}    ${setEspaces(around(a146Value), 6)}    ${setEspaces(around(a147Value), 6)}    ${setEspaces(around(a148Value), 6)}    ${setEspaces(around(a144Value), 6)}     13.20     10.63     0.000\n`;
 
         }

@@ -1,9 +1,9 @@
 /**
  * Traite les données pour les afficher sous forme de graphique
- * @param fileContent le contenu du fichier à afficher
+ * @param mvContent le contenu du fichier .mv à afficher
  */
-function afficherGraphique(fileContent) {
-    const lignes = fileContent.split('\n');
+function afficherGraphique(mvContent) {
+    const lignes = mvContent.split('\n');
     const labels = [];
     const dataTracer1 = [];
     const dataTracer2 = [];
