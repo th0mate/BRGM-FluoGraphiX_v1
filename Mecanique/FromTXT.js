@@ -11,7 +11,6 @@ function chargerTexteFichier(fichier, callback) {
     reader.readAsText(fichier);
 }
 
-let problemes = false;
 
 
 /**
@@ -21,7 +20,7 @@ let problemes = false;
  */
 function convertirTexteenMV(texte) {
     const lignes = texte.split('\n');
-    let mvContent = " GGUN-FL Fluorometer #453  -   Signals in mV\n";
+    let mvContent = "                           GGUN-FL Fluorometer #453  -   Signals in mV\n";
     mvContent += "                           -------------------------------------------\n";
     mvContent += "    #  Time             R  Tracer 1  Tracer 2  Tracer 3 Turbidity  Baseline Battery V     T    Conductiv\n";
 

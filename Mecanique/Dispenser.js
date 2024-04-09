@@ -3,7 +3,6 @@
  * @type {boolean} si l'optimisation est activée ou non
  */
 
-
 let isOptimise = false;
 let contenuFichier = "";
 let nbLignes = 0;
@@ -43,6 +42,7 @@ async function traiterFichier() {
                         }
                     });
                 });
+
             } else if (fichier.name.split('.').pop() === "mv") {
                 await new Promise((resolve) => {
                     getStringDepuisFichierMV(fichier, function (mvContent) {

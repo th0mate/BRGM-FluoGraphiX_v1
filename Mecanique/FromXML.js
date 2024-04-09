@@ -6,8 +6,6 @@
  */
 
 
-let problemes = false;
-
 
 /**
  * Charge un fichier XML en texte pour pouvoir le manipuler

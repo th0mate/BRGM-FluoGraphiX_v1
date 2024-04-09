@@ -27,7 +27,7 @@ function creerMessageFlash(message, type) {
  */
 function afficherMessageFlash(message, type) {
     if (document.getElementById('flash')) {
-        setTimeout(() => afficherMessageFlash(message, type), 2000);
+        setTimeout(() => afficherMessageFlash(message, type), 200);
     } else {
         var flash = creerMessageFlash(message, type);
         document.body.appendChild(flash);
