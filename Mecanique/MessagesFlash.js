@@ -1,4 +1,8 @@
 /**
+ * Classe permettant le CRUD sur les messages flash
+ */
+
+/**
  * Fonction qui crée un message flash
  * @param message{string} : le message à afficher
  * @param type{string} : le type de message (success, danger, warning, info)

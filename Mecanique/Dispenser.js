@@ -20,7 +20,8 @@ async function traiterFichier() {
         const fichier = fichiers[i];
 
         if (nbLignes !==0) {
-            contenuFichier+= "\n";
+            //TODO : à voir
+            //contenuFichier+= "\n";
         }
 
         if (fichier) {
