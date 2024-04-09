@@ -39,6 +39,7 @@ function getTime(string) {
  */
 function getTimeFromMV(string) {
     if (format.toString() === '0') {
+        //TODO : déduction automatique à partir du calibrat
         return string;
     }else if (format.toString() === '1') {
         return string;

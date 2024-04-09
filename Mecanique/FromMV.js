@@ -12,11 +12,11 @@ function getStringDepuisFichierMV(fichier, callback) {
         lignes.splice(0, 3);
         lignes.pop();
 
-        let mvContent = "";
+        let texteFinal = "";
         if (nbLignes === 0) {
-            mvContent = "                           GGUN-FL Fluorometer #453  -   Signals in mV\n";
-            mvContent += "                           -------------------------------------------\n";
-            mvContent += "    #  Time             R  Tracer 1  Tracer 2  Tracer 3 Turbidity  Baseline Battery V     T    Conductiv\n";
+            texteFinal = "                           GGUN-FL Fluorometer #453  -   Signals in mV\n";
+            texteFinal += "                           -------------------------------------------\n";
+            texteFinal += "    #  Time             R  Tracer 1  Tracer 2  Tracer 3 Turbidity  Baseline Battery V     T    Conductiv\n";
         }
 
         for (let i = 1; i < lignes.length; i++) {
@@ -33,13 +33,13 @@ function getStringDepuisFichierMV(fichier, callback) {
             const a148Value = colonnes[7];
             const a144Value = colonnes[8];
 
-            mvContent += ` ${setEspaces((nbLignes + i), 4)} ${getTimeFromMV(timeValue)} 0 ${setEspaces(around(a145Value), 7)}    ${setEspaces(around(a146Value), 6)}    ${setEspaces(around(a147Value), 6)}    ${setEspaces(around(a148Value), 6)}    ${setEspaces(around(a144Value), 6)}     13.20     10.63     0.000\n`;
+            texteFinal += ` ${setEspaces((nbLignes + i), 4)} ${getTimeFromMV(timeValue)} 0 ${setEspaces(around(a145Value), 7)}    ${setEspaces(around(a146Value), 6)}    ${setEspaces(around(a147Value), 6)}    ${setEspaces(around(a148Value), 6)}    ${setEspaces(around(a144Value), 6)}     13.20     10.63     0.000\n`;
 
         }
 
         nbLignes += lignes.length - 1;
 
-        callback(mvContent);
+        callback(texteFinal);
     };
     reader.readAsText(fichier);
 }

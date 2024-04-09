@@ -22,10 +22,13 @@ function convertirTexteenMV(texte) {
     const lignes = texte.split('\n');
     lignes.splice(0, 1);
 
+    let stringFinal = "";
 
-    let mvContent = "                           GGUN-FL Fluorometer #453  -   Signals in mV\n";
-    mvContent += "                           -------------------------------------------\n";
-    mvContent += "    #  Time             R  Tracer 1  Tracer 2  Tracer 3 Turbidity  Baseline Battery V     T    Conductiv\n";
+    if (nbLignes === 0) {
+        stringFinal = "                           GGUN-FL Fluorometer #453  -   Signals in mV\n";
+        stringFinal += "                           -------------------------------------------\n";
+        stringFinal += "    #  Time             R  Tracer 1  Tracer 2  Tracer 3 Turbidity  Baseline Battery V     T    Conductiv\n";
+    }
 
     for (let i = 1; i < lignes.length; i++) {
 
@@ -46,12 +49,12 @@ function convertirTexteenMV(texte) {
             continue;
         }
 
-        mvContent += ` ${setEspaces(i, 4)} ${getTime(timeValue)} 0   ${setEspaces(around(a145Value), 5)}     ${setEspaces(around(a146Value), 5)}     ${setEspaces(around(a147Value), 5)}    ${setEspaces(around(a148Value), 5)}     ${setEspaces(around(a144Value), 5)}     13.20     10.63     0.000\n`;
+        stringFinal += ` ${setEspaces(i, 4)} ${getTime(timeValue)} 0   ${setEspaces(around(a145Value), 5)}     ${setEspaces(around(a146Value), 5)}     ${setEspaces(around(a147Value), 5)}    ${setEspaces(around(a148Value), 5)}     ${setEspaces(around(a144Value), 5)}     13.20     10.63     0.000\n`;
     }
 
     if (problemes) {
         afficherMessageFlash('Certaines données sont corrompues : erreur de dates', 'warning');
     }
 
-    return mvContent;
+    return stringFinal;
 }
