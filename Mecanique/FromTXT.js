@@ -20,13 +20,21 @@ function chargerTexteFichier(fichier, callback) {
  */
 function convertirTexteenMV(texte) {
     const lignes = texte.split('\n');
+    lignes.splice(0, 1);
+
+
     let mvContent = "                           GGUN-FL Fluorometer #453  -   Signals in mV\n";
     mvContent += "                           -------------------------------------------\n";
     mvContent += "    #  Time             R  Tracer 1  Tracer 2  Tracer 3 Turbidity  Baseline Battery V     T    Conductiv\n";
 
     for (let i = 1; i < lignes.length; i++) {
+
+        if (lignes[i].length < 3 || /^\s+$/.test(lignes[i]) || /^\t+$/.test(lignes[i])) {
+            console.error("Erreur ligne vide :" + lignes[i]);
+            continue;
+        }
+
         const colonnes = lignes[i].split('\t');
-        //le time commence à partir du 4ème caractère inclus de la ligne, et se termine au 32eme caractère inclus
         const timeValue = lignes[i].substring(3, 32);
         const a145Value = colonnes[3];
         const a146Value = colonnes[4];

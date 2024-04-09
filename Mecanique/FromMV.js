@@ -21,6 +21,11 @@ function getStringDepuisFichierMV(fichier, callback) {
 
         for (let i = 1; i < lignes.length; i++) {
 
+            if (lignes[i].length < 3 || /^\s+$/.test(lignes[i]) || /^\t+$/.test(lignes[i])) {
+                console.error("Erreur ligne vide :" + lignes[i]);
+                continue;
+            }
+
             const colonnes = lignes[i].split(/\s+/);
             const timeValue = colonnes[2];
             const a145Value = colonnes[4];
