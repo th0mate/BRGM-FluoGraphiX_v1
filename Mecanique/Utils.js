@@ -73,6 +73,7 @@ function around(double) {
 
 /**
  * Retourne la date d'aujourd'hui en toutes lettres en français
+ * @returns {string} la date en question
  */
 function getDateAujourdhui() {
     const date = new Date();
