@@ -6,6 +6,7 @@
  */
 function getStringDepuisFichierMV(fichier, callback) {
     const reader = new FileReader();
+    let test = 0;
     reader.onload = function (e) {
         let lignes = e.target.result.split('\n');
 
@@ -22,7 +23,6 @@ function getStringDepuisFichierMV(fichier, callback) {
         for (let i = 1; i < lignes.length; i++) {
 
             if (lignes[i].length < 3 || /^\s+$/.test(lignes[i]) || /^\t+$/.test(lignes[i])) {
-                console.error("Erreur ligne vide :" + lignes[i]);
                 continue;
             }
 
@@ -36,6 +36,9 @@ function getStringDepuisFichierMV(fichier, callback) {
 
 
             mvContent += ` ${setEspaces((nbLignes + i), 4)} ${timeValue} 0 ${setEspaces(around(a145Value), 7)}    ${setEspaces(around(a146Value), 6)}    ${setEspaces(around(a147Value), 6)}    ${setEspaces(around(a148Value), 6)}    ${setEspaces(around(a144Value), 6)}     13.20     10.63     0.000\n`;
+
+            test++;
+
         }
 
         nbLignes += lignes.length - 1;

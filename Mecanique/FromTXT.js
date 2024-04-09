@@ -30,7 +30,6 @@ function convertirTexteenMV(texte) {
     for (let i = 1; i < lignes.length; i++) {
 
         if (lignes[i].length < 3 || /^\s+$/.test(lignes[i]) || /^\t+$/.test(lignes[i])) {
-            console.error("Erreur ligne vide :" + lignes[i]);
             continue;
         }
 

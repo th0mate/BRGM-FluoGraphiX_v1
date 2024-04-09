@@ -18,6 +18,11 @@ async function traiterFichier() {
 
     for (let i = 0; i < fichiers.length; i++) {
         const fichier = fichiers[i];
+
+        if (nbLignes !==0) {
+            contenuFichier+= "\n";
+        }
+
         if (fichier) {
             if (fichier.name.split('.').pop() === "xml") {
                 const reader = new FileReader();
@@ -64,8 +69,12 @@ async function traiterFichier() {
 
     console.log(contenuFichier);
     document.querySelector('.downloadFile').style.display = 'block';
-    afficherGraphique(contenuFichier);
-    afficherMessageFlash("Fichier traité avec succès.", 'success');
+    if (contenuFichier !== "") {
+        afficherGraphique(contenuFichier);
+        afficherMessageFlash("Fichier traité avec succès.", 'success');
+    } else {
+        afficherMessageFlash("Erreur : aucune donnée exploitable.", 'danger');
+    }
 }
 
 
@@ -161,7 +170,7 @@ function telechargerFichier() {
         const element = document.createElement('a');
         const file = new Blob([contenuFichier], {type: 'text/plain'});
         element.href = URL.createObjectURL(file);
-        element.download = 'export-' + new Date().toLocaleString().replace(/\/|:|,|\s/g, '-') + '.txt';
+        element.download = 'export-' + new Date().toLocaleString().replace(/\/|:|,|\s/g, '-') + '.mv';
         document.body.appendChild(element);
         element.click();
         afficherMessageFlash("Fichier téléchargé avec succès.", 'success');
