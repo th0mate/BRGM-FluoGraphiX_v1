@@ -22,3 +22,16 @@ if (window.location.protocol !== "file:" && navigator.onLine) {
 function ouvrirInternet() {
     window.open('https://brgm.thomasloye.fr', '_blank');
 }
+
+
+/**
+ * Affiche dans l'élément #contenu de ../index.html le fichier html passé en paramètres, se trouvant dans src/vues
+ * @param nomFichier{string} le nom du fichier à afficher
+ */
+function afficherVue(nomFichier) {
+    const contenuFichierHTML = fetch(`src/vues/${nomFichier}.html`)
+        .then(response => response.text())
+        .then(data => {
+            document.querySelector('#contenu').innerHTML = data;
+        });
+}
