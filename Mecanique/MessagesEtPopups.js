@@ -1,6 +1,14 @@
 /**
- * Classe permettant le CRUD sur les messages flash
+ * Classe permettant le CRUD sur les messages flash et les popups
  */
+
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * MESSAGES FLASH
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
 
 /**
  * Fonction qui crée un message flash
@@ -65,4 +73,34 @@ function animateUp(element) {
     setTimeout(() => {
         element.remove();
     }, 1000);
+}
+
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * POPUPS
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+/**
+ * Affiche un popup avec les éléments correspondants
+ * @param imageHTML{string} : le code HTML de l'image à afficher
+ * @param titre{string} : le titre du popup en format texte
+ * @param contenu{string} : le contenu du popup en format texte
+ * @param boutonsHTML{string} : le code HTML des boutons à afficher
+ * @returns {string} : le code HTML du popup
+ */
+function afficherPopup(imageHTML, titre, contenu, boutonsHTML) {
+    let popupHTML = "";
+    popupHTML += `<div class='popup'>${imageHTML}<h2>${titre}</h2><h4>${contenu}</h4><div class="conteneurBoutons">${boutonsHTML}</div></div>`;
+    document.body.innerHTML += popupHTML;
+}
+
+/**
+ * Ferme le popup
+ */
+function fermerPopup() {
+    if (document.querySelector('.popup') !== null) {
+        document.querySelector('.popup').remove();
+    }
 }

@@ -3,6 +3,7 @@
  * @type {boolean} si l'optimisation est activée ou non
  */
 
+
 let isOptimise = false;
 let contenuFichier = "";
 let nbLignes = 0;
@@ -267,5 +268,14 @@ function estPlusDeUnJour(date1, date2) {
     }
 
     return date2Day - date1Day > 2;
+}
+
+
+/**
+ * Gestion des popups d'information
+ */
+if (window.location.protocol === "file:" && navigator.onLine) {
+    afficherPopup('<img src="Ressources/img/attention.png" alt="Attention">', 'Vous êtes connecté à internet et utilisez ce site en local', 'Pour obtenir de meilleures performances et une meilleure expérience utilisateur, il est recommandé d\'utiliser ce site via internet.', '<div class="bouton boutonFonce" onclick="fermerPopup()">Continuer en local</div>\n' +
+        '        <div class="bouton boutonFonce" onclick="ouvrirInternet()">Aller sur le site</div>');
 }
 

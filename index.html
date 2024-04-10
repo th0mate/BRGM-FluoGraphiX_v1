@@ -5,7 +5,7 @@
     <title>BRGM - FluoriGraphix</title>
     <link rel="icon" type="image/png" href="Ressources/img/brgm.png">
     <link rel="stylesheet" href="Ressources/styles.css">
-    <script type="text/javascript" src="Mecanique/MessagesFlash.js" defer></script>
+    <script type="text/javascript" src="Mecanique/MessagesEtPopups.js" defer></script>
     <script src="Ressources/librairies/chart.js"></script>
     <script src="Ressources/librairies/pluginZoom.js"></script>
     <script type="text/javascript" src="Mecanique/Utils.js" defer></script>
@@ -23,6 +23,7 @@
 <script>
     let problemes = false;
     let format = 1;
+    let version = "1.0.0";
 </script>
 
 <input type="file" id="fileInput" multiple onchange="traiterFichier()">
@@ -39,6 +40,7 @@
 <div class="graphiques">
     <canvas class="graphique" id="graphique" style="max-width: 95%; max-height: 90vh"></canvas>
 </div>
+
 
 </body>
 </html>
