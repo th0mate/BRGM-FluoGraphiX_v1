@@ -14,15 +14,14 @@ let dernierDate = "";
  */
 async function traiterFichier() {
     const inputFichier = document.getElementById('fileInput');
-    const fichiers = inputFichier.files;
+    let fichiers = Array.from(inputFichier.files);
 
-    //si un fichier Calibrat.dat est présent, on le met en premier dans la liste de fichiers pour qu'il soit traité en premier.
     if (fichiers.length > 1) {
         for (let i = 0; i < fichiers.length; i++) {
             if (fichiers[i].name === "Calibrat.dat") {
-                const temp = fichiers[0];
-                fichiers[0] = fichiers[i];
-                fichiers[i] = temp;
+                const calibrat = fichiers[i];
+                fichiers.splice(i, 1);
+                fichiers.unshift(calibrat);
                 break;
             }
         }
