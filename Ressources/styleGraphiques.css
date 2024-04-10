@@ -1,0 +1,15 @@
+
+.graphiques {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+    width: 100%;
+
+}
+
+.graphique {
+    max-width: 90%;
+    max-height: 85vh;
+}

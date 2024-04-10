@@ -16,6 +16,9 @@ if (window.location.protocol !== "file:" && navigator.onLine) {
 }
 
 
+afficherVue('vueGraphiques');
+
+
 /**
  * Redirige l'utilisateur vers le site en ligne
  */
