@@ -188,14 +188,6 @@ function getOptimise() {
 
 
 /**
- * Permet d'afficher les points ou non sur le graphique en fonction du niveau de zoom
- */
-document.getElementById('graphique').onwheel = function () {
-    //displayPoints();
-};
-
-
-/**
  * Télécharge un fichier .txt contenant le contenu de la variable globale contenuFichier
  */
 function telechargerFichier() {

@@ -36,5 +36,6 @@ function afficherVue(nomFichier) {
         .then(response => response.text())
         .then(data => {
             document.querySelector('#contenu').innerHTML = data;
+            //TODO : l'élément qui a en onclick='afficherVue(${nomFichier})' est récupéré
         });
 }
