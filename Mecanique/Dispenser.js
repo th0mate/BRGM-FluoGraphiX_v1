@@ -28,11 +28,12 @@ async function traiterFichier() {
     }
 
     contenuFichier = "";
+    nbLignes = 0;
     document.querySelector('#selectFormatDate').disabled = false;
     let derniereDate;
 
     for (let i = 0; i < fichiers.length; i++) {
-        console.log(format);
+        console.log(nbLignes);
         const fichier = fichiers[i];
         derniereDate = getLastDate();
 
