@@ -5,7 +5,7 @@
  * Released under the MIT License
  */
 !function (e, t) {
-    "object" == typeof exports && "undefined" != typeof module ? module.exports = t(require("chart.js"), require("hammerjs"), require("chart.js/helpers")) : "function" == typeof define && define.amd ? define(["chart.js", "hammerjs", "chart.js/helpers"], t) : (e = "undefined" != typeof globalThis ? globalThis : e || self).ChartZoom = t(e.Chart, e.Hammer, e.Chart.helpers)
+    "object" == typeof exports && "undefined" != typeof module ? module.exports = t(require("src/libs/chart.js"), require("hammerjs"), require("chart.js/helpers")) : "function" == typeof define && define.amd ? define(["src/libs/chart.js", "hammerjs", "chart.js/helpers"], t) : (e = "undefined" != typeof globalThis ? globalThis : e || self).ChartZoom = t(e.Chart, e.Hammer, e.Chart.helpers)
 }(this, (function (e, t, n) {
     "use strict";
 

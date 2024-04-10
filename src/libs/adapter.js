@@ -5,7 +5,7 @@
   * Released under the MIT license
   */
 !function (e, t) {
-    "object" == typeof exports && "undefined" != typeof module ? t(require("moment"), require("chart.js")) : "function" == typeof define && define.amd ? define(["moment", "chart.js"], t) : t((e = "undefined" != typeof globalThis ? globalThis : e || self).moment, e.Chart)
+    "object" == typeof exports && "undefined" != typeof module ? t(require("src/libs/moment"), require("src/libs/chart.js")) : "function" == typeof define && define.amd ? define(["src/libs/moment", "chart.js"], t) : t((e = "undefined" != typeof globalThis ? globalThis : e || self).moment, e.Chart)
 }(this, (function (e, t) {
     "use strict";
 
