@@ -4,6 +4,16 @@ module.exports = {
     darkMode : 'selector',
     theme: {
         extend: {
+            colors: {
+                'orangeBRGM': '#e87b1c',
+                'grisFonceBRGM': '#333',
+                'jauneBRGM': '#ffc83d',
+                'bleuBRGM': '#27B1EA',
+                'rouilleBRGM': '#F05A08',
+                'vertBRGM': '#9FC512',
+                'roseBRGM': '#CE65A5',
+                'bleuClairBRGM': '#00AEEF',
+            },
             width: {
                 '5/6': '83.333333%',
                 '100vh' : '100vh',

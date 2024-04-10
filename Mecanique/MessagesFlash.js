@@ -53,7 +53,7 @@ function animateDown(element) {
     element.style.top = '50px';
     setTimeout(() => {
         animateUp(element);
-    }, 3000);
+    }, 3500);
 }
 
 /**
