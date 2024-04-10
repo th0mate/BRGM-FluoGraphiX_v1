@@ -42,8 +42,10 @@ function getTimeFromMV(string) {
         //TODO : déduction automatique à partir du calibrat
         return string;
     }else if (format.toString() === '1') {
+        console.log('format dd/mm/yy-hh:mm:ss');
         return string;
     }else if (format.toString() === '2') {
+        console.log('format yy/mm/dd-hh:mm:ss');
         const date = string.substring(0, 8);
         const hour = string.substring(9, 17);
         return date.substring(6, 8) + "/" + date.substring(3, 5) + "/" + date.substring(0, 2) + "-" + hour;

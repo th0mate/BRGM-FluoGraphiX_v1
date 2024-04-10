@@ -27,11 +27,12 @@ async function traiterFichier() {
         }
     }
 
-    console.log(fichiers);
     contenuFichier = "";
-
+    document.querySelector('#selectFormatDate').disabled = false;
     let derniereDate;
+
     for (let i = 0; i < fichiers.length; i++) {
+        console.log(format);
         const fichier = fichiers[i];
         derniereDate = getLastDate();
 
@@ -67,7 +68,6 @@ async function traiterFichier() {
                 });
 
             } else if (fichier.name.split('.').pop() === "mv") {
-                console.log("mv détecté");
                 await new Promise((resolve) => {
                     getStringDepuisFichierMV(fichier, function (mvContent) {
                         if (mvContent !== '') {
@@ -79,8 +79,14 @@ async function traiterFichier() {
                     });
                 });
             } else if (fichier.name === "Calibrat.dat") {
-                //TODO
-                console.log("calibration détectée");
+                const reader = new FileReader();
+                reader.readAsText(fichier);
+                await new Promise((resolve) => {
+                    reader.onload = function () {
+                        parametrerSiteDepuisCalibrat(reader.result);
+                        resolve();
+                    };
+                });
             } else {
                 afficherMessageFlash("Erreur : type de fichier non pris en charge.", 'danger')
             }
@@ -94,6 +100,7 @@ async function traiterFichier() {
         if (estPlusDeUnJour(derniereDate, premiereDate)) {
             afficherMessageFlash("Trop grand écart entre les dates de fichiers : les données sont corrompues.", 'warning');
         } else {
+            console.log(contenuFichier);
             afficherGraphique(contenuFichier);
             afficherMessageFlash("Données traitées avec succès.", 'success');
         }
@@ -260,3 +267,4 @@ function estPlusDeUnJour(date1, date2) {
 
     return date2Day - date1Day > 2;
 }
+
