@@ -15,6 +15,20 @@ let dernierDate = "";
 async function traiterFichier() {
     const inputFichier = document.getElementById('fileInput');
     const fichiers = inputFichier.files;
+
+    //si un fichier Calibrat.dat est présent, on le met en premier dans la liste de fichiers pour qu'il soit traité en premier.
+    if (fichiers.length > 1) {
+        for (let i = 0; i < fichiers.length; i++) {
+            if (fichiers[i].name === "Calibrat.dat") {
+                const temp = fichiers[0];
+                fichiers[0] = fichiers[i];
+                fichiers[i] = temp;
+                break;
+            }
+        }
+    }
+
+    console.log(fichiers);
     contenuFichier = "";
 
     let derniereDate;
@@ -54,6 +68,7 @@ async function traiterFichier() {
                 });
 
             } else if (fichier.name.split('.').pop() === "mv") {
+                console.log("mv détecté");
                 await new Promise((resolve) => {
                     getStringDepuisFichierMV(fichier, function (mvContent) {
                         if (mvContent !== '') {
@@ -64,6 +79,9 @@ async function traiterFichier() {
                         }
                     });
                 });
+            } else if (fichier.name === "Calibrat.dat") {
+                //TODO
+                console.log("calibration détectée");
             } else {
                 afficherMessageFlash("Erreur : type de fichier non pris en charge.", 'danger')
             }
@@ -217,7 +235,6 @@ function getLastDate() {
  * @param date2 la deuxième date au format dd/mm/yy-hh:mm:ss
  */
 function estPlusDeUnJour(date1, date2) {
-    console.log(date1 + " | " + date2);
     if (date1 === "" || date2 === "") {
         return false;
     }
