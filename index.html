@@ -6,9 +6,13 @@
     <link rel="icon" type="image/png" href="Ressources/img/brgm.png">
     <link rel="stylesheet" href="Ressources/styles.css">
     <link rel="stylesheet" href="Ressources/styleGraphiques.css">
-    <link rel="stylesheet" href="Ressources/styleMaintenance.css">
+    <link rel="stylesheet" href="Ressources/styleAccueil.css">
 
     <script type="text/javascript" src="src/Mecanique/MessagesEtPopups.js" defer></script>
+
+    <script type="text/javascript" src="src/vues/vueAccueil.js" defer></script>
+    <script type="text/javascript" src="src/vues/vueGraphique.js" defer></script>
+
     <script src="src/libs/chart.js"></script>
     <script src="src/libs/pluginZoom.js"></script>
     <script type="text/javascript" src="src/Mecanique/Utils.js" defer></script>
@@ -46,7 +50,7 @@
             <span></span>
         </div>
 
-        <div class="bouton boutonFonce" onclick="afficherVue('vueGraphiques')">
+        <div class="bouton boutonFonce" onclick="afficherVue('vueGraphique')">
             <img src="Ressources/img/graphique.png" alt="graphique">
             GRAPHIQUES
             <span></span>
@@ -61,6 +65,17 @@
 <div id="contenu">
 
 </div>
+
+<footer>
+    <div class="logos">
+        <img src="Ressources/img/banniere.png" alt="BRGM">
+        <img src="Ressources/img/AFAQ.png" alt="AFAQ">
+        <img src="Ressources/img/HR.png" alt="HR">
+        <img src="Ressources/img/France2030.png" alt="France2030">
+        <img src="Ressources/img/EGS.jpg" alt="EGS">
+    </div>
+    <p>BRGM - 3 avenue Claude-Guillemin - BP 36009 - 45060 Orléans Cedex 2 - France - Tél. : +33 (0)2 38 64 34 34</p>
+</footer>
 
 </body>
 </html>

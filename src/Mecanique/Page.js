@@ -1,9 +1,11 @@
 /**
  * Gestion des popups d'information
  */
+
+
+
 if (window.location.protocol === "file:" && navigator.onLine) {
-    afficherPopup('<img src="Ressources/img/attention.png" alt="Attention">', 'Vous êtes connecté à internet et utilisez ce site en local', 'Pour obtenir de meilleures performances et une meilleure expérience utilisateur, il est recommandé d\'utiliser ce site via internet.', '<div class="bouton boutonFonce" onclick="fermerPopup()">Continuer en local</div>\n' +
-        '        <div class="bouton boutonFonce" onclick="ouvrirInternet()">Aller sur le site</div>');
+    afficherPopup('<img src="Ressources/img/attention.png" alt="Attention">', 'Vous êtes connecté à internet et utilisez ce site en local', 'Pour obtenir de meilleures performances et une meilleure expérience utilisateur, il est recommandé d\'utiliser ce site via internet.', '<div class="bouton boutonFonce" onclick="ouvrirInternet()">Aller sur le site</div><div class="bouton boutonFonce" onclick="fermerPopup()">Continuer en local</div>\n');
 }
 
 if (window.location.protocol !== "file:" && navigator.onLine) {
@@ -32,10 +34,22 @@ function ouvrirInternet() {
  * @param nomFichier{string} le nom du fichier à afficher
  */
 function afficherVue(nomFichier) {
-    const contenuFichierHTML = fetch(`src/vues/${nomFichier}.html`)
-        .then(response => response.text())
-        .then(data => {
-            document.querySelector('#contenu').innerHTML = data;
-            //TODO : l'élément qui a en onclick='afficherVue(${nomFichier})' est récupéré
-        });
+    //si la fonction existe
+    if (!window[nomFichier]) {
+        afficherMessageFlash('Erreur 404 : La page demandée n\'existe pas', 'danger');
+        afficherVue('vueAccueil');
+        return;
+    }
+    document.querySelector('#contenu').innerHTML = window[nomFichier]();
+
+    const element = document.querySelector(`[onclick="afficherVue('${nomFichier}')"]`);
+    if (element) {
+        element.classList.add('active');
+        document.querySelectorAll('.active').forEach(e => {
+            if (e !== element) {
+                e.classList.remove('active');
+            }
+        })
+    }
 }
+

@@ -91,6 +91,7 @@ function animateUp(element) {
  * @returns {string} : le code HTML du popup
  */
 function afficherPopup(imageHTML, titre, contenu, boutonsHTML) {
+    fermerPopup();
     let popupHTML = "";
     popupHTML += `<div class='popup'><div class="entete"><img src="Ressources/img/close.png" class="close" onclick="fermerPopup()" alt="fermer"></div> ${imageHTML}<h2>${titre}</h2><h4>${contenu}</h4><div class="conteneurBoutons">${boutonsHTML}</div></div>`;
     document.body.innerHTML += popupHTML;
