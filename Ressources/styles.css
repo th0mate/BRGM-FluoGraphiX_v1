@@ -135,8 +135,66 @@ nav > .banner {
     height: 98%;
 }
 
+nav > .redirections {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+    min-width: 30%;
+    max-width: 75%;
+    height: 98%;
+}
 
+nav > .redirections > .bouton {
+    background-color: var(--orangeBRGM);
+    border: 5px solid var(--orangeBRGM);
+    margin-right: 20px;
+}
 
+nav > .redirections > .bouton > img {
+    width: 30px;
+    margin-right: 10px;
+}
+
+nav > .redirections > .action {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    min-width: 100px;
+    min-height: 60%;
+    position: relative;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.5s ease-in-out;
+    margin-right: 25px;
+    font-family: 'Gibson-Semi-Bold', sans-serif;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 5px;
+}
+
+.action > img {
+    width: 30px;
+    margin-right: 10px;
+}
+
+.action > span {
+    position: absolute;
+    margin-top: 5px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 0;
+    border-bottom: 2px solid var(--orangeBRGM);
+    transition: width .3s;
+}
+
+.action:hover > span {
+    width: 100%;
+}
 
 
 /*
@@ -145,7 +203,7 @@ nav > .banner {
  */
 
 .bouton {
-    font-family : 'Gibson-Semi-Bold',sans-serif;
+    font-family: 'Gibson-Semi-Bold', sans-serif;
     /*border: 5px solid var(--orangeBRGM);*/
     font-weight: bold;
     font-size: 1em;
@@ -225,7 +283,6 @@ nav > .banner {
 .popup > .entete > .close:hover {
     background-color: var(--orangeBRGM);
 }
-
 
 
 .popup > img:not(.close) {

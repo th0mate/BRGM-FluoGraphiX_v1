@@ -122,7 +122,7 @@ function resetZoom() {
         existingChart.resetZoom();
         afficherMessageFlash("Zoom réinitialisé.", 'info');
     } else {
-        afficherMessageFlash("Erreur générale : aucun graphique à réinitialiser.", 'danger');
+        afficherMessageFlash("Erreur : Aucun graphique à modifier.", 'warning');
     }
 }
 
