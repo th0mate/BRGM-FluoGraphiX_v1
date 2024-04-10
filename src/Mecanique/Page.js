@@ -16,7 +16,7 @@ if (window.location.protocol !== "file:" && navigator.onLine) {
 }
 
 
-afficherVue('vueGraphiques');
+afficherVue('vueAccueil');
 
 
 /**

@@ -6,6 +6,7 @@
     <link rel="icon" type="image/png" href="Ressources/img/brgm.png">
     <link rel="stylesheet" href="Ressources/styles.css">
     <link rel="stylesheet" href="Ressources/styleGraphiques.css">
+    <link rel="stylesheet" href="Ressources/styleMaintenance.css">
 
     <script type="text/javascript" src="src/Mecanique/MessagesEtPopups.js" defer></script>
     <script src="src/libs/chart.js"></script>
@@ -33,13 +34,19 @@
 
     <div class="redirections">
 
+        <div class="action" onclick="afficherVue('vueAccueil')">
+            <img src="Ressources/img/accueil.png" alt="aide">
+            ACCUEIL
+            <span></span>
+        </div>
+
         <div class="action">
             <img src="Ressources/img/aide.png" alt="aide">
             DOCUMENTATION
             <span></span>
         </div>
 
-        <div class="bouton boutonFonce">
+        <div class="bouton boutonFonce" onclick="afficherVue('vueGraphiques')">
             <img src="Ressources/img/graphique.png" alt="graphique">
             GRAPHIQUES
             <span></span>
