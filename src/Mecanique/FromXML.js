@@ -64,7 +64,7 @@ function convertirXMLenMV(xmlString) {
             premiereDate = getTime(timeValue);
         }
 
-        contenuFinal += ` ${setEspaces(i + 1, 4)} ${getTime(timeValue)} 0   ${setEspaces(around(a145Value), 5)}     ${setEspaces(around(a146Value),5)}     ${setEspaces(around(a147Value),5)}    ${setEspaces(around(a148Value),5)}     ${setEspaces(around(a144Value),5)}     13.20     10.63     0.000\n`;
+        contenuFinal += ` ${setEspaces(i + 1, 4)} ${getTime(timeValue)} 0   ${setEspaces(around(a145Value), 5)}     ${setEspaces(around(a146Value),5)}     ${setEspaces(around(a147Value),5)}    ${setEspaces(around(a148Value),5)}      0.001    0.001     ${setEspaces(around(a144Value),5)}     0.000\n`;
     }
 
     if (problemes) {

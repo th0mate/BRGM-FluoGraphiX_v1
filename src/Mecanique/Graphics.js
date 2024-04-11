@@ -197,10 +197,43 @@ function afficherGraphique(mvContent) {
         }
     });
     //canvas.addEventListener('wheel', modifierDates);
+    cacherDoublons();
 }
 
 
+/**
+ * Return true si le string passé en paramètre contient ne contient que des duplications du même nombre
+ * @param string le string - donc la colonne de données à vérifier
+ * @returns {boolean} true si le string contient que des duplications du même nombre
+ */
+function isConstant(string) {
+    const value = string[0].y;
+    for (let i = 1; i < string.length; i++) {
+        if (around(string[i].y) !== around(value)) {
+            return false;
+        }
+    }
+    return true;
 
+}
+
+/**
+ * Cache dans le graphique existant toutes les courbes réprésentant des colonnes pour lesquelles isConstant renvoie true
+ */
+function cacherDoublons() {
+    const canvas = document.getElementById('graphique');
+    const existingChart = Chart.getChart(canvas);
+    if (existingChart) {
+        const datasets = existingChart.data.datasets;
+        for (let i = 0; i < datasets.length; i++) {
+            if (isConstant(datasets[i].data)) {
+                console.log(datasets[i].label + 'est caché');
+                datasets[i].hidden = true;
+            }
+        }
+        existingChart.update();
+    }
+}
 
 
 
