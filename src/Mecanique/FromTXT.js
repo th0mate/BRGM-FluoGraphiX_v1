@@ -27,7 +27,7 @@ function convertirTexteenMV(texte) {
     if (nbLignes === 0) {
         stringFinal =  `                   FluoriGraphix - Export du ${getDateAujourdhui()} - Signaux en mV\n`;
         stringFinal += "                           -------------------------------------------\n";
-        stringFinal += "    #  Time             R  Tracer 1  Tracer 2  Tracer 3 Turbidity  Baseline Battery V     T    Conductiv\n";
+        stringFinal += "    #  Time             R  Tracer 1  Tracer 2  Tracer 3 Turbidity  Baseline Battery V     T    valeura149     valeura150     valeura151\n";
     }
 
     for (let i = 1; i < lignes.length; i++) {

@@ -260,7 +260,6 @@ function cacherDoublons() {
         const datasets = existingChart.data.datasets;
         for (let i = 0; i < datasets.length; i++) {
             if (isConstant(datasets[i].data)) {
-                console.log(datasets[i].label + 'est caché');
                 datasets[i].hidden = true;
             }
         }
