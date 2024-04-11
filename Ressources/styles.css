@@ -350,8 +350,8 @@ footer {
     align-content: center;
     background-color: var(--grisBRGM);
     color: white;
-    padding: 25px 15px 10px 15px;
-    width: 98%;
+    padding-top: 20px;
+    width: 100%;
     min-height: 170px;
     z-index: 2;
     text-align: center;
@@ -386,6 +386,7 @@ footer > .logos > img {
 
     footer > .logos > img {
         margin: 10px;
+        max-width: 90%;
     }
 }
 
@@ -428,6 +429,13 @@ footer > .logos > img {
 }
 
 
+@media (max-width: 750px) {
+    .bouton {
+        min-width: 130px;
+    }
+}
+
+
 @media (max-width: 600px) {
 
     .bannerLarge {
@@ -439,6 +447,15 @@ footer > .logos > img {
         display: block;
         margin-left: 5px;
         height: auto;
+    }
+
+    nav > img {
+        height: 80%!important;
+    }
+
+    .popup {
+        width: 90%;
+        max-height: 90%;
     }
 
 }
