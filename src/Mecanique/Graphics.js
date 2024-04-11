@@ -176,7 +176,7 @@ function afficherGraphique(mvContent) {
                 zoom: {
                     pan: {
                         enabled: true,
-                        mode: 'xy',
+                        mode: `${zoom}`,
                     },
                     zoom: {
                         wheel: {
@@ -185,7 +185,7 @@ function afficherGraphique(mvContent) {
                         pinch: {
                             enabled: true
                         },
-                        mode: 'xy'
+                        mode: `${zoom}`,
                     }
                 },
             },

@@ -5,9 +5,9 @@ function vueGraphique() {
     <button onclick="resetZoom()">RÉINITIALISER LE ZOOM</button>
     <button class="downloadFile" onclick="telechargerFichier()">Télécharger le fichier</button>
     <label for="xZoom">Zoom sur axe X</label>
-    <input type="checkbox" checked id="xZoom">
+    <input type="checkbox" checked id="xZoom" onclick="modifierZoom('x')">
     <label for="yZoom">Zoom sur axe Y</label>
-    <input type="checkbox" checked id="yZoom">
+    <input type="checkbox" checked id="yZoom" onclick="modifierZoom('y')">
     
 
     <label for="selectFormatDate">Format Date</label><select onchange="modifierFormat(this.value)" id="selectFormatDate">

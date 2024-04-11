@@ -19,3 +19,22 @@ function parametrerSiteDepuisCalibrat(string) {
     }
     afficherMessageFlash(`Nouveau format de date détecté : ${formatTexte}`, 'info');
 }
+
+
+function modifierZoom(letter) {
+    const canvas = document.getElementById('graphique');
+    const existingChart = Chart.getChart(canvas);
+
+    if (zoom.includes(letter)) {
+        zoom = zoom.replace(letter, '');
+    } else {
+        zoom += letter;
+    }
+
+    if (existingChart) {
+        existingChart.options.plugins.zoom.zoom.mode = zoom;
+        existingChart.options.plugins.zoom.pan.mode = zoom;
+
+        existingChart.update();
+    }
+}
