@@ -18,7 +18,12 @@ if (window.location.protocol !== "file:" && navigator.onLine) {
 }
 
 
-afficherVue('vueAccueil');
+
+if (cookieExists()) {
+    afficherVue(getCookie());
+} else {
+    afficherVue('vueAccueil');
+}
 
 
 /**
@@ -39,6 +44,8 @@ function afficherVue(nomFichier) {
         afficherVue('vueAccueil');
         return;
     }
+    createCookie(nomFichier);
+    console.log(getCookie());
     document.querySelector('#contenu').innerHTML = window[nomFichier]();
 
     const element = document.querySelector(`[onclick="afficherVue('${nomFichier}')"]`);
