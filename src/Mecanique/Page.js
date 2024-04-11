@@ -13,7 +13,7 @@ if (window.location.protocol !== "file:" && navigator.onLine) {
     const random = Math.floor(Math.random() * 4);
     if (random === 1) {
         afficherPopup('<img src="Ressources/img/information.png" alt="info">', 'Le saviez vous ? Vous pouvez utiliser ce site hors-ligne !', 'Vous pouvez télécharger ce site et l\'utiliser normalement en local sur votre machine, et sans internet.', '<div class="bouton boutonFonce" onclick="fermerPopup()">Continuer en ligne</div>\n' +
-            '        <div class="bouton boutonFonce" onclick="downloadSite()">Télécharger</div>');
+            '<div class="bouton boutonFonce" onclick="downloadSite()">Télécharger</div>');
     }
 }
 

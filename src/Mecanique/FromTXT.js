@@ -43,6 +43,9 @@ function convertirTexteenMV(texte) {
         const a147Value = colonnes[5];
         const a148Value = colonnes[6];
         const a144Value = colonnes[7];
+        const a149Value = colonnes[8];
+        const a150Value = colonnes[9];
+        const a151Value = colonnes[10];
 
         if (getTime(timeValue) === "NaN/NaN/N-NaN:NaN:NaN") {
             problemes = true;
@@ -53,7 +56,7 @@ function convertirTexteenMV(texte) {
             premiereDate = getTime(timeValue);
         }
 
-        stringFinal += ` ${setEspaces(i, 4)} ${getTime(timeValue)} 0   ${setEspaces(around(a145Value), 5)}     ${setEspaces(around(a146Value), 5)}     ${setEspaces(around(a147Value), 5)}    ${setEspaces(around(a148Value), 5)}     ${setEspaces(around(a144Value), 5)}     13.20     10.63     0.000\n`;
+        stringFinal += ` ${setEspaces(i, 4)} ${getTime(timeValue)} 0   ${setEspaces(around(a145Value), 5)}     ${setEspaces(around(a146Value), 5)}     ${setEspaces(around(a147Value), 5)}    ${setEspaces(around(a148Value), 5)}     ${setEspaces(around(a144Value), 5)}     ${setEspaces(around(a149Value), 5)}     ${setEspaces(around(a150Value), 5)}    ${setEspaces(around(a151Value), 5)}\n`;
     }
 
     if (problemes) {
