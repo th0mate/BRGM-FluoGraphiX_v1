@@ -134,7 +134,7 @@ function afficherGraphique(mvContent) {
                     }
                 },
                 y: {
-                    beginAtZero: true
+                    beginAtZero: false
                 }
             },
             plugins: {

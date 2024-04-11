@@ -43,7 +43,7 @@ function convertirXMLenMV(xmlString) {
     if (nbLignes === 0) {
         contenuFinal =  `                   FluoriGraphix - Export du ${getDateAujourdhui()} - Signaux en mV\n`;
         contenuFinal += "                           -------------------------------------------\n";
-        contenuFinal += "    #  Time             R  Tracer 1  Tracer 2  Tracer 3 Turbidity  Baseline Battery V     T    Conductiv\n";
+        contenuFinal += "    #  Time             R  Tracer 1  Tracer 2  Tracer 3 Turbidity  Baseline Battery V     T    valeura149     valeura150     valeura151\n";
     }
 
     for (let i = 0; i < times.length; i++) {
@@ -55,6 +55,24 @@ function convertirXMLenMV(xmlString) {
         const a148Value = time.querySelector("a148").getAttribute("v");
         const a144Value = time.querySelector("a144").getAttribute("v");
 
+        let a149Value = 0.001;
+        let a150Value = 0.001;
+        let a151Value = 0.001;
+
+        for (let j = 0; j < time.children.length; j++) {
+            const child = time.children[j];
+            if (child.tagName === "a149") {
+                a149Value = child.getAttribute("v");
+                console.log('trouvé');
+            }
+            if (child.tagName === "a150") {
+                a150Value = child.getAttribute("v");
+            }
+            if (child.tagName === "a151") {
+                a151Value = child.getAttribute("v");
+            }
+        }
+
         if (getTime(timeValue) === "NaN/NaN/N-NaN:NaN:NaN") {
             problemes = true;
             continue;
@@ -64,7 +82,7 @@ function convertirXMLenMV(xmlString) {
             premiereDate = getTime(timeValue);
         }
 
-        contenuFinal += ` ${setEspaces(i + 1, 4)} ${getTime(timeValue)} 0   ${setEspaces(around(a145Value), 5)}     ${setEspaces(around(a146Value),5)}     ${setEspaces(around(a147Value),5)}    ${setEspaces(around(a148Value),5)}      0.001    0.001     ${setEspaces(around(a144Value),5)}     0.000\n`;
+        contenuFinal += ` ${setEspaces(i + 1, 4)} ${getTime(timeValue)} 0   ${setEspaces(around(a145Value), 5)}     ${setEspaces(around(a146Value),5)}     ${setEspaces(around(a147Value),5)}    ${setEspaces(around(a148Value),5)}      0.001    0.001     ${setEspaces(around(a144Value),5)}     ${setEspaces(around(a149Value),5)}          ${setEspaces(around(a150Value),5)}          ${setEspaces(around(a151Value),5)}\n`;
     }
 
     if (problemes) {

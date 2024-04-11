@@ -56,6 +56,9 @@ function getTimeFromMV(string) {
  * @returns {number|string} le nombre avec 2 décimales après la virgule
  */
 function around(double) {
+    if (double === 0.001) {
+        return double;
+    }
     const trait = Math.round(double * 100) / 100;
     const parts = trait.toString().split(".");
 
