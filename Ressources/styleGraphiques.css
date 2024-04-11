@@ -6,7 +6,7 @@
     align-items: flex-start;
     align-content: flex-start;
     width: 100%;
-    min-height: 600px;
+    min-height: 560px;
 }
 
 .graphique {
@@ -72,7 +72,7 @@
     justify-content: flex-start;
     align-items: center;
     align-content: center;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .settings > .details > div > input::file-selector-button {
