@@ -28,26 +28,6 @@
     text-align: left;
 }
 
-.arrow {
-    display: none;
-    width: 35px;
-    height: 35px;
-    cursor: pointer;
-    position: absolute;
-    top: 98.5px;
-    right: 20px;
-    transition: transform 0.3s ease;
-    background-color: var(--grisBRGM);
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-}
-
-.arrow > img {
-    width: 30px;
-    height: 30px;
-}
 
 .settings > .entete {
     width: 98%;

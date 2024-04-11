@@ -8,7 +8,7 @@ function vueGraphique() {
         <div class="settings">
             <div class="entete">
                 <h2>Paramètres</h2>
-                <img src="Ressources/img/reduire.png" alt="Réduire" onclick="reduireSettings()">
+                <img src="Ressources/img/aide.png" alt="Réduire" onclick="afficherVue('vueAccueil')">
         </div>
         
         <div class="details">
@@ -46,48 +46,6 @@ function vueGraphique() {
         </div>
     </div>
 </div>
-
-    <div class="arrow" onclick="agrandirSettings()">
-        <img src="Ressources/img/flecheOrange.png" alt="Flèche">
-    </div>
     
 `;
-}
-
-let html;
-
-/**
- * Réduit la taille des paramètres pour afficher le graphique en plus grand
- */
-function reduireSettings() {
-    const graphique = document.querySelector('.graphique');
-    const settings = document.querySelector('.settings');
-
-    graphique.style.width = '100%';
-    graphique.style.transition = 'width 0.5s ease';
-    settings.style.width = '0';
-    settings.style.overflow = 'hidden';
-    settings.style.transition = 'width 0.5s ease';
-    html = settings.innerHTML;
-    settings.innerHTML = '';
-
-    setTimeout(() => {
-        document.querySelector('.arrow').style.display = 'flex';
-    }, 450);
-}
-
-/**
- * Agrandit la taille des paramètres pour afficher le graphique en plus petit
- */
-function agrandirSettings() {
-    const graphique = document.querySelector('.graphique');
-    const settings = document.querySelector('.settings');
-
-    graphique.style.maxwidth = '70%';
-    graphique.style.transition = 'width 0.5s ease';
-    settings.style.width = '300px';
-    settings.style.overflow = 'auto';
-    settings.style.transition = 'width 0.5s ease';
-    document.querySelector('.arrow').style.display = 'none';
-    settings.innerHTML = html;
 }
