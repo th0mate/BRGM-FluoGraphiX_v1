@@ -135,8 +135,20 @@ nav {
     z-index: 2;
 }
 
+nav > .menuBurger {
+    display: none;
+}
+
 nav > .banner {
     height: 98%;
+}
+
+.bannerLarge {
+    display: block;
+}
+
+.bannerSmall {
+    display: none;
 }
 
 nav > .redirections {
@@ -342,6 +354,7 @@ footer {
     width: 98%;
     min-height: 170px;
     z-index: 2;
+    text-align: center;
 }
 
 footer > .logos {
@@ -357,3 +370,75 @@ footer > .logos > img {
     height: 100px;
 }
 
+
+
+/*
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------  RESPONSIVE  ----------------------------------------------------
+ */
+
+@media (max-width: 1300px) {
+    footer > .logos {
+        flex-wrap: wrap;
+        justify-content: center;
+
+    }
+
+    footer > .logos > img {
+        margin: 10px;
+    }
+}
+
+@media (max-width: 1000px) {
+
+    nav > .redirections {
+        display: none;
+    }
+
+    nav > .menuBurger {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        align-content: center;
+        width: 40px;
+        height: 40px;
+        padding: 10px;
+        background-color: var(--orangeBRGM);
+        cursor: pointer;
+        margin-right: 30px;
+        transition: background-color 0.4s ease-in-out;
+    }
+
+    nav > .menuBurger > span {
+        width: 30px;
+        height: 2px;
+        background-color: white;
+        transition: background-color 0.4s ease-in-out;
+    }
+
+    nav > .menuBurger:hover {
+        background-color: white;
+    }
+
+    nav > .menuBurger:hover > span {
+        background-color: black;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .bannerLarge {
+        display: none;
+    }
+
+
+    .bannerSmall {
+        display: block;
+        margin-left: 5px;
+        height: auto;
+    }
+
+}

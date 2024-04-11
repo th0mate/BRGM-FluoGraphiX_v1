@@ -34,7 +34,6 @@ function ouvrirInternet() {
  * @param nomFichier{string} le nom du fichier à afficher
  */
 function afficherVue(nomFichier) {
-    //si la fonction existe
     if (!window[nomFichier]) {
         afficherMessageFlash('Erreur 404 : La page demandée n\'existe pas', 'danger');
         afficherVue('vueAccueil');
