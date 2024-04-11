@@ -45,7 +45,6 @@ function afficherVue(nomFichier) {
         return;
     }
     createCookie(nomFichier);
-    console.log(getCookie());
     document.querySelector('#contenu').innerHTML = window[nomFichier]();
 
     const element = document.querySelector(`[onclick="afficherVue('${nomFichier}')"]`);

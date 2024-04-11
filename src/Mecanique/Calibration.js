@@ -20,7 +20,14 @@ function parametrerSiteDepuisCalibrat(string) {
     afficherMessageFlash(`Nouveau format de date détecté : ${formatTexte}`, 'info');
 }
 
-
+/**
+ * Modifie le zoom du graphique en fonction de la lettre passée en paramètre
+ * Zoom en x uniquement
+ * Zoom en y uniquement
+ * Zoom en x et y
+ * Aucun zoom
+ * @param letter{string} la lettre (x,y) correspondant au zoom à modifier
+ */
 function modifierZoom(letter) {
     const canvas = document.getElementById('graphique');
     const existingChart = Chart.getChart(canvas);

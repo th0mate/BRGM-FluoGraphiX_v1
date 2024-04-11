@@ -46,21 +46,21 @@ function afficherGraphique(mvContent) {
         labels: labels,
         datasets: [
             {
-                label: 'Tracer 1',
+                label: 'Capteur 1',
                 data: dataTracer1,
                 borderColor: 'rgba(255, 99, 132, 1)',
                 borderWidth: 2,
                 fill: false
             },
             {
-                label: 'Tracer 2',
+                label: 'Capteur 2',
                 data: dataTracer2,
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 2,
                 fill: false
             },
             {
-                label: 'Tracer 3',
+                label: 'Capteur 3',
                 data: dataTracer3,
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 2,
@@ -196,6 +196,7 @@ function afficherGraphique(mvContent) {
             }
         }
     });
+    //canvas.addEventListener('wheel', modifierDates);
 }
 
 
