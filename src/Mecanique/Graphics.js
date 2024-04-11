@@ -13,6 +13,9 @@ function afficherGraphique(mvContent) {
     const batterie = [];
     const temperature = [];
     const conductivite = [];
+    const a149 = [];
+    const a150 = [];
+    const a151 = [];
 
     for (let i = 3; i < lignes.length; i++) {
         const colonnes = lignes[i].split(/\s+/);
@@ -26,6 +29,9 @@ function afficherGraphique(mvContent) {
         const batterieValue = around(parseFloat(colonnes[9]));
         const temperatureValue = around(parseFloat(colonnes[10]));
         const conductiviteValue = around(parseFloat(colonnes[11]));
+        const a149Value = around(parseFloat(colonnes[12]));
+        const a150Value = around(parseFloat(colonnes[13]));
+        const a151Value = around(parseFloat(colonnes[14]));
 
 
         const timeDate = moment(timeValue, 'DD/MM/YY-HH:mm:ss', true);
@@ -39,6 +45,9 @@ function afficherGraphique(mvContent) {
             batterie.push({x: timeDate.toISOString(), y: batterieValue});
             temperature.push({x: timeDate.toISOString(), y: temperatureValue});
             conductivite.push({x: timeDate.toISOString(), y: conductiviteValue});
+            a149.push({x: timeDate.toISOString(), y: a149Value});
+            a150.push({x: timeDate.toISOString(), y: a150Value});
+            a151.push({x: timeDate.toISOString(), y: a151Value});
         }
     }
 
@@ -97,10 +106,32 @@ function afficherGraphique(mvContent) {
             {
                 label: 'Conductivité',
                 data: conductivite,
+                borderColor: 'rgb(249,158,255)',
+                borderWidth: 2,
+                fill: false
+            },
+            {
+                label: 'a149',
+                data: a149,
+                borderColor: 'rgb(255,0,0)',
+                borderWidth: 2,
+                fill: false
+            },
+            {
+                label: 'a150',
+                data: a150,
+                borderColor: 'rgb(123,0,255)',
+                borderWidth: 2,
+                fill: false
+            },
+            {
+                label: 'a151',
+                data: a151,
                 borderColor: 'rgb(0,255,51)',
                 borderWidth: 2,
                 fill: false
             }
+
         ]
     };
 
@@ -196,7 +227,9 @@ function afficherGraphique(mvContent) {
             }
         }
     });
-    //canvas.addEventListener('wheel', modifierDates);
+
+
+
     cacherDoublons();
 }
 
