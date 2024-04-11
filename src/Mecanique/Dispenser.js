@@ -259,6 +259,6 @@ function estPlusDeUnJour(date1, date2) {
         return true;
     }
 
-    return date2Day - date1Day > 2;
+    return date2Day - date1Day > 9;
 }
 

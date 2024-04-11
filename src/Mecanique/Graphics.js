@@ -8,6 +8,11 @@ function afficherGraphique(mvContent) {
     const dataTracer1 = [];
     const dataTracer2 = [];
     const dataTracer3 = [];
+    const turbidite = [];
+    const baseline = [];
+    const batterie = [];
+    const temperature = [];
+    const conductivite = [];
 
     for (let i = 3; i < lignes.length; i++) {
         const colonnes = lignes[i].split(/\s+/);
@@ -16,6 +21,12 @@ function afficherGraphique(mvContent) {
         const a145Value = around(parseFloat(colonnes[4]));
         const a146Value = around(parseFloat(colonnes[5]));
         const a147Value = around(parseFloat(colonnes[6]));
+        const turbiditeValue = around(parseFloat(colonnes[7]));
+        const baselineValue = around(parseFloat(colonnes[8]));
+        const batterieValue = around(parseFloat(colonnes[9]));
+        const temperatureValue = around(parseFloat(colonnes[10]));
+        const conductiviteValue = around(parseFloat(colonnes[11]));
+
 
         const timeDate = moment(timeValue, 'DD/MM/YY-HH:mm:ss', true);
         if (timeDate.isValid()) {
@@ -23,6 +34,11 @@ function afficherGraphique(mvContent) {
             dataTracer1.push({x: timeDate.toISOString(), y: a145Value});
             dataTracer2.push({x: timeDate.toISOString(), y: a146Value});
             dataTracer3.push({x: timeDate.toISOString(), y: a147Value});
+            turbidite.push({x: timeDate.toISOString(), y: turbiditeValue});
+            baseline.push({x: timeDate.toISOString(), y: baselineValue});
+            batterie.push({x: timeDate.toISOString(), y: batterieValue});
+            temperature.push({x: timeDate.toISOString(), y: temperatureValue});
+            conductivite.push({x: timeDate.toISOString(), y: conductiviteValue});
         }
     }
 
@@ -47,6 +63,41 @@ function afficherGraphique(mvContent) {
                 label: 'Tracer 3',
                 data: dataTracer3,
                 borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 2,
+                fill: false
+            },
+            {
+                label: 'Turbidité',
+                data: turbidite,
+                borderColor: 'rgba(255, 206, 86, 1)',
+                borderWidth: 2,
+                fill: false
+            },
+            {
+                label: 'Baseline',
+                data: baseline,
+                borderColor: 'rgba(153, 102, 255, 1)',
+                borderWidth: 2,
+                fill: false
+            },
+            {
+                label: 'Batterie',
+                data: batterie,
+                borderColor: 'rgba(255, 159, 64, 1)',
+                borderWidth: 2,
+                fill: false
+            },
+            {
+                label: 'Température',
+                data: temperature,
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 2,
+                fill: false
+            },
+            {
+                label: 'Conductivité',
+                data: conductivite,
+                borderColor: 'rgb(0,255,51)',
                 borderWidth: 2,
                 fill: false
             }
