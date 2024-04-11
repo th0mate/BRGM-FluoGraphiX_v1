@@ -1,15 +1,159 @@
 
 .graphiques {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    align-content: center;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-content: flex-start;
     width: 100%;
     min-height: 600px;
 }
 
 .graphique {
-    max-width: 90%;
+    max-width: 70%;
     max-height: 85vh;
+}
+
+.settings {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+    width: 300px;
+    min-height: 530px;
+    background-color: var(--grisBRGM);
+    color: white;
+    padding: 10px;
+    z-index: 2;
+    text-align: left;
+}
+
+.settings > .entete {
+    width: 98%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}
+
+.settings > .entete > h2 {
+    margin: 0;
+    color: var(--orangeBRGM);
+}
+
+.settings > .entete > img {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    padding: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.settings > .entete > img:hover {
+    background-color: var(--orangeBRGM);
+}
+
+.settings > .details {
+    width: 98%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+    margin-top: 20px;
+}
+
+.settings > .details > div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+    margin-bottom: 15px;
+}
+
+.settings > .details > div > input::file-selector-button {
+    border: 5px solid var(--orangeBRGM);
+    background-color: var(--orangeBRGM);
+    box-shadow: none;
+    width: 120px;
+    margin-bottom: 20px;
+    transition: box-shadow 0.3s ease;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.settings > .details > div > input::file-selector-button:hover {
+    box-shadow: inset 0 0 0 1px white;
+}
+
+.settings > .details > div > label {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+    margin-bottom: 10px;
+}
+
+.settings > .details > div > label > select {
+    width: 180px;
+    height: 30px;
+    color: white;
+    background-color: var(--orangeBRGM);
+    margin-right: 10px;
+    margin-left: 15px;
+    border-radius: 0;
+}
+
+
+.settings > .details > div > label > select > option:hover {
+    background-color: var(--grisBRGM);
+}
+
+input[type="checkbox"] {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    margin-left: 15px;
+}
+
+input[type="checkbox"]:checked {
+    background-color: var(--orangeBRGM);
+}
+
+.settings > .details > div > .bouton {
+    border: 5px solid transparent;
+    box-shadow: 0 0 0 1px white;
+    width: 220px;
+    margin-bottom: 20px;
+}
+
+.settings > .details > div > .bouton:hover {
+    box-shadow: 0 0 0 1px white, inset 0 0 2px white;
+}
+
+.settings > .details > div > .downloadFile {
+    display: none;
+    border: 5px solid var(--orangeBRGM);
+    background-color: var(--orangeBRGM);
+    box-shadow: none;
+    margin: 0;
+}
+
+.settings > .details > div > .downloadFile:hover {
+    box-shadow: inset 0 0 0 1px white;
+}
+
+.settings > .details > div:last-child {
+    margin-bottom: 0;
+}
+
+.resetZoom {
+    display: none;
 }
