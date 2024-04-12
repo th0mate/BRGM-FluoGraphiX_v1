@@ -7,6 +7,9 @@ let lignesCalibrat = [];
 let sectionsCalibrat = [];
 let nomsTraceur = [];
 let numeroFluorimetre = '';
+let traceurs = [];
+
+
 /**
  * Initialise les variables issues du fichier Calibrat.dat nécessaires pour le calcul de la régression linéaire
  */
@@ -33,6 +36,7 @@ function getNumeroFluorimetre() {
 
 /**
  * Récupère les sections du fichier Calibrat.dat.
+ * @returns {string[]} les sections du fichier Calibrat.dat
  */
 function getSectionsCalibrat() {
     const sections = [];
@@ -50,7 +54,8 @@ function getSectionsCalibrat() {
 
 
 /**
- * Récupère les noms des traceurs du fichier Calibrat.dat. Les noms des traceurs sont la première ligne des sections 1, 2 et 3 de sectionsCalibrat.
+ * Récupère les noms des traceurs du fichier Calibrat.dat.
+ * @returns {string[]} les noms des traceurs
  */
 function getNomsTraceurs() {
     const noms = [];
@@ -64,13 +69,13 @@ function getNomsTraceurs() {
 
 /**
  * Crée des objets de type Traceur à partir des données du fichier Calibrat.dat
+ * @returns {Traceur[]} les objets Traceur créés
  */
 function creerTraceurs() {
-    const traceurs = [];
     for (let i = 1; i <= 4; i++) {
         const section = sectionsCalibrat[i].split('\n');
-        const nom = section[0].trim(); // Obtenir le nom du traceur de la première ligne de la section
-        const l1 = parseFloat(section[1].split(/\s+/)[1]); // Utiliser une expression régulière pour diviser la ligne sur un ou plusieurs espaces
+        const nom = section[0].trim();
+        const l1 = parseFloat(section[1].split(/\s+/)[1]);
         const l2 = parseFloat(section[2].split(/\s+/)[1]);
         const l3 = parseFloat(section[3].split(/\s+/)[1]);
         traceurs.push(new Traceur(nom, l1, l2, l3));
@@ -79,6 +84,14 @@ function creerTraceurs() {
     return traceurs;
 }
 
+/**
+ * Récupère un objet traceur par son nom
+ * @param nom le nom du traceur
+ * @returns {*} l'objet traceur
+ */
+function recupererTraceurParNom(nom) {
+    return traceurs.find(traceur => traceur.nom === nom);
+}
 
 
 
