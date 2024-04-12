@@ -101,6 +101,9 @@ async function traiterFichier() {
             afficherGraphique(contenuFichier);
             afficherMessageFlash("Données traitées avec succès.", 'success');
         }
+    } else if (contenuCalibrat !== "") {
+        afficherMessageFlash("Fichier Calibrat.dat détecté. Redirection.", 'info');
+        afficherVue('vueConcentrations');
     } else {
         afficherMessageFlash("Erreur : aucune donnée exploitable.", 'danger');
     }

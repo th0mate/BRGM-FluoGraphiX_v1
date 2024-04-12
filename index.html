@@ -9,12 +9,14 @@
     <link rel="stylesheet" href="Ressources/styles.css">
     <link rel="stylesheet" href="Ressources/styleGraphiques.css">
     <link rel="stylesheet" href="Ressources/styleAccueil.css">
+    <link rel="stylesheet" href="Ressources/styleConcentrations.css">
 
     <script type="text/javascript" src="src/Modele/HTTP/Cookies.js" defer></script>
     <script type="text/javascript" src="src/Mecanique/MessagesEtPopups.js" defer></script>
 
     <script type="text/javascript" src="src/vues/vueAccueil.js" defer></script>
     <script type="text/javascript" src="src/vues/vueGraphique.js" defer></script>
+    <script type="text/javascript" src="src/vues/vueConcentrations.js" defer></script>
 
     <script src="src/libs/chart.js"></script>
     <script src="src/libs/pluginZoom.js"></script>
@@ -25,6 +27,7 @@
     <script src="src/libs/adapter.js"></script>
     <script type="text/javascript" src="src/Mecanique/FromMV.js" defer></script>
     <script type="text/javascript" src="src/Mecanique/Graphics.js" defer></script>
+    <script type="text/javascript" src="src/Mecanique/FromCalibrat.js" defer></script>
     <script type="text/javascript" src="src/Mecanique/Calibration.js" defer></script>
     <script type="text/javascript" src="src/Mecanique/Dispenser.js" defer></script>
     <script type="text/javascript" src="src/Mecanique/Page.js" defer></script>
@@ -46,6 +49,12 @@
         <div class="action" onclick="afficherVue('vueAccueil')">
             <img src="Ressources/img/accueil.png" alt="aide">
             ACCUEIL
+            <span></span>
+        </div>
+
+        <div class="action" onclick="afficherVue('vueConcentrations')">
+            <img src="Ressources/img/calculatrice.png" alt="aide">
+            CONCENTRATIONS
             <span></span>
         </div>
 

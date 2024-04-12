@@ -17,7 +17,9 @@ function parametrerSiteDepuisCalibrat(string) {
         format = 2;
         formatTexte = 'aa/mm/jj';
     }
-    afficherMessageFlash(`Nouveau format de date détecté : ${formatTexte}`, 'info');
+    if (contenuFichier !== '') {
+        afficherMessageFlash(`Nouveau format de date détecté : ${formatTexte}`, 'info');
+    }
 }
 
 /**
