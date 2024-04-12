@@ -12,7 +12,6 @@ function chargerTexteFichier(fichier, callback) {
 }
 
 
-
 /**
  * Convertit un fichier texte en fichier .mv
  * @param texte le contenu du fichier texte
@@ -23,7 +22,7 @@ function convertirTexteenMV(texte) {
 
     let stringFinal = "";
     if (nbLignes === 0) {
-        stringFinal =  `                   FluoriGraphix - Export du ${getDateAujourdhui()} - Signaux en mV\n`;
+        stringFinal = `                   FluoriGraphix - Export du ${getDateAujourdhui()} - Signaux en mV\n`;
         stringFinal += "                           -------------------------------------------\n";
     }
 
@@ -35,9 +34,9 @@ function convertirTexteenMV(texte) {
         //si la ligne 1 pour la colonne i contient bien un nombre, on la met dans l'en-tête
         if (lignes[1].split('\t')[i] !== undefined && !isNaN(lignes[1].split('\t')[i]) && colonnes[i] !== 'Timestamp') {
             if (colonnes[i] === 'T [�C]') {
-                header += `      T`;
+                header += `       T`;
             } else {
-                header += `      ${colonnes[i]}`;
+                header += `       ${colonnes[i]}`;
             }
             indicesColonnesValides.push(i);
         }
@@ -65,7 +64,7 @@ function convertirTexteenMV(texte) {
         let line = ` ${setEspaces(i, 4)} ${getTime(timeValue)} 0`;
 
         for (let j = 0; j < indicesColonnesValides.length; j++) {
-            line += `  ${setEspaces(around(colonnes[indicesColonnesValides[j]]), 7)}`;
+            line += `    ${setEspaces(around(colonnes[indicesColonnesValides[j]]), 6)}`;
         }
 
         stringFinal += line + "\n";
