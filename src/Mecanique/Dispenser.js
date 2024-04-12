@@ -10,6 +10,7 @@ let nbLignes = 0;
 let premiereDate = "";
 let contenuCalibrat = "";
 
+
 /**
  * Traite le fichier sélectionné par l'utilisateur et redirige le contenu du fichier vers la fonction de traitement appropriée
  */
@@ -141,6 +142,7 @@ function telechargerFichier() {
         afficherMessageFlash("Aucun fichier à télécharger : aucune donnée à exporter.", 'warning');
     }
 }
+
 
 /**
  * Permet de modifier le format de la date
