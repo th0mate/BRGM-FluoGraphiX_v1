@@ -31,7 +31,12 @@ function afficherGraphique(mvContent) {
 
     for (let i = 0; i < header.length; i++) {
         if (header[i]!== '' && header[i] !== 'R' && header[i] !== '    ' && header[i] !== '  ') {
-            console.log(couleurs[i]);
+
+
+            if (i >= couleurs.length) {
+                couleurs.push(getRandomColor());
+            }
+
             datasets.push({
                 label: header[i],
                 data: dataColumns[i],
@@ -181,6 +186,17 @@ function cacherDoublons() {
         }
         existingChart.update();
     }
+}
+
+/**
+ * Retourne une couleur aléatoire en rgba
+ * @returns {string} une couleur aléatoire en rgba
+ */
+function getRandomColor() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgba(${r},${g},${b},1)`;
 }
 
 
