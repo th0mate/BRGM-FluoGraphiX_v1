@@ -20,32 +20,38 @@ function chargerTexteFichier(fichier, callback) {
  */
 function convertirTexteenMV(texte) {
     const lignes = texte.split('\n');
-    lignes.splice(0, 1);
 
     let stringFinal = "";
-
     if (nbLignes === 0) {
         stringFinal =  `                   FluoriGraphix - Export du ${getDateAujourdhui()} - Signaux en mV\n`;
         stringFinal += "                           -------------------------------------------\n";
-        stringFinal += "    #  Time             R  Tracer 1  Tracer 2  Tracer 3 Turbidity  Baseline Battery V     T    valeura149     valeura150     valeura151\n";
     }
 
-    for (let i = 1; i < lignes.length; i++) {
+    // Créer l'en-tête à partir de la première ligne
+    const colonnes = lignes[0].split('\t');
+    let header = "    #  Time             R";
+    let indicesColonnesValides = [];
+    for (let i = 0; i < colonnes.length; i++) {
+        //si la ligne 1 pour la colonne i contient bien un nombre, on la met dans l'en-tête
+        if (lignes[1].split('\t')[i] !== undefined && !isNaN(lignes[1].split('\t')[i]) && colonnes[i] !== 'Timestamp') {
+            if (colonnes[i] === 'T [�C]') {
+                header += `      T`;
+            } else {
+                header += `      ${colonnes[i]}`;
+            }
+            indicesColonnesValides.push(i);
+        }
 
+    }
+    stringFinal += header + "\n";
+
+    for (let i = 1; i < lignes.length; i++) {
         if (lignes[i].length < 3 || /^\s+$/.test(lignes[i]) || /^\t+$/.test(lignes[i])) {
             continue;
         }
 
         const colonnes = lignes[i].split('\t');
         const timeValue = lignes[i].substring(3, 32);
-        const a145Value = colonnes[3];
-        const a146Value = colonnes[4];
-        const a147Value = colonnes[5];
-        const a148Value = colonnes[6];
-        const a144Value = colonnes[7];
-        const a149Value = colonnes[8];
-        const a150Value = colonnes[9];
-        const a151Value = colonnes[10];
 
         if (getTime(timeValue) === "NaN/NaN/N-NaN:NaN:NaN") {
             problemes = true;
@@ -56,7 +62,13 @@ function convertirTexteenMV(texte) {
             premiereDate = getTime(timeValue);
         }
 
-        stringFinal += ` ${setEspaces(i, 4)} ${getTime(timeValue)} 0   ${setEspaces(around(a145Value), 5)}     ${setEspaces(around(a146Value), 5)}     ${setEspaces(around(a147Value), 5)}    ${setEspaces(around(a148Value), 5)}     ${setEspaces(around(a144Value), 5)}     ${setEspaces(around(a149Value), 5)}     ${setEspaces(around(a150Value), 5)}    ${setEspaces(around(a151Value), 5)}\n`;
+        let line = ` ${setEspaces(i, 4)} ${getTime(timeValue)} 0`;
+
+        for (let j = 0; j < indicesColonnesValides.length; j++) {
+            line += `  ${setEspaces(around(colonnes[indicesColonnesValides[j]]), 7)}`;
+        }
+
+        stringFinal += line + "\n";
     }
 
     if (problemes) {
