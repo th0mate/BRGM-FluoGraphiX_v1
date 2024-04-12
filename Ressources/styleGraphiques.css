@@ -22,10 +22,9 @@
     justify-content: space-around;
     align-items: center;
     align-content: center;
-    width: 500px;
+    width: 700px;
     min-height: 500px;
-    background-color: var(--grisBRGM);
-    color: white;
+    color: black;
     padding: 10px;
     text-align: center;
     position: absolute;
