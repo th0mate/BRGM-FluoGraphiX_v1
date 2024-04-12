@@ -232,6 +232,7 @@ function afficherGraphique(mvContent) {
 
     cacherDoublons();
     document.querySelector('.resetZoom').style.display = 'flex';
+    document.querySelector('.infos').style.display = 'none';
 }
 
 

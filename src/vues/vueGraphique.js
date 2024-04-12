@@ -5,6 +5,20 @@ function vueGraphique() {
     <div class="graphiques">
         <canvas class="graphique" id="graphique"></canvas>
         
+        
+        <div class="infos">
+            <img src="Ressources/img/graphiqueIllu.png" alt="Graphique">
+            <h2>Importez un fichier et prenez le contrôle de vos données.</h2>
+            <p>Types de fichiers pris en charge : .mv, .txt, .xml, Calibrat.dat.</p>
+            <p>Possibilité de sélectionner plusieurs fichiers.</p>
+            <h4>Paramétrez ensuite vos données selon vos envies, avec le bandeau dédié.</h4>
+            <label>
+                <input type="file" id="fileInput" multiple onchange="traiterFichier()">
+            </label>
+        </div>
+        
+        
+        
         <div class="settings">
             <div class="entete">
                 <h2>Paramètres</h2>

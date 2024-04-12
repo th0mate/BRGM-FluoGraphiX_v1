@@ -38,12 +38,6 @@ async function traiterFichier() {
         const fichier = fichiers[i];
         derniereDate = getLastDate();
 
-
-        if (nbLignes !== 0) {
-            //TODO : à voir
-            //contenuFichier+= "\n";
-        }
-
         if (fichier) {
             if (fichier.name.split('.').pop() === "xml") {
                 const reader = new FileReader();

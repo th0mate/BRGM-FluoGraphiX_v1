@@ -6,6 +6,8 @@
 html {
     font-family: 'Gibson-Semi-Bold', sans-serif;
     padding-top: 80px;
+    width: 100%;
+
 }
 
 :root {
@@ -112,6 +114,7 @@ h4, h5, h6, p {
     background-color: #f2dede;
     border-color: #ebccd1;
 }
+
 
 
 /*
