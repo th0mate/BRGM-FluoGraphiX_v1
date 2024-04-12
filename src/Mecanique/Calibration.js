@@ -17,7 +17,11 @@ function parametrerSiteDepuisCalibrat(string) {
         format = 2;
         formatTexte = 'aa/mm/jj';
     }
-    if (contenuFichier !== '') {
+    console.log('contenuFichier', contenuFichier);
+
+    const inputFichier = document.getElementById('fileInput');
+    let fichiers = Array.from(inputFichier.files);
+    if (fichiers.length > 1) {
         afficherMessageFlash(`Nouveau format de date détecté : ${formatTexte}`, 'info');
     }
 }

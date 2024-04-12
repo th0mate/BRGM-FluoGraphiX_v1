@@ -9,10 +9,10 @@ if (window.location.protocol === "file:" && navigator.onLine) {
 
 if (window.location.protocol !== "file:" && navigator.onLine) {
     //TODO : downloadSite
-    const random = Math.floor(Math.random() * 4);
+    const random = Math.floor(Math.random() * 7);
     if (random === 1) {
-        afficherPopup('<img src="Ressources/img/information.png" alt="info">', 'Le saviez vous ? Vous pouvez utiliser ce site hors-ligne !', 'Vous pouvez télécharger ce site et l\'utiliser normalement en local sur votre machine, et sans internet.', '<div class="bouton boutonFonce" onclick="fermerPopup()">Continuer en ligne</div>\n' +
-            '<div class="bouton boutonFonce" onclick="downloadSite()">Télécharger</div>');
+        afficherPopup('<img src="Ressources/img/information.png" alt="info">', 'Le saviez vous ? Vous pouvez utiliser ce site hors-ligne !', 'Vous pouvez télécharger ce site et l\'utiliser normalement en local sur votre machine, et sans internet.', '<div class="bouton boutonFonce" onclick="fermerPopup()">Fermer</div>\n' +
+            '<div class="bouton boutonFonce" onclick="downloadSite()">En Savoir Plus</div>');
     }
 }
 
@@ -28,7 +28,7 @@ if (cookieExists()) {
  * Redirige l'utilisateur vers le site en ligne
  */
 function ouvrirInternet() {
-    window.open('https://brgm.thomasloye.fr', '_blank');
+    window.open('https://webinfo.iutmontp.univ-montp2.fr/~loyet/BRGM/', '_blank');
 }
 
 

@@ -37,6 +37,7 @@ function vueGraphique() {
                 <label>Zoom sur axe Y
                 <input type="checkbox" checked id="yZoom" onclick="modifierZoom('y')">
                 </label>
+                <div class="bouton boutonFonce resetZoom" onclick="resetZoom()">Réinitialiser le zoom</div>
             </div>
             
             <h3>Format de dates</h3>
@@ -49,11 +50,8 @@ function vueGraphique() {
                 </label>
             </div>
             
-            <div>
-                <div class="bouton boutonFonce resetZoom" onclick="resetZoom()">Réinitialiser le zoom</div>
-             
+            <div>          
                 <div class="bouton boutonFonce downloadFile" onclick="telechargerFichier()">TÉLÉCHARGER LE FICHIER</div>
-                
             </div>        
         </div>
     </div>

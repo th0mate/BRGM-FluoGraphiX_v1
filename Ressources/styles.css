@@ -383,7 +383,7 @@ footer > .redirections {
     justify-content: space-around;
     align-items: center;
     align-content: center;
-    width: 98%;
+    min-width: 50%;
     margin-bottom: 20px;
 }
 
