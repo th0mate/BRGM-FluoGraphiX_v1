@@ -34,14 +34,17 @@ function convertirTexteenMV(texte) {
         //si la ligne 1 pour la colonne i contient bien un nombre, on la met dans l'en-tête
         if (lignes[1].split('\t')[i] !== undefined && !isNaN(lignes[1].split('\t')[i]) && colonnes[i] !== 'Timestamp') {
             if (colonnes[i] === 'T [�C]') {
-                header += `       T`;
+                header += `        T   `;
             } else {
-                header += `       ${colonnes[i]}`;
+                header += `    ${colonnes[i]}`;
             }
             indicesColonnesValides.push(i);
         }
 
     }
+
+    indicesColonnesValides = indicesColonnesValides.filter(e => e !== 56);
+
     stringFinal += header + "\n";
 
     for (let i = 1; i < lignes.length; i++) {
@@ -64,7 +67,11 @@ function convertirTexteenMV(texte) {
         let line = ` ${setEspaces(i, 4)} ${getTime(timeValue)} 0`;
 
         for (let j = 0; j < indicesColonnesValides.length; j++) {
-            line += `    ${setEspaces(around(colonnes[indicesColonnesValides[j]]), 6)}`;
+            if (colonnes[indicesColonnesValides[j]] === 0) {
+                line += `${setEspaces(around(colonnes[indicesColonnesValides[j]]), 1)}`;
+            } else {
+            line += `     ${setEspaces(around(colonnes[indicesColonnesValides[j]]), 6)}`;
+            }
         }
 
         stringFinal += line + "\n";
