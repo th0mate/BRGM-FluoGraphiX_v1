@@ -46,39 +46,19 @@
     margin: 0;
 }
 
-.infos > label {
-    width: 98%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    align-content: center;
-}
-
-.infos > label > input {
-    max-width: 100%;
-}
-
-.infos > label > input::file-selector-button {
+.infos > .bouton {
     border: 5px solid var(--orangeBRGM);
+    width: 220px;
     background-color: var(--orangeBRGM);
     box-shadow: none;
-    width: 250px;
-    height: 45px;
-    margin-bottom: 20px;
     transition: box-shadow 0.3s ease;
     font-weight: bold;
     color: white;
     cursor: pointer;
 }
 
-.infos > label > input::file-selector-button:hover {
+.infos > .bouton:hover {
     box-shadow: inset 0 0 0 1px white;
-}
-
-/* on supprime le texte "aucun fichier choisit" */
-.infos > label > input[type="file"] {
-    color: transparent;
 }
 
 

@@ -63,7 +63,6 @@ function convertirXMLenMV(xmlString) {
             const child = time.children[j];
             if (child.tagName === "a149") {
                 a149Value = child.getAttribute("v");
-                console.log('trouvé');
             }
             if (child.tagName === "a150") {
                 a150Value = child.getAttribute("v");

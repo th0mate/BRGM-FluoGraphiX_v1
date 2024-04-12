@@ -12,9 +12,7 @@ function vueGraphique() {
             <p>Types de fichiers pris en charge : .mv, .txt, .xml, Calibrat.dat.</p>
             <p>Possibilité de sélectionner plusieurs fichiers.</p>
             <h4>Paramétrez ensuite vos données selon vos envies, avec le bandeau dédié.</h4>
-            <label>
-                <input type="file" id="fileInput" multiple onchange="traiterFichier()">
-            </label>
+            <div id="start" class="bouton boutonFonce" onclick="ouvrirChoisirFichier()">COMMENCER</div>
         </div>
         
         
@@ -60,6 +58,6 @@ function vueGraphique() {
         </div>
     </div>
 </div>
-    
+
 `;
 }

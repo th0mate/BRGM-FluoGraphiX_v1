@@ -3,7 +3,6 @@
  */
 
 
-
 if (window.location.protocol === "file:" && navigator.onLine) {
     afficherPopup('<img src="Ressources/img/attention.png" alt="Attention">', 'Vous êtes connecté à internet et utilisez ce site en local', 'Pour obtenir de meilleures performances et une meilleure expérience utilisateur, il est recommandé d\'utiliser ce site via internet.', '<div class="bouton boutonFonce" onclick="ouvrirInternet()">Aller sur le site</div><div class="bouton boutonFonce" onclick="fermerPopup()">Continuer en local</div>\n');
 }
@@ -16,7 +15,6 @@ if (window.location.protocol !== "file:" && navigator.onLine) {
             '<div class="bouton boutonFonce" onclick="downloadSite()">Télécharger</div>');
     }
 }
-
 
 
 if (cookieExists()) {
@@ -56,5 +54,15 @@ function afficherVue(nomFichier) {
             }
         })
     }
+}
+
+
+/**
+ * Affiche l'explorateur de fichier pour choisir un fichier à traiter
+ */
+function ouvrirChoisirFichier() {
+    const inputFichier = document.querySelector('#fileInput');
+    inputFichier.click();
+
 }
 

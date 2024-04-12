@@ -373,6 +373,50 @@ footer > .logos > img {
     height: 100px;
 }
 
+footer > .redirections {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+    width: 98%;
+    margin-bottom: 20px;
+}
+
+footer > .redirections > .action {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    min-width: 50px;
+    min-height: 20px;
+    position: relative;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.5s ease-in-out;
+    margin-right: 30px;
+    font-family: 'Roboto-Regular', sans-serif;
+    font-size: 0.9em;
+    padding: 5px;
+}
+
+footer > .redirections > .action > span {
+    border-radius: 2px;
+    position: absolute;
+    margin-top: 5px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 0;
+    border-bottom: 2px solid var(--orangeBRGM);
+    transition: width .3s;
+}
+
+footer > .redirections > .action:hover > span{
+    width: 100%;
+}
+
 
 
 /*
