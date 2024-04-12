@@ -2,107 +2,49 @@
  * Traite les données pour les afficher sous forme de graphique
  * @param mvContent le contenu du fichier .mv à afficher
  */
+
+
 function afficherGraphique(mvContent) {
+    const couleurs = ['rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)', 'rgba(54, 162, 235, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 206, 86, 1)', 'rgba(255, 159, 64, 1)', 'rgba(255, 99, 132, 1)', 'rgb(249,158,255)'];
     const lignes = mvContent.split('\n');
     const labels = [];
-    const dataTracer1 = [];
-    const dataTracer2 = [];
-    const dataTracer3 = [];
-    const turbidite = [];
-    const baseline = [];
-    const batterie = [];
-    const temperature = [];
-    const conductivite = [];
+    const datasets = [];
+
+    const header = lignes[2].split(/ {2,}/).slice(3);
+
+    const dataColumns = header.map(() => []);
 
     for (let i = 3; i < lignes.length; i++) {
         const colonnes = lignes[i].split(/\s+/);
         const timeValue = colonnes[2];
 
-        const a145Value = around(parseFloat(colonnes[4]));
-        const a146Value = around(parseFloat(colonnes[5]));
-        const a147Value = around(parseFloat(colonnes[6]));
-        const turbiditeValue = around(parseFloat(colonnes[7]));
-        const baselineValue = around(parseFloat(colonnes[8]));
-        const batterieValue = around(parseFloat(colonnes[9]));
-        const temperatureValue = around(parseFloat(colonnes[10]));
-        const conductiviteValue = around(parseFloat(colonnes[11]));
-
-
         const timeDate = moment(timeValue, 'DD/MM/YY-HH:mm:ss', true);
         if (timeDate.isValid()) {
             labels.push(timeDate.toISOString());
-            dataTracer1.push({x: timeDate.toISOString(), y: a145Value});
-            dataTracer2.push({x: timeDate.toISOString(), y: a146Value});
-            dataTracer3.push({x: timeDate.toISOString(), y: a147Value});
-            turbidite.push({x: timeDate.toISOString(), y: turbiditeValue});
-            baseline.push({x: timeDate.toISOString(), y: baselineValue});
-            batterie.push({x: timeDate.toISOString(), y: batterieValue});
-            temperature.push({x: timeDate.toISOString(), y: temperatureValue});
-            conductivite.push({x: timeDate.toISOString(), y: conductiviteValue});
+
+            for (let j = 0; j < dataColumns.length; j++) {
+                const value = around(parseFloat(colonnes[j + 3]));
+                dataColumns[j].push({x: timeDate.toISOString(), y: value});
+            }
+        }
+    }
+
+    for (let i = 0; i < header.length; i++) {
+        if (header[i]!== '' && header[i] !== 'R' && header[i] !== '    ' && header[i] !== '  ') {
+            console.log(couleurs[i]);
+            datasets.push({
+                label: header[i],
+                data: dataColumns[i],
+                borderColor: couleurs[i],
+                borderWidth: 2,
+                fill: false
+            });
         }
     }
 
     const data = {
         labels: labels,
-        datasets: [
-            {
-                label: 'Capteur 1',
-                data: dataTracer1,
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 2,
-                fill: false
-            },
-            {
-                label: 'Capteur 2',
-                data: dataTracer2,
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 2,
-                fill: false
-            },
-            {
-                label: 'Capteur 3',
-                data: dataTracer3,
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 2,
-                fill: false
-            },
-            {
-                label: 'Turbidité',
-                data: turbidite,
-                borderColor: 'rgba(255, 206, 86, 1)',
-                borderWidth: 2,
-                fill: false
-            },
-            {
-                label: 'Baseline',
-                data: baseline,
-                borderColor: 'rgba(153, 102, 255, 1)',
-                borderWidth: 2,
-                fill: false
-            },
-            {
-                label: 'Batterie',
-                data: batterie,
-                borderColor: 'rgba(255, 159, 64, 1)',
-                borderWidth: 2,
-                fill: false
-            },
-            {
-                label: 'Température',
-                data: temperature,
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 2,
-                fill: false
-            },
-            {
-                label: 'Conductivité',
-                data: conductivite,
-                borderColor: 'rgb(249,158,255)',
-                borderWidth: 2,
-                fill: false
-            }
-
-        ]
+        datasets: datasets
     };
 
     const canvas = document.getElementById('graphique');
@@ -121,7 +63,7 @@ function afficherGraphique(mvContent) {
                 x: {
                     type: 'time',
                     time: {
-                        parser: 'YYYY-MM-DDTHH:mm:ss.SSSZ', // Format ISO
+                        parser: 'YYYY-MM-DDTHH:mm:ss.SSSZ',
                         unit: 'minute',
                         displayFormats: {
                             minute: 'DD/MM/YYYY-HH:mm:SS'
@@ -197,7 +139,6 @@ function afficherGraphique(mvContent) {
             }
         }
     });
-
 
     cacherDoublons();
     document.querySelector('.resetZoom').style.display = 'flex';

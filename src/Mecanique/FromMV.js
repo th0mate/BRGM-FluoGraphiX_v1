@@ -16,7 +16,7 @@ function getStringDepuisFichierMV(fichier, callback) {
         if (nbLignes === 0) {
             texteFinal = `                   FluoriGraphix - Export du ${getDateAujourdhui()} - Signaux en mV\n`;
             texteFinal += "                           -------------------------------------------\n";
-            texteFinal += "    #  Time             R  Tracer 1  Tracer 2  Tracer 3 Turbidity  Baseline Battery V     T    Conductiv\n";
+            texteFinal += "    #  Time             R  Tracer 1  Tracer 2  Tracer 3  Turbidity  Baseline  Battery V     T    Conductiv\n";
         }
 
         for (let i = 1; i < lignes.length; i++) {
@@ -40,7 +40,7 @@ function getStringDepuisFichierMV(fichier, callback) {
                 premiereDate = getTimeFromMV(timeValue);
             }
 
-            texteFinal += ` ${setEspaces((nbLignes + i), 4)} ${getTimeFromMV(timeValue)} 0 ${setEspaces(around(a145Value), 7)}    ${setEspaces(around(a146Value), 6)}    ${setEspaces(around(a147Value), 6)}    ${setEspaces(around(a148Value), 6)}    ${setEspaces(around(a144Value), 6)}     ${setEspaces(around(a149Value), 5)}     ${setEspaces(around(a150Value), 5)}    ${setEspaces(around(a151Value), 5)}\n`;
+            texteFinal += ` ${setEspaces((nbLignes + i), 4)} ${getTimeFromMV(timeValue)} 0 ${setEspaces(around(a145Value), 7)}    ${setEspaces(around(a146Value), 6)}    ${setEspaces(around(a147Value), 6)}     ${setEspaces(around(a148Value), 6)}    ${setEspaces(around(a144Value), 6)}      ${setEspaces(around(a149Value), 5)}     ${setEspaces(around(a150Value), 5)}    ${setEspaces(around(a151Value), 5)}\n`;
 
         }
 
