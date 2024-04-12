@@ -104,10 +104,37 @@ async function traiterFichier() {
         }
     } else if (contenuCalibrat !== "") {
         afficherMessageFlash("Fichier Calibrat.dat détecté. Redirection.", 'info');
+        init();
         afficherVue('vueConcentrations');
     } else {
         afficherMessageFlash("Erreur : aucune donnée exploitable.", 'danger');
     }
+}
+
+
+/**
+ * Traite un fichier Calibrat.dat seul
+ */
+function traiterCalibrat() {
+    const inputFichier = document.getElementById('calibratInput');
+    let fichier = inputFichier.files[0];
+    contenuCalibrat = "";
+    if (fichier) {
+        if (fichier.name === "Calibrat.dat") {
+            const reader = new FileReader();
+            reader.readAsText(fichier);
+            reader.onload = function () {
+                contenuCalibrat = reader.result;
+                init();
+                afficherMessageFlash("Fichier Calibrat.dat traité avec succès.", 'success');
+            };
+        } else {
+            afficherMessageFlash("Erreur : type de fichier non pris en charge.", 'danger')
+        }
+    } else {
+        afficherMessageFlash("Aucun fichier n'a été join.", 'warning');
+    }
+
 }
 
 
