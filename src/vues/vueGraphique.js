@@ -11,7 +11,7 @@ function vueGraphique() {
             <h2>Importez un fichier et prenez le contrôle de vos données.</h2>
             <p>Types de fichiers pris en charge : .mv, .txt, .xml, Calibrat.dat.</p>
             <p>Possibilité de sélectionner plusieurs fichiers.</p>
-            <h4>Paramétrez ensuite vos données selon vos envies, avec le bandeau dédié.</h4>
+            <h4>Paramétrez ensuite vos données selon vos besoins avec le bandeau dédié.</h4>
             <div id="start" class="bouton boutonFonce" onclick="ouvrirChoisirFichier()">COMMENCER</div>
         </div>
         
