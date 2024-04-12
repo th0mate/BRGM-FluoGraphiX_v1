@@ -8,7 +8,7 @@ let isOptimise = false;
 let contenuFichier = "";
 let nbLignes = 0;
 let premiereDate = "";
-let dernierDate = "";
+let contenuCalibrat = "";
 
 /**
  * Traite le fichier sélectionné par l'utilisateur et redirige le contenu du fichier vers la fonction de traitement appropriée
@@ -34,7 +34,6 @@ async function traiterFichier() {
     let derniereDate;
 
     for (let i = 0; i < fichiers.length; i++) {
-        console.log(nbLignes);
         const fichier = fichiers[i];
         derniereDate = getLastDate();
 
@@ -80,6 +79,8 @@ async function traiterFichier() {
                 await new Promise((resolve) => {
                     reader.onload = function () {
                         parametrerSiteDepuisCalibrat(reader.result);
+                        contenuCalibrat = reader.result;
+                        console.log(contenuCalibrat);
                         resolve();
                     };
                 });
@@ -118,66 +119,6 @@ function resetZoom() {
     } else {
         afficherMessageFlash("Erreur : Aucun graphique à modifier.", 'warning');
     }
-}
-
-
-/**
- * Affiche tous les points sur le graphique si le nombre de points est inférieur à 100, sinon les masque si ce n'est pas déjà fait
- */
-function displayPoints() {
-    const canvas = document.getElementById('graphique');
-    const existingChart = Chart.getChart(canvas);
-    if (existingChart) {
-        const nbPoints = getNbPoints();
-        if (getNbPoints() < 100) {
-            existingChart.options.datasets.line.pointRadius = 3;
-            existingChart.options.elements.point.display = true;
-            existingChart.update();
-        } else {
-            if (existingChart.options.datasets.line.pointRadius !== 0) {
-                existingChart.options.datasets.line.pointRadius = 0;
-                existingChart.update();
-            }
-        }
-    }
-}
-
-
-/**
- * Retourne le nombre de points sur le graphique affichés à l'écran, en se mettant à jour dès que le zoom sur le graphique change
- */
-function getNbPoints() {
-    const canvas = document.getElementById('graphique');
-    const chart = Chart.getChart(canvas);
-
-    const xAxis = chart.scales['x'];
-    const yAxis = chart.scales['y'];
-
-    const xTicks = xAxis.getTicks();
-    const yTicks = yAxis.getTicks();
-
-    const visiblePointsX = xTicks.length;
-
-    const visiblePointsY = yTicks.length;
-    return visiblePointsX * visiblePointsY;
-
-}
-
-
-/**
- * Optimise l'affichage des points sur le graphique en arrondissant les valeurs des graduations aux entiers les plus proches
- */
-function optimise() {
-    isOptimise = !isOptimise;
-}
-
-
-/**
- * Retourne si l'optimisation est activée ou non
- * @returns {boolean} si l'optimisation est activée ou non
- */
-function getOptimise() {
-    return isOptimise;
 }
 
 
