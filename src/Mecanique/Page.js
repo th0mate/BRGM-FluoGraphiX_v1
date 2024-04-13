@@ -71,7 +71,7 @@ function ouvrirChoisirFichier() {
  */
 async function downloadSite() {
     const jszip = new JSZip();
-    const files = ['index.html', 'Ressources', 'style.css', 'script.js'];
+    const files = ['index.html', 'Ressources/', 'Ressources/img/', 'src/libs/', 'src/Mecanique/', 'src/Modele/DataObjetc/', 'src/Modele/HTTP/', 'src/vues/'];
 
     for (const file of files) {
         const response = await fetch(file);
@@ -80,6 +80,6 @@ async function downloadSite() {
     }
 
     const zip = await jszip.generateAsync({type: 'blob'});
-    saveAs(zip, 'site.zip');
+    saveAs(zip, 'FluoriGraphix.zip');
 }
 
