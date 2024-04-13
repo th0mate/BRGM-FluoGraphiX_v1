@@ -21,14 +21,18 @@ function vueGraphique() {
             <div class="entete">
                 <h2>Paramètres</h2>
                 <img src="Ressources/img/aide.png" alt="Réduire" onclick="afficherVue('vueAccueil')">
-        </div>
+            </div>
         
+       
         <div class="details">
+        <div class="wrap">
             <h3>Charger d'autres fichiers</h3>
             <div>
                 <input type="file" id="fileInput" multiple onchange="traiterFichier()">
             </div>
+            </div>
             
+            <div class="wrap">
             <h3>Gestion du Zoom</h3>
             <div>
                 <label>Zoom sur axe X
@@ -39,15 +43,18 @@ function vueGraphique() {
                 </label>
                 <div class="bouton boutonFonce resetZoom" onclick="resetZoom()">Réinitialiser le zoom</div>
             </div>
+            </div>
             
+            <div class="wrap">
             <h3>Format de dates</h3>
-            <div>
+            <div class="dates">
                 <label>Format :<select onchange="modifierFormat(this.value)" id="selectFormatDate">
                     <option value="1">jj/mm/aa</option>
                     <option value="2">aa/mm/jj</option>
                     <option disabled value="0">Automatique</option>
                 </select>
                 </label>
+            </div>
             </div>
             
             <div>          

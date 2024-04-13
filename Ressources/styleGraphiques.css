@@ -1,4 +1,10 @@
 
+/*
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------  GRAPHIQUE  -----------------------------------------------------
+ */
+
+
 .graphiques {
     display: flex;
     flex-direction: row;
@@ -15,6 +21,13 @@
     max-width: 70%;
     max-height: 85vh;
 }
+
+
+/*
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------  INFORMATIONS  --------------------------------------------------
+ */
+
 
 .infos {
     display: flex;
@@ -59,6 +72,12 @@
 .infos > .bouton:hover {
     box-shadow: inset 0 0 0 1px white;
 }
+
+
+/*
+------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------  BANDEAU DE PARAMETRES  ----------------------------------------------
+ */
 
 
 
@@ -114,7 +133,15 @@
     margin-top: 20px;
 }
 
-.settings > .details > div {
+.settings > .details > .wrap {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+
+}
+
+.settings > .details > .wrap > div, .settings > .details > div:not(.wrap) {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -124,7 +151,7 @@
     margin-bottom: 10px;
 }
 
-.settings > .details > div > input::file-selector-button {
+.settings > .details > .wrap > div > input::file-selector-button {
     border: 5px solid var(--orangeBRGM);
     background-color: var(--orangeBRGM);
     box-shadow: none;
@@ -137,11 +164,11 @@
     margin-right: 10px;
 }
 
-.settings > .details > div > input::file-selector-button:hover {
+.settings > .details >  .wrap > div > input::file-selector-button:hover {
     box-shadow: inset 0 0 0 1px white;
 }
 
-.settings > .details > div > label {
+.settings > .details > .wrap > div > label {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -150,7 +177,7 @@
     margin-bottom: 10px;
 }
 
-.settings > .details > div > label > select {
+.settings > .details > .wrap > div > label > select {
     width: 180px;
     height: 30px;
     color: white;
@@ -161,7 +188,7 @@
 }
 
 
-.settings > .details > div > label > select > option:hover {
+.settings > .details > .wrap > div > label > select > option:hover {
     background-color: var(--grisBRGM);
 }
 
@@ -176,14 +203,14 @@ input[type="checkbox"]:checked {
     background-color: var(--orangeBRGM);
 }
 
-.settings > .details > div > .bouton {
+.settings > .details > .wrap > div > .bouton {
     border: 5px solid transparent;
     box-shadow: 0 0 0 1px white;
     width: 220px;
     margin-bottom: 20px;
 }
 
-.settings > .details > div > .bouton:hover {
+.settings > .details > .wrap > div > .bouton:hover {
     box-shadow: 0 0 0 1px white, inset 0 0 2px white;
 }
 
@@ -192,17 +219,100 @@ input[type="checkbox"]:checked {
     border: 5px solid var(--orangeBRGM);
     background-color: var(--orangeBRGM);
     box-shadow: none;
-    margin: 0;
+    margin-top: 15px;
 }
 
 .settings > .details > div > .downloadFile:hover {
     box-shadow: inset 0 0 0 1px white;
 }
 
-.settings > .details > div:last-child {
+.settings > .details > .wrap > div:last-child {
     margin-bottom: 0;
 }
 
 .resetZoom {
     display: none;
+}
+
+
+
+/*
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------  RESPONSIVE  ----------------------------------------------------
+ */
+
+@media (max-width: 1100px) {
+
+    .graphiques {
+        flex-direction: column-reverse;
+        justify-content: flex-start!important;
+        align-items: center;
+        align-content: center;
+    }
+
+    .graphique {
+        margin-top: 30px;
+        max-width: 90%;
+    }
+
+    .infos {
+        display: none;
+    }
+
+    .settings {
+        width: 95%;
+        min-height: auto;
+        /*max-height: 220px;*/
+        padding-bottom: 20px;
+    }
+
+    .settings > .details {
+        width: 98%;
+        flex-direction: row;
+        justify-content: space-between;
+        max-height: 220px;
+    }
+
+    .settings > .details > .wrap {
+        height: 100%;
+        border-right: 2px solid white;
+        margin-right: 20px;
+        min-width: 100px;
+        min-height: 230px;
+        padding-right: 15px;
+    }
+
+    .settings > .details > .wrap > .dates > label {
+        flex-direction: column;
+        align-items: flex-start;
+        align-content: flex-start;
+    }
+
+    .settings > .details > .wrap > .dates > label > select {
+        margin-top: 15px;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .settings > .details > .wrap > div > input[type="file"] {
+        color: transparent;
+        width: 150px;
+    }
+
+    .settings > .details > .wrap > div > .bouton {
+        min-width: auto;
+        width: auto;
+    }
+
+
+    .settings > .details > .wrap > div > input::file-selector-button {
+        width: 100%;
+        margin : 0;
+    }
+
+
+}
+
+@media (max-width: 790px) {
+
 }
