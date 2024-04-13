@@ -63,6 +63,23 @@ function afficherVue(nomFichier) {
 function ouvrirChoisirFichier() {
     const inputFichier = document.querySelector('#fileInput');
     inputFichier.click();
+}
 
+
+/**
+ * Télécharge les fichiers du site en .zip
+ */
+async function downloadSite() {
+    const jszip = new JSZip();
+    const files = ['index.html', 'Ressources', 'style.css', 'script.js'];
+
+    for (const file of files) {
+        const response = await fetch(file);
+        const blob = await response.blob();
+        jszip.file(file, blob);
+    }
+
+    const zip = await jszip.generateAsync({type: 'blob'});
+    saveAs(zip, 'site.zip');
 }
 

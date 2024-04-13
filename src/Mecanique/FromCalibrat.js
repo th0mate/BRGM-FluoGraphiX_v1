@@ -78,7 +78,8 @@ function creerTraceurs() {
         const l1 = parseFloat(section[1].split(/\s+/)[1]);
         const l2 = parseFloat(section[2].split(/\s+/)[1]);
         const l3 = parseFloat(section[3].split(/\s+/)[1]);
-        traceurs.push(new Traceur(nom, l1, l2, l3));
+        const l4 = parseFloat(section[4].split(/\s+/)[1]);
+        traceurs.push(new Traceur(nom, l1, l2, l3, l4));
     }
     console.log(traceurs);
     return traceurs;
