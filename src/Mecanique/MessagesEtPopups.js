@@ -92,9 +92,21 @@ function animateUp(element) {
  */
 function afficherPopup(imageHTML, titre, contenu, boutonsHTML) {
     fermerPopup();
+
+    let overlay = document.createElement('div');
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+    overlay.style.zIndex = '1000';
+    document.body.appendChild(overlay);
+    document.body.style.overflow = 'hidden';
+
     let popupHTML = "";
     popupHTML += `<div class='popup'><div class="entete"><img src="Ressources/img/close.png" class="close" onclick="fermerPopup()" alt="fermer"></div> ${imageHTML}<h2>${titre}</h2><h4>${contenu}</h4><div class="conteneurBoutons">${boutonsHTML}</div></div>`;
-    document.body.innerHTML += popupHTML;
+    overlay.innerHTML += popupHTML;
 }
 
 /**
@@ -104,4 +116,9 @@ function fermerPopup() {
     if (document.querySelector('.popup') !== null) {
         document.querySelector('.popup').remove();
     }
+    if (document.querySelector('div[style*="z-index: 1000"]') !== null) {
+        document.querySelector('div[style*="z-index: 1000"]').remove();
+    }
+
+    document.body.style.overflow = 'auto';
 }
