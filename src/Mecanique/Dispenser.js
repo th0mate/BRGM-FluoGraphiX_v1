@@ -17,7 +17,8 @@ let contenuCalibrat = "";
 async function traiterFichier() {
     const inputFichier = document.getElementById('fileInput');
     let fichiers = Array.from(inputFichier.files);
-    document.querySelector('.waiting').style.display = 'flex';
+    afficherPopup('<img src="Ressources/img/warning.png" alt="">', 'Veuillez Patienter', 'Traitement des données en cours - Veuillez patienter...', '' )
+
 
     if (fichiers.length > 1) {
         for (let i = 0; i < fichiers.length; i++) {
@@ -110,7 +111,7 @@ async function traiterFichier() {
     } else {
         afficherMessageFlash("Erreur : aucune donnée exploitable.", 'danger');
     }
-    document.querySelector('.waiting').style.display = 'none';
+    fermerPopup();
 }
 
 

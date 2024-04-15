@@ -32,7 +32,7 @@ if (cookieExists()) {
  * Redirige l'utilisateur vers le site en ligne
  */
 function ouvrirInternet() {
-    window.open('https://webinfo.iutmontp.univ-montp2.fr/~loyet/BRGM/', '_blank');
+    window.open('https://brgm.thomasloye.fr', '_blank');
 }
 
 
