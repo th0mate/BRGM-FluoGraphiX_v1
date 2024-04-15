@@ -6,7 +6,8 @@
 html {
     font-family: 'Gibson-Semi-Bold', sans-serif;
     padding-top: 80px;
-    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
 
 }
 

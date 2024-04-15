@@ -328,7 +328,7 @@ input[type="checkbox"]:checked {
 @media (max-width: 790px) {
 
     .graphique {
-        display: none;
+        display: none!important;
     }
 
     .settings {
