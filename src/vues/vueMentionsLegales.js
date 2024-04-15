@@ -49,7 +49,7 @@ function vueMentionsLegales() {
         <p>Thomas Loye</p>
         <p>Étudiant en Informatique à l'IUT Montpellier - Sète</p>
         <a class="bouton boutonFonce" target="_blank" href="https://thomasloye.fr">Site Internet</a>
-        <a class="bouton boutonClair" target="_blank" href="https://thomasloye.fr">Linkedin</a>
+        <a class="bouton boutonClair" target="_blank" href="www.linkedin.com/in/thomas-loye-b9a615264">Linkedin</a>
         
         
         <h3>Hébergement</h3>
