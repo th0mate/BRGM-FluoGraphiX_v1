@@ -5,6 +5,11 @@ function vueGraphique() {
     <div class="graphiques">
         <canvas class="graphique" id="graphique"></canvas>
         
+        <div class="waiting">
+            <img src="Ressources/img/loading.gif" alt="Chargement">
+            <h2>Veuillez Patienter</h2>
+            <p>Traitement des données en cours - Veuillez patienter...</p>
+        </div>
         
         <div class="infos">
             <img src="Ressources/img/graphiqueIllu.png" alt="Graphique">

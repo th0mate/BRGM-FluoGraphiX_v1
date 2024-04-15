@@ -244,6 +244,25 @@ input[type="checkbox"]:checked {
     display: none;
 }
 
+.waiting {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    width: 300px;
+    padding: 10px;
+    text-align: center;
+}
+
+.waiting > img {
+    width: 100px;
+}
+
+.waiting > h2 {
+    color: var(--orangeBRGM);
+}
+
 
 
 /*
