@@ -19,6 +19,8 @@ function init() {
     nomsTraceur = getNomsTraceurs();
     numeroFluorimetre = getNumeroFluorimetre();
     creerTraceurs();
+    creerTurbidity();
+    console.log(traceurs);
 }
 
 
@@ -72,17 +74,36 @@ function getNomsTraceurs() {
  * @returns {Traceur[]} les objets Traceur créés
  */
 function creerTraceurs() {
+    traceurs = [];
     for (let i = 1; i <= 4; i++) {
         const section = sectionsCalibrat[i].split('\n');
         const nom = section[0].trim();
-        const l1 = parseFloat(section[1].split(/\s+/)[1]);
-        const l2 = parseFloat(section[2].split(/\s+/)[1]);
-        const l3 = parseFloat(section[3].split(/\s+/)[1]);
-        const l4 = parseFloat(section[4].split(/\s+/)[1]);
-        traceurs.push(new Traceur(nom, l1, l2, l3, l4));
+        let traceur = new Traceur(nom);
+
+        for (let j = 0; j < 4; j++) {
+            const ligne = section[j + 1].split(/\s+/);
+            traceur.addData(ligne[0] + '-1', parseFloat(ligne[1]));
+        }
+        traceurs.push(traceur);
     }
-    console.log(traceurs);
-    return traceurs;
+}
+
+
+/**
+ * Crée un objet Traceur de type Turbidité à partir des données du fichier Calibrat.dat
+ */
+function creerTurbidity() {
+    const turbidite = new Traceur('Turbidite');
+    let k = 1;
+    for (let i = 5; i <= 7; i++) {
+        const section = sectionsCalibrat[i].split('\n');
+        for (let j = 0; j < 4; j++) {
+            const ligne = section[j + 1].split(/\s+/);
+            turbidite.addData(ligne[0] + `-${k}`, parseFloat(ligne[1]));
+        }
+        k++;
+    }
+    traceurs.push(turbidite);
 }
 
 /**

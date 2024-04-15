@@ -1,13 +1,39 @@
+/**
+ * Classe Traceur pour la création d'objets Traceur
+ */
 class Traceur {
-    constructor(nom, L1, L2, L3, L4) {
+
+    /**
+     * Constructeur de la classe Traceur
+     * @param nom le nom du traceur
+     */
+    constructor(nom) {
         this.nom = nom;
-        this.L1 = L1;
-        this.L2 = L2;
-        this.L3 = L3;
-        this.L4 = L4;
+        this.data = new Map();
     }
 
+
+    /**
+     * Ajoute une donnée au traceur
+     * @param label le label de la donnée
+     * @param valeur la valeur de la donnée
+     */
+    addData(label, valeur) {
+        this.data.set(label, valeur);
+    }
+
+
+    /**
+     * Récupère une donnée par son label
+     * @param label le label de la donnée
+     * @returns {any} la valeur de la donnée
+     */
+    getDataParNom(label) {
+        return this.data.get(label);
+    }
+
+
     toString() {
-        return "Traceur [L1=" + this.L1 + ", L2=" + this.L2 + ", L3=" + this.L3 + ", L4=" + this.L4 + "]";
+        return this.nom + ' : ' + this.data;
     }
 }
