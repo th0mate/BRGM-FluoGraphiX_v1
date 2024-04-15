@@ -62,6 +62,13 @@ function vueGraphique() {
             </div>        
         </div>
     </div>
+    <div class="annonce">
+        <img src="Ressources/img/perteConnexion.png" alt="Perte de connexion">
+        <h2>Votre appareil n'est pas pris en charge</h2>
+        <h4>L'appareil avec lequel vous utilisez ce site n'a pas un écran suffisamment large pour afficher les données de façon lisible</h4>
+        <h4>Si vous êtes sur ordinateur et que votre fenêtre de votre navigateur est réduite, agrandissez-la au maximum.</h4>
+    </div>
+</div>
 </div>
 
 `;
