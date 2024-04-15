@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="Ressources/styleGraphiques.css">
     <link rel="stylesheet" href="Ressources/styleAccueil.css">
     <link rel="stylesheet" href="Ressources/styleConcentrations.css">
+    <link rel="stylesheet" href="Ressources/styleCookies.css">
 
     <script type="text/javascript" src="src/Modele/HTTP/Cookies.js" defer></script>
     <script type="text/javascript" src="src/Mecanique/MessagesEtPopups.js" defer></script>
@@ -18,6 +19,7 @@
     <script type="text/javascript" src="src/vues/vueGraphique.js" defer></script>
     <script type="text/javascript" src="src/vues/vueConcentrations.js" defer></script>
     <script type="text/javascript" src="src/vues/vueSources.js" defer></script>
+    <script type="text/javascript" src="src/vues/vueCookies.js" defer></script>
 
     <script type="text/javascript" src="src/Modele/DataObject/Traceur.js" defer></script>
 
@@ -102,7 +104,7 @@
     <div class="redirections">
         <div class="action"><span></span>Mentions légales</div>
         <div class="action" onclick="afficherVue('vueSources')"><span></span>Sources du Contenu</div>
-        <div class="action"><span></span>Gestion des cookies</div>
+        <div class="action" onclick="afficherVue('vueCookies')"><span></span>Gestion des cookies</div>
     </div>
 
 </footer>

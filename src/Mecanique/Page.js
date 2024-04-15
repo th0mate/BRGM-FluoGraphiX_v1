@@ -48,6 +48,7 @@ function afficherVue(nomFichier) {
     }
     createCookie(nomFichier);
     document.querySelector('#contenu').innerHTML = window[nomFichier]();
+    window.scrollTo(0, 0);
 
     const element = document.querySelector(`[onclick="afficherVue('${nomFichier}')"]`);
     if (element) {
