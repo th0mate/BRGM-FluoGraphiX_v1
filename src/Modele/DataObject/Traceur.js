@@ -35,6 +35,20 @@ class Traceur {
     }
 
 
+    /**
+     * Récupère un label par sa valeur
+     * @param valeur la valeur de la donnée
+     * @returns {string} le label de la donnée
+     */
+    getLabelParValeur(valeur) {
+        for (let [label, valeur1] of this.data) {
+            if (valeur1 === valeur) {
+                return label;
+            }
+        }
+    }
+
+
     toString() {
         return this.nom + ' : ' + this.data;
     }

@@ -86,23 +86,30 @@ function creerTraceurs() {
             traceur.indice = i;
         }
 
-        if (i !== 1 ) {
+        if (i !== 1) {
             const sectionConcentration = sectionsCalibrat[7 + i].split('\n');
             const nbLignes = parseInt(sectionConcentration[0].charAt(0));
 
-            //TODO
             let valeuraRemplacer = 0;
             let valeurRemplacement = 0;
-            for (let k = nbLignes -1; k >= 0; k--) {
+            for (let k = nbLignes - 1; k >= 0; k--) {
                 const ligne = sectionConcentration[k + 1].split(/\s+/);
-                if (k === nbLignes) {
-                    valeuraRemplacer = parseFloat(ligne[0]);
+                if (k === nbLignes - 1) {
+                    valeuraRemplacer = parseFloat(ligne[1]);
                 } else {
                     valeurRemplacement = parseFloat(ligne[1]);
                 }
-                //traceur.addData(ligne[0] + '-2', parseFloat(ligne[1]));
             }
-            console.log(valeuraRemplacer + ' => ' + valeurRemplacement);
+
+            for (let k = 1; k <= 4; k++) {
+                const idValeuraModifier = traceur.getLabelParValeur(valeuraRemplacer).substring(1, 2);
+                if (k === parseFloat(idValeuraModifier)) {
+                    traceur.addData('L' + parseFloat(idValeuraModifier) + '-2', valeurRemplacement);
+                } else {
+                    traceur.addData('L' + k + '-2', 'NaN');
+                }
+            }
+
         }
 
         traceurs.push(traceur);
@@ -136,7 +143,6 @@ function creerTurbidity() {
 function recupererTraceurParNom(nom) {
     return traceurs.find(traceur => traceur.nom === nom);
 }
-
 
 
 /**
