@@ -83,6 +83,7 @@ function creerTraceurs() {
         for (let j = 0; j < 4; j++) {
             const ligne = section[j + 1].split(/\s+/);
             traceur.addData(ligne[0] + '-1', parseFloat(ligne[1]));
+            traceur.indice = i;
         }
         traceurs.push(traceur);
     }
@@ -100,6 +101,7 @@ function creerTurbidity() {
         for (let j = 0; j < 4; j++) {
             const ligne = section[j + 1].split(/\s+/);
             turbidite.addData(ligne[0] + `-${k}`, parseFloat(ligne[1]));
+            turbidite.indice = 5;
         }
         k++;
     }
