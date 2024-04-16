@@ -12,7 +12,7 @@ function vueMentionsLegales() {
         <h2>En utilisant ce site internet, vous acceptez les conditions générales d'utilisation énoncées ci-après. Le BRGM se réserve le droit de modifier les présentes dispositions à tout moment et sans avis préalable.</h2>
         <br>
     
-        <h1>Éditeur du site</h1>
+        <h1 class="titreBarre">Éditeur du site</h1>
         <p>Ce site internet est édité par le BRGM (Bureau de Recherches Géologiques et Minières). Le BRGM est un établissement public à caractère industriel et commercial (EPIC).</p>
         <h3>Équipe en charge du site</h3>
         <h4>Directeur de la publication</h4>
@@ -44,7 +44,7 @@ function vueMentionsLegales() {
         <p>TVA intracommunautaire : FR67582056149</p>
         
     
-        <h1>Crédits</h1>
+        <h1 class="titreBarre">Crédits</h1>
         <h3>Conception, création et développement du site</h3>
         <p>Thomas Loye</p>
         <p>Étudiant en Informatique à l'IUT Montpellier - Sète</p>
@@ -60,16 +60,16 @@ function vueMentionsLegales() {
         <p>France</p>
         
         
-        <h1>Droit applicable</h1>
+        <h1 class="titreBarre">Droit applicable</h1>
         <p>Le site est régi par la loi française. Les utilisateurs étrangers acceptent formellement l'application de la loi française en visitant ce site et en utilisant tout ou partie des fonctionnalités du site.</p>
       
         
-        <h1>Utilisation du site</h1>
+        <h1 class="titreBarre">Utilisation du site</h1>
         <p>L'utilisation du site est réservée à un usage personnel.</p>
         <p>L'accès au site peut être interrompu à tout moment, sans préavis, notamment en cas de force majeure, de maintenance ou si le BRGM décide de suspendre ou d'arrêter la fourniture de ce service.</p>
         <p>Le BRGM ne saurait être tenu pour responsable de quelconques dommages dus à des dysfonctionnements du site internet.</p>
         
-        <h1>Contenu du site</h1>
+        <h1 class="titreBarre">Contenu du site</h1>
         <p>Le BRGM s'efforce d'assurer, au mieux de ses possibilités, l'exactitude et la mise à jour des informations diffusées, au moment de leur mise en ligne sur le site. Cependant, le BRGM ne garantit en aucune façon l'exactitude, la précision ou l'exhaustivité des informations mises à disposition. Les informations présentes sur le site sont non-contractuelles et peuvent être modifiées à tout moment.</p>
         
         
