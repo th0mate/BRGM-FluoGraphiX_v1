@@ -105,7 +105,8 @@
     align-items: center;
     align-content: center;
     padding-top: 20px;
-    padding-bottom: 40px;
+    padding-bottom: 50px;
+    flex-wrap: wrap;
 }
 
 .actionsRapides > .action {
@@ -123,6 +124,7 @@
     text-decoration: none;
     cursor: pointer;
     position: relative;
+    margin-bottom: 50px;
 }
 
 .actionsRapides > .action > img {
@@ -163,4 +165,33 @@
 
 .actionsRapides > .action:hover > span {
     height: 100%;
+}
+
+
+/*
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------  WRAPS  ---------------------------------------------------------
+ */
+
+.wrapAccueil {
+    width: 95%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}
+
+.wrapAccueil > img {
+    width: 500px;
+}
+
+.wrapAccueil > div {
+    min-width: 50%;
+    max-width: 65%;
+    text-align: left;
+}
+
+.wrapAccueil > div > p {
+    font-size: 1.3em;
 }
