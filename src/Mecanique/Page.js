@@ -3,12 +3,19 @@
  */
 
 
+/**
+ * Affiche une popup d'information
+ */
 if (window.location.protocol === "file:" && navigator.onLine) {
     setTimeout(() => {
         afficherPopup('<img src="Ressources/img/attention.png" alt="Attention">', 'Vous êtes connecté à internet et utilisez ce site en local', 'Pour obtenir de meilleures performances et une meilleure expérience utilisateur, il est recommandé d\'utiliser ce site via internet.', '<div class="bouton boutonFonce" onclick="ouvrirInternet()">Aller sur le site</div><div class="bouton boutonFonce" onclick="fermerPopup()">Continuer en local</div>\n');
     }, 3000);
 }
 
+
+/**
+ * Affiche une popup d'information
+ */
 if (window.location.protocol !== "file:" && navigator.onLine) {
     //TODO : downloadSite
     const random = Math.floor(Math.random() * 7);
@@ -20,6 +27,10 @@ if (window.location.protocol !== "file:" && navigator.onLine) {
     }
 }
 
+
+/**
+ * Affiche la catégorie 'télécharger' si l'utilisateur est connecté à internet
+ */
 if (window.location.protocol !== "file:") {
     let parentElement = document.querySelector('.redirections');
     let middleIndex = Math.floor(parentElement.children.length / 2);
@@ -33,6 +44,9 @@ if (window.location.protocol !== "file:") {
 }
 
 
+/**
+ * Affiche la catégorie 'télécharger' dans la page d'accueil si l'utilisateur est connecté à internet
+ */
 if (cookieExists()) {
     afficherVue(getCookie());
     if (getCookie() === 'vueAccueil') {
