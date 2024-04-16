@@ -19,6 +19,11 @@ function vueSources() {
             <li>© Freepik sur Flaticon</li>
             <li>© Anggara sur Flaticon</li>
             <li>© Smashicons sur Flaticon</li>
+            <li>© Pavel Kozlov sur Flaticon</li>
+            <li>© Dmytro Vyshnevskyi sur Flaticon</li>
+            <li>© Itim2101 sur Flaticon</li>
+            <li>© Itim2101 sur Flaticon</li>
+            <li>© Freepik sur Freepik</li>
         </ul>
     </div>
     `;
