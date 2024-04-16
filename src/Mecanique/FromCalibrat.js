@@ -89,16 +89,20 @@ function creerTraceurs() {
         if (i !== 1 ) {
             const sectionConcentration = sectionsCalibrat[7 + i].split('\n');
             const nbLignes = parseInt(sectionConcentration[0].charAt(0));
-            console.log(sectionConcentration);
-            console.log(nbLignes);
 
-            /*
-            for (let k = 0; k < nbLignes; k++) {
+            //TODO
+            let valeuraRemplacer = 0;
+            let valeurRemplacement = 0;
+            for (let k = nbLignes -1; k >= 0; k--) {
                 const ligne = sectionConcentration[k + 1].split(/\s+/);
-                traceur.addData(ligne[0] + '-2', parseFloat(ligne[1]));
+                if (k === nbLignes) {
+                    valeuraRemplacer = parseFloat(ligne[0]);
+                } else {
+                    valeurRemplacement = parseFloat(ligne[1]);
+                }
+                //traceur.addData(ligne[0] + '-2', parseFloat(ligne[1]));
             }
-
-             */
+            console.log(valeuraRemplacer + ' => ' + valeurRemplacement);
         }
 
         traceurs.push(traceur);
