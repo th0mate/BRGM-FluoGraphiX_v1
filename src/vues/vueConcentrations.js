@@ -1,9 +1,20 @@
 function vueConcentrations() {
-    return `
+    return `    
+    <!--
+    <div class="bannierePage">
+        <img src="Ressources/img/image4.jpg.webp" alt="Sources">
+        <div class="contenu">
+            <p><span onclick="afficherVue('vueAccueil')"><span></span>Accueil</span> <strong> / Concentrations</strong></p>
+            <h1>Concentrations</h1>
+        </div>
+    </div>
+    -->
+    
     <div class="temp">
-    <input type="file" id="calibratInput" onchange="traiterCalibrat()">
-        <p>Zone de tests sur les fichiers Calibrat.</p>
-        <button onclick="downloadSite()">Test dl</button>
+        <input type="file" id="calibratInput" onchange="traiterCalibrat()">
         
-    </div>`;
+        
+    </div>
+
+`;
 }

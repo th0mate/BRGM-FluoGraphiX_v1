@@ -21,6 +21,7 @@ function init() {
     creerTraceurs();
     creerTurbidity();
     console.log(traceurs);
+    afficherSelectTraceurs();
 }
 
 
@@ -71,6 +72,7 @@ function getNomsTraceurs() {
 
 /**
  * Crée des objets de type Traceur à partir des données du fichier Calibrat.dat
+ * C'est également ici que sont définis les attributs LX-2, hormis pour l'eau et la turbidité
  * @returns {Traceur[]} les objets Traceur créés
  */
 function creerTraceurs() {
@@ -83,7 +85,6 @@ function creerTraceurs() {
         for (let j = 0; j < 4; j++) {
             const ligne = section[j + 1].split(/\s+/);
             traceur.addData(ligne[0] + '-1', parseFloat(ligne[1]));
-            traceur.indice = i;
         }
 
         if (i !== 1) {
@@ -128,7 +129,6 @@ function creerTurbidity() {
         for (let j = 0; j < 4; j++) {
             const ligne = section[j + 1].split(/\s+/);
             turbidite.addData(ligne[0] + `-${k}`, parseFloat(ligne[1]));
-            turbidite.indice = 5;
         }
         k++;
     }
@@ -143,6 +143,100 @@ function creerTurbidity() {
 function recupererTraceurParNom(nom) {
     return traceurs.find(traceur => traceur.nom === nom);
 }
+
+
+/**
+ * Affiche dans un div un select permettant de choisir un traceur
+ */
+function afficherSelectTraceurs() {
+    const select = document.createElement('select');
+    select.id = 'selectTraceur';
+    select.classList.add('selectTraceur');
+    select.addEventListener('change', () => {
+        const nom = select.value;
+        const traceur = recupererTraceurParNom(nom);
+        afficherTableauTraceur(traceur);
+    });
+
+    const optionDefaut = document.createElement('option');
+    optionDefaut.value = '';
+    optionDefaut.textContent = 'Choisir un traceur';
+    optionDefaut.selected = true;
+    optionDefaut.disabled = true;
+    select.appendChild(optionDefaut);
+    for (let i = 0; i < traceurs.length; i++) {
+        if (traceurs[i].nom !== 'Eau') {
+            const option = document.createElement('option');
+            option.value = traceurs[i].nom;
+            option.textContent = traceurs[i].nom;
+            select.appendChild(option);
+        }
+    }
+
+    document.querySelector('.temp').appendChild(select);
+}
+
+
+/**
+ * Affiche dans un div un tableau contenant les données d'un traceur : 4 lignes de L1 à L4, et plusieurs colonnes pour tous les LX-Y
+ * @param traceur
+ */
+function afficherTableauTraceur(traceur) {
+    const tableau = document.createElement('table');
+    tableau.classList.add('tableauTraceur');
+    const thead = document.createElement('thead');
+    const tbody = document.createElement('tbody');
+    const tr = document.createElement('tr');
+    const th = document.createElement('th');
+    th.textContent = 'Lignes';
+    tr.appendChild(th);
+    for (let i = 1; i <= 4; i++) {
+        const th = document.createElement('th');
+        th.textContent = 'L' + i;
+        tr.appendChild(th);
+    }
+    for (let i = 1; i <= 4; i++) {
+        const th = document.createElement('th');
+        th.textContent = 'L' + i + '-1';
+        tr.appendChild(th);
+    }
+    for (let i = 1; i <= 4; i++) {
+        const th = document.createElement('th');
+        th.textContent = 'L' + i + '-2';
+        tr.appendChild(th);
+    }
+    thead.appendChild(tr);
+    tableau.appendChild(thead);
+
+    for (let i = 1; i <= 4; i++) {
+        const tr = document.createElement('tr');
+        const th = document.createElement('th');
+        th.textContent = 'L' + i;
+        tr.appendChild(th);
+        for (let j = 1; j <= 4; j++) {
+            const td = document.createElement('td');
+            td.textContent = traceur.getDataParNom('L' + j + '-' + i);
+            tr.appendChild(td);
+        }
+        for (let j = 1; j <= 4; j++) {
+            const td = document.createElement('td');
+            td.textContent = traceur.getDataParNom('L' + j + '-1');
+            tr.appendChild(td);
+        }
+        for (let j = 1; j <= 4; j++) {
+            const td = document.createElement('td');
+            td.textContent = traceur.getDataParNom('L' + j + '-2');
+            tr.appendChild(td);
+        }
+        tbody.appendChild(tr);
+    }
+
+    tableau.appendChild(tbody);
+    document.querySelector('.temp').appendChild(tableau);
+}
+
+
+
 
 
 /**

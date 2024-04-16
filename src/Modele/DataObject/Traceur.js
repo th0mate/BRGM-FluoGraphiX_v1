@@ -8,10 +8,9 @@ class Traceur {
      * @param nom le nom du traceur
      * @param indice l'ordre d'apparition du traceur dans le fichier Calibrat.dat
      */
-    constructor(nom, indice) {
+    constructor(nom) {
         this.nom = nom;
         this.data = new Map();
-        this.indice = indice;
     }
 
 
