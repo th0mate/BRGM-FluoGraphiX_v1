@@ -182,61 +182,54 @@ function afficherSelectTraceurs() {
  * @param traceur
  */
 function afficherTableauTraceur(traceur) {
+
+    if (document.querySelector('.tableauTraceur')) {
+        document.querySelector('.tableauTraceur').remove();
+    }
+
     const tableau = document.createElement('table');
     tableau.classList.add('tableauTraceur');
     const thead = document.createElement('thead');
     const tbody = document.createElement('tbody');
     const tr = document.createElement('tr');
     const th = document.createElement('th');
-    th.textContent = 'Lignes';
+    th.textContent = traceur.nom;
     tr.appendChild(th);
-    for (let i = 1; i <= 4; i++) {
+
+    /**
+     * Les colonnes
+     */
+    const nbColonnes = traceur.data.size / 4;
+    for (let i = 1; i <= nbColonnes; i++) {
         const th = document.createElement('th');
-        th.textContent = 'L' + i;
+        th.textContent = i;
         tr.appendChild(th);
     }
-    for (let i = 1; i <= 4; i++) {
-        const th = document.createElement('th');
-        th.textContent = 'L' + i + '-1';
-        tr.appendChild(th);
-    }
-    for (let i = 1; i <= 4; i++) {
-        const th = document.createElement('th');
-        th.textContent = 'L' + i + '-2';
-        tr.appendChild(th);
-    }
+
     thead.appendChild(tr);
     tableau.appendChild(thead);
 
+    /**
+     * Les lignes
+     */
     for (let i = 1; i <= 4; i++) {
         const tr = document.createElement('tr');
         const th = document.createElement('th');
         th.textContent = 'L' + i;
         tr.appendChild(th);
-        for (let j = 1; j <= 4; j++) {
+
+        for (let j = 1; j <= nbColonnes; j++) {
             const td = document.createElement('td');
-            td.textContent = traceur.getDataParNom('L' + j + '-' + i);
+            td.textContent = traceur.getDataParNom('L' + i + '-' + j);
             tr.appendChild(td);
         }
-        for (let j = 1; j <= 4; j++) {
-            const td = document.createElement('td');
-            td.textContent = traceur.getDataParNom('L' + j + '-1');
-            tr.appendChild(td);
-        }
-        for (let j = 1; j <= 4; j++) {
-            const td = document.createElement('td');
-            td.textContent = traceur.getDataParNom('L' + j + '-2');
-            tr.appendChild(td);
-        }
+
         tbody.appendChild(tr);
     }
 
     tableau.appendChild(tbody);
     document.querySelector('.temp').appendChild(tableau);
 }
-
-
-
 
 
 /**
