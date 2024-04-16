@@ -43,15 +43,18 @@ function vueAccueil() {
                     <h1>Personnalisation</h1>
                     <p>Personnalisez tous les paramètres dont vous avez besoin dans le bandeau de la page dédié.</p>
                 </div>
-                <img src="Ressources/img/screenGraphique.png" alt="">
+                <img class="graphic" src="Ressources/img/screenGraphique.png" alt="">
             </div>
             
             
             <div class="text-container"><h1 class="titreBarre">Automatisation d'actions</h1></div>
             <div class="wrapAccueil">
+                <img src="Ressources/img/optimiser.png" alt="">
                 <div>
-                    <h1>Format de dates automatique</h1>
+                    <h1>Formats de dates automatiques</h1>
                     <p>En joignant votre fichier Calibrat.dat, FluoriGraphix en déduit automatiquement quel format de date appliquer à vos données. Vous pouvez également configurer ce paramètre manuellement.</p>
+                    <h1>Occultation automatique des données constantes</h1>
+                    <p>Les données restant constantes dans les graphiques sont occultées, pour vous permettre de vous concentrer sur l'essentiel. Vous pouvez les afficher à nouveau à tout moment.</p>
                 </div>
             </div>
             
