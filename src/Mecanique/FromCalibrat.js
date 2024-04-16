@@ -85,6 +85,22 @@ function creerTraceurs() {
             traceur.addData(ligne[0] + '-1', parseFloat(ligne[1]));
             traceur.indice = i;
         }
+
+        if (i !== 1 ) {
+            const sectionConcentration = sectionsCalibrat[7 + i].split('\n');
+            const nbLignes = parseInt(sectionConcentration[0].charAt(0));
+            console.log(sectionConcentration);
+            console.log(nbLignes);
+
+            /*
+            for (let k = 0; k < nbLignes; k++) {
+                const ligne = sectionConcentration[k + 1].split(/\s+/);
+                traceur.addData(ligne[0] + '-2', parseFloat(ligne[1]));
+            }
+
+             */
+        }
+
         traceurs.push(traceur);
     }
 }
