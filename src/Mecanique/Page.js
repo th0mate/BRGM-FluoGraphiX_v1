@@ -20,11 +20,23 @@ if (window.location.protocol !== "file:" && navigator.onLine) {
     }
 }
 
+if (window.location.protocol !== "file:") {
+    let parentElement = document.querySelector('.redirections');
+    let middleIndex = Math.floor(parentElement.children.length / 2);
+    let middleChild = parentElement.children[middleIndex];
+
+    middleChild.insertAdjacentHTML('beforebegin',`<div class="action">
+            <img src="Ressources/img/dl.png" alt="aide">
+            TÉLÉCHARGER
+            <span></span>
+        </div>`);
+}
+
 
 if (cookieExists()) {
     afficherVue(getCookie());
     if (getCookie() === 'vueAccueil') {
-        if (window.location.protocol !== "file:") {
+        if (navigator.onLine) {
 
             document.querySelector('.actionsRapides').innerHTML += `
                 <div class="action">

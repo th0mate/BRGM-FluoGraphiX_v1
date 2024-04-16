@@ -239,11 +239,11 @@ nav > .banner {
 }
 
 .bannerLarge {
-    display: block;
+    display: none;
 }
 
 .bannerSmall {
-    display: none;
+    display: block;
 }
 
 nav > .redirections {
@@ -578,7 +578,7 @@ footer > .redirections > .action:hover > span{
     }
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1200px) {
 
     nav > .redirections {
         display: none;
