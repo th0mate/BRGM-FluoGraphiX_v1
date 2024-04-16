@@ -202,7 +202,7 @@ function afficherTableauTraceur(traceur) {
     const nbColonnes = traceur.data.size / 4;
     for (let i = 1; i <= nbColonnes; i++) {
         const th = document.createElement('th');
-        th.textContent = i;
+        th.textContent = '  ' + i;
         tr.appendChild(th);
     }
 

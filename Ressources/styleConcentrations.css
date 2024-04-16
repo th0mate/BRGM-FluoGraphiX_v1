@@ -6,3 +6,9 @@
     align-items: center;
     align-content: center;
 }
+
+.temp > table {
+    width : 250px;
+    text-align: center;
+
+}
