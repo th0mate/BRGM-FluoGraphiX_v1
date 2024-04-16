@@ -23,9 +23,29 @@ if (window.location.protocol !== "file:" && navigator.onLine) {
 
 if (cookieExists()) {
     afficherVue(getCookie());
+    if (getCookie() === 'vueAccueil') {
+        if (window.location.protocol !== "file:") {
+
+            document.querySelector('.actionsRapides').innerHTML += `
+                <div class="action">
+                    <img src="Ressources/img/dl.png" alt="icone">
+                    <h3>Téléchargez la dernière version de FluoriGraphix sur votre ordinateur</h3>
+                    <span></span>
+                </div>`;
+        } else {
+            document.querySelector('.actionsRapides').innerHTML += `
+                <a target="_blank" href="https://brgm.thomasloye.fr" class="action">
+                    <img src="Ressources/img/dl.png" alt="icone">
+                    <h3>Se rendre sur le site en ligne pour télécharger la dernière version de FluoriGraphix</h3>
+                    <span></span>
+                </a>`;
+        }
+    }
 } else {
     afficherVue('vueAccueil');
 }
+
+
 
 
 /**

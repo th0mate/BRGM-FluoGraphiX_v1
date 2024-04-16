@@ -1,16 +1,166 @@
-.maintenance {
-    width: 85%;
-    height: 90vh;
+
+/*
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------  BANNIERE  ------------------------------------------------------
+ */
+
+.accueilBanniere {
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    color: white;
+    overflow: hidden;
+}
+
+.accueilBanniere > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.accueilBanniere > .contenu {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     align-content: center;
     text-align: center;
-    padding-left: 100px;
-    padding-right: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
 }
 
-.maintenance > img {
-    width: 400px;
+
+.accueilBanniere > .contenu > * {
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-top: 50px;
+}
+
+
+.accueilBanniere > .contenu > h1 {
+    font-size: 4em;
+    font-family: 'Gibson-Bold', sans-serif;
+    font-weight: bolder;
+}
+
+.accueilBanniere > .contenu > .bouton {
+    border: 5px solid var(--orangeBRGM);
+    color: white;
+    background-color: var(--orangeBRGM);
+    height: 40px;
+    width: 250px;
+}
+
+
+/*
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------  WRAP  ----------------------------------------------------------
+ */
+
+
+.accueil {
+    padding-top: 50px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: left!important;
+    padding-bottom: 50px;
+}
+
+.accueil > .text-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.accueil > .text-container > .titreBarre {
+    margin-left: 30px;
+}
+
+
+/*
+------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------  ACTIONS RAPIDES  ---------------------------------------------------
+ */
+
+.actionsRapides {
+    width: 98%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+
+.actionsRapides > .action {
+    width: 250px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    padding: 20px;
+    background-color: var(--grisBRGM);
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+}
+
+.actionsRapides > .action > img {
+    width: 120px;
+    z-index: 2;
+}
+
+.actionsRapides > .action > h3 {
+    z-index: 2;
+}
+
+.actionsRapides > .action > span {
+    width: 100%;
+    height: 10px;
+    transition: height 0.5s ease-in-out;
+    z-index: 1;
+    position: absolute;
+    bottom: 0;
+    border-radius: 0;
+    border: none;
+}
+
+.actionsRapides > .action:nth-child(1) > span {
+    background-color: var(--bleuBRGM);
+}
+
+.actionsRapides > .action:nth-child(2) > span {
+    background-color: var(--jauneBRGM);
+}
+
+.actionsRapides > .action:nth-child(3) > span {
+    background-color: var(--vertBRGM);
+}
+
+.actionsRapides > .action:nth-child(4) > span {
+    background-color: var(--roseBRGM);
+}
+
+.actionsRapides > .action:hover > span {
+    height: 100%;
 }

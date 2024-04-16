@@ -6,7 +6,6 @@ class Traceur {
     /**
      * Constructeur de la classe Traceur
      * @param nom le nom du traceur
-     * @param indice l'ordre d'apparition du traceur dans le fichier Calibrat.dat
      */
     constructor(nom) {
         this.nom = nom;

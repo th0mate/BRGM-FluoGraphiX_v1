@@ -168,6 +168,49 @@ h4, h5, h6, p {
 
 /*
 ------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------  TITRES OBLIQUES  -----------------------------------------------------
+ */
+
+.titreBarre {
+    position: relative;
+    color: var(--orangeBRGM);
+    font-size: 2.8em;
+    font-family: 'Gibson-Bold', sans-serif;
+    font-weight: bolder;
+    display: inline-block;
+}
+
+.titreBarre::before {
+    content: "";
+    position: absolute;
+    bottom: calc(100% - 4px);
+    left: calc(50% + 35px);
+    width: 1px;
+    height: 25px;
+    z-index: 0;
+    background-color: var(--orangeBRGM);
+    transform: rotate(45deg);
+
+}
+
+.titreBarre::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: calc(50% - 37px);
+    width: 1px;
+    height: 25px;
+    z-index: 0;
+    transform: rotate(45deg);
+    background-color: currentColor;
+}
+
+
+
+
+
+/*
+------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------  NAVIGATION  ----------------------------------------------------
  */
 
@@ -358,7 +401,6 @@ nav > .redirections > .action {
  */
 
 .bannierePage {
-    /* contient une grande image de fond aléatoire, assombrie , qui prend toute la taile de .bannierePage */
     width: 100%;
     height: 400px;
     background-size: cover;

@@ -122,7 +122,7 @@ function creerTraceurs() {
  * Crée un objet Traceur de type Turbidité à partir des données du fichier Calibrat.dat
  */
 function creerTurbidity() {
-    const turbidite = new Traceur('Turbidite');
+    const turbidite = new Traceur('Turbidité');
     let k = 1;
     for (let i = 5; i <= 7; i++) {
         const section = sectionsCalibrat[i].split('\n');
@@ -178,7 +178,7 @@ function afficherSelectTraceurs() {
 
 
 /**
- * Affiche dans un div un tableau contenant les données d'un traceur : 4 lignes de L1 à L4, et plusieurs colonnes pour tous les LX-Y
+ * Affiche dans une div un tableau contenant les données d'un traceur : 4 lignes de L1 à L4, et plusieurs colonnes pour tous les Y de LX-Y
  * @param traceur
  */
 function afficherTableauTraceur(traceur) {
