@@ -207,6 +207,39 @@ h4, h5, h6, p {
 
 
 
+/*
+------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------  ERREUR 404  -----------------------------------------------------
+ */
+
+.erreur {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    color: black;
+    padding-top: 50px;
+}
+
+.erreur > img {
+    width: 300px;
+}
+
+.erreur > h1 {
+    color: var(--orangeBRGM);
+}
+
+.erreur > .bouton {
+    border: 5px solid var(--orangeBRGM);
+    background-color: #e87b1c;
+    height: 30px;
+    width: 200px;
+}
+
+
+
+
 
 
 /*

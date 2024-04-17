@@ -91,8 +91,7 @@ function ouvrirInternet() {
  */
 function afficherVue(nomFichier) {
     if (!window[nomFichier]) {
-        afficherMessageFlash('Erreur 404 : La page demandée n\'existe pas', 'danger');
-        afficherVue('vueAccueil');
+        afficherVue('vueErreur');
         return;
     }
     createCookie(nomFichier);
