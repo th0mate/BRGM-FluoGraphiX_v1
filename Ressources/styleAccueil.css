@@ -223,3 +223,19 @@
 .wrapAccueil > div > .boutonClair:hover {
     box-shadow: 0 0 0 2px black, inset 0 0 0 2px black;
 }
+
+
+
+/*
+------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------  RESPONSIVE  -----------------------------------------------------
+ */
+
+@media (max-width: 900px) {
+    /*les images et le texte à inverser en colonnes */
+}
+
+
+@media (max-width: 700px) {
+    /* la taille du texte à réduire dans la bannière */
+}
