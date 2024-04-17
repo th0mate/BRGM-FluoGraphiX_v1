@@ -41,6 +41,18 @@ if (window.location.protocol !== "file:") {
             TÉLÉCHARGER
             <span></span>
         </div>`);
+
+    let parentMenu = document.querySelector('.menu');
+    let middleIndexMenu = Math.floor(parentMenu.children.length / 2);
+    let middleChildMenu = parentMenu.children[middleIndexMenu];
+    middleChildMenu.insertAdjacentHTML('beforebegin',`
+        <div class="action" onclick="afficherVue('vueTélécharger')">
+            <div>
+                <img src="Ressources/img/dl.png" alt="aide">
+                <h3>TÉLÉCHARGER</h3>
+            </div>
+            <img src="Ressources/img/droite.png" alt="flèche">
+        </div>`);
 }
 
 
