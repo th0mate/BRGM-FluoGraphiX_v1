@@ -8,7 +8,7 @@ function vueSources() {
         </div>
     </div>
     <div class="sources">
-        <h1>Crédits Photos</h1>
+        <h1 class="titreBarre">Crédits Photos</h1>
         <p>Le crédit photo des images utilisées comme bannières dans les pages est réputé être le suivant : © BRGM</p>
         <p>D'autres photos et illustrations sont utilisées ponctuellement dans certaines pages. Elles portent notamment les crédits suivants :</p>
         <ul>
