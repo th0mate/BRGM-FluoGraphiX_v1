@@ -94,6 +94,7 @@ function afficherVue(nomFichier) {
         afficherVue('vueErreur');
         return;
     }
+    fermerMenu();
     createCookie(nomFichier);
     document.querySelector('#contenu').innerHTML = window[nomFichier]();
     window.scrollTo(0, 0);
@@ -137,5 +138,22 @@ async function downloadSite() {
 
     const zip = await jszip.generateAsync({type: 'blob'});
     saveAs(zip, 'FluoriGraphix.zip');
+}
+
+
+/**
+ * Affiche le menu pour les utilisateurs mobiles
+ */
+function afficherMenu() {
+    document.querySelector('.menu').style.display = 'flex';
+}
+
+/**
+ * Ferme le menu si il est ouvert
+ */
+function fermerMenu() {
+    if (document.querySelector('.menu').style.display === 'flex') {
+        document.querySelector('.menu').style.display = 'none';
+    }
 }
 

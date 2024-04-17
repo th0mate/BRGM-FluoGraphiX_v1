@@ -57,7 +57,6 @@
     </script>
 
 
-
 </head>
 <body>
 
@@ -99,10 +98,51 @@
 
     </div>
 
-    <div class="menuBurger">
+    <div class="menuBurger" onclick="afficherMenu()">
         <span></span>
         <span></span>
         <span></span>
+    </div>
+
+    <div class="menu">
+        <img src="Ressources/img/menu.jpg.webp" alt="background">
+
+        <div class="entete">
+            <img src="Ressources/img/close.png" alt="fermer" onclick="fermerMenu()">
+        </div>
+
+        <div class="action" onclick="afficherVue('vueAccueil')">
+            <div>
+                <img src="Ressources/img/accueil.png" alt="aide">
+                <h3>ACCUEIL</h3>
+            </div>
+            <img src="Ressources/img/droite.png" alt="flèche">
+        </div>
+
+        <div class="action" onclick="afficherVue('vueDocumentation')">
+            <div>
+                <img src="Ressources/img/aide.png" alt="aide">
+                <h3>DOCUMENTATION</h3>
+            </div>
+            <img src="Ressources/img/droite.png" alt="flèche">
+        </div>
+
+        <div class="action" onclick="afficherVue('vueConcentrations')">
+            <div>
+                <img src="Ressources/img/calculatrice.png" alt="aide">
+                <h3>CONCENTRATIONS</h3>
+            </div>
+            <img src="Ressources/img/droite.png" alt="flèche">
+        </div>
+
+        <div class="action" onclick="afficherVue('vueGraphique')">
+            <div>
+                <img src="Ressources/img/graphique.png" alt="graphique">
+                <h3>GRAPHIQUES</h3>
+            </div>
+            <img src="Ressources/img/droite.png" alt="flèche">
+        </div>
+
     </div>
 
 </nav>
