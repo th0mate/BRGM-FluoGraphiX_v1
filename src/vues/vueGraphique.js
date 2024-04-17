@@ -1,10 +1,16 @@
 function vueGraphique() {
     return `
     
-    <br>
+    <div class="bannierePage">
+        <img src="Ressources/img/image5.jpg" alt="Sources">
+        <div class="contenu">
+            <p><span onclick="afficherVue('vueAccueil')"><span></span>Accueil</span> <strong> / Graphiques</strong></p>
+            <h1>Graphiques</h1>
+        </div>
+    </div>
+    
     <div class="graphiques">
-        <canvas class="graphique" id="graphique"></canvas>
-                
+        <canvas class="graphique" id="graphique"></canvas>        
         <div class="infos">
             <img src="Ressources/img/graphiqueIllu.png" alt="Graphique">
             <h2>Importez un fichier et prenez le contrôle de vos données.</h2>

@@ -53,6 +53,7 @@ function afficherGraphique(mvContent) {
     };
 
     const canvas = document.getElementById('graphique');
+    canvas.style.display = 'block';
 
     const existingChart = Chart.getChart(canvas);
     if (existingChart) {
