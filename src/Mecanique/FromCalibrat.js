@@ -98,7 +98,7 @@ function creerTraceurs() {
                 const ligne = sectionConcentration[k + 1].split(/\s+/);
                 //TODO : en cas de soucis avec l'incrémentation automatique en fonction du nombre de calibrations, venir ici
 
-                ajouterEchelle(parseFloat(ligne[0]));
+                traceur.echelles.push(calculerEchelle(parseFloat(ligne[0])));
                 if (traceur.getLabelParValeur(parseFloat(ligne[1])).substring(3, 4) === '1') {
                     valeuraRemplacer = parseFloat(ligne[1]);
                 } else {
@@ -126,13 +126,20 @@ function creerTraceurs() {
 
 
 /**
- * Ajoute dans 'échelles' l'échelle calculée à partir de la puissance de dix passée en paramètre
+ * Calcule une échelle en ppb à partir de la puissance de dix passée en paramètre
  * @param puissanceDix la puissance de dix
+ * @returns {number} l'échelle en ppb
  */
-function ajouterEchelle(puissanceDix) {
-    if (!echelles.includes((Math.pow(10, puissanceDix)) * (Math.pow(10, 9)))) {
-        echelles.push((Math.pow(10, puissanceDix)) * (Math.pow(10, 9)));
-    }
+function calculerEchelle(puissanceDix) {
+    return arrondirSansVirgule((Math.pow(10, puissanceDix)) * (Math.pow(10, 9)));
+}
+
+
+/**
+ * Arrondit un nombre à aucun chiffre après la virgule
+ */
+function arrondirSansVirgule(number) {
+    return Math.round(number);
 }
 
 
@@ -146,9 +153,8 @@ function creerTurbidity() {
         const section = sectionsCalibrat[i].split('\n');
 
         const premierLigne = section[0].split(' ');
-        if (!echelles.includes(parseFloat(premierLigne[0]))) {
-            echelles.push(parseFloat(premierLigne[0]));
-        }
+        turbidite.echelles.push(parseFloat(premierLigne[0]));
+
 
         for (let j = 0; j < 4; j++) {
             const ligne = section[j + 1].split(/\s+/);
@@ -226,7 +232,7 @@ function afficherTableauTraceur(traceur) {
     const nbColonnes = traceur.data.size / 4;
     for (let i = 0; i < nbColonnes; i++) {
         const th = document.createElement('th');
-        th.textContent = echelles[i] + 'ppb';
+        th.textContent = traceur.echelles[i] + 'ppb';
         tr.appendChild(th);
     }
 

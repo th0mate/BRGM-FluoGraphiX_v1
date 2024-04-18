@@ -123,7 +123,7 @@ function traiterCalibrat() {
     let fichier = inputFichier.files[0];
     contenuCalibrat = "";
     if (fichier) {
-        if (fichier.name === "Calibrat.dat") {
+        if (fichier.name.split('.').pop() === "dat"){
             const reader = new FileReader();
             reader.readAsText(fichier);
             reader.onload = function () {

@@ -10,6 +10,7 @@ class Traceur {
     constructor(nom) {
         this.nom = nom;
         this.data = new Map();
+        this.echelles = [];
     }
 
 
