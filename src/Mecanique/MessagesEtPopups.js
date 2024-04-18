@@ -102,7 +102,9 @@ function afficherPopup(imageHTML, titre, contenu, boutonsHTML) {
     overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
     overlay.style.zIndex = '1000';
     document.body.appendChild(overlay);
-    document.body.style.overflow = 'hidden';
+
+    document.body.style.overflowY = 'hidden';
+
 
     let popupHTML = "";
     popupHTML += `<div class='popup'><div class="entete"><img src="Ressources/img/close.png" class="close" onclick="fermerPopup()" alt="fermer"></div> ${imageHTML}<h2>${titre}</h2><h4>${contenu}</h4><div class="conteneurBoutons">${boutonsHTML}</div></div>`;
