@@ -44,6 +44,7 @@ class Traceur {
                 return label;
             }
         }
+        return '';
     }
 
 

@@ -8,6 +8,10 @@ let sectionsCalibrat = [];
 let nomsTraceur = [];
 let numeroFluorimetre = '';
 let traceurs = [];
+let echelle1 = 0;
+let echelle2 = 0;
+let echelle3 = 0;
+let echelle4 = 0;
 
 
 /**
@@ -92,22 +96,27 @@ function creerTraceurs() {
             const nbLignes = parseInt(sectionConcentration[0].charAt(0));
 
             let valeuraRemplacer = 0;
-            let valeurRemplacement = 0;
+            let valeurRemplacement = [];
             for (let k = nbLignes - 1; k >= 0; k--) {
                 const ligne = sectionConcentration[k + 1].split(/\s+/);
-                if (k === nbLignes - 1) {
+                //TODO : en cas de soucis avec l'incrémentation automatique en fonction du nombre de calibrations, venir ici
+
+                console.log(traceur.getLabelParValeur(parseFloat(ligne[1])).substring(3, 4));
+                if (traceur.getLabelParValeur(parseFloat(ligne[1])).substring(3, 4) === '1') {
                     valeuraRemplacer = parseFloat(ligne[1]);
                 } else {
-                    valeurRemplacement = parseFloat(ligne[1]);
+                    valeurRemplacement.push(parseFloat(ligne[1]));
                 }
             }
 
-            for (let k = 1; k <= 4; k++) {
-                const idValeuraModifier = traceur.getLabelParValeur(valeuraRemplacer).substring(1, 2);
-                if (k === parseFloat(idValeuraModifier)) {
-                    traceur.addData('L' + parseFloat(idValeuraModifier) + '-2', valeurRemplacement);
-                } else {
-                    traceur.addData('L' + k + '-2', 'NaN');
+            for (let i = 0; i < valeurRemplacement.length; i++) {
+                for (let k = 1; k <= 4; k++) {
+                    const idValeuraModifier = traceur.getLabelParValeur(valeuraRemplacer).substring(1, 2);
+                    if (k === parseFloat(idValeuraModifier)) {
+                        traceur.addData('L' + parseFloat(idValeuraModifier) + `-${2 + i}`, valeurRemplacement);
+                    } else {
+                        traceur.addData('L' + k + `-${2 + i}`, 'NaN');
+                    }
                 }
             }
 
