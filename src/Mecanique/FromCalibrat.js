@@ -8,10 +8,7 @@ let sectionsCalibrat = [];
 let nomsTraceur = [];
 let numeroFluorimetre = '';
 let traceurs = [];
-let echelle1 = 0;
-let echelle2 = 0;
-let echelle3 = 0;
-let echelle4 = 0;
+let echelles = [];
 
 
 /**
@@ -101,13 +98,14 @@ function creerTraceurs() {
                 const ligne = sectionConcentration[k + 1].split(/\s+/);
                 //TODO : en cas de soucis avec l'incrémentation automatique en fonction du nombre de calibrations, venir ici
 
-                console.log(traceur.getLabelParValeur(parseFloat(ligne[1])).substring(3, 4));
+                ajouterEchelle(parseFloat(ligne[0]));
                 if (traceur.getLabelParValeur(parseFloat(ligne[1])).substring(3, 4) === '1') {
                     valeuraRemplacer = parseFloat(ligne[1]);
                 } else {
                     valeurRemplacement.push(parseFloat(ligne[1]));
                 }
             }
+
 
             for (let i = 0; i < valeurRemplacement.length; i++) {
                 for (let k = 1; k <= 4; k++) {
@@ -128,6 +126,17 @@ function creerTraceurs() {
 
 
 /**
+ * Ajoute dans 'échelles' l'échelle calculée à partir de la puissance de dix passée en paramètre
+ * @param puissanceDix la puissance de dix
+ */
+function ajouterEchelle(puissanceDix) {
+    if (!echelles.includes((Math.pow(10, puissanceDix)) * (Math.pow(10, 9)))) {
+        echelles.push((Math.pow(10, puissanceDix)) * (Math.pow(10, 9)));
+    }
+}
+
+
+/**
  * Crée un objet Traceur de type Turbidité à partir des données du fichier Calibrat.dat
  */
 function creerTurbidity() {
@@ -135,6 +144,12 @@ function creerTurbidity() {
     let k = 1;
     for (let i = 5; i <= 7; i++) {
         const section = sectionsCalibrat[i].split('\n');
+
+        const premierLigne = section[0].split(' ');
+        if (!echelles.includes(parseFloat(premierLigne[0]))) {
+            echelles.push(parseFloat(premierLigne[0]));
+        }
+
         for (let j = 0; j < 4; j++) {
             const ligne = section[j + 1].split(/\s+/);
             turbidite.addData(ligne[0] + `-${k}`, parseFloat(ligne[1]));
@@ -209,9 +224,9 @@ function afficherTableauTraceur(traceur) {
      * Les colonnes
      */
     const nbColonnes = traceur.data.size / 4;
-    for (let i = 1; i <= nbColonnes; i++) {
+    for (let i = 0; i < nbColonnes; i++) {
         const th = document.createElement('th');
-        th.textContent = '  ' + i;
+        th.textContent = echelles[i] + 'ppb';
         tr.appendChild(th);
     }
 
