@@ -83,6 +83,10 @@ function creerTraceurs() {
         const nom = section[0].trim();
         let traceur = new Traceur(nom);
 
+        //14
+        traceur.echelles.push(arrondirSansVirgule(sectionsCalibrat[14].split('  ')[0]));
+
+
         for (let j = 0; j < 4; j++) {
             const ligne = section[j + 1].split(/\s+/);
             traceur.addData(ligne[0] + '-1', parseFloat(ligne[1]));
@@ -96,9 +100,10 @@ function creerTraceurs() {
             let valeurRemplacement = [];
             for (let k = nbLignes - 1; k >= 0; k--) {
                 const ligne = sectionConcentration[k + 1].split(/\s+/);
-                //TODO : en cas de soucis avec l'incrémentation automatique en fonction du nombre de calibrations, venir ici
 
-                traceur.echelles.push(calculerEchelle(parseFloat(ligne[0])));
+                if (!traceur.echelles.includes(calculerEchelle(parseFloat(ligne[0])))) {
+                    traceur.echelles.push(calculerEchelle(parseFloat(ligne[0])));
+                }
                 if (traceur.getLabelParValeur(parseFloat(ligne[1])).substring(3, 4) === '1') {
                     valeuraRemplacer = parseFloat(ligne[1]);
                 } else {
@@ -106,16 +111,21 @@ function creerTraceurs() {
                 }
             }
 
-            console.log(valeurRemplacement);
-
-
-            for (let i = 0; i < valeurRemplacement.length; i++) {
+            for (let j = 0; j < valeurRemplacement.length; j++) {
                 for (let k = 1; k <= 4; k++) {
-                    const idValeuraModifier = traceur.getLabelParValeur(valeuraRemplacer).substring(1, 2);
-                    if (k === parseFloat(idValeuraModifier)) {
-                        traceur.addData('L' + parseFloat(idValeuraModifier) + `-${2 + i}`, valeurRemplacement[i]);
+                    if (valeuraRemplacer) {
+                        const idValeuraModifier = traceur.getLabelParValeur(valeuraRemplacer).substring(1, 2);
+                        if (k === parseFloat(idValeuraModifier)) {
+                            traceur.addData('L' + parseFloat(idValeuraModifier) + `-${2 + j}`, valeurRemplacement[j]);
+                        } else {
+                            traceur.addData('L' + k + `-${2 + j}`, 'NaN');
+                        }
                     } else {
-                        traceur.addData('L' + k + `-${2 + i}`, 'NaN');
+                        if (i - 1 === k) {
+                            traceur.addData('L' + k + `-${2 + j}`, valeurRemplacement[j]);
+                        } else {
+                            traceur.addData('L' + k + `-${2 + j}`, 'NaN');
+                        }
                     }
                 }
             }
