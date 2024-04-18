@@ -30,7 +30,7 @@ function afficherGraphique(mvContent) {
     }
 
     for (let i = 0; i < header.length; i++) {
-        if (header[i]!== '' && header[i] !== 'R' && header[i] !== '    ' && header[i] !== '  ') {
+        if (header[i] !== '' && header[i] !== 'R' && header[i] !== '    ' && header[i] !== '  ') {
 
 
             if (i >= couleurs.length) {
@@ -152,10 +152,6 @@ function afficherGraphique(mvContent) {
 }
 
 
-
-
-
-
 /**
  * Return true si le string passé en paramètre contient ne contient que des duplications du même nombre
  * @param string le string - donc la colonne de données à vérifier
@@ -201,4 +197,105 @@ function getRandomColor() {
 }
 
 
+/**
+ * Affiche un graphique pour un traceur donné de ses LX en fonction de la valeur des signaux
+ * @param traceur le traceur à afficher
+ */
+function afficherGraphiqueTraceur(traceur) {
+    let labels = traceur.echelles;
+    let datasets = [];
+    let maxDataLength = 0;
+    let maxDataIndex = 0;
+
+    for (let i = 1; i <= 4; i++) {
+        let data = [];
+        for (let j = 0; j < labels.length; j++) {
+            const value = traceur.getDataParNom('L' + i + '-' + (j + 1));
+            if (value !== null && value !== 'NaN') {
+                data.push({x: labels[j], y: value});
+            }
+        }
+
+        data = data.filter((point) => !isNaN(point.x) && !isNaN(point.y));
+
+
+        data.unshift({x: '0', y: 0});
+
+        if (data.length > maxDataLength) {
+            maxDataLength = data.length;
+            maxDataIndex = datasets.length;
+        }
+
+        let hiddenStatus = false;
+        if (data.length > 1 && data[0].x === '0') {
+            hiddenStatus = true;
+        }
+
+        datasets.push({
+            label: 'L' + i,
+            data: data,
+            borderColor: getRandomColor(),
+            borderWidth: 2,
+            fill: false,
+            hidden: hiddenStatus,
+            tension: 0.1
+        });
+    }
+
+    // Suppression et ajout du label '0' au début des labels si nécessaire
+    for (let i = 0; i < datasets.length; i++) {
+        if (datasets[i].data.length > 1) {
+            labels = labels.filter(label => label !== '0');
+            labels.unshift('0');
+            break;
+        }
+    }
+
+    datasets[maxDataIndex].hidden = false;
+
+    if (document.getElementById('traceur')) {
+        document.getElementById('traceur').remove();
+    }
+
+    const canvas = document.createElement('canvas');
+    canvas.id = 'traceur';
+    canvas.style.display = 'block';
+    document.querySelector('.temp').appendChild(canvas);
+
+    const ctx = document.getElementById('traceur').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: datasets
+        },
+        options: {
+            scales: {
+                x: {
+                    type: 'category',
+                    labels: labels,
+                    position: 'bottom',
+                    beginAtZero: false
+                },
+                y: {
+                    beginAtZero: false
+                }
+            },
+            plugins: {
+                crosshair: {
+                    enabled: true,
+                    line: {color: 'rgba(255, 0, 0, 0.5)', width: 2},
+                    sync: {
+                        enabled: true,
+                    },
+                },
+            },
+            elements: {
+                point: {
+                    radius: 2
+                }
+            }
+        }
+    });
+}
 

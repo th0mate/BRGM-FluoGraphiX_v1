@@ -83,7 +83,6 @@ function creerTraceurs() {
         const nom = section[0].trim();
         let traceur = new Traceur(nom);
 
-        //14
         traceur.echelles.push(arrondirSansVirgule(sectionsCalibrat[14].split('  ')[0]));
 
 
@@ -198,6 +197,7 @@ function afficherSelectTraceurs() {
         const nom = select.value;
         const traceur = recupererTraceurParNom(nom);
         afficherTableauTraceur(traceur);
+        afficherGraphiqueTraceur(traceur);
     });
 
     const optionDefaut = document.createElement('option');
