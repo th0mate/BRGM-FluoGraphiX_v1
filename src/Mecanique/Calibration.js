@@ -17,7 +17,6 @@ function parametrerSiteDepuisCalibrat(string) {
         format = 2;
         formatTexte = 'aa/mm/jj';
     }
-    console.log('contenuFichier', contenuFichier);
 
     const inputFichier = document.getElementById('fileInput');
     let fichiers = Array.from(inputFichier.files);

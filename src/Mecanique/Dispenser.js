@@ -76,7 +76,7 @@ async function traiterFichier() {
                         }
                     });
                 });
-            } else if (fichier.name === "Calibrat.dat") {
+            } else if (fichier.name.split('.').pop() === "dat") {
                 const reader = new FileReader();
                 reader.readAsText(fichier);
                 await new Promise((resolve) => {
@@ -106,8 +106,8 @@ async function traiterFichier() {
         }
     } else if (contenuCalibrat !== "") {
         afficherMessageFlash("Fichier Calibrat.dat détecté. Redirection.", 'info');
-        init();
         afficherVue('vueConcentrations');
+        init();
     } else {
         afficherMessageFlash("Erreur : aucune donnée exploitable.", 'danger');
     }
