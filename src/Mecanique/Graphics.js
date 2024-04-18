@@ -207,19 +207,19 @@ function afficherGraphiqueTraceur(traceur) {
     let maxDataLength = 0;
     let maxDataIndex = 0;
 
+
     for (let i = 1; i <= 4; i++) {
         let data = [];
         for (let j = 0; j < labels.length; j++) {
             const value = traceur.getDataParNom('L' + i + '-' + (j + 1));
             if (value !== null && value !== 'NaN') {
-                data.push({x: labels[j], y: value});
+                data.push({x: value, y: labels[j]});
             }
         }
 
+
         data = data.filter((point) => !isNaN(point.x) && !isNaN(point.y));
 
-
-        data.unshift({x: '0', y: 0});
 
         if (data.length > maxDataLength) {
             maxDataLength = data.length;
@@ -238,15 +238,16 @@ function afficherGraphiqueTraceur(traceur) {
             borderWidth: 2,
             fill: false,
             hidden: hiddenStatus,
-            tension: 0.1
+            showLine: false,
+            pointStyle: 'cross'
         });
     }
 
-    // Suppression et ajout du label '0' au début des labels si nécessaire
+
     for (let i = 0; i < datasets.length; i++) {
         if (datasets[i].data.length > 1) {
-            labels = labels.filter(label => label !== '0');
-            labels.unshift('0');
+            labels = labels.filter(label => label !== 0);
+            labels.unshift(0);
             break;
         }
     }
@@ -266,19 +267,19 @@ function afficherGraphiqueTraceur(traceur) {
     new Chart(ctx, {
         type: 'line',
         data: {
-            labels: labels,
+            labels: labels.map(String),
             datasets: datasets
         },
         options: {
             scales: {
                 x: {
-                    type: 'category',
-                    labels: labels,
+                    type: 'linear',
                     position: 'bottom',
-                    beginAtZero: false
+                    beginAtZero: true
                 },
                 y: {
-                    beginAtZero: false
+                    type: 'linear',
+                    beginAtZero: true
                 }
             },
             plugins: {
@@ -292,10 +293,12 @@ function afficherGraphiqueTraceur(traceur) {
             },
             elements: {
                 point: {
-                    radius: 2
+                    radius: 5
                 }
             }
         }
     });
 }
+
+
 
