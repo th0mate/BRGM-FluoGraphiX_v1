@@ -2,8 +2,6 @@
  * Traite les données pour les afficher sous forme de graphique
  * @param mvContent le contenu du fichier .mv à afficher
  */
-
-//TODO : à un moment donné il y a un retour en arrière sur les dates, qui ne sort de nulle part
 function afficherGraphique(mvContent) {
     const couleurs = ['rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)', 'rgba(54, 162, 235, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 206, 86, 1)', 'rgba(255, 159, 64, 1)', 'rgba(255, 99, 132, 1)', 'rgb(249,158,255)'];
     const lignes = mvContent.split('\n');
@@ -13,18 +11,25 @@ function afficherGraphique(mvContent) {
     const header = lignes[2].split(/ {2,}/).slice(3);
 
     const dataColumns = header.map(() => []);
+    let lastDate = null;
 
     for (let i = 3; i < lignes.length; i++) {
         const colonnes = lignes[i].split(/\s+/);
         const timeValue = colonnes[2];
 
-        const timeDate = moment(timeValue, 'DD/MM/YY-HH:mm:ss', true);
+        const timeDate = moment.tz(timeValue, 'DD/MM/YY-HH:mm:ss', 'Europe/Paris');
         if (timeDate.isValid()) {
-            labels.push(timeDate.toISOString());
+            if (lastDate && timeDate.isBefore(lastDate)) {
+                console.warn('Date inférieure à la précédente :', timeDate);
+                continue;
+            }
+
+            labels.push(timeDate);
+            lastDate = timeDate;
 
             for (let j = 0; j < dataColumns.length; j++) {
                 const value = around(parseFloat(colonnes[j + 3]));
-                dataColumns[j].push({x: timeDate.toISOString(), y: value});
+                dataColumns[j].push({x: timeDate, y: value});
             }
         }
     }
@@ -46,6 +51,8 @@ function afficherGraphique(mvContent) {
             });
         }
     }
+
+    console.log(labels);
 
     const data = {
         labels: labels,
@@ -69,7 +76,7 @@ function afficherGraphique(mvContent) {
                 x: {
                     type: 'time',
                     time: {
-                        parser: 'YYYY-MM-DDTHH:mm:ss.SSSZ',
+                        parser: 'DD/MM/YY-HH:mm:ss',
                         unit: 'minute',
                         displayFormats: {
                             minute: 'DD/MM/YYYY-HH:mm:SS'
