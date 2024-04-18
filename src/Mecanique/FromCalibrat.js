@@ -106,12 +106,14 @@ function creerTraceurs() {
                 }
             }
 
+            console.log(valeurRemplacement);
+
 
             for (let i = 0; i < valeurRemplacement.length; i++) {
                 for (let k = 1; k <= 4; k++) {
                     const idValeuraModifier = traceur.getLabelParValeur(valeuraRemplacer).substring(1, 2);
                     if (k === parseFloat(idValeuraModifier)) {
-                        traceur.addData('L' + parseFloat(idValeuraModifier) + `-${2 + i}`, valeurRemplacement);
+                        traceur.addData('L' + parseFloat(idValeuraModifier) + `-${2 + i}`, valeurRemplacement[i]);
                     } else {
                         traceur.addData('L' + k + `-${2 + i}`, 'NaN');
                     }
