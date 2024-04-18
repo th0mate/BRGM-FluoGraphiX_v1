@@ -3,7 +3,7 @@
  * @param mvContent le contenu du fichier .mv à afficher
  */
 
-
+//TODO : à un moment donné il y a un retour en arrière sur les dates, qui ne sort de nulle part
 function afficherGraphique(mvContent) {
     const couleurs = ['rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)', 'rgba(54, 162, 235, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 206, 86, 1)', 'rgba(255, 159, 64, 1)', 'rgba(255, 99, 132, 1)', 'rgb(249,158,255)'];
     const lignes = mvContent.split('\n');
@@ -87,34 +87,6 @@ function afficherGraphique(mvContent) {
                 }
             },
             plugins: {
-                annotation: {
-                    annotations: [
-                        {
-                            type: 'line',
-                            mode: 'vertical',
-                            scaleID: 'x',
-                            value: '2023-10-17T23:00:00.000Z',
-                            borderColor: 'red',
-                            borderWidth: 2,
-                            label: {
-                                content: 'Label 1',
-                                enabled: true
-                            }
-                        },
-                        {
-                            type: 'line',
-                            mode: 'vertical',
-                            scaleID: 'x',
-                            value: '2023-10-17T23:05:00.000Z',
-                            borderColor: 'blue',
-                            borderWidth: 2,
-                            label: {
-                                content: 'Label 2',
-                                enabled: true
-                            }
-                        }
-                    ]
-                },
                 crosshair: {
                     enabled: true,
                     line: {color: 'rgba(255, 0, 0, 0.5)', width: 2},
