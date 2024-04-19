@@ -169,10 +169,44 @@ function cacherDoublons() {
  * @returns {string} une couleur aléatoire en rgba
  */
 function getRandomColor() {
-    const r = Math.floor(Math.random() * 256);
-    const g = Math.floor(Math.random() * 256);
-    const b = Math.floor(Math.random() * 256);
-    return `rgba(${r},${g},${b},1)`;
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    let isLight = false;
+    while (!isLight) {
+        color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        isLight = !isColorLight(color);
+    }
+    return color;
+}
+
+
+/**
+ * Retourne true si la couleur passée en paramètre est claire
+ * @param color la couleur à vérifier
+ * @returns {boolean} true si la couleur est claire
+ */
+function isColorLight(color) {
+    const rgb = hexToRgb(color);
+    const hsp = Math.sqrt(
+        0.299 * (rgb.r * rgb.r) +
+        0.587 * (rgb.g * rgb.g) +
+        0.114 * (rgb.b * rgb.b)
+    );
+    return hsp > 127.5;
+}
+
+
+/**
+ * Convertit une couleur hexadécimale en RGB
+ * @param hex la couleur hexadécimale
+ * @returns {{r: number, b: number, g: number}} la couleur en RGB
+ */
+function hexToRgb(hex) {
+    const bigint = parseInt(hex.slice(1), 16);
+    return {r: (bigint >> 16) & 255, g: (bigint >> 8) & 255, b: bigint & 255};
 }
 
 

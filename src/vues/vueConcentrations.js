@@ -21,10 +21,16 @@ function vueConcentrations() {
                 
                 <div id="selectTraceur">
                     <h4>Traceur à analyser</h4>
+                    <select disabled class="selectTraceur">
+                        <option disabled selected>Importez un fichier d'abord</option>
+                    </select>
                 </div>
                 
                 <div id="selectLigne">
                     <h4>Signaux à afficher</h4>
+                    <select disabled class="selectLigne">
+                        <option disabled selected>Importez un fichier d'abord</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -32,7 +38,12 @@ function vueConcentrations() {
         <div class="descriptionConcentration"></div>
         
         <div class="donnees">
-        
+            <div class="infosConcentration">
+                <img src="Ressources/img/data.png" alt="">
+                <h2>Visualisez et calculez en un clin d'oeil</h2>
+                <p>Importez un fichier .dat, puis sélectionner le traceur désiré et la ligne que vous souhaitez visualiser, et laissez la magie opérer.</p>
+                <div class="boutonClair bouton">COMMENCER</div>                
+            </div>
         </div>
         
     
