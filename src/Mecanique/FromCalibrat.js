@@ -17,8 +17,8 @@ let echelles = [];
 function init() {
     if (contenuCalibrat !== '') {
 
-        if (document.getElementById('traceur')) {
-            document.getElementById('traceur').remove();
+        if (document.getElementById('graphiqueTraceur')) {
+            document.getElementById('graphiqueTraceur').remove();
         }
 
         if (document.querySelector('.tableauTraceur')) {
@@ -240,7 +240,7 @@ function afficherSelectTraceurs() {
         idData = maxDataIndex;
 
         afficherTableauTraceur(traceur);
-        afficherSelectLigne(idData);
+        afficherSelectLigne(idData, traceur);
         afficherGraphiqueTraceur(traceur, idData);
     });
 
@@ -259,14 +259,15 @@ function afficherSelectTraceurs() {
         }
     }
 
-    document.querySelector('.concentrations').appendChild(select);
+    document.querySelector('#selectTraceur').appendChild(select);
 }
 
 /**
  * Affiche un sélect pour choisir une ligne parmi L1, L2, L3 et L4, avec comme valeur par défaut idData
  * @param idData la valeur par défaut
+ * @param traceur le traceur
  */
-function afficherSelectLigne(idData) {
+function afficherSelectLigne(idData, traceur) {
     if (document.querySelector('.selectLigne')) {
         document.querySelector('.selectLigne').remove();
     }
@@ -275,8 +276,6 @@ function afficherSelectLigne(idData) {
     select.id = 'selectLigne';
     select.classList.add('selectLigne');
     select.addEventListener('change', () => {
-        const nom = document.getElementById('selectTraceur').value;
-        const traceur = recupererTraceurParNom(nom);
         const idData = parseInt(select.value);
         afficherGraphiqueTraceur(traceur, idData);
     });
@@ -291,7 +290,7 @@ function afficherSelectLigne(idData) {
         select.appendChild(option);
     }
 
-    document.querySelector('.concentrations').appendChild(select);
+    document.querySelector('#selectLigne').appendChild(select);
 }
 
 
@@ -346,7 +345,7 @@ function afficherTableauTraceur(traceur) {
     }
 
     tableau.appendChild(tbody);
-    document.querySelector('.concentrations').appendChild(tableau);
+    document.querySelector('.donnees').appendChild(tableau);
 }
 
 

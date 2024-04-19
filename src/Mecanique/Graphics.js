@@ -183,6 +183,7 @@ function getRandomColor() {
  */
 function afficherGraphiqueTraceur(traceur, idData) {
     let labels = traceur.echelles;
+    console.log(traceur);
     let datasets = [];
     let maxDataLength = 0;
     let maxDataIndex = 0;
@@ -244,16 +245,16 @@ function afficherGraphiqueTraceur(traceur, idData) {
     }
 
 
-    if (document.getElementById('traceur')) {
-        document.getElementById('traceur').remove();
+    if (document.getElementById('graphiqueTraceur')) {
+        document.getElementById('graphiqueTraceur').remove();
     }
 
     const canvas = document.createElement('canvas');
-    canvas.id = 'traceur';
+    canvas.id = 'graphiqueTraceur';
     canvas.style.display = 'block';
-    document.querySelector('.concentrations').appendChild(canvas);
+    document.querySelector('.donnees').appendChild(canvas);
 
-    const ctx = document.getElementById('traceur').getContext('2d');
+    const ctx = document.getElementById('graphiqueTraceur').getContext('2d');
     new Chart(ctx, {
         type: 'line',
         data: {
@@ -291,7 +292,7 @@ function afficherGraphiqueTraceur(traceur, idData) {
             },
             elements: {
                 point: {
-                    radius: 5
+                    radius: 10
                 }
             }
         }
