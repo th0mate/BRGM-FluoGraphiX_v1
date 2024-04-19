@@ -15,14 +15,18 @@ let echelles = [];
  * Initialise les variables issues du fichier Calibrat.dat nécessaires pour le calcul de la régression linéaire
  */
 function init() {
-    lignesCalibrat = contenuCalibrat.split('\n');
-    sectionsCalibrat = getSectionsCalibrat();
-    nomsTraceur = getNomsTraceurs();
-    numeroFluorimetre = getNumeroFluorimetre();
-    creerTraceurs();
-    creerTurbidity();
-    console.log(traceurs);
-    afficherSelectTraceurs();
+    if (contenuCalibrat !== '') {
+        lignesCalibrat = contenuCalibrat.split('\n');
+        sectionsCalibrat = getSectionsCalibrat();
+        nomsTraceur = getNomsTraceurs();
+        numeroFluorimetre = getNumeroFluorimetre();
+        creerTraceurs();
+        creerTurbidity();
+        console.log(traceurs);
+        afficherSelectTraceurs();
+    } else {
+        afficherMessageFlash('Erreur : aucune donnée exploitable.', 'danger');
+    }
 }
 
 
@@ -190,6 +194,9 @@ function recupererTraceurParNom(nom) {
  * Affiche dans un div un select permettant de choisir un traceur
  */
 function afficherSelectTraceurs() {
+    if (document.querySelector('.selectTraceur')) {
+        document.querySelector('.selectTraceur').remove();
+    }
     const select = document.createElement('select');
     select.id = 'selectTraceur';
     select.classList.add('selectTraceur');
@@ -215,7 +222,7 @@ function afficherSelectTraceurs() {
         }
     }
 
-    document.querySelector('.temp').appendChild(select);
+    document.querySelector('.concentrations').appendChild(select);
 }
 
 
@@ -270,7 +277,7 @@ function afficherTableauTraceur(traceur) {
     }
 
     tableau.appendChild(tbody);
-    document.querySelector('.temp').appendChild(tableau);
+    document.querySelector('.concentrations').appendChild(tableau);
 }
 
 

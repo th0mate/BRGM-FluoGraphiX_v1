@@ -240,7 +240,7 @@ function afficherGraphiqueTraceur(traceur) {
     const canvas = document.createElement('canvas');
     canvas.id = 'traceur';
     canvas.style.display = 'block';
-    document.querySelector('.temp').appendChild(canvas);
+    document.querySelector('.concentrations').appendChild(canvas);
 
     const ctx = document.getElementById('traceur').getContext('2d');
     new Chart(ctx, {
