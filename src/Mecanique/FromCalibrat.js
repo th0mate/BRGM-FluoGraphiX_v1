@@ -16,6 +16,19 @@ let echelles = [];
  */
 function init() {
     if (contenuCalibrat !== '') {
+
+        if (document.getElementById('traceur')) {
+            document.getElementById('traceur').remove();
+        }
+
+        if (document.querySelector('.tableauTraceur')) {
+            document.querySelector('.tableauTraceur').remove();
+        }
+
+        if (document.querySelector('.selectTraceur')) {
+            document.querySelector('.selectTraceur').remove();
+        }
+
         lignesCalibrat = contenuCalibrat.split('\n');
         sectionsCalibrat = getSectionsCalibrat();
         nomsTraceur = getNomsTraceurs();
@@ -194,9 +207,7 @@ function recupererTraceurParNom(nom) {
  * Affiche dans un div un select permettant de choisir un traceur
  */
 function afficherSelectTraceurs() {
-    if (document.querySelector('.selectTraceur')) {
-        document.querySelector('.selectTraceur').remove();
-    }
+
     const select = document.createElement('select');
     select.id = 'selectTraceur';
     select.classList.add('selectTraceur');
@@ -204,7 +215,7 @@ function afficherSelectTraceurs() {
         const nom = select.value;
         const traceur = recupererTraceurParNom(nom);
         afficherTableauTraceur(traceur);
-        afficherGraphiqueTraceur(traceur);
+        afficherGraphiqueTraceur(traceur, 1);
     });
 
     const optionDefaut = document.createElement('option');

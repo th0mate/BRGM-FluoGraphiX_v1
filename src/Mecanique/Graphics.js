@@ -179,15 +179,25 @@ function getRandomColor() {
 /**
  * Affiche un graphique pour un traceur donné de ses LX en fonction de la valeur des signaux
  * @param traceur le traceur à afficher
+ * @param idData l'id du traceur
  */
-function afficherGraphiqueTraceur(traceur) {
+function afficherGraphiqueTraceur(traceur, idData) {
     let labels = traceur.echelles;
     let datasets = [];
     let maxDataLength = 0;
     let maxDataIndex = 0;
 
 
-    for (let i = 1; i <= 4; i++) {
+    //on récupère ici le nombre de valeurs de LX-idData
+    let nbValeurs = 0;
+    for (let i = 0; i < labels.length; i++) {
+        const value = traceur.getDataParNom('L'+ idData + '-' + (i + 1));
+        if (value !== null && value !== 'NaN' && !isNaN(value)) {
+            nbValeurs++;
+        }
+    }
+
+    for (let i = 1; i <= nbValeurs; i++) {
         let data = [];
         for (let j = 0; j < labels.length; j++) {
             const value = traceur.getDataParNom('L' + i + '-' + (j + 1));
@@ -210,16 +220,18 @@ function afficherGraphiqueTraceur(traceur) {
             hiddenStatus = true;
         }
 
-        datasets.push({
-            label: 'L' + i,
-            data: data,
-            borderColor: getRandomColor(),
-            borderWidth: 2,
-            fill: false,
-            hidden: hiddenStatus,
-            showLine: false,
-            pointStyle: 'cross'
-        });
+        if (i === idData) {
+            datasets.push({
+                label: 'L' + i,
+                data: data,
+                borderColor: getRandomColor(),
+                borderWidth: 2,
+                fill: false,
+                hidden: hiddenStatus,
+                showLine: false,
+                pointStyle: 'cross'
+            });
+        }
     }
 
 
@@ -231,7 +243,6 @@ function afficherGraphiqueTraceur(traceur) {
         }
     }
 
-    datasets[maxDataIndex].hidden = false;
 
     if (document.getElementById('traceur')) {
         document.getElementById('traceur').remove();
