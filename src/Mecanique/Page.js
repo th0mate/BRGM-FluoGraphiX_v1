@@ -170,5 +170,7 @@ function fermerMenu() {
 }
 
 window.addEventListener('popstate', function(event) {
-    afficherVue('vueAccueil');
+    if (getCookie() !== 'vueAccueil') {
+        afficherVue('vueAccueil');
+    }
 });
