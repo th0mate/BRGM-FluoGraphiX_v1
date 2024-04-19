@@ -169,3 +169,6 @@ function fermerMenu() {
     }
 }
 
+window.addEventListener('popstate', function(event) {
+    afficherVue('vueAccueil');
+});
