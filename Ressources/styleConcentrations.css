@@ -45,7 +45,7 @@
     align-content: center;
 }
 
-/* pour toutes les .wrap > div sauf la dernière */
+
 .concentrations > .bandeau > .wrap > div:not(:last-child) {
     padding-right: 100px;
     border-right: 2px solid white;
@@ -97,7 +97,8 @@
 }
 
 .donnees > table {
-    min-width: 400px;
+    min-width: 35%;
+    max-width: 45%;
     text-align: center;
     color: white;
     border: 5px solid var(--grisBRGM);
@@ -129,7 +130,7 @@
 }
 
 #graphiqueTraceur {
-    max-width: 550px;
+    max-width: 50%;
     height: auto!important;
     max-height: 300px;
     margin: auto;
@@ -168,5 +169,10 @@
     .donnees > table {
         max-width: 98%;
         min-width: 90%;
+    }
+
+    #graphiqueTraceur {
+        max-width: 90%;
+        min-width: 85%;
     }
 }
