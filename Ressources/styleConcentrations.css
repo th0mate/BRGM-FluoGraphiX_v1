@@ -47,7 +47,7 @@
 
 /* pour toutes les .wrap > div sauf la dernière */
 .concentrations > .bandeau > .wrap > div:not(:last-child) {
-    padding-right: 30px;
+    padding-right: 100px;
     border-right: 2px solid white;
 }
 
@@ -134,4 +134,39 @@
     max-height: 300px;
     margin: auto;
     margin-top: 60px;
+}
+
+
+/*
+------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------  RESPONSIVE  ---------------------------------------------------
+ */
+
+@media (max-width: 800px) {
+
+    .bandeau {
+        width: auto!important;
+        min-width: 90%!important;
+    }
+
+    .bandeau > .wrap {
+        flex-direction: column!important;
+        align-items: center!important;
+    }
+
+    .bandeau > .wrap > div {
+        width: 98%!important;
+    }
+
+    .bandeau > .wrap > div:not(:last-child) {
+        border-right: none!important;
+        padding-right: 0!important;
+        border-bottom: 2px solid white;
+        padding-bottom: 10px;
+    }
+
+    .donnees > table {
+        max-width: 98%;
+        min-width: 90%;
+    }
 }
