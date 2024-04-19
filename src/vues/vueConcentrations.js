@@ -29,6 +29,8 @@ function vueConcentrations() {
             </div>
         </div>
         
+        <div class="descriptionConcentration"></div>
+        
         <div class="donnees">
         
         </div>

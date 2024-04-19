@@ -85,6 +85,21 @@
     background-color: var(--grisBRGM);
 }
 
+.descriptionConcentration {
+    width: 98%;
+    text-align: left;
+    font-size: 1.2em;
+}
+
+.descriptionConcentration > h2 {
+    margin-left: 10px;
+    margin-bottom: 0;
+}
+
+.descriptionConcentration > h2 > span {
+    color: var(--orangeBRGM);
+}
+
 .donnees {
     width: 95%;
     display: flex;
@@ -92,7 +107,6 @@
     justify-content: space-between;
     align-items: center;
     align-content: center;
-    margin-top: 50px;
     flex-wrap: wrap;
 }
 
@@ -175,6 +189,7 @@
     .donnees > table {
         max-width: 98%;
         min-width: 90%;
+        margin-top: 30px;
     }
 
     #graphiqueTraceur {

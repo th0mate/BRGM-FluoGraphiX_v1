@@ -183,7 +183,6 @@ function getRandomColor() {
  */
 function afficherGraphiqueTraceur(traceur, idData) {
     let labels = traceur.echelles;
-    console.log(traceur);
     let datasets = [];
     let maxDataLength = 0;
     let maxDataIndex = 0;

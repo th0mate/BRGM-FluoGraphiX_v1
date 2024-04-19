@@ -8,7 +8,7 @@ let sectionsCalibrat = [];
 let nomsTraceur = [];
 let numeroFluorimetre = '';
 let traceurs = [];
-let echelles = [];
+let dateCalibration = ''
 
 
 /**
@@ -37,6 +37,10 @@ function init() {
         sectionsCalibrat = getSectionsCalibrat();
         nomsTraceur = getNomsTraceurs();
         numeroFluorimetre = getNumeroFluorimetre();
+        dateCalibration = getDateCalibration();
+
+        document.querySelector('.descriptionConcentration').innerHTML = `<h2>Données de l'appareil <span>${numeroFluorimetre}</span> du <span>${dateCalibration}</span> :</h2>`;
+
         creerTraceurs();
         creerTurbidity();
         console.log(traceurs);
@@ -56,6 +60,20 @@ function getNumeroFluorimetre() {
     const premiereLigne = lignes[0];
     const index = premiereLigne.indexOf('#');
     return premiereLigne.substring(index + 1).trim();
+}
+
+
+/**
+ * Récupère la date de la calibration au format aammjj et la renvoie au format jj/mm/aaa
+ * @returns {string} la date de la calibration
+ */
+function getDateCalibration() {
+    const section = sectionsCalibrat[0].split('\n');
+    const date = section[2].split(': ')[1];
+    const jour = date.substring(4, 6);
+    const mois = date.substring(2, 4);
+    const annee = date.substring(0, 2);
+    return jour + '/' + mois + '/' + annee;
 }
 
 
@@ -244,17 +262,42 @@ function afficherSelectTraceurs() {
         afficherGraphiqueTraceur(traceur, idData);
     });
 
-    const optionDefaut = document.createElement('option');
-    optionDefaut.value = '';
-    optionDefaut.textContent = 'Choisir un traceur';
-    optionDefaut.selected = true;
-    optionDefaut.disabled = true;
-    select.appendChild(optionDefaut);
+
     for (let i = 0; i < traceurs.length; i++) {
         if (traceurs[i].nom !== 'Eau') {
             const option = document.createElement('option');
             option.value = traceurs[i].nom;
             option.textContent = traceurs[i].nom;
+
+            if (i === 1) {
+                option.selected = true;
+                const nom = traceurs[i].nom;
+                const traceur = traceurs[i];
+
+                let labels = traceur.echelles;
+                let maxDataLength = 0;
+                let maxDataIndex = 0;
+                let idData = 0;
+                for (let i = 1; i <= traceur.data.size; i++) {
+                    let nbValeurs = 0;
+                    for (let j = 0; j < labels.length; j++) {
+                        const value = traceur.getDataParNom('L' + i + '-' + (j + 1));
+                        if (value !== null && value !== 'NaN' && !isNaN(value)) {
+                            nbValeurs++;
+                        }
+                    }
+                    if (nbValeurs > maxDataLength) {
+                        maxDataLength = nbValeurs;
+                        maxDataIndex = i;
+                    }
+
+                }
+                idData = maxDataIndex;
+
+                afficherTableauTraceur(traceur);
+                afficherSelectLigne(idData, traceur);
+                afficherGraphiqueTraceur(traceur, idData);
+            }
             select.appendChild(option);
         }
     }
