@@ -265,11 +265,19 @@ function afficherGraphiqueTraceur(traceur, idData) {
                 x: {
                     type: 'linear',
                     position: 'bottom',
-                    beginAtZero: true
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Signaux (mV)'
+                    }
                 },
                 y: {
                     type: 'linear',
-                    beginAtZero: true
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Concentrations (ppb)'
+                    }
                 }
             },
             plugins: {
