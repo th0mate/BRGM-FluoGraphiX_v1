@@ -16,7 +16,7 @@ function vueConcentrations() {
             <div class="wrap">
                 <div>
                     <h4>Fichier de données</h4>
-                    <input type="file" id="calibratInput" onchange="traiterCalibrat()">
+                    <input type="file" accept=".dat" id="calibratInput" onchange="traiterCalibrat()">
                 </div>
                 
                 <div id="selectTraceur">
@@ -41,8 +41,7 @@ function vueConcentrations() {
             <div class="infosConcentration">
                 <img src="Ressources/img/data.png" alt="">
                 <h2>Visualisez et calculez en un clin d'oeil</h2>
-                <p>Importez un fichier .dat, puis sélectionner le traceur désiré et la ligne que vous souhaitez visualiser, et laissez la magie opérer.</p>
-                <div class="boutonClair bouton">COMMENCER</div>                
+                <p>Importez un fichier .dat, puis sélectionner le traceur désiré et la ligne que vous souhaitez visualiser, et laissez la magie opérer.</p>             
             </div>
         </div>
         

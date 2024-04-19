@@ -33,7 +33,7 @@ function vueGraphique() {
         <div class="wrap">
             <h3>Charger d'autres fichiers</h3>
             <div>
-                <input type="file" id="fileInput" multiple onchange="traiterFichier()">
+                <input type="file" id="fileInput" accept=".mv,.dat,.txt,.xml" multiple onchange="traiterFichier()">
             </div>
             </div>
             
