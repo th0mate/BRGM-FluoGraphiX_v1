@@ -29,6 +29,10 @@ function init() {
             document.querySelector('.selectTraceur').remove();
         }
 
+        if (document.querySelector('.selectLigne')) {
+            document.querySelector('.selectLigne').remove();
+        }
+
         lignesCalibrat = contenuCalibrat.split('\n');
         sectionsCalibrat = getSectionsCalibrat();
         nomsTraceur = getNomsTraceurs();
@@ -214,8 +218,30 @@ function afficherSelectTraceurs() {
     select.addEventListener('change', () => {
         const nom = select.value;
         const traceur = recupererTraceurParNom(nom);
+
+        let labels = traceur.echelles;
+        let maxDataLength = 0;
+        let maxDataIndex = 0;
+        let idData = 0;
+        for (let i = 1; i <= traceur.data.size; i++) {
+            let nbValeurs = 0;
+            for (let j = 0; j < labels.length; j++) {
+                const value = traceur.getDataParNom('L' + i + '-' + (j + 1));
+                if (value !== null && value !== 'NaN' && !isNaN(value)) {
+                    nbValeurs++;
+                }
+            }
+            if (nbValeurs > maxDataLength) {
+                maxDataLength = nbValeurs;
+                maxDataIndex = i;
+            }
+
+        }
+        idData = maxDataIndex;
+
         afficherTableauTraceur(traceur);
-        afficherGraphiqueTraceur(traceur);
+        afficherSelectLigne(idData);
+        afficherGraphiqueTraceur(traceur, idData);
     });
 
     const optionDefaut = document.createElement('option');
@@ -231,6 +257,38 @@ function afficherSelectTraceurs() {
             option.textContent = traceurs[i].nom;
             select.appendChild(option);
         }
+    }
+
+    document.querySelector('.concentrations').appendChild(select);
+}
+
+/**
+ * Affiche un sélect pour choisir une ligne parmi L1, L2, L3 et L4, avec comme valeur par défaut idData
+ * @param idData la valeur par défaut
+ */
+function afficherSelectLigne(idData) {
+    if (document.querySelector('.selectLigne')) {
+        document.querySelector('.selectLigne').remove();
+    }
+
+    const select = document.createElement('select');
+    select.id = 'selectLigne';
+    select.classList.add('selectLigne');
+    select.addEventListener('change', () => {
+        const nom = document.getElementById('selectTraceur').value;
+        const traceur = recupererTraceurParNom(nom);
+        const idData = parseInt(select.value);
+        afficherGraphiqueTraceur(traceur, idData);
+    });
+
+    for (let i = 1; i <= 4; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = 'L' + i;
+        if (i === idData) {
+            option.selected = true;
+        }
+        select.appendChild(option);
     }
 
     document.querySelector('.concentrations').appendChild(select);

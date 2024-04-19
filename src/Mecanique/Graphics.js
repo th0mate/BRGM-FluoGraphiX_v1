@@ -181,29 +181,12 @@ function getRandomColor() {
  * @param traceur le traceur à afficher
  * @param idData l'id du traceur
  */
-function afficherGraphiqueTraceur(traceur, idData = null) {
+function afficherGraphiqueTraceur(traceur, idData) {
     let labels = traceur.echelles;
     let datasets = [];
     let maxDataLength = 0;
     let maxDataIndex = 0;
 
-    if (idData === null) {
-        for (let i = 1; i <= traceur.data.size; i++) {
-            let nbValeurs = 0;
-            for (let j = 0; j < labels.length; j++) {
-                const value = traceur.getDataParNom('L' + i + '-' + (j + 1));
-                if (value !== null && value !== 'NaN' && !isNaN(value)) {
-                    nbValeurs++;
-                }
-            }
-            if (nbValeurs > maxDataLength) {
-                maxDataLength = nbValeurs;
-                maxDataIndex = i;
-            }
-
-        }
-        idData = maxDataIndex;
-    }
 
     let nbValeurs = 0;
     for (let i = 0; i < labels.length; i++) {
