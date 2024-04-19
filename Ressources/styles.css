@@ -471,8 +471,12 @@ nav > .redirections > .action {
 }
 
 
-.popup > img:not(.close) {
+.popup > img:not(.close, .loading) {
     width: 300px;
+}
+
+.loading {
+    width: 150px;
 }
 
 .popup > h1, .popup > h2 {

@@ -17,7 +17,7 @@ let contenuCalibrat = "";
 async function traiterFichier() {
     const inputFichier = document.getElementById('fileInput');
     let fichiers = Array.from(inputFichier.files);
-    afficherPopup('<img src="Ressources/img/warning.png" alt="">', 'Veuillez Patienter', 'Traitement des données en cours - Veuillez patienter...', '' )
+    afficherPopup('<img class="loading" src="Ressources/img/loading.gif" alt="">', 'Veuillez Patienter', 'Traitement des données en cours - Veuillez patienter...', '' )
 
 
     if (fichiers.length > 1) {
@@ -88,7 +88,7 @@ async function traiterFichier() {
                     };
                 });
             } else {
-                afficherMessageFlash("Erreur : type de fichier non pris en charge.", 'danger')
+                afficherMessageFlash("Erreur : type de fichier non pris en charge.", 'danger');
             }
         } else {
             afficherMessageFlash("Aucun fichier n'a été join.", 'warning');
