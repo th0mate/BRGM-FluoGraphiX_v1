@@ -32,6 +32,7 @@ async function traiterFichier() {
     }
 
     contenuFichier = "";
+    contenuCalibrat = "";
     nbLignes = 0;
     document.querySelector('#selectFormatDate').disabled = false;
     let derniereDate;
@@ -83,7 +84,6 @@ async function traiterFichier() {
                     reader.onload = function () {
                         parametrerSiteDepuisCalibrat(reader.result);
                         contenuCalibrat = reader.result;
-                        console.log(contenuCalibrat);
                         resolve();
                     };
                 });
@@ -100,7 +100,6 @@ async function traiterFichier() {
         if (estPlusDeUnJour(derniereDate, premiereDate)) {
             afficherMessageFlash("Trop grand écart entre les dates de fichiers : les données sont corrompues.", 'warning');
         } else {
-            console.log(contenuFichier);
             afficherGraphique(contenuFichier);
             afficherMessageFlash("Données traitées avec succès.", 'success');
         }

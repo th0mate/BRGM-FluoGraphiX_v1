@@ -1,6 +1,14 @@
 function vueConcentrations() {
     return `    
     
+    <script>
+        window.onload = function() {
+            if (contenuCalibrat !== '') {
+                traiterCalibrat();
+            }
+        }
+    </script>
+    
     <div class="concentrations">
     
         <div class="bannierePage">

@@ -39,7 +39,9 @@ function init() {
         numeroFluorimetre = getNumeroFluorimetre();
         dateCalibration = getDateCalibration();
 
-        document.querySelector('.infosConcentration').remove();
+        if (document.querySelector('.infosConcentration')) {
+            document.querySelector('.infosConcentration').remove();
+        }
         document.querySelector('.descriptionConcentration').innerHTML = `<h2>Données de l'appareil <span>${numeroFluorimetre}</span> du <span>${dateCalibration}</span> :</h2>`;
 
         creerTraceurs();
