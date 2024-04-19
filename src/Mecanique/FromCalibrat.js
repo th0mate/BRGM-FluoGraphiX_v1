@@ -215,7 +215,7 @@ function afficherSelectTraceurs() {
         const nom = select.value;
         const traceur = recupererTraceurParNom(nom);
         afficherTableauTraceur(traceur);
-        afficherGraphiqueTraceur(traceur, 1);
+        afficherGraphiqueTraceur(traceur);
     });
 
     const optionDefaut = document.createElement('option');
