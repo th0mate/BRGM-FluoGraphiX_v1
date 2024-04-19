@@ -345,6 +345,7 @@ function afficherTableauTraceur(traceur) {
     }
 
     tableau.appendChild(tbody);
+    tableau.insertAdjacentHTML('afterbegin', `<caption>Signaux en mV du traceur ${traceur.nom}</caption>`);
     document.querySelector('.donnees').appendChild(tableau);
 }
 

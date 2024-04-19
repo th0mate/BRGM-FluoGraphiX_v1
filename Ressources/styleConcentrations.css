@@ -37,7 +37,7 @@
 
 .concentrations > .bandeau > .wrap > div {
     min-height: 120px;
-    width: 200px;
+    width: 30%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -47,7 +47,7 @@
 
 
 .concentrations > .bandeau > .wrap > div:not(:last-child) {
-    padding-right: 100px;
+    padding-right: 5px;
     border-right: 2px solid white;
 }
 
@@ -103,6 +103,12 @@
     color: white;
     border: 5px solid var(--grisBRGM);
     margin: auto;
+}
+
+.donnees > table > caption {
+    color: var(--orangeBRGM);
+    font-size: 1.3em;
+    margin-bottom: 10px;
 }
 
 .donnees > table > tbody > tr:nth-child(odd) {
