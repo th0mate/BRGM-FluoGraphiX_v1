@@ -40,6 +40,15 @@ function vueConcentrations() {
                         <option disabled selected>Importez un fichier d'abord</option>
                     </select>
                 </div>
+                
+                <div id="selectLigne">
+                    <h4>Paramètres des calculs</h4>
+                    <label><input name="choix" checked type="radio">Régression Linéaire</label>
+                    <label><input name="choix" type="radio">Polynome "classique"</label>
+                    <label><input name="choix" type="radio">Polynome "logarithme"</label>
+                    <div class="bouton boutonClair disabled">CALCULER</div>
+                    
+                </div>
             </div>
         </div>
         
