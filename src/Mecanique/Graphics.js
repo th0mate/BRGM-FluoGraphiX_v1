@@ -16,7 +16,6 @@ function afficherGraphique(mvContent) {
         const colonnes = lignes[i].split(/\s+/);
         const timeDate = colonnes[2];
 
-
         labels.push(timeDate);
 
         for (let j = 0; j < dataColumns.length; j++) {
