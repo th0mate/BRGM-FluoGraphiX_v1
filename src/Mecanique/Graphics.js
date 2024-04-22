@@ -17,7 +17,8 @@ function afficherGraphique(mvContent) {
         const colonnes = lignes[i].split(/\s+/);
         const timeValue = colonnes[2];
 
-        const timeDate = moment.tz(timeValue, 'DD/MM/YY-HH:mm:ss', 'Europe/Paris');
+        const timeDate = moment.utc(timeValue, 'DD/MM/YY-HH:mm:ss');
+
         if (timeDate.isValid()) {
             if (lastDate && timeDate.isBefore(lastDate)) {
                 console.warn('Date inférieure à la précédente :', timeDate);
@@ -104,7 +105,7 @@ function afficherGraphique(mvContent) {
                 zoom: {
                     pan: {
                         enabled: true,
-                        mode: `${zoom}`,
+                        mode: `xy`,
                     },
                     zoom: {
                         wheel: {
