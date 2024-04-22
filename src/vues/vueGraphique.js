@@ -38,12 +38,12 @@ function vueGraphique() {
             </div>
             
             <div class="wrap">
-            <h3>Gestion du Zoom</h3>
+            <h3>Gestion du Zoom/déplacement</h3>
             <div>
-                <label>Zoom sur axe X
+                <label>Interactions sur axe X
                 <input type="checkbox" checked id="xZoom" onclick="modifierZoom('x')">
                 </label>
-                <label>Zoom sur axe Y
+                <label>Interactions sur axe Y
                 <input type="checkbox" checked id="yZoom" onclick="modifierZoom('y')">
                 </label>
                 <div class="bouton boutonFonce resetZoom" onclick="resetZoom()">Réinitialiser le zoom</div>

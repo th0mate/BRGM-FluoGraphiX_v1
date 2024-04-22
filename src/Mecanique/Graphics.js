@@ -1,3 +1,5 @@
+
+
 /**
  * Traite les données pour les afficher sous forme de graphique
  * @param mvContent le contenu du fichier .mv à afficher
@@ -95,17 +97,10 @@ function afficherGraphique(mvContent) {
                 }
             },
             plugins: {
-                crosshair: {
-                    enabled: true,
-                    line: {color: 'rgba(255, 0, 0, 0.5)', width: 2},
-                    sync: {
-                        enabled: true,
-                    },
-                },
                 zoom: {
                     pan: {
                         enabled: true,
-                        mode: `xy`,
+                        mode: `${zoom}`,
                     },
                     zoom: {
                         wheel: {
