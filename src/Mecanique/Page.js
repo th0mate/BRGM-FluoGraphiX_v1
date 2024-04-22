@@ -22,7 +22,7 @@ if (window.location.protocol !== "file:" && navigator.onLine) {
     if (random === 1) {
         setTimeout(() => {
             afficherPopup('<img src="Ressources/img/information.png" alt="info">', 'Le saviez vous ? Vous pouvez utiliser ce site hors-ligne !', 'Vous pouvez télécharger ce site et l\'utiliser normalement en local sur votre machine, et sans internet.', '<div class="bouton boutonFonce" onclick="fermerPopup()">Fermer</div>\n' +
-                '<div class="bouton boutonFonce" onclick="downloadSite()">En Savoir Plus</div>');
+                '<div class="bouton boutonFonce" onclick="afficherVue(`vueTelecharger`)">En Savoir Plus</div>');
         }, 3000);
     }
 }
@@ -161,7 +161,7 @@ function afficherMenu() {
 }
 
 /**
- * Ferme le menu si il est ouvert
+ * Ferme le menu s'il est ouvert
  */
 function fermerMenu() {
     if (document.querySelector('.menu').style.display === 'flex') {
