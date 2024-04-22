@@ -111,7 +111,7 @@ function afficherGraphique(mvContent) {
  */
 function isConstant(string) {
     const value = string[0].y;
-    for (let i = 1; i < string.length; i++) {
+    for (let i = 1; i < string.length - 5; i++) {
         if (around(string[i].y) !== around(value)) {
             return false;
         }
