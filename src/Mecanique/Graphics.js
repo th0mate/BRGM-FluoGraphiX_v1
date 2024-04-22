@@ -62,17 +62,6 @@ function afficherGraphique(mvContent) {
         options: {
             scales: {
                 x: {
-                    /*
-                    type: 'time',
-                    time: {
-                        parser: 'DD/MM/YY-HH:mm:ss',
-                        unit: 'minute',
-                        displayFormats: {
-                            minute: 'DD/MM/YYYY-HH:mm:SS'
-                        }
-                    },
-
-                     */
                     position: 'bottom',
                     ticks: {
                         source: 'labels',
