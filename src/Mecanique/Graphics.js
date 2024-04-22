@@ -1,5 +1,3 @@
-
-
 /**
  * Traite les données pour les afficher sous forme de graphique
  * @param mvContent le contenu du fichier .mv à afficher
@@ -13,34 +11,23 @@ function afficherGraphique(mvContent) {
     const header = lignes[2].split(/ {2,}/).slice(3);
 
     const dataColumns = header.map(() => []);
-    let lastDate = null;
 
     for (let i = 3; i < lignes.length; i++) {
         const colonnes = lignes[i].split(/\s+/);
-        const timeValue = colonnes[2];
+        const timeDate = colonnes[2];
 
-        const timeDate = moment.utc(timeValue, 'DD/MM/YY-HH:mm:ss');
 
-        if (timeDate.isValid()) {
-            if (lastDate && timeDate.isBefore(lastDate)) {
-                console.warn('Date inférieure à la précédente :', timeDate);
-                continue;
-            }
+        labels.push(timeDate);
 
-            labels.push(timeDate);
-            lastDate = timeDate;
-
-            for (let j = 0; j < dataColumns.length; j++) {
-                const value = around(parseFloat(colonnes[j + 3]));
-                dataColumns[j].push({x: timeDate, y: value});
-            }
+        for (let j = 0; j < dataColumns.length; j++) {
+            const value = around(parseFloat(colonnes[j + 3]));
+            dataColumns[j].push({x: timeDate, y: value});
         }
+
     }
 
     for (let i = 0; i < header.length; i++) {
         if (header[i] !== '' && header[i] !== 'R' && header[i] !== '    ' && header[i] !== '  ') {
-
-
             if (i >= couleurs.length) {
                 couleurs.push(getRandomColor());
             }
@@ -54,8 +41,6 @@ function afficherGraphique(mvContent) {
             });
         }
     }
-
-    console.log(labels);
 
     const data = {
         labels: labels,
@@ -77,6 +62,7 @@ function afficherGraphique(mvContent) {
         options: {
             scales: {
                 x: {
+                    /*
                     type: 'time',
                     time: {
                         parser: 'DD/MM/YY-HH:mm:ss',
@@ -85,6 +71,8 @@ function afficherGraphique(mvContent) {
                             minute: 'DD/MM/YYYY-HH:mm:SS'
                         }
                     },
+
+                     */
                     position: 'bottom',
                     ticks: {
                         source: 'labels',
@@ -220,7 +208,7 @@ function afficherGraphiqueTraceur(traceur, idData) {
 
     let nbValeurs = 0;
     for (let i = 0; i < labels.length; i++) {
-        const value = traceur.getDataParNom('L'+ idData + '-' + (i + 1));
+        const value = traceur.getDataParNom('L' + idData + '-' + (i + 1));
         if (value !== null && value !== 'NaN' && !isNaN(value)) {
             nbValeurs++;
         }
