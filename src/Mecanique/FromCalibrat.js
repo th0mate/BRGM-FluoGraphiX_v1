@@ -11,10 +11,18 @@ let traceurs = [];
 let dateCalibration = ''
 
 
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * PARTIE FICHIERS DAT
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+
 /**
  * Initialise les variables issues du fichier Calibrat.dat nécessaires pour le calcul de la régression linéaire
  */
-function init() {
+function init(estDepuisCalibrat = true) {
     if (contenuCalibrat !== '') {
 
         if (document.querySelector('.boutonDlData')) {
@@ -37,11 +45,20 @@ function init() {
             document.querySelector('.selectLigne').remove();
         }
 
-        lignesCalibrat = contenuCalibrat.split('\n');
-        sectionsCalibrat = getSectionsCalibrat();
-        nomsTraceur = getNomsTraceurs();
-        numeroFluorimetre = getNumeroFluorimetre();
-        dateCalibration = getDateCalibration();
+        if (estDepuisCalibrat) {
+            lignesCalibrat = contenuCalibrat.split('\n');
+            sectionsCalibrat = getSectionsCalibrat();
+            nomsTraceur = getNomsTraceursCalibrat();
+            numeroFluorimetre = getNumeroFluorimetreCalibrat();
+            dateCalibration = getDateCalibrationCalibrat();
+        } else {
+            lignesCalibrat = contenuCalibrat.split('\n');
+            sectionsCalibrat = getSectionsCalibratTxt();
+            nomsTraceur = getNomsTraceursTxt();
+            numeroFluorimetre = getNumeroFluorimetreTxt();
+            dateCalibration = getDateCalibrationTxt();
+        }
+
 
         if (document.querySelector('.infosConcentration')) {
             document.querySelector('.infosConcentration').remove();
@@ -62,7 +79,7 @@ function init() {
  * Récupère le numéro du fluorimètre à partir du fichier Calibrat.dat.
  * @returns {string} le numéro du fluorimètre
  */
-function getNumeroFluorimetre() {
+function getNumeroFluorimetreCalibrat() {
     const lignes = contenuCalibrat.split('\n');
     const premiereLigne = lignes[0];
     const index = premiereLigne.indexOf('#');
@@ -74,7 +91,7 @@ function getNumeroFluorimetre() {
  * Récupère la date de la calibration au format aammjj et la renvoie au format jj/mm/aaa
  * @returns {string} la date de la calibration
  */
-function getDateCalibration() {
+function getDateCalibrationCalibrat() {
     const section = sectionsCalibrat[0].split('\n');
     const date = section[2].split(': ')[1];
     const jour = date.substring(4, 6);
@@ -107,7 +124,7 @@ function getSectionsCalibrat() {
  * Récupère les noms des traceurs du fichier Calibrat.dat.
  * @returns {string[]} les noms des traceurs
  */
-function getNomsTraceurs() {
+function getNomsTraceursCalibrat() {
     const noms = [];
     for (let i = 0; i < 3; i++) {
         const section = sectionsCalibrat[i];
@@ -439,12 +456,72 @@ function convertirEnTexte() {
 
 
 
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * PARTIE FICHIERS TXT
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+/**
+ * Récupère la date d'aujourd'hui au format jj/mm/aaaa
+ * @return {string}
+ */
+function getNumeroFluorimetreTxt() {
+    const lignes = contenuCalibrat.split('\n');
+    const premiereLigne = lignes[1];
+    const index = premiereLigne.indexOf('Appareil n°');
+    return premiereLigne.substring(index + 11).trim();
+}
+
+
+/**
+ * Récupère la date de la calibration au format jj/mm/aaaa
+ * @return {string} la date de la calibration
+ */
+function getDateCalibrationTxt() {
+    const lignes = contenuCalibrat.split('\n');
+    const premiereLigne = lignes[1];
+    const index = premiereLigne.indexOf('Export du');
+    return premiereLigne.substring(index + 9, index + 19);
+}
+
+
+/**
+ * Récupère les sections du fichier txt.
+ * @return {string[]} les sections du fichier txt
+ */
+function getSectionsCalibratTxt() {
+    return contenuCalibrat.split('----------------------------------------------------------------');
+}
+
+
+/**
+ * Récupère les noms des traceurs du fichier txt.
+ * @return {*[]} les noms des traceurs
+ */
+function getNomsTraceursTxt() {
+    const noms = [];
+    const sections = getSectionsCalibrat();
+    for (let i = 1; i < sections.length; i++) {
+        const section = sections[i];
+        const nom = section.split('\n')[1].trim();
+        noms.push(nom);
+    }
+    return noms;
+}
 
 
 
 
 
 
+
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * PARTIE CALCULS
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
 
 
 /**
