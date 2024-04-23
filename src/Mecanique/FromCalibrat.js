@@ -386,28 +386,46 @@ function afficherTableauTraceur(traceur) {
     /**
      * Les colonnes
      */
+    let echellesTableau = [];
+    for (let i = 0; i < traceur.echelles.length; i++) {
+        echellesTableau.push(traceur.echelles[i]);
+    }
+
+    echellesTableau.sort((a, b) => a - b);
     const nbColonnes = traceur.data.size / 4;
     for (let i = 0; i < nbColonnes; i++) {
         const th = document.createElement('th');
-        th.textContent = traceur.echelles[i] + 'ppb';
+        th.textContent = echellesTableau[i] + 'ppb';
         tr.appendChild(th);
     }
 
     thead.appendChild(tr);
     tableau.appendChild(thead);
 
-    /**
-     * Les lignes
-     */
+    let data = [];
     for (let i = 1; i <= 4; i++) {
+        let rowData = [];
+        for (let j = 1; j <= nbColonnes; j++) {
+            rowData.push({value: traceur.getDataParNom('L' + i + '-' + j), index: j});
+        }
+        data.push(rowData);
+    }
+
+    let transposedData = data[0].map((_, i) => data.map(row => row[i]));
+
+    transposedData.sort((a, b) => a[0].value - b[0].value);
+
+    let sortedData = transposedData[0].map((_, i) => transposedData.map(row => row[i]));
+
+    for (let i = 0; i < 4; i++) {
         const tr = document.createElement('tr');
         const th = document.createElement('th');
-        th.textContent = 'L' + i;
+        th.textContent = 'L' + (i + 1);
         tr.appendChild(th);
 
-        for (let j = 1; j <= nbColonnes; j++) {
+        for (let j = 0; j < nbColonnes; j++) {
             const td = document.createElement('td');
-            td.textContent = traceur.getDataParNom('L' + i + '-' + j);
+            td.textContent = sortedData[i][j].value;
             tr.appendChild(td);
         }
 
