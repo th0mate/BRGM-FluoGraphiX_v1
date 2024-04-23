@@ -89,7 +89,7 @@
     border: 5px solid var(--orangeBRGM);
     background-color: var(--orangeBRGM);
     color: white;
-    width: 200px;
+    width: 190px;
     margin-top: 10px;
     transition: box-shadow 0.3s ease-in-out;
     padding: 2px!important;

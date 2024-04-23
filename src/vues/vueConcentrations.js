@@ -22,7 +22,7 @@ function vueConcentrations() {
         <div class="bandeau">
             <h2>Données à afficher</h2>
             <div class="wrap">
-                <div>
+                <div class="lesBoutons">
                     <h4>Fichier de données</h4>
                     <input type="file" accept=".dat" id="calibratInput" onchange="traiterCalibrat()">
                 </div>
@@ -55,6 +55,7 @@ function vueConcentrations() {
         <div class="descriptionConcentration"></div>
         
         <div class="donnees">
+            <div class="tableau"></div>
             <div class="infosConcentration">
                 <img src="Ressources/img/data.png" alt="">
                 <h2>Visualisez et calculez en un clin d'oeil</h2>

@@ -17,6 +17,10 @@ let dateCalibration = ''
 function init() {
     if (contenuCalibrat !== '') {
 
+        if (document.querySelector('.boutonDlData')) {
+            document.querySelector('.boutonDlData').remove();
+        }
+
         if (document.getElementById('graphiqueTraceur')) {
             document.getElementById('graphiqueTraceur').remove();
         }
@@ -393,6 +397,7 @@ function afficherTableauTraceur(traceur) {
     tableau.appendChild(tbody);
     tableau.insertAdjacentHTML('afterbegin', `<caption>Signaux en mV du traceur ${traceur.nom}</caption>`);
     document.querySelector('.donnees').appendChild(tableau);
+    document.querySelector('.lesBoutons').insertAdjacentHTML('beforeend', '<div class="bouton boutonClair boutonDlData">TÉLÉCHARGER LES DONNÉES</div>');
 }
 
 
