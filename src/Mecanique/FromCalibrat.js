@@ -587,11 +587,40 @@ function creerTraceurTxt() {
                 }
             }
 
-
             traceurs.push(traceur);
         }
     }
+    creerTurbidityTxt();
 }
+
+
+/**
+ * Crée un objet Traceur de type Turbidité à partir des données du fichier txt.
+ * La turbidité est la dernière section du fichier txt
+ */
+function creerTurbidityTxt() {
+    const turbidite = new Traceur('Turbidité');
+    const sections = getSectionsCalibratTxt();
+    const section = sections[sections.length - 2].split('\n');
+    console.log(section);
+
+    let futuresEchelles = section[5].split(/\s+/);
+    futuresEchelles = futuresEchelles.filter(echelle => echelle !== '');
+    const nbColonnes = futuresEchelles.length;
+
+    for (let i = 0; i < nbColonnes; i++) {
+        turbidite.echelles.push(parseFloat(futuresEchelles[i]));
+    }
+
+    for (let i = 0; i < 4; i++) {
+        const ligne = section[i + 6].split(/\s+/);
+        for (let j = 0; j < nbColonnes; j++) {
+            turbidite.addData(ligne[0] + `-${j + 1}`, parseFloat(ligne[j + 1]));
+        }
+    }
+    traceurs.push(turbidite);
+}
+
 
 
 
