@@ -51,12 +51,16 @@ function init(estDepuisCalibrat = true) {
             nomsTraceur = getNomsTraceursCalibrat();
             numeroFluorimetre = getNumeroFluorimetreCalibrat();
             dateCalibration = getDateCalibrationCalibrat();
+            creerTraceurs();
+            creerTurbidity();
+            contenuCalibrat = convertirEnTexte();
         } else {
             lignesCalibrat = contenuCalibrat.split('\n');
             sectionsCalibrat = getSectionsCalibratTxt();
             nomsTraceur = getNomsTraceursTxt();
             numeroFluorimetre = getNumeroFluorimetreTxt();
             dateCalibration = getDateCalibrationTxt();
+            creerTraceurTxt();
         }
 
 
@@ -65,8 +69,7 @@ function init(estDepuisCalibrat = true) {
         }
         document.querySelector('.descriptionConcentration').innerHTML = `<h2>Données de l'appareil <span>${numeroFluorimetre}</span> du <span>${dateCalibration}</span> :</h2>`;
 
-        creerTraceurs();
-        creerTurbidity();
+
         console.log(traceurs);
         afficherSelectTraceurs();
     } else {
@@ -435,7 +438,7 @@ function afficherTableauTraceur(traceur) {
     tableau.appendChild(tbody);
     tableau.insertAdjacentHTML('afterbegin', `<caption>Signaux en mV du traceur ${traceur.nom}</caption>`);
     document.querySelector('.donnees').appendChild(tableau);
-    document.querySelector('.lesBoutons').insertAdjacentHTML('beforeend', '<div class="bouton boutonClair boutonDlData" onclick="convertirEnTexte()">TÉLÉCHARGER LES DONNÉES</div>');
+    document.querySelector('.lesBoutons').insertAdjacentHTML('beforeend', '<div class="bouton boutonClair boutonDlData" onclick="telechargerFichierTxt()">TÉLÉCHARGER LES DONNÉES</div>');
 }
 
 
@@ -452,27 +455,50 @@ function convertirEnTexte() {
         texte += `${dateCalibration}\n`;
         texte += `ppb\n\n`;
 
-        const nbColonnes = traceurs[i].data.size / 4;
+        let echelles = traceurs[i].echelles.map((echelle, index) => ({echelle, index}));
+
+        echelles.sort((a, b) => a.echelle - b.echelle);
+
         texte += '         ';
-        for (let j = 0; j < nbColonnes; j++) {
-            texte += `${setEspaces(traceurs[i].echelles[j], 5)}       `;
+        for (let j = 0; j < echelles.length; j++) {
+            texte += `${setEspaces(echelles[j].echelle, 5)}       `;
         }
         texte += '\n';
 
         for (let j = 1; j <= 4; j++) {
             texte += `L${j}`;
-            for (let k = 1; k <= nbColonnes; k++) {
-                texte += `     ${setEspaces(traceurs[i].getDataParNom('L' + j + '-' + k), 7)}`;
+            for (let k = 0; k < echelles.length; k++) {
+                const dataValue = traceurs[i].getDataParNom('L' + j + '-' + (echelles[k].index + 1));
+                if (dataValue !== undefined) {
+                    texte += `     ${setEspaces(dataValue, 7)}`;
+                }
             }
             texte += '\n';
         }
 
         texte += `----------------------------------------------------------------\n`;
     }
-    console.log(texte);
     return texte;
 }
 
+
+/**
+ * Télécharge un fichier txt contenant les données de contenuCalibrat
+ */
+function telechargerFichierTxt() {
+    if (contenuCalibrat !== '') {
+        const element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(contenuCalibrat));
+        element.setAttribute('download', 'ExportConcentrations-' + new Date().toLocaleString().replace(/\/|:|,|\s/g, '-') + '.txt');
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+        afficherMessageFlash('Fichier téléchargé avec succès.', 'success');
+    } else {
+        afficherMessageFlash('Erreur : aucune donnée à télécharger.', 'danger');
+    }
+}
 
 
 
@@ -532,7 +558,30 @@ function getNomsTraceursTxt() {
 }
 
 
+/**
+ * Crée des objets de type Traceur à partir des données du fichier txt
+ * @returns {Traceur[]} les objets Traceur créés
+ */
+function creerTraceurTxt() {
+    traceurs = [];
+    const sections = getSectionsCalibratTxt();
+    for (let i = 1; i < sections.length; i++) {
+        const section = sections[i].split('\n');
+        const nom = section[1].trim();
+        let traceur = new Traceur(nom);
 
+        traceur.echelles = section[3].split(' ').map(echelle => parseFloat(echelle));
+
+        for (let j = 5; j < section.length - 1; j++) {
+            const ligne = section[j].split(' ');
+            for (let k = 0; k < ligne.length; k++) {
+                traceur.addData('L' + (j - 4) + '-' + (k + 1), parseFloat(ligne[k]));
+            }
+        }
+
+        traceurs.push(traceur);
+    }
+}
 
 
 

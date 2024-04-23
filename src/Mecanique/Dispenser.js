@@ -130,6 +130,14 @@ function traiterCalibrat() {
                 init();
                 afficherMessageFlash("Fichier Calibrat.dat traité avec succès.", 'success');
             };
+        } else if (fichier.name.split('.').pop() === "dat") {
+            const reader = new FileReader();
+            reader.readAsText(fichier);
+            reader.onload = function () {
+                contenuCalibrat = reader.result;
+                init(false);
+                afficherMessageFlash("Fichier Calibrat.dat traité avec succès.", 'success');
+            };
         } else {
             afficherMessageFlash("Erreur : type de fichier non pris en charge.", 'danger')
         }
