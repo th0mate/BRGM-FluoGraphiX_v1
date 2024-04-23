@@ -4,7 +4,7 @@
 */
 
 html {
-    font-family: 'Gibson-Semi-Bold', sans-serif;
+    font-family: 'Roboto', sans-serif;
     padding-top: 80px;
     max-width: 100%;
     scroll-behavior: smooth;
@@ -13,6 +13,10 @@ html {
 :root {
     --orangeBRGM: #e87b1c;
     --grisBRGM: #333;
+    --grisClair: #434343;
+    --grisLeger: #878787;
+    --grisFin: #B4B4B4;
+    --blancFonce: #F3F3F3;
     --jauneBRGM: #ffc83d;
     --bleuBRGM: #27B1EA;
     --rouilleBRGM: #F05A08;
