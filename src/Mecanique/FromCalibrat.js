@@ -397,8 +397,54 @@ function afficherTableauTraceur(traceur) {
     tableau.appendChild(tbody);
     tableau.insertAdjacentHTML('afterbegin', `<caption>Signaux en mV du traceur ${traceur.nom}</caption>`);
     document.querySelector('.donnees').appendChild(tableau);
-    document.querySelector('.lesBoutons').insertAdjacentHTML('beforeend', '<div class="bouton boutonClair boutonDlData">TÉLÉCHARGER LES DONNÉES</div>');
+    document.querySelector('.lesBoutons').insertAdjacentHTML('beforeend', '<div class="bouton boutonClair boutonDlData" onclick="convertirEnTexte()">TÉLÉCHARGER LES DONNÉES</div>');
 }
+
+
+/**
+ * Exporte les données du fichier Calibrat sous la forme d'un fichier texte
+ * @return {string} le contenu du fichier texte
+ */
+function convertirEnTexte() {
+    let texte = `FluoriGraphix - Export du ${getDateAujourdhui()} - Appareil n°${numeroFluorimetre}\n\n`;
+    texte += `----------------------------------------------------------------\n`;
+
+    for (let i = 0; i < traceurs.length; i++) {
+        texte += `${traceurs[i].nom}\n`;
+        texte += `${dateCalibration}\n`;
+        texte += `ppb\n\n`;
+
+        const nbColonnes = traceurs[i].data.size / 4;
+        texte += '         ';
+        for (let j = 0; j < nbColonnes; j++) {
+            texte += `${setEspaces(traceurs[i].echelles[j], 5)}       `;
+        }
+        texte += '\n';
+
+        for (let j = 1; j <= 4; j++) {
+            texte += `L${j}`;
+            for (let k = 1; k <= nbColonnes; k++) {
+                texte += `     ${setEspaces(traceurs[i].getDataParNom('L' + j + '-' + k), 7)}`;
+            }
+            texte += '\n';
+        }
+
+        texte += `----------------------------------------------------------------\n`;
+    }
+    console.log(texte);
+    return texte;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 /**
