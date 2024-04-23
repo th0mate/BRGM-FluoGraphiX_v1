@@ -565,21 +565,31 @@ function getNomsTraceursTxt() {
 function creerTraceurTxt() {
     traceurs = [];
     const sections = getSectionsCalibratTxt();
-    for (let i = 1; i < sections.length; i++) {
-        const section = sections[i].split('\n');
-        const nom = section[1].trim();
-        let traceur = new Traceur(nom);
+    for (let i = 1; i < sections.length - 2; i++) {
+        if (sections[i] !== '' && sections[i] !== ' ') {
+            const section = sections[i].split('\n');
+            const nom = section[1].trim();
+            let traceur = new Traceur(nom);
 
-        traceur.echelles = section[3].split(' ').map(echelle => parseFloat(echelle));
+            let futuresEchelles = section[5].split(/\s+/);
+            futuresEchelles = futuresEchelles.filter(echelle => echelle !== '');
 
-        for (let j = 5; j < section.length - 1; j++) {
-            const ligne = section[j].split(' ');
-            for (let k = 0; k < ligne.length; k++) {
-                traceur.addData('L' + (j - 4) + '-' + (k + 1), parseFloat(ligne[k]));
+            const nbColonnes = futuresEchelles.length;
+
+            for (let j = 0; j < nbColonnes; j++) {
+                traceur.echelles.push(parseFloat(futuresEchelles[j]));
             }
-        }
 
-        traceurs.push(traceur);
+            for (let j = 0; j < 4; j++) {
+                const ligne = section[j + 6].split(/\s+/);
+                for (let k = 0; k < nbColonnes; k++) {
+                    traceur.addData(ligne[0] + `-${k + 1}`, parseFloat(ligne[k + 1]));
+                }
+            }
+
+
+            traceurs.push(traceur);
+        }
     }
 }
 

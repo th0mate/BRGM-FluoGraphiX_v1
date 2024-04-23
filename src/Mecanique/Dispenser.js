@@ -130,7 +130,7 @@ function traiterCalibrat() {
                 init();
                 afficherMessageFlash("Fichier Calibrat.dat traité avec succès.", 'success');
             };
-        } else if (fichier.name.split('.').pop() === "dat") {
+        } else if (fichier.name.split('.').pop() === "txt") {
             const reader = new FileReader();
             reader.readAsText(fichier);
             reader.onload = function () {

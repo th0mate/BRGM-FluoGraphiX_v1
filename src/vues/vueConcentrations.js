@@ -24,7 +24,7 @@ function vueConcentrations() {
             <div class="wrap">
                 <div class="lesBoutons">
                     <h4>Fichier de données</h4>
-                    <input type="file" accept=".dat" id="calibratInput" onchange="traiterCalibrat()">
+                    <input type="file" accept=".dat, .txt" id="calibratInput" onchange="traiterCalibrat()">
                 </div>
                 
                 <div id="selectTraceur">
