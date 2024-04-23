@@ -281,6 +281,9 @@ function afficherSelectTraceurs() {
         }
         idData = maxDataIndex;
 
+        if (document.querySelector('.boutonDlData')) {
+            document.querySelector('.boutonDlData').remove();
+        }
         afficherTableauTraceur(traceur);
         afficherSelectLigne(idData, traceur);
         afficherGraphiqueTraceur(traceur, idData);
