@@ -125,7 +125,7 @@
 }
 
 
-.bandeauDocumentation > div > a {
+.bandeauDocumentation > div > div {
     display: flex;
     min-width: 200px;
     justify-content: space-between;
@@ -134,27 +134,28 @@
     color: black;
     transition: color 0.3s ease-in-out;
     font-size: 1.2em;
+    cursor: pointer;
 }
 
-.bandeauDocumentation > div > a > span {
+.bandeauDocumentation > div > div > span {
     border: 2px solid transparent;
     border-radius: 3px;
     transition: border 0.3s ease-in-out;
     margin-right: 15px;
 }
 
-.bandeauDocumentation > div > a > img {
+.bandeauDocumentation > div > div > img {
     width: 20px;
     height: 20px;
     margin-left: 30px;
 }
 
 
-.bandeauDocumentation > div > a:hover {
+.bandeauDocumentation > div > div:hover {
     color: var(--orangeBRGM);
 }
 
-.bandeauDocumentation > div > a:hover > span{
+.bandeauDocumentation > div > div:hover > span{
     border: 2px solid var(--orangeBRGM);
 }
 
