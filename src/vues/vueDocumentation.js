@@ -128,7 +128,7 @@ function vueDocumentation() {
                         <h3><span>4</span>Page de téléchargement (Si disponible)</h3>
                         <p>La page de téléchargement ne peut être accessible que si vous êtes connecté à internet. Si vous utilisez ce site en local (depuis un fichier html télécharé sur votre ordinateur), vous pouvez accéder à cette page via une redirection vers le site hébergé.</p>
                     </div>
-                    <img src="Ressources/img/screen2.png" alt="">
+                    <img src="Ressources/img/screen1.png" alt="">
                 </div>
                 
                 <div class="etape">
@@ -235,6 +235,63 @@ function vueDocumentation() {
                     </div>
                     <img src="Ressources/img/fix.png" alt="">
                 </div>
+            </div>
+            
+            
+            <div class="section">
+                <h3>Graphiques</h3>
+                <h1 id="expGraphiqueDoc" class="titreBarre">Exportation</h1>
+                
+                <div class="etape">
+                    <div>
+                        <h3><span>1</span>Exportation en fichier mv</h3>
+                        <p>Vous pouvez exporter vos fichiers sous la forme d'un fichier .mv. Ce fichier contiendra toutes les données importées, et sera réutilisable par la suite dans FluoriGraphix.</p>
+                        <p>Les fichiers .mv ont l'avantage d'être très lisibles et compréhensibles, contrairement au xml ou au txt.</p>
+                        <p>Le téléchargement débute aussitôt le bouton "Télécharger le fichier" cliqué.</p>
+                    </div>
+                    <img src="Ressources/img/screen15.png" alt="">
+                </div>
+                
+                <div class="etape">
+                    <div>
+                        <h3><span>2</span>Notes sur l'exportation</h3>
+                        <p>Le fichier téléchargé est nommé avec l'heure et la date du jour. La date est également indiquée en première ligne du fichier.</p>
+                    </div>
+                    <img src="Ressources/img/screen10.png" alt="">
+                </div>
+            </div>
+            
+            
+            <div class="section">
+                <h3>Graphiques</h3>
+                <h1 id="GraphiqueDoc" class="titreBarre">Graphique</h1>
+                <div class="etape">
+                    <div>
+                        <h3><span>1</span>Zoom</h3>
+                        <p>Il est possible de zoomer et dézoomer sur le graphique en ciblant la zone désirée. Pour cela, vous pouvez utiliser la molette de votre souris, ou effectuer un mouvement de pincement sur votre pavé tactile.</p>
+                        <p>Il vous est également possible de vous déplacer dans un graphique, en maintenant le clic et en effectuant un mouvement de déplacement dans le sens voulu.</p>
+                        <p>La maniabilité avec le pavé tactile, utile en cas d'utilisation du site sur le terrain, a été travaillée pour assurer un certain confort d'utilisation.</p>
+                    </div>
+                    <img src="Ressources/img/screen12.png" alt="">
+                </div>
+                
+                <div class="etape">
+                    <div>
+                        <h3><span>2</span>Affichage/Occultation de courbes</h3>
+                        <p>Il est possible de cacher ou d'afficher des courbes sur un graphique. Pour cela, vous pouvez cliquer sur le label ou la couleur d'un label en haut du graphique.</p>
+                    </div>
+                    <img src="Ressources/img/screen16.png" alt="">
+                </div>
+                
+                <div class="etape">
+                    <div>
+                        <h3><span>3</span>Occultation automatique en cas de redondance</h3>
+                        <p>Si une courbe est parfaitement stable sur toute la longueur du graphique, alors cette dernière sera occultée automatiquement par défaut pour améliorer la visibilité des données.</p>
+                        <p>Vous pouvez afficher cette courbe à tout moment en cliquant sur son label ou sur la couleur de son label.</p>
+                    </div>
+                    <img src="Ressources/img/screen9.png" alt="">
+                </div>
+                
             </div>
             
            
