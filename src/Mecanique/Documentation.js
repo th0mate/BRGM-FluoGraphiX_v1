@@ -76,7 +76,6 @@ function quitterFocus() {
 
 
 window.addEventListener('DOMContentLoaded', (event) => {
-    console.log('aaa');
     let observer;
     let sommaireElements = document.querySelectorAll('.sommaire');
     let sections = document.querySelectorAll('.section');
@@ -94,13 +93,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         if (h3Content) {
             sommaireElements.forEach(element => {
-                element.classList.remove('active');
+                element.classList.remove('activeDoc');
             });
 
             let matchingSommaireElement = document.querySelector(`.sommaire[data-content="${h3Content}"]`);
 
             if (matchingSommaireElement) {
-                matchingSommaireElement.classList.add('active');
+                matchingSommaireElement.classList.add('activeDoc');
             } else {
                 console.error(`L'élément du sommaire avec data-content="${h3Content}" n'existe pas.`);
             }

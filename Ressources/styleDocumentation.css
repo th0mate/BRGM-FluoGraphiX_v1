@@ -182,11 +182,11 @@
 }
 
 
-.bandeauDocumentation > div > div:hover, .active {
+.bandeauDocumentation > div > div:hover, .activeDoc {
     color: var(--orangeBRGM)!important;
 }
 
-.bandeauDocumentation > div > div:hover > span, .active > span {
+.bandeauDocumentation > div > div:hover > span, .activeDoc > span {
     border: 2px solid var(--orangeBRGM)!important;
 }
 
