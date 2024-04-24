@@ -16,7 +16,7 @@ function vueDocumentation() {
             <h2>Retrouvez toute la documentation du site sur une seule et même page. Utilisez la barre de recherche pour trouver tout de suite les informations dont vous avez besoin.</h2>
             <span>
                 <span>
-                    <input type="text" placeholder="Rechercher..." onchange="rechercher(this.value)">
+                    <input type="text" id="rechercher" placeholder="Rechercher...">
                     <div class="datalist" id="listeResultats"></div>
                 </span>
                 <img src="Ressources/img/rechercher.png" alt="">

@@ -63,3 +63,13 @@ function rechercher(caracteres) {
         listeResultats.appendChild(div);
     });
 }
+
+document.querySelector('#rechercher').addEventListener('input', (event) => {
+    rechercher(event.target.value);
+});
+
+document.querySelector('#rechercher').addEventListener('blur', () => {
+    setTimeout(() => {
+        document.getElementById('listeResultats').innerHTML = "";
+    }, 200);
+});
