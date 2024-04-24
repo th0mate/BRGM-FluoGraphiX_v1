@@ -453,17 +453,23 @@ function convertirEnTexte() {
     for (let i = 0; i < traceurs.length; i++) {
         texte += `${traceurs[i].nom}\n`;
         texte += `${dateCalibration}\n`;
-        texte += `ppb\n\n`;
 
         let echelles = traceurs[i].echelles.map((echelle, index) => ({echelle, index}));
 
-        echelles.sort((a, b) => a.echelle - b.echelle);
+        if (traceurs[i].nom !== 'Eau') {
 
-        texte += '         ';
-        for (let j = 0; j < echelles.length; j++) {
-            texte += `${setEspaces(echelles[j].echelle, 5)}       `;
+            texte += `ppb\n\n`;
+
+            echelles.sort((a, b) => a.echelle - b.echelle);
+
+            texte += '         ';
+            for (let j = 0; j < echelles.length; j++) {
+                texte += `${setEspaces(echelles[j].echelle, 5)}       `;
+            }
+            texte += '\n';
+        } else {
+            texte += '\n\n\n';
         }
-        texte += '\n';
 
         for (let j = 1; j <= 4; j++) {
             texte += `L${j}`;
@@ -571,8 +577,14 @@ function creerTraceurTxt() {
             const nom = section[1].trim();
             let traceur = new Traceur(nom);
 
-            let futuresEchelles = section[5].split(/\s+/);
-            futuresEchelles = futuresEchelles.filter(echelle => echelle !== '');
+            let futuresEchelles = [];
+            if (nom !== 'Eau') {
+                futuresEchelles = section[5].split(/\s+/);
+                futuresEchelles = futuresEchelles.filter(echelle => echelle !== '');
+            } else {
+                console.log('eau');
+                futuresEchelles.push(100);
+            }
 
             const nbColonnes = futuresEchelles.length;
 
@@ -602,7 +614,6 @@ function creerTurbidityTxt() {
     const turbidite = new Traceur('Turbidité');
     const sections = getSectionsCalibratTxt();
     const section = sections[sections.length - 2].split('\n');
-    console.log(section);
 
     let futuresEchelles = section[5].split(/\s+/);
     futuresEchelles = futuresEchelles.filter(echelle => echelle !== '');
