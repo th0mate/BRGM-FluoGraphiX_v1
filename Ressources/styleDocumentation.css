@@ -1,0 +1,211 @@
+.documentation {
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+    margin: auto;
+    padding-top: 100px;
+    padding-bottom: 50px;
+}
+
+.documentation > img {
+    width: 30%;
+}
+
+.documentation > div {
+    max-width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-content: flex-start;
+}
+
+.documentation > div > span {
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
+.documentation > div > span > input {
+    height: 40px;
+    width: 90%;
+    background-color: var(--grisBRGM);
+    color: white;
+    padding-left: 10px;
+}
+
+.documentation > div > span > input::placeholder {
+    color: #aaaaaa;
+}
+
+.documentation > div > span > input:focus {
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.documentation > div > span > img {
+    padding: 10px;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    background-color: var(--orangeBRGM);
+    transition: background-color 0.3s ease-in-out;
+}
+
+.documentation > div > span > img:hover {
+    background-color: var(--rouilleBRGM);
+}
+
+.documentationMain {
+    width: 98%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-content: flex-start;
+    margin: auto;
+    padding-top: 70px;
+    padding-bottom: 50px;
+}
+
+.bandeauDocumentation {
+    width : 300px;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+    border-right: 2px solid var(--orangeBRGM);
+    overflow-y: auto;
+    position: sticky;
+    top: 5%;
+}
+
+.bandeauDocumentation > div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+    margin-bottom: 15px;
+}
+
+.bandeauDocumentation > div > h3 {
+    color: var(--orangeBRGM);
+    text-decoration: underline;
+}
+
+
+.bandeauDocumentation > div > a {
+    display: flex;
+    text-decoration: none;
+    margin-bottom: 10px;
+    color: black;
+    transition: color 0.3s ease-in-out;
+    font-size: 1.2em;
+}
+
+.bandeauDocumentation > div > a > span {
+    border: 2px solid transparent;
+    border-radius: 3px;
+    transition: border 0.3s ease-in-out;
+    margin-right: 15px;
+}
+
+
+.bandeauDocumentation > div > a:hover {
+    color: var(--orangeBRGM);
+}
+
+.bandeauDocumentation > div > a:hover > span{
+    border: 2px solid var(--orangeBRGM);
+}
+
+
+.documentationContenu {
+    width: 70%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+}
+
+.documentationContenu > .section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+    margin-bottom: 50px;
+    padding-bottom: 50px;
+    border-bottom: 2px solid black;
+}
+
+.section > .titreBarre {
+    font-size: 2em;
+}
+
+.section > .etape {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-content: flex-start;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.section > .etape > img {
+    width: 200px;
+    margin: auto;
+    padding-top: 30px;
+}
+
+.section > .etape > div {
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+}
+
+.section > .etape > div > h3 {
+    font-size: 1.2em;
+    color: var(--orangeBRGM);
+    display: flex;
+    align-items: center;
+
+}
+
+.section > .etape > div > h3 > span {
+    font-size: 1em;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--orangeBRGM);
+    color: white;
+    margin-right: 10px;
+}
+
+.section > .etape > div > .bouton {
+    border: 5px solid var(--orangeBRGM);
+    color: white;
+    background-color: var(--orangeBRGM);
+    padding: 10px;
+    margin-top: 20px;
+    width: 150px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
