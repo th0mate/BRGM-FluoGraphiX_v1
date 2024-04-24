@@ -446,11 +446,20 @@ function afficherTableauTraceur(traceur) {
 
 
 /**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * PARTIE EXPORT
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+
+/**
  * Exporte les données du fichier Calibrat sous la forme d'un fichier texte
  * @return {string} le contenu du fichier texte
  */
 function convertirEnTexte() {
     let texte = `FluoriGraphix - Export du ${getDateAujourdhui()} - Appareil n°${numeroFluorimetre}\n\n`;
+    texte += `/!\\ Par convention, la turbidité doit toujours se trouver en dernière position dans le fichier.\n`;
+    texte += `Pour plus d'informations sur le fonctionnement de ce fichier, visitez la rubrique 'Documentation' du site FluoriGraphix.\n\n`;
     texte += `----------------------------------------------------------------\n`;
 
     for (let i = 0; i < traceurs.length; i++) {
@@ -575,7 +584,6 @@ function creerTraceurTxt() {
                 futuresEchelles = section[5].split(/\s+/);
                 futuresEchelles = futuresEchelles.filter(echelle => echelle !== '');
             } else {
-                console.log('eau');
                 futuresEchelles.push(100);
             }
 
