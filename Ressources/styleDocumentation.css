@@ -127,6 +127,8 @@
 
 .bandeauDocumentation > div > a {
     display: flex;
+    min-width: 200px;
+    justify-content: space-between;
     text-decoration: none;
     margin-bottom: 10px;
     color: black;
@@ -139,6 +141,12 @@
     border-radius: 3px;
     transition: border 0.3s ease-in-out;
     margin-right: 15px;
+}
+
+.bandeauDocumentation > div > a > img {
+    width: 20px;
+    height: 20px;
+    margin-left: 30px;
 }
 
 
@@ -256,6 +264,21 @@
 @media (max-width: 800px) {
 
 
+    .documentation {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .documentation > img {
+        width: 300px;
+    }
+
+    .documentation > div {
+        width: 90%;
+        max-width: none;
+    }
+
+
     .documentationMain {
         flex-direction: column;
         width: 100%;
@@ -340,6 +363,15 @@
 
     .bandeauDocumentation > div > a {
         color: white;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .documentation > div > span {
+        width: 100%;
     }
 
 }

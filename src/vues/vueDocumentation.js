@@ -42,17 +42,17 @@ function vueDocumentation() {
             
             <div>
                 <h3>Présentation & Installation</h3>
-                <a href="#installationDoc"><span></span>Installation</a>
-                <a href="#lancementDoc"><span></span>Lancement</a>
-                <a href="#presentationDoc"><span></span>Présentation</a>
+                <a href="#installationDoc"><span></span>Installation<img src="Ressources/img/droite.png" alt=""></a>
+                <a href="#lancementDoc"><span></span>Lancement<img src="Ressources/img/droite.png" alt=""></a>
+                <a href="#presentationDoc"><span></span>Présentation<img src="Ressources/img/droite.png" alt=""></a>
             </div>
             
             <div>
                 <h3>Graphiques</h3>
-                <a href="#paramGraphiqueDoc"><span></span>Paramètres</a>
-                <a href="#importGraphiqueDoc"><span></span>Importation</a>
-                <a href="#expGraphiqueDoc"><span></span>Exportation</a>
-                <a href="#GraphiqueDoc"><span></span>Graphique</a>
+                <a href="#paramGraphiqueDoc"><span></span>Paramètres<img src="Ressources/img/droite.png" alt=""></a>
+                <a href="#importGraphiqueDoc"><span></span>Importation<img src="Ressources/img/droite.png" alt=""></a>
+                <a href="#expGraphiqueDoc"><span></span>Exportation<img src="Ressources/img/droite.png" alt=""></a>
+                <a href="#GraphiqueDoc"><span></span>Graphique<img src="Ressources/img/droite.png" alt=""></a>
             </div>
             
         </div>
