@@ -8,7 +8,6 @@ let sectionsCalibrat = [];
 let nomsTraceur = [];
 let numeroFluorimetre = '';
 let traceurs = [];
-let dateCalibration = ''
 
 
 
@@ -50,7 +49,6 @@ function init(estDepuisCalibrat = true) {
             sectionsCalibrat = getSectionsCalibrat();
             nomsTraceur = getNomsTraceursCalibrat();
             numeroFluorimetre = getNumeroFluorimetreCalibrat();
-            dateCalibration = getDateCalibrationCalibrat();
             creerTraceurs();
             creerTurbidity();
             contenuCalibrat = convertirEnTexte();
@@ -59,7 +57,6 @@ function init(estDepuisCalibrat = true) {
             sectionsCalibrat = getSectionsCalibratTxt();
             nomsTraceur = getNomsTraceursTxt();
             numeroFluorimetre = getNumeroFluorimetreTxt();
-            dateCalibration = getDateCalibrationTxt();
             creerTraceurTxt();
         }
 
@@ -67,7 +64,6 @@ function init(estDepuisCalibrat = true) {
         if (document.querySelector('.infosConcentration')) {
             document.querySelector('.infosConcentration').remove();
         }
-        document.querySelector('.descriptionConcentration').innerHTML = `<h2>Données de l'appareil <span>${numeroFluorimetre}</span> du <span>${dateCalibration}</span> :</h2>`;
 
 
         console.log(traceurs);
@@ -147,7 +143,13 @@ function creerTraceurs() {
     for (let i = 1; i <= 4; i++) {
         const section = sectionsCalibrat[i].split('\n');
         const nom = section[0].trim();
-        let traceur = new Traceur(nom);
+        let traceur;
+
+        if (nom === 'Eau') {
+            traceur = new Traceur(nom, getDateCalibrationCalibrat(), '');
+        } else {
+            traceur = new Traceur(nom, getDateCalibrationCalibrat(), 'ppb');
+        }
 
         traceur.echelles.push(arrondirSansVirgule(sectionsCalibrat[14].split('  ')[0]));
 
@@ -224,7 +226,7 @@ function arrondirSansVirgule(number) {
  * Crée un objet Traceur de type Turbidité à partir des données du fichier Calibrat.dat
  */
 function creerTurbidity() {
-    const turbidite = new Traceur('Turbidité');
+    const turbidite = new Traceur('Turbidité', getDateCalibrationCalibrat(), 'NTU');
     let k = 1;
     for (let i = 5; i <= 7; i++) {
         const section = sectionsCalibrat[i].split('\n');
@@ -398,7 +400,7 @@ function afficherTableauTraceur(traceur) {
     const nbColonnes = traceur.data.size / 4;
     for (let i = 0; i < nbColonnes; i++) {
         const th = document.createElement('th');
-        th.textContent = echellesTableau[i] + 'ppb';
+        th.textContent = echellesTableau[i] + traceur.unite;
         tr.appendChild(th);
     }
 
@@ -435,6 +437,7 @@ function afficherTableauTraceur(traceur) {
         tbody.appendChild(tr);
     }
 
+    document.querySelector('.descriptionConcentration').innerHTML = `<h2>Données de l'appareil <span>${numeroFluorimetre}</span> du <span>${traceur.dateMesure}</span> :</h2>`;
     tableau.appendChild(tbody);
     tableau.insertAdjacentHTML('afterbegin', `<caption>Signaux en mV du traceur ${traceur.nom}</caption>`);
     document.querySelector('.donnees').appendChild(tableau);
@@ -452,13 +455,13 @@ function convertirEnTexte() {
 
     for (let i = 0; i < traceurs.length; i++) {
         texte += `${traceurs[i].nom}\n`;
-        texte += `${dateCalibration}\n`;
+        texte += `${traceurs[i].dateMesure}\n`;
 
         let echelles = traceurs[i].echelles.map((echelle, index) => ({echelle, index}));
 
         if (traceurs[i].nom !== 'Eau') {
 
-            texte += `ppb\n\n`;
+            texte += `${traceurs[i].unite}\n\n`;
 
             echelles.sort((a, b) => a.echelle - b.echelle);
 
@@ -521,22 +524,12 @@ function telechargerFichierTxt() {
  */
 function getNumeroFluorimetreTxt() {
     const lignes = contenuCalibrat.split('\n');
-    const premiereLigne = lignes[1];
+    const premiereLigne = lignes[0];
+    console.log(premiereLigne);
     const index = premiereLigne.indexOf('Appareil n°');
     return premiereLigne.substring(index + 11).trim();
 }
 
-
-/**
- * Récupère la date de la calibration au format jj/mm/aaaa
- * @return {string} la date de la calibration
- */
-function getDateCalibrationTxt() {
-    const lignes = contenuCalibrat.split('\n');
-    const premiereLigne = lignes[1];
-    const index = premiereLigne.indexOf('Export du');
-    return premiereLigne.substring(index + 9, index + 19);
-}
 
 
 /**
@@ -575,7 +568,7 @@ function creerTraceurTxt() {
         if (sections[i] !== '' && sections[i] !== ' ') {
             const section = sections[i].split('\n');
             const nom = section[1].trim();
-            let traceur = new Traceur(nom);
+            let traceur = new Traceur(nom, section[2].trim(), section[3].trim());
 
             let futuresEchelles = [];
             if (nom !== 'Eau') {
@@ -611,10 +604,10 @@ function creerTraceurTxt() {
  * La turbidité est la dernière section du fichier txt
  */
 function creerTurbidityTxt() {
-    const turbidite = new Traceur('Turbidité');
     const sections = getSectionsCalibratTxt();
     const section = sections[sections.length - 2].split('\n');
 
+    const turbidite = new Traceur('Turbidité', section[2].trim(), section[3].trim());
     let futuresEchelles = section[5].split(/\s+/);
     futuresEchelles = futuresEchelles.filter(echelle => echelle !== '');
     const nbColonnes = futuresEchelles.length;

@@ -6,9 +6,13 @@ class Traceur {
     /**
      * Constructeur de la classe Traceur
      * @param nom le nom du traceur
+     * @param dateMesure la date de la mesure
+     * @param unite l'unité de mesure
      */
-    constructor(nom) {
+    constructor(nom, dateMesure, unite) {
         this.nom = nom;
+        this.dateMesure = dateMesure;
+        this.unite = unite;
         this.data = new Map();
         this.echelles = [];
     }
