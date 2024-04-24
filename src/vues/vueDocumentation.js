@@ -25,8 +25,21 @@ function vueDocumentation() {
     
     
     <div class="documentationMain">
-    
+        
+        <div class="burgerDocumentation" onclick="ouvrirSommaire()">
+            <div>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <h4>Sommaire</h4>
+        </div>
+        
         <div class="bandeauDocumentation">
+            <div class="entete">
+                <img src="Ressources/img/close.png" alt="fermer" onclick="fermerSommaire()">
+            </div>
+            
             <div>
                 <h3>Présentation & Installation</h3>
                 <a href="#installationDoc"><span></span>Installation</a>

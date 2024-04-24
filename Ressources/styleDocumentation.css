@@ -70,6 +70,10 @@
     padding-bottom: 50px;
 }
 
+.burgerDocumentation {
+    display: none;
+}
+
 .bandeauDocumentation {
     width : 300px;
     height: 90vh;
@@ -84,7 +88,7 @@
     top: 5%;
 }
 
-.bandeauDocumentation > div {
+.bandeauDocumentation > div:not(.entete) {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -92,6 +96,27 @@
     align-items: flex-start;
     align-content: flex-start;
     margin-bottom: 15px;
+}
+
+.bandeauDocumentation > .entete {
+    width: 95%;
+    display: none;
+    justify-content: flex-end;
+    align-items: center;
+    align-content: center;
+}
+
+.bandeauDocumentation > .entete > img {
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.bandeauDocumentation > .entete > img:hover {
+    background-color: var(--orangeBRGM);
 }
 
 .bandeauDocumentation > div > h3 {
@@ -236,6 +261,53 @@
         width: 100%;
     }
 
+    .burgerDocumentation {
+        min-width: 130px;
+        height: 30px;
+        background-color: var(--orangeBRGM);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        align-content: center;
+        padding: 10px;
+        color: white;
+        position: sticky;
+        left: 0;
+        top: 0;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+        border: 2px solid transparent;
+        z-index: 6;
+    }
+
+    .burgerDocumentation > div {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .burgerDocumentation > div > span {
+        width : 99%;
+        height: 2px;
+        border-radius: 3px;
+        background-color: white;
+    }
+
+    .burgerDocumentation:hover > div > span {
+        background-color: black;
+    }
+
+    .burgerDocumentation:hover {
+        background-color: white;
+        color: black;
+        border: 2px solid black;
+    }
+
+
+
     .bandeauDocumentation {
         max-width: 70%;
         height: 100vh;
@@ -245,11 +317,17 @@
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-
+        display: none;
         color: white;
         padding-left: 20px;
         top: 0;
         z-index: 7;
+    }
+
+    .bandeauDocumentation > .entete {
+        display: flex;
+        margin-top: 30px;
+        margin-bottom: 50px;
     }
 
     .documentationContenu {
