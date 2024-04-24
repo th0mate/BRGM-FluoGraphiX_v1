@@ -16,7 +16,7 @@ function vueDocumentation() {
             <h2>Retrouvez toute la documentation du site sur une seule et même page. Utilisez la barre de recherche pour trouver tout de suite les informations dont vous avez besoin.</h2>
             <span>
                 <span>
-                    <input type="text" id="rechercher" placeholder="Rechercher...">
+                    <input oninput="rechercher(this.value)" onblur="quitterFocus()" type="text" id="rechercher" placeholder="Rechercher...">
                     <div class="datalist" id="listeResultats"></div>
                 </span>
                 <img src="Ressources/img/rechercher.png" alt="">
@@ -44,17 +44,17 @@ function vueDocumentation() {
             
             <div>
                 <h3>Présentation & Installation</h3>
-                <div onclick="redirectTo('installationDoc')"><span></span>Installation<img src="Ressources/img/droite.png" alt=""></div>
-                <div onclick="redirectTo('lancementDoc')"><span></span>Lancement<img src="Ressources/img/droite.png" alt=""></div>
-                <div onclick="redirectTo('presentationDoc')"><span></span>Présentation<img src="Ressources/img/droite.png" alt=""></div>
+                <div class="sommaire" data-content="Installation" onclick="redirectTo('installationDoc')"><span></span>Installation<img src="Ressources/img/droite.png" alt=""></div>
+                <div class="sommaire" data-content="Lancement" onclick="redirectTo('lancementDoc')"><span></span>Lancement<img src="Ressources/img/droite.png" alt=""></div>
+                <div class="sommaire" data-content="Présentation" onclick="redirectTo('presentationDoc')"><span></span>Présentation<img src="Ressources/img/droite.png" alt=""></div>
             </div>
             
             <div>
                 <h3>Graphiques</h3>
-                <div onclick="redirectTo('paramGraphiqueDoc')"><span></span>Paramètres<img src="Ressources/img/droite.png" alt=""></div>
-                <div onclick="redirectTo('importGraphiqueDoc')"><span></span>Importation<img src="Ressources/img/droite.png" alt=""></div>
-                <div onclick="redirectTo('expGraphiqueDoc')"><span></span>Exportation<img src="Ressources/img/droite.png" alt=""></div>
-                <div onclick="redirectTo('GraphiqueDoc')"><span></span>Graphique<img src="Ressources/img/droite.png" alt=""></div>
+                <div class="sommaire" data-content="Paramètres" onclick="redirectTo('paramGraphiqueDoc')"><span></span>Paramètres<img src="Ressources/img/droite.png" alt=""></div>
+                <div class="sommaire" data-content="Importation" onclick="redirectTo('importGraphiqueDoc')"><span></span>Importation<img src="Ressources/img/droite.png" alt=""></div>
+                <div class="sommaire" data-content="Exportation" onclick="redirectTo('expGraphiqueDoc')"><span></span>Exportation<img src="Ressources/img/droite.png" alt=""></div>
+                <div class="sommaire" data-content="Graphique" onclick="redirectTo('GraphiqueDoc')"><span></span>Graphique<img src="Ressources/img/droite.png" alt=""></div>
             </div>
             
         </div>
@@ -150,8 +150,8 @@ function vueDocumentation() {
                     <div>
                         <h3 class="findable"><span>5</span>Page des Concentrations</h3>
                         <p>La page "Concentrations" est une page phare du site. Vous pouvez y importer des fichiers .dat ou .txt pour en afficher les données et ensuite les calculer en concentrations.</p>
-                        <!-- TODO -->
-                        <a class="bouton boutonFonce" href="#concentrationsDoc">En savoir plus</a>
+                       
+                        <a class="bouton boutonFonce" onclick="afficherVue('aa')">En savoir plus</a>
                     </div>
                     <img src="Ressources/img/screen8.png" alt="">
                 </div>
@@ -160,8 +160,8 @@ function vueDocumentation() {
                     <div>
                         <h3 class="findable"><span>6</span>Page des Graphiques</h3>
                         <p>La page "Graphiques" est la deuxième page phare du site. Vous pouvez y importer des fichiers .dat, .txt, .xml ou .mv pour en afficher les données sous la forme de graphiques. De nombreuses possibilités d'affichage sont disponibles, comme le zoom ou le déplacement.</p>
-                        <!-- TODO -->
-                        <a class="bouton boutonFonce" href="#graphiquesDoc">En savoir plus</a>
+                       
+                        <a class="bouton boutonFonce" onclick="redirectTo('importGraphiqueDoc')">En savoir plus</a>
                     </div>
                     <img src="Ressources/img/screen9.png" alt="">
                 </div>

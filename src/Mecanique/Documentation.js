@@ -64,12 +64,53 @@ function rechercher(caracteres) {
     });
 }
 
-document.querySelector('#rechercher').addEventListener('input', (event) => {
-    rechercher(event.target.value);
-});
 
-document.querySelector('#rechercher').addEventListener('blur', () => {
+/**
+ * Ferme la liste des résultats de recherche
+ */
+function quitterFocus() {
     setTimeout(() => {
         document.getElementById('listeResultats').innerHTML = "";
     }, 200);
+}
+
+
+window.addEventListener('DOMContentLoaded', (event) => {
+    console.log('aaa');
+    let observer;
+    let sommaireElements = document.querySelectorAll('.sommaire');
+    let sections = document.querySelectorAll('.section');
+    observer = new IntersectionObserver((entries) => {
+        let visibleSection = null;
+        let h3Content = null;
+
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                let titreBarre = entry.target.querySelector('.titreBarre');
+                h3Content = titreBarre ? titreBarre.innerText.trim() : null;
+                visibleSection = entry.target;
+            }
+        });
+
+        if (h3Content) {
+            sommaireElements.forEach(element => {
+                element.classList.remove('active');
+            });
+
+            let matchingSommaireElement = document.querySelector(`.sommaire[data-content="${h3Content}"]`);
+
+            if (matchingSommaireElement) {
+                matchingSommaireElement.classList.add('active');
+            } else {
+                console.error(`L'élément du sommaire avec data-content="${h3Content}" n'existe pas.`);
+            }
+        }
+
+    }, {root: null, threshold: 0});
+
+    sections.forEach(section => {
+        observer.observe(section);
+    });
 });
+
+

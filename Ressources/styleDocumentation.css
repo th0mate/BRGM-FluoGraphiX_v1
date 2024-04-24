@@ -182,12 +182,12 @@
 }
 
 
-.bandeauDocumentation > div > div:hover {
-    color: var(--orangeBRGM);
+.bandeauDocumentation > div > div:hover, .active {
+    color: var(--orangeBRGM)!important;
 }
 
-.bandeauDocumentation > div > div:hover > span {
-    border: 2px solid var(--orangeBRGM);
+.bandeauDocumentation > div > div:hover > span, .active > span {
+    border: 2px solid var(--orangeBRGM)!important;
 }
 
 

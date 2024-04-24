@@ -2,7 +2,6 @@
  * Gestion des popups d'information
  */
 
-
 /**
  * Affiche une popup d'information
  */
@@ -107,6 +106,7 @@ function afficherVue(nomFichier) {
         return;
     }
     fermerMenu();
+    pageActuelle = nomFichier;
     createCookie(nomFichier);
     document.querySelector('#contenu').innerHTML = window[nomFichier]();
     window.scrollTo(0, 0);
