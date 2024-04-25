@@ -2,6 +2,7 @@
  * Gestion des popups d'information
  */
 
+
 /**
  * Affiche une popup d'information
  */
@@ -35,7 +36,7 @@ if (window.location.protocol !== "file:") {
     let middleIndex = Math.floor(parentElement.children.length / 2);
     let middleChild = parentElement.children[middleIndex];
 
-    middleChild.insertAdjacentHTML('beforebegin',`<div class="action">
+    middleChild.insertAdjacentHTML('beforebegin', `<div class="action">
             <img src="Ressources/img/dl.png" alt="aide">
             TÉLÉCHARGER
             <span></span>
@@ -44,7 +45,7 @@ if (window.location.protocol !== "file:") {
     let parentMenu = document.querySelector('.menu');
     let middleIndexMenu = Math.floor(parentMenu.children.length / 2);
     let middleChildMenu = parentMenu.children[middleIndexMenu];
-    middleChildMenu.insertAdjacentHTML('beforebegin',`
+    middleChildMenu.insertAdjacentHTML('beforebegin', `
         <div class="action" onclick="afficherVue('vueTélécharger')">
             <div>
                 <img src="Ressources/img/dl.png" alt="aide">
@@ -101,12 +102,14 @@ function ouvrirInternet() {
  * @param nomFichier{string} le nom du fichier à afficher
  */
 function afficherVue(nomFichier) {
+
     if (!window[nomFichier]) {
         afficherVue('vueErreur');
         return;
     }
+
     fermerMenu();
-    pageActuelle = nomFichier;
+    window.pageActuelle = nomFichier; // Utilisez window.pageActuelle ici
     createCookie(nomFichier);
     document.querySelector('#contenu').innerHTML = window[nomFichier]();
     window.scrollTo(0, 0);
@@ -124,6 +127,20 @@ function afficherVue(nomFichier) {
         })
     }
 }
+
+
+Object.defineProperty(window, 'pageActuelle', {
+    get() {
+        return pageActuelle;
+    },
+    set(value) {
+        if (value === 'vueDocumentation') {
+            setTimeout(() => {
+                scrollDocumentation();
+            }, 2000);
+        }
+    }
+});
 
 
 /**
@@ -169,7 +186,7 @@ function fermerMenu() {
     }
 }
 
-window.addEventListener('popstate', function(event) {
+window.addEventListener('popstate', function (event) {
     if (getCookie() !== 'vueAccueil') {
         afficherVue('vueAccueil');
     }

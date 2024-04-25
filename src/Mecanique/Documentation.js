@@ -75,7 +75,8 @@ function quitterFocus() {
 }
 
 
-window.addEventListener('DOMContentLoaded', (event) => {
+function scrollDocumentation() {
+    console.log('aaa');
     let observer;
     let sommaireElements = document.querySelectorAll('.sommaire');
     let sections = document.querySelectorAll('.section');
@@ -110,6 +111,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
     sections.forEach(section => {
         observer.observe(section);
     });
+}
+
+window.addEventListener('DOMContentLoaded', (event) => {
+    scrollDocumentation();
 });
 
 
