@@ -19,12 +19,12 @@ function setEspaces(n, e) {
  */
 function getTime(string) {
     let date = new Date(string);
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear().toString().slice(2, 4);
-    let hour = date.getHours().toString().length === 1 ? "0" + date.getHours() : date.getHours();
-    let minutes = date.getMinutes().toString().length === 1 ? "0" + date.getMinutes() : date.getMinutes();
-    let seconds = date.getSeconds().toString().length === 1 ? "0" + date.getSeconds() : date.getSeconds();
+    let day = date.getDate().toString().padStart(2, '0');
+    let month = (date.getMonth() + 1).toString().padStart(2, '0');
+    let year = date.getFullYear().toString().substring(2, 4);
+    let hour = date.getHours().toString().padStart(2, '0');
+    let minutes = date.getMinutes().toString().padStart(2, '0');
+    let seconds = date.getSeconds().toString().padStart(2, '0');
 
     return `${day}/${month}/${year}-${hour}:${minutes}:${seconds}`;
 }
@@ -41,9 +41,9 @@ function getTimeFromMV(string) {
     if (format.toString() === '0') {
         afficherMessageFlash("Erreur : La détection du format de date a échoué. Veuillez réessayer sans le fichier Calibrat.dat.", 'danger');
         throw new Error("Erreur : La détection du format de date a échoué. Veuillez réessayer sans le fichier Calibrat.dat.");
-    }else if (format.toString() === '1') {
+    } else if (format.toString() === '1') {
         return string;
-    }else if (format.toString() === '2') {
+    } else if (format.toString() === '2') {
         const date = string.substring(0, 8);
         const hour = string.substring(9, 17);
         return date.substring(6, 8) + "/" + date.substring(3, 5) + "/" + date.substring(0, 2) + "-" + hour;
