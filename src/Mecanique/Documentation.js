@@ -56,7 +56,7 @@ function rechercher(caracteres) {
         let div = document.createElement('div');
         const texte = resultat.innerText.replace(/[0-9]/g, '');
 
-        div.innerHTML = texte.substring(0, 40);
+        div.innerHTML = texte.substring(0, 100);
         div.onclick = () => {
             redirectTo(resultat, true);
         };
