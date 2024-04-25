@@ -10,7 +10,6 @@ let numeroFluorimetre = '';
 let traceurs = [];
 
 
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * PARTIE FICHIERS DAT
@@ -253,6 +252,13 @@ function recupererTraceurParNom(nom) {
     return traceurs.find(traceur => traceur.nom === nom);
 }
 
+/**
+ * Récupère l'objet traceur Eau, qui est le seul à ne pas avoir d'unité
+ */
+function recupererTraceurEau() {
+    return traceurs.find(traceur => traceur.unite === '');
+}
+
 
 /**
  * Affiche dans un div un select permettant de choisir un traceur
@@ -388,6 +394,11 @@ function afficherTableauTraceur(traceur) {
     th.textContent = traceur.nom;
     tr.appendChild(th);
 
+    const eau = recupererTraceurEau();
+    const th1 = document.createElement('th');
+    th1.textContent = eau.nom;
+    tr.appendChild(th1);
+
     /**
      * Les colonnes
      */
@@ -428,9 +439,13 @@ function afficherTableauTraceur(traceur) {
         th.textContent = 'L' + (i + 1);
         tr.appendChild(th);
 
-        for (let j = 0; j < nbColonnes; j++) {
+        for (let j = 0; j < nbColonnes + 1; j++) {
             const td = document.createElement('td');
-            td.textContent = sortedData[i][j].value;
+            if (j === 0) {
+                td.textContent = eau.getDataParNom('L' + (i + 1) + '-' + 1);
+            } else {
+                td.textContent = sortedData[i][j - 1].value;
+            }
             tr.appendChild(td);
         }
 
@@ -519,8 +534,6 @@ function telechargerFichierTxt() {
 }
 
 
-
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * PARTIE FICHIERS TXT
@@ -534,11 +547,9 @@ function telechargerFichierTxt() {
 function getNumeroFluorimetreTxt() {
     const lignes = contenuCalibrat.split('\n');
     const premiereLigne = lignes[0];
-    console.log(premiereLigne);
     const index = premiereLigne.indexOf('Appareil n°');
     return premiereLigne.substring(index + 11).trim();
 }
-
 
 
 /**
@@ -632,10 +643,6 @@ function creerTurbidityTxt() {
     }
     traceurs.push(turbidite);
 }
-
-
-
-
 
 
 /**
