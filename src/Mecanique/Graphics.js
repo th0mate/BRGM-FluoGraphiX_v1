@@ -1,30 +1,43 @@
+const DateTime = luxon.DateTime;
+
+
+
 /**
  * Traite les données pour les afficher sous forme de graphique
  * @param mvContent le contenu du fichier .mv à afficher
  */
 function afficherGraphique(mvContent) {
+    console.log(mvContent);
     const couleurs = ['rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)', 'rgba(54, 162, 235, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 206, 86, 1)', 'rgba(255, 159, 64, 1)', 'rgba(255, 99, 132, 1)', 'rgb(249,158,255)'];
     const lignes = mvContent.split('\n');
-    const labels = [];
-    const datasets = [];
 
     const header = lignes[2].split(/ {2,}/).slice(3);
 
     const dataColumns = header.map(() => []);
 
-    for (let i = 3; i < lignes.length; i++) {
+    let prevTimestamp = null;
+
+    for (let i = 3; i < lignes.length - 1; i++) {
         const colonnes = lignes[i].split(/\s+/);
-        const timeDate = colonnes[2];
 
-        labels.push(timeDate);
+        const dateStr = colonnes[2];
+        const timeDate = DateTime.fromFormat(dateStr, 'dd/MM/yy-HH:mm:ss', { zone: 'Europe/Paris' });
 
-        for (let j = 0; j < dataColumns.length; j++) {
-            const value = around(parseFloat(colonnes[j + 3]));
-            dataColumns[j].push({x: timeDate, y: value});
+        let timestamp = timeDate.toMillis();
+
+        if (prevTimestamp !== null && timestamp < prevTimestamp) {
+            timestamp += 3600000;
         }
 
+        prevTimestamp = timestamp;
+
+        for (let j = 0; j < dataColumns.length; j++) {
+            const value = parseFloat(colonnes[j + 3]);
+            dataColumns[j].push({ x: timestamp, y: value });
+        }
     }
 
+    const datasets = [];
     for (let i = 0; i < header.length; i++) {
         if (header[i] !== '' && header[i] !== 'R' && header[i] !== '    ' && header[i] !== '  ') {
             if (i >= couleurs.length) {
@@ -36,13 +49,13 @@ function afficherGraphique(mvContent) {
                 data: dataColumns[i],
                 borderColor: couleurs[i],
                 borderWidth: 2,
-                fill: false
+                fill: false,
+                pointRadius: 0
             });
         }
     }
 
     const data = {
-        labels: labels,
         datasets: datasets
     };
 
@@ -54,18 +67,29 @@ function afficherGraphique(mvContent) {
         existingChart.destroy();
     }
 
-    const ctx = document.getElementById('graphique').getContext('2d');
-    new Chart(ctx, {
+    const ctx = canvas.getContext('2d');
+
+    const chartOptions = {
         type: 'line',
         data: data,
         options: {
             scales: {
                 x: {
-                    position: 'bottom',
+                    type: 'time',
+                    time: {
+                        parser: 'x',
+                        unit: 'minute',
+                        tooltipFormat: 'DD/MM/YY-HH:mm:ss',
+                        displayFormats: {
+                            minute: 'DD/MM/YY-HH:mm:ss'
+                        }
+                    },
                     ticks: {
-                        source: 'labels',
                         autoSkip: true,
-                        maxTicksLimit: 20
+                        maxTicksLimit: 20,
+                        callback: function(value, index, values) {
+                            return DateTime.fromMillis(value).toFormat('dd/MM/yy-HH:mm:ss');
+                        }
                     }
                 },
                 y: {
@@ -87,20 +111,21 @@ function afficherGraphique(mvContent) {
                         },
                         mode: `${zoom}`,
                     }
-                },
-            },
-            datasets: {
-                line: {
-                    pointRadius: 0
                 }
             }
         }
-    });
+    };
+
+    new Chart(ctx, chartOptions);
 
     cacherDoublons();
     document.querySelector('.resetZoom').style.display = 'flex';
     document.querySelector('.infos').style.display = 'none';
 }
+
+
+
+
 
 
 /**
