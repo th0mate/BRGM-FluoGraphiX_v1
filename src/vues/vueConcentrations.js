@@ -14,8 +14,8 @@ function vueConcentrations() {
         <div class="bannierePage">
             <img src="Ressources/img/image4.jpg.webp" alt="Sources">
             <div class="contenu">
-                <p><span onclick="afficherVue('vueAccueil')"><span></span>Accueil</span> <strong> / Concentrations</strong></p>
-                <h1>Concentrations</h1>
+                <p><span onclick="afficherVue('vueAccueil')"><span></span>Accueil</span> <strong> / Calibration</strong></p>
+                <h1>Calibration</h1>
             </div>
         </div>
         
