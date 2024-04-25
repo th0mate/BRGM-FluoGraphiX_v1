@@ -28,6 +28,9 @@ function redirectTo(anchorId, isElement = false) {
     }
 
     if (element) {
+        if (window.innerWidth < 800) {
+            fermerSommaire();
+        }
         element.scrollIntoView({behavior: "smooth"});
     } else {
         afficherMessageFlash("Erreur : L'élément demandé n'existe pas.", "danger");
