@@ -79,7 +79,6 @@ function quitterFocus() {
 
 
 function scrollDocumentation() {
-    console.log('aaa');
     let observer;
     let sommaireElements = document.querySelectorAll('.sommaire');
     let sections = document.querySelectorAll('.section');
