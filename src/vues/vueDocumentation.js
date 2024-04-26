@@ -58,6 +58,12 @@ function vueDocumentation() {
                 <div class="sommaire" data-content="Graphique" onclick="redirectTo('GraphiqueDoc')"><span></span>Graphique<img src="Ressources/img/droite.png" alt=""></div>
             </div>
             
+            <div>
+                <h3>Calibration</h3>
+                <div class="sommaire" data-content="Calibration : Présentation et importation" onclick="redirectTo('calibrationDoc')"><span></span>Présentation et Importation de données<img src="Ressources/img/droite.png" alt=""></div>
+                <div class="sommaire" data-content="Fichiers txt (Calibration)" onclick="redirectTo('paramCalibrationDoc')"><span></span>Présentation des Fichiers txt<img src="Ressources/img/droite.png" alt=""></div>
+            </div>
+            
         </div>
         
         
@@ -307,7 +313,120 @@ function vueDocumentation() {
                     </div>
                     <img src="Ressources/img/screen9.png" alt="">
                 </div>
+            </div>
+            
+            
+            <div class="section">
+                <h3>Calibration</h3>
+                <h1 id="calibrationDoc" class="titreBarre findable">Calibration : Présentation et importation</h1>
+                <h3>La page "Calibration" vous permet de visualiser, de traiter, et de manipuler des données de calibration, issues de fichiers de calibration .dat, ou .txt si elles ont été exportées depuis FluoriGraphix</h3>
                 
+                <div class="etape">
+                    <div>
+                        <h3 class="findable"><span>1</span>Importation d'un fichier de calibration .dat</h3>
+                        <p>Vous pouvez importer un fichier de calibration .dat issu d'un fluorimètre. Cela vous permettra de visualiser les données de calibration de vos traceurs sous la forme d'un tableau et d'un graphique.</p>
+                        <p>Vous pouvez également importer un fichier de calibration simplifié issu de FluoriGraphix, vous permettant de modifier facilement les données de ce fichier.</p>
+                    </div>
+                    <img src="Ressources/img/screen17.png" alt="">
+                </div>
+                
+                <div class="etape">
+                    <div>
+                        <h3 class="findable"><span>2</span>Paramètres d'affichage (Calibration)</h3>
+                        <p>Plusieurs paramétrages sont disponibles pour personnaliser l'affichage de vos données. Vous pouvez en effet chosiir quel traceur et quels signaux afficher dans le bandeau dédié.</p>
+                        <p>Pour les options de calcul, référez-vous à la section dédiée de la documentation.</p>
+                    </div>
+                    <img src="Ressources/img/screen18.png" alt="">
+                </div>
+                
+                <div class="etape">
+                    <div>
+                        <h3 class="findable"><span>3</span>Affichage automatique (Calibration)</h3>
+                        <p>Automatiquement, lorsque vous changez de traceur à analyser, le programme sélectionnera automatiquement la ligne à afficher dans le graphique étant dotée du maximum de points.</p>
+                        <p>Vous pouvez évidemment changer cet affichage en modifiant le signal à afficher dans les paramètres.</p>
+                    </div>
+                    <img src="Ressources/img/screen17.png" alt="">
+                </div>
+                
+                <div class="etape">
+                    <div>
+                        <h3 class="findable"><span>3</span>Calibration - Présentation</h3>
+                        <p>La page "Calibration" vous permet donc de visualiser les données de calibration issues d'un fichier, et de les exporter dans un format lisible pouvant être modifié et importé par la suite.</p>
+                    </div>
+                    <img src="Ressources/img/screen19.png" alt="">
+                </div>
+            </div>
+            
+            
+            <div class="section">
+                <h3>Calibration</h3>
+                <h1 id="paramCalibrationDoc" class="titreBarre findable">Fichiers txt (Calibration)</h1>
+                
+                <div class="etape">
+                    <div>
+                        <h3 class="findable"><span>1</span>Présentation générale des fichiers txt de calibration</h3>
+                        <p>Les fichiers de calibration au format txt vous sont proposés à l'exportation depuis la page "Calibration" après avoir importé un fichier de calibration .dat ou .txt</p>
+                        <p>Étant construits d'une façon simple et lisible, vous pouvez les modifier selon vos besoins pour les importer par la suite.</p>
+                    </div>
+                    <img src="Ressources/img/screen20.png" alt="">
+                </div>
+                
+                <div class="etape">
+                    <div>
+                        <h3 class="findable"><span>2</span>Fichiers txt de calibration : En-tête</h3>
+                        <p>L'en-tête du fichier vous fournit les informations nécessaires importantes des mesures, comme la date de l'export ou encore le numéro de l'appareil de mesure associé.</p>
+                        <p>D'autres informations sont également affichées, comme un résumé simple du fonctionnement de ce fichier. Vous pouvez consulter l'espace dédié de cette documentation pour en savoir plus.</p>
+                    </div>
+                    <img src="Ressources/img/screen21.png" alt="">
+                </div>
+                
+                <div class="etape">
+                    <div>
+                        <h3 class="findable"><span>3</span>Fichiers txt de calibration : Ordre des traceurs</h3>
+                        <p>Les fichiers de calibration doivent toujours respecter le même ordre des traceurs, pour ne pas afficher des données corrompues par la suite.</p>
+                        <p>En effet, l'eau doit toujours être disposée en <strong>première position</strong> dans le fichier, tandis que la turbidité doit toujours être placée en <strong>dernière position</strong>.</p>
+                        <p>Les autres traceurs doivent donc se trouver entre ces deux parties du fichier, sans ordre spécifique.</p>
+                    </div>
+                    <img src="Ressources/img/screen20.png" alt="">
+                </div>
+                
+                <div class="etape">
+                    <div>
+                        <h3 class="findable"><span>4</span>Fichiers txt de calibration : Eau</h3>
+                        <p>L'eau doit être affichée en première position dans le fichier, avant tous les autres traceurs.</p>
+                        <p>Dans les premières lignes, on peut voir son label ainsi que sa date de mesure</p>
+                        <p>On peut retrouver ensuite ses valeurs de L1 à L4.</p>
+                    </div>
+                    <img src="Ressources/img/screen22.png" alt="">
+                </div>
+                
+                <div class="etape">
+                    <div>
+                        <h3 class="findable"><span>5</span>Fichiers txt de calibration : Traceur</h3>
+                        <p>Les traceurs ont tous la même forme dans ce fichier.</p>
+                        <p>Dans les premières lignes, on peut voir le label, la date de mesure, ainsi que l'unité de mesure du traceur.</p>
+                        <p>On peut retrouver ensuite un tableau contenant toutes les valeurs du traceur, avec les lignes L1 à L4, et les colonnes représentant les échelles de mesures (100, 200) en unité spécifiée juste avant.</p>
+                    </div>
+                    <img src="Ressources/img/screen23.png" alt="">
+                </div>
+                
+                <div class="etape">
+                    <div>
+                        <h3 class="findable"><span>6</span>Fichiers txt de calibration : Turbidité</h3>
+                        <p>La turbidité doit toujours se trouver en dernière position dans ce fichier, après tous les traceurs et l'eau.</p>
+                        <p>Dans les premières lignes, on peut voir le label, la date de mesure, ainsi que l'unité de mesure de la turbidité.</p>
+                        <p>On peut retrouver ensuite un tableau contenant toutes les valeurs de la turbidité, avec les lignes L1 à L4, et les colonnes représentant les échelles de mesures (1, 10, 100) en unité spécifiée juste avant.</p>
+                    </div>
+                    <img src="Ressources/img/screen24.png" alt="">
+                </div>
+                
+                <div class="etape">
+                    <div>
+                        <h3 class="findable"><span>7</span>Exportation des données de Calibration</h3>
+                        <p>Quelque-soit le fichier importé, vous pouvez télécharger un fichier txt en cliquant sur le bouton "Télécharger les données".</p>
+                    </div>
+                    <img src="Ressources/img/screen25.png" alt="">
+                </div>
             </div>
             
            
