@@ -31,7 +31,7 @@ function redirectTo(anchorId, isElement = false) {
         if (window.innerWidth < 800) {
             fermerSommaire();
         }
-        element.scrollIntoView({behavior: "smooth"});
+        element.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
     } else {
         afficherMessageFlash("Erreur : L'élément demandé n'existe pas.", "danger");
     }
