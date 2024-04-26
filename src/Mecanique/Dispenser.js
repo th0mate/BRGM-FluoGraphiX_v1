@@ -100,6 +100,7 @@ async function traiterFichier() {
             afficherMessageFlash("Trop grand écart entre les dates de fichiers : les données sont corrompues.", 'warning');
         } else {
             try {
+                inputFichier.value = "";
                 afficherGraphique(contenuFichier);
                 afficherMessageFlash("Données traitées avec succès.", 'success');
                 document.querySelector('.downloadFile').style.display = 'block';
