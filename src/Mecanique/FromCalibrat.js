@@ -473,7 +473,7 @@ function afficherTableauTraceur(traceur) {
  */
 function convertirEnTexte() {
     let texte = `FluoriGraphix - Export du ${getDateAujourdhui()} - Appareil n°${numeroFluorimetre}\n\n`;
-    texte += `/!\\ Par convention, la turbidité doit toujours se trouver en dernière position dans le fichier.\n`;
+    texte += `/!\\ Par convention, la turbidité doit toujours se trouver en dernière position dans le fichier, et l'eau en première position..\n`;
     texte += `Pour plus d'informations sur le fonctionnement de ce fichier, visitez la rubrique 'Documentation' du site FluoriGraphix.\n\n`;
     texte += `----------------------------------------------------------------\n`;
 
