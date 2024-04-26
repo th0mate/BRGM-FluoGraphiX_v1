@@ -148,8 +148,8 @@ function vueDocumentation() {
                 
                 <div class="etape">
                     <div>
-                        <h3 class="findable"><span>5</span>Page des Concentrations</h3>
-                        <p>La page "Concentrations" est une page phare du site. Vous pouvez y importer des fichiers .dat ou .txt pour en afficher les données et ensuite les calculer en concentrations.</p>
+                        <h3 class="findable"><span>5</span>Page de Calibration</h3>
+                        <p>La page "Calibration" est une page phare du site. Vous pouvez y importer des fichiers de calibration .dat ou .txt pour en afficher les données et ensuite calculer ces dernières en concentrations.</p>
                        
                         <a class="bouton boutonFonce" onclick="afficherVue('aa')">En savoir plus</a>
                     </div>
@@ -237,7 +237,7 @@ function vueDocumentation() {
                         <h3 class="findable"><span>2</span>Fichiers .dat</h3>
                         <p>Vous pouvez également importer des fichiers de calibration au format .dat. S'ils sont sélectionnés en plus d'autres fichiers, ils permettent de paramétrer automatiquement le format de dates du graphique.</p>
                         <p>Si un fichier .dat est importé seul, vous serez redirigé vers l'onglet "Calibration", et vos données seront affichées.</p>
-                        <p>Notez que les fichiers .txt exportés par FluoriGraphix dans l'onglet "Concentrations" ne sont pas pris en charge dans la partie "Graphiques".</p>
+                        <p>Notez que les fichiers .txt exportés par FluoriGraphix dans l'onglet "Calibration" ne sont pas pris en charge dans la partie "Graphiques".</p>
                     </div>
                     <img src="Ressources/img/screen14.png" alt="">
                 </div>
