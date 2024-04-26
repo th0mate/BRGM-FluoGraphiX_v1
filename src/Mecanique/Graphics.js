@@ -140,6 +140,7 @@ function isConstant(string) {
 
 }
 
+
 /**
  * Cache dans le graphique existant toutes les courbes réprésentant des colonnes pour lesquelles isConstant renvoie true
  */
@@ -156,6 +157,7 @@ function cacherDoublons() {
         existingChart.update();
     }
 }
+
 
 /**
  * Retourne une couleur aléatoire en rgba
