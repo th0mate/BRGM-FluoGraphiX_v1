@@ -248,6 +248,28 @@ function afficherGraphiqueTraceur(traceur, idData) {
         }
 
         if (i === idData) {
+            const eau = recupererTraceurEau();
+            //on ajoute dans le dataSet la valeur LidData-1 de l'eau
+            let dataEau = [];
+            for (let j = 0; j < labels.length; j++) {
+                const value = eau.getDataParNom('L' + idData + '-' + (j + 1));
+                if (value !== null && value !== 'NaN') {
+                    dataEau.push({x: value, y: 0});
+                }
+            }
+            dataEau = dataEau.filter((point) => !isNaN(point.x) && !isNaN(point.y));
+            datasets.push({
+                label: eau.nom,
+                data: dataEau,
+                borderColor: 'rgb(86,135,255)',
+                borderWidth: 2,
+                fill: false,
+                hidden: false,
+                showLine: false,
+                pointStyle: 'cross'
+            });
+
+
             datasets.push({
                 label: 'L' + i,
                 data: data,
