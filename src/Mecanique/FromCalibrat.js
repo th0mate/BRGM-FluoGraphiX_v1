@@ -144,7 +144,7 @@ function creerTraceurs() {
         const nom = section[0].trim();
         let traceur;
 
-        if (nom === 'Eau') {
+        if (arrondirSansVirgule(sectionsCalibrat[14].split('  ')[0]).toString() === '') {
             traceur = new Traceur(nom, getDateCalibrationCalibrat(), '');
         } else {
             traceur = new Traceur(nom, getDateCalibrationCalibrat(), 'ppb');
@@ -302,7 +302,7 @@ function afficherSelectTraceurs() {
 
 
     for (let i = 0; i < traceurs.length; i++) {
-        if (traceurs[i].nom !== 'Eau') {
+        if (traceurs[i].unite !== '') {
             const option = document.createElement('option');
             option.value = traceurs[i].nom;
             option.textContent = traceurs[i].nom;
@@ -483,7 +483,7 @@ function convertirEnTexte() {
 
         let echelles = traceurs[i].echelles.map((echelle, index) => ({echelle, index}));
 
-        if (traceurs[i].nom !== 'Eau') {
+        if (traceurs[i].unite !== '') {
 
             texte += `${traceurs[i].unite}\n\n`;
 
@@ -591,7 +591,7 @@ function creerTraceurTxt() {
             let traceur = new Traceur(nom, section[2].trim(), section[3].trim());
 
             let futuresEchelles = [];
-            if (nom !== 'Eau') {
+            if (section[3].trim() !== '') {
                 futuresEchelles = section[5].split(/\s+/);
                 futuresEchelles = futuresEchelles.filter(echelle => echelle !== '');
             } else {
