@@ -21,6 +21,7 @@ function vueDocumentation() {
                 </span>
                 <img src="Ressources/img/rechercher.png" alt="">
             </span>
+            <a class="bouton boutonFonce" target="_blank" href="mailto:thomasloye1@gmail.com?subject=Signalement de bug FluoriGraphix&cc=v.bailly-comte@brgm.fr">Signaler un bug <img src="Ressources/img/bugs.png" alt=""> </a>
         </div>
     </div>
     
