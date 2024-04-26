@@ -106,6 +106,8 @@ async function traiterFichier() {
             } catch (e) {
                 setTimeout(() => {
                     document.querySelector('.graphique').style.display = 'none';
+                    contenuFichier = "";
+                    fichiers = [];
                     afficherPopup('<img src="Ressources/img/perteConnexion.png" alt="">', "Erreur lors de l'affichage des données", "Une erreur est survenue lors de l'affichage des données. Peut-être avez-vous mal configuré le format de date dans les paramètres ?", "<div class='bouton boutonFonce' onclick='fermerPopup()'>FERMER</div>");
 
                 }, 500);
