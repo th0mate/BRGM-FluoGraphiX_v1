@@ -303,7 +303,7 @@ function afficherGraphiqueTraceur(traceur, idData) {
                     beginAtZero: true,
                     title: {
                         display: true,
-                        text: 'Concentrations (ppb)'
+                        text: `Concentrations (${traceur.unite})`
                     }
                 }
             },
