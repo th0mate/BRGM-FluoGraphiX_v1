@@ -109,7 +109,7 @@ function afficherVue(nomFichier) {
     }
 
     fermerMenu();
-    window.pageActuelle = nomFichier; // Utilisez window.pageActuelle ici
+    window.pageActuelle = nomFichier;
     createCookie(nomFichier);
     document.querySelector('#contenu').innerHTML = window[nomFichier]();
     window.scrollTo(0, 0);
