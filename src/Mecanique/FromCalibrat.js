@@ -144,7 +144,7 @@ function creerTraceurs() {
         const nom = section[0].trim();
         let traceur;
 
-        if (arrondirSansVirgule(sectionsCalibrat[14].split('  ')[0]).toString() === '') {
+        if (i === 1) {
             traceur = new Traceur(nom, getDateCalibrationCalibrat(), '');
         } else {
             traceur = new Traceur(nom, getDateCalibrationCalibrat(), 'ppb');
