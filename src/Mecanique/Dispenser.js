@@ -95,13 +95,22 @@ async function traiterFichier() {
         }
     }
 
-    document.querySelector('.downloadFile').style.display = 'block';
     if (contenuFichier !== "") {
         if (estPlusDeUnJour(derniereDate, premiereDate)) {
             afficherMessageFlash("Trop grand écart entre les dates de fichiers : les données sont corrompues.", 'warning');
         } else {
-            afficherGraphique(contenuFichier);
-            afficherMessageFlash("Données traitées avec succès.", 'success');
+            try {
+                afficherGraphique(contenuFichier);
+                afficherMessageFlash("Données traitées avec succès.", 'success');
+                document.querySelector('.downloadFile').style.display = 'block';
+            } catch (e) {
+                setTimeout(() => {
+                    document.querySelector('.graphique').style.display = 'none';
+                    afficherPopup('<img src="Ressources/img/perteConnexion.png" alt="">', "Erreur lors de l'affichage des données", "Une erreur est survenue lors de l'affichage des données. Peut-être avez-vous mal configuré le format de date dans les paramètres ?", "<div class='bouton boutonFonce' onclick='fermerPopup()'>FERMER</div>");
+
+                }, 500);
+            }
+
         }
     } else if (contenuCalibrat !== "") {
         afficherMessageFlash("Fichier Calibrat.dat détecté. Redirection.", 'info');
