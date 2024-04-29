@@ -2,7 +2,7 @@ function vueGraphique() {
     return `
     
     <div class="bannierePage">
-        <img src="Ressources/img/image5.jpg" alt="Sources">
+        <img src="Ressources/img/image4.jpg.webp" alt="Sources">
         <div class="contenu">
             <p><span onclick="afficherVue('vueAccueil')"><span></span>Accueil</span> <strong> / Graphiques</strong></p>
             <h1>Graphiques</h1>
