@@ -298,7 +298,7 @@ function afficherSelectTraceurs() {
         afficherTableauTraceur(traceur);
         afficherSelectLigne(idData, traceur);
         afficherGraphiqueTraceur(traceur, idData);
-        document.querySelector('#boutonCalculer').classList.remove('disabled');
+        setBoutonCalculer(idData, traceur);
     });
 
 
@@ -336,7 +336,7 @@ function afficherSelectTraceurs() {
                 afficherTableauTraceur(traceur);
                 afficherSelectLigne(idData, traceur);
                 afficherGraphiqueTraceur(traceur, idData);
-                document.querySelector('#boutonCalculer').classList.remove('disabled');
+                setBoutonCalculer(idData, traceur);
             }
             select.appendChild(option);
         }
@@ -361,7 +361,7 @@ function afficherSelectLigne(idData, traceur) {
     select.addEventListener('change', () => {
         const idData = parseInt(select.value);
         afficherGraphiqueTraceur(traceur, idData);
-        document.querySelector('#boutonCalculer').classList.remove('disabled');
+        setBoutonCalculer(idData, traceur);
     });
 
     for (let i = 1; i <= 4; i++) {
@@ -383,6 +383,9 @@ function afficherSelectLigne(idData, traceur) {
  * @param Traceur le traceur à traiter
  */
 function setBoutonCalculer(idLampe, Traceur) {
+    document.querySelector('#boutonCalculer').removeEventListener('click', () => {
+        calculerConcentration(idLampe, Traceur)
+    });
     document.querySelector('#boutonCalculer').classList.remove('disabled');
     document.querySelector('#boutonCalculer').addEventListener('click', () => {
         calculerConcentration(idLampe, Traceur)

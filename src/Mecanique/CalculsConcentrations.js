@@ -1,9 +1,61 @@
-
-
+/**
+ * Effectue toutes les inits et les calculs nécessaires pour le calcul des concentrations d'un traceur et d'une lampe donnés
+ * @param idLampe l'id de la lampe
+ * @param traceur le traceur
+ */
 function calculerConcentration(idLampe, traceur) {
+    //console.log('Calcul de la concentration du traceur ' + traceur.nom + ' pour la lampe ' + idLampe);
+    if (traceur.echelles.length < 4) {
+        console.log(creerTableauValeursNettes(traceur, idLampe));
+    } else {
 
+    }
 }
 
+/**
+ * Calcule le logarithme népérien d'un nombre
+ * @param nb le nombre
+ * @return {number} le logarithme népérien du nombre
+ */
+function ln(nb) {
+    return Math.log(nb);
+}
+
+/**
+ * Retourne un tableau (matrice) contenant les signaux nets pour un traceur et une lampe donnée.
+ * Les titres des colonnes sont les logarithmes népériens des échelles du traceur
+ * Les titres des lignes sont L1 à L4
+ * Le contenu des cellules est le signal net, donc le signal (L lampe - X) - la valeur LX - 1 de l'eau
+ * @param traceur
+ * @param lampe
+ */
+function creerTableauValeursNettes(traceur, lampe) {
+    const eau = traceurs.find(traceur => traceur.unite === '');
+    const valeursNettes = [];
+
+    const echelles = traceur.echelles.map(echelle => arrondir8Chiffres(ln(echelle)));
+    valeursNettes.push(echelles);
+
+
+    const ligne = [];
+    for (let j = 1; j <= traceur.echelles.length; j++) {
+        const signal = traceur.getDataParNom('L' + lampe + '-' + j) - eau.getDataParNom('L' + lampe + '-1');
+        ligne.push(arrondir8Chiffres(signal));
+    }
+    valeursNettes.push(ligne);
+
+    return valeursNettes;
+}
+
+
+/**
+ * Arrondi un nombre à 8 chiffres après la virgule maximum
+ * @param nb le nombre
+ * @returns {number} le nombre arrondi
+ */
+function arrondir8Chiffres(nb) {
+    return Math.round(nb * 100000000) / 100000000;
+}
 
 
 /**
