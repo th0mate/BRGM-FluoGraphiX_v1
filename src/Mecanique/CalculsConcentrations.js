@@ -6,7 +6,8 @@
 function calculerConcentration(idLampe, traceur) {
     //console.log('Calcul de la concentration du traceur ' + traceur.nom + ' pour la lampe ' + idLampe);
     if (traceur.echelles.length < 4) {
-        console.log(creerTableauValeursNettes(traceur, idLampe));
+        const dmV = creerTableauValeursNettes(traceur, idLampe);
+        const X = creerMatriceLn(traceur, dmV);
     } else {
 
     }
@@ -45,6 +46,24 @@ function creerTableauValeursNettes(traceur, lampe) {
     valeursNettes.push(ligne);
 
     return valeursNettes;
+}
+
+
+/**
+ * Crée une matrice contenant ln(creerTableauValeursNettes)** position de chaque cellule de traceur.echelles
+ */
+function creerMatriceLn(traceur, tableauValeursNettes) {
+    const matriceLn = [];
+    for (let i = 0; i < traceur.echelles.length; i++) {
+        const ligne = [];
+        //deuxième ligne de tableauValeursNettes
+        for (let j = 0; j < tableauValeursNettes[1].length; j++) {
+            console.log('ln(' + tableauValeursNettes[1][j] + ')^' + i)
+            ligne.push(arrondir8Chiffres(ln(tableauValeursNettes[1][j]) ** i));
+        }
+        matriceLn.push(ligne);
+    }
+    return matriceLn;
 }
 
 
