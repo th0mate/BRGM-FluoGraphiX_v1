@@ -1,27 +1,43 @@
+let nbValeurLampe = 0;
 /**
  * Effectue toutes les inits et les calculs nécessaires pour le calcul des concentrations d'un traceur et d'une lampe donnés
  * @param idLampe l'id de la lampe
  * @param traceur le traceur
  */
 function calculerConcentration(idLampe, traceur) {
+    //console.log('lampe' + idLampe + '|traceur' + traceur.nom);
+
+    console.log(traceur.echelles);
+    nbValeurLampe = 0;
+    for (let i = 0; i < traceur.echelles.length; i++) {
+        if (!isNaN(traceur.getDataParNom('L' + idLampe + '-' + (i + 1)))) {
+            nbValeurLampe++;
+        }
+    }
+    console.log(nbValeurLampe);
+
     const final = new Map();
-    let resultat;
-    if (traceur.echelles.length < 4 && traceur.echelles !== 1) {
+    let resultat = [];
+    if (nbValeurLampe < 4 && nbValeurLampe !== 1) {
         const dmV = creerTableauValeursNettes(traceur, idLampe);
         let X = creerMatriceLn(traceur, dmV);
         X = inverse(X);
         const matriceEntetes = dmV[0];
         resultat = multiply([matriceEntetes], X);
-    } else if (traceur.echelles.length === 1) {
+    } else if (nbValeurLampe === 1) {
         //TODO
     } else {
-
+        const regLin = creerTableauValeursNettesLn(traceur, idLampe);
+        console.log(regLin);
     }
-    final.set('Constante', arrondir8Chiffres(resultat[0][0]));
-    final.set('Degré 1', arrondir8Chiffres(resultat[0][1]));
-    final.set('Degré 2', arrondir8Chiffres(resultat[0][2]));
-    console.log(final);
-    return final;
+    if (resultat.length > 0) {
+        final.set('Constante', arrondir8Chiffres(resultat[0][0]));
+        final.set('Degré 1', arrondir8Chiffres(resultat[0][1]));
+        final.set('Degré 2', arrondir8Chiffres(resultat[0][2]));
+        console.log(final);
+        return final;
+    }
+    return null;
 }
 
 /**
@@ -58,6 +74,36 @@ function creerTableauValeursNettes(traceur, lampe) {
 
     return valeursNettes;
 }
+
+
+
+/**
+ * Retourne un tableau (matrice) contenant les signaux nets pour un traceur et une lampe donnée.
+ * Les titres des colonnes sont les logarithmes népériens des échelles du traceur
+ * Les titres des lignes sont L1 à L4
+ * Le contenu des cellules est le signal net, donc le signal (L lampe - X) - la valeur LX - 1 de l'eau
+ * @param traceur
+ * @param lampe
+ */
+function creerTableauValeursNettesLn(traceur, lampe) {
+    const eau = traceurs.find(traceur => traceur.unite === '');
+    const valeursNettes = [];
+
+    const echelles = traceur.echelles.map(echelle => arrondir8Chiffres(ln(echelle)));
+    valeursNettes.push(echelles);
+
+
+    const ligne = [];
+    for (let j = 1; j <= traceur.echelles.length; j++) {
+        console.log('ln(' + traceur.getDataParNom('L' + lampe + '-' + j) + ') - ' + eau.getDataParNom('L' + lampe + '-1'));
+        const signal = ln(traceur.getDataParNom('L' + lampe + '-' + j) - eau.getDataParNom('L' + lampe + '-1'));
+        ligne.push(arrondir8Chiffres(signal));
+    }
+    valeursNettes.push(ligne);
+
+    return valeursNettes;
+}
+
 
 
 /**
