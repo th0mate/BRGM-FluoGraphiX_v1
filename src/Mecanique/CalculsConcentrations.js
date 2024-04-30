@@ -1,3 +1,5 @@
+
+
 let nbValeurLampe = 0;
 /**
  * Effectue toutes les inits et les calculs nécessaires pour le calcul des concentrations d'un traceur et d'une lampe donnés
@@ -28,7 +30,14 @@ function calculerConcentration(idLampe, traceur) {
         //TODO
     } else {
         const regLin = creerTableauValeursNettesLn(traceur, idLampe);
-        console.log(regLin);
+        const regLin2 = [];
+        for (let i = 0; i < regLin[1].length; i++) {
+            regLin2.push(arrondir8Chiffres(regLin[1][i] * regLin[1][i]));
+        }
+        //on fait une matrice de deux lignes avec les valeurs de regLin[1] et regLin2
+        const concat = [regLin[1], regLin2];
+        console.log(concat);
+        //console.log(multipleLinearRegression([regLin[0]], concat));
     }
     if (resultat.length > 0) {
         final.set('Constante', arrondir8Chiffres(resultat[0][0]));
@@ -219,3 +228,4 @@ function multipleLinearRegression(X, y) {
     const XT_y = multiply(XT, y);
     return multiply(XT_X_inv, XT_y);
 }
+
