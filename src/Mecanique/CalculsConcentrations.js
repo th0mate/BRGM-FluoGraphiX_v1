@@ -24,8 +24,14 @@ function calculerConcentration(idLampe, traceur) {
         X = inverse(X);
         const matriceEntetes = dmV[0];
         resultat = multiply([matriceEntetes], X);
+
     } else if (nbValeurLampe === 1) {
-        //TODO
+        const eau = traceurs.find(traceur => traceur.unite === '');
+        const dmv = [];
+        dmv.push(0);
+        dmv.push(traceur.getDataParNom('L' + idLampe + '-1') - eau.getDataParNom('L' + idLampe + '-1'));
+        console.log(dmv);
+
     } else {
         const regLin = creerTableauValeursNettesLn(traceur, idLampe);
         let colonne1 = [];
