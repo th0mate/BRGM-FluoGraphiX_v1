@@ -43,9 +43,8 @@ function calculerConcentration(idLampe, traceur) {
             colonne2_3.push([1, colonne2[i], colonne3[i]]);
         }
 
-        console.log(colonne2_3);
-
-        console.log(multipleLinearRegression(colonne2_3,[colonne1]));
+        resultat = multipleLinearRegression(colonne2_3,[colonne1]);
+        resultat = transpose(resultat);
 
     }
     if (resultat.length > 0) {
@@ -246,10 +245,7 @@ function multipleLinearRegression(X, y) {
     const XT = transpose(X);
     const XT_X = multiply(XT, X);
     const XT_X_inv = inverse(XT_X);
-    console.log(XT);
     y = transpose(y);
-    console.log(y);
-    const XT_y = multiply(XT, y);//TODO
-    console.log(XT_y);
+    const XT_y = multiply(XT, y);
     return multiply(XT_X_inv, XT_y);
 }
