@@ -5,19 +5,21 @@
  */
 function calculerConcentration(idLampe, traceur) {
     const final = new Map();
+    let resultat;
     if (traceur.echelles.length < 4 && traceur.echelles !== 1) {
         const dmV = creerTableauValeursNettes(traceur, idLampe);
         let X = creerMatriceLn(traceur, dmV);
         X = inverse(X);
         const matriceEntetes = dmV[0];
-        const resultat = multiply([matriceEntetes], X);
-        final.set('Constante', arrondir8Chiffres(resultat[0][0]));
-        final.set('Degré 1', arrondir8Chiffres(resultat[0][1]));
-        final.set('Degré 2', arrondir8Chiffres(resultat[0][2]));
-
-    } else {
+        resultat = multiply([matriceEntetes], X);
+    } else if (traceur.echelles.length === 1) {
         //TODO
+    } else {
+
     }
+    final.set('Constante', arrondir8Chiffres(resultat[0][0]));
+    final.set('Degré 1', arrondir8Chiffres(resultat[0][1]));
+    final.set('Degré 2', arrondir8Chiffres(resultat[0][2]));
     console.log(final);
     return final;
 }
