@@ -64,6 +64,9 @@ function calculerConcentration(idLampe, traceur) {
         resultat = transpose(resultat);
 
     }
+
+
+
     if (resultat.length > 0) {
         final.set('Constante', arrondir8Chiffres(resultat[0][0]));
         final.set('Degré 1', arrondir8Chiffres(resultat[0][1]));
@@ -72,9 +75,24 @@ function calculerConcentration(idLampe, traceur) {
 
         //TODO : dans le graphique du canvas #graphiqueTraceur, on affiche la courbe selon la formule y= exp(a + b ln(X-X0) + c (ln(X-X0))^2), avec X0 la valeur de l'eau pour la lampe, et a, b et c les valeurs calculées
         const eau = traceurs.find(traceur => traceur.unite === '');
+        const canvas = document.getElementById('graphiqueTraceur');
+        const existingChart = Chart.getChart(canvas);
+        const data = {
+            labels: traceur.echelles.map(echelle => echelle - eau.getDataParNom('L' + idLampe + '-1')),
+            datasets: [{
+                label: 'Courbe de calibration',
+                data: traceur.echelles.map(echelle => Math.exp(resultat[0][0] + resultat[0][1] * ln(echelle - eau.getDataParNom('L' + idLampe + '-1')) + resultat[0][2] * (ln(echelle - eau.getDataParNom('L' + idLampe + '-1'))) ** 2)),
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1,
+                pointRadius: 1
+            }]
+        };
 
-
-
+        if (existingChart) {
+            //on ajoute la courbe au reste des courbes
+            existingChart.data.datasets.push(data.datasets[0]);
+            existingChart.update();
+        }
         return final;
     }
     return null;
