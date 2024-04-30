@@ -7,8 +7,6 @@ let nbValeurLampe = 0;
  * @param traceur le traceur
  */
 function calculerConcentration(idLampe, traceur) {
-    //console.log('lampe' + idLampe + '|traceur' + traceur.nom);
-
     console.log(traceur.echelles);
     nbValeurLampe = 0;
     for (let i = 0; i < traceur.echelles.length; i++) {
@@ -31,13 +29,17 @@ function calculerConcentration(idLampe, traceur) {
     } else {
         const regLin = creerTableauValeursNettesLn(traceur, idLampe);
         const regLin2 = [];
+        regLin2.push(regLin[1]);
+        let temp = [];
         for (let i = 0; i < regLin[1].length; i++) {
-            regLin2.push(arrondir8Chiffres(regLin[1][i] * regLin[1][i]));
+            temp.push(arrondir8Chiffres(regLin[1][i] * regLin[1][i]));
         }
-        //on fait une matrice de deux lignes avec les valeurs de regLin[1] et regLin2
-        const concat = [regLin[1], regLin2];
-        console.log(concat);
-        //console.log(multipleLinearRegression([regLin[0]], concat));
+        regLin2.push(temp);
+
+        console.log(regLin[0]);
+        console.log(regLin2);
+        console.log(multipleLinearRegression([regLin[0]], regLin2));
+
     }
     if (resultat.length > 0) {
         final.set('Constante', arrondir8Chiffres(resultat[0][0]));
@@ -191,8 +193,8 @@ function inverse(matrix) {
         }
 
         if (augmentedMatrix[maxElementIndex][i] === 0) {
-            afficherVue('vueAccueil');
-            afficherMessageFlash('La matrice est singulière et ne peut pas être inversée', 'danger');
+            console.error(matrix);
+            throw new Error('La matrice est singulière et ne peut pas être inversée');
         }
 
         [augmentedMatrix[i], augmentedMatrix[maxElementIndex]] = [augmentedMatrix[maxElementIndex], augmentedMatrix[i]];
@@ -228,4 +230,3 @@ function multipleLinearRegression(X, y) {
     const XT_y = multiply(XT, y);
     return multiply(XT_X_inv, XT_y);
 }
-
