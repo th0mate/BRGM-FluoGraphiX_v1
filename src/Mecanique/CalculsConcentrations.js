@@ -28,17 +28,24 @@ function calculerConcentration(idLampe, traceur) {
         //TODO
     } else {
         const regLin = creerTableauValeursNettesLn(traceur, idLampe);
-        const regLin2 = [];
-        regLin2.push(regLin[1]);
-        let temp = [];
-        for (let i = 0; i < regLin[1].length; i++) {
-            temp.push(arrondir8Chiffres(regLin[1][i] * regLin[1][i]));
-        }
-        regLin2.push(temp);
+        let colonne1 = [];
+        let colonne2 = [];
+        let colonne3 = [];
 
-        console.log(regLin[0]);
-        console.log(regLin2);
-        console.log(multipleLinearRegression([regLin[0]], regLin2));
+        for (let i = 0; i < regLin.length; i++) {
+            colonne1.push(regLin[i][0]);
+            colonne2.push(regLin[i][1]);
+            colonne3.push(regLin[i][2]);
+        }
+
+        let colonne2_3 = [];
+        for (let i = 0; i < colonne2.length; i++) {
+            colonne2_3.push([1, colonne2[i], colonne3[i]]);
+        }
+
+        console.log(colonne2_3);
+
+        console.log(multipleLinearRegression(colonne2_3,[colonne1]));
 
     }
     if (resultat.length > 0) {
@@ -98,19 +105,22 @@ function creerTableauValeursNettes(traceur, lampe) {
  */
 function creerTableauValeursNettesLn(traceur, lampe) {
     const eau = traceurs.find(traceur => traceur.unite === '');
-    const valeursNettes = [];
+    let valeursNettes = [];
 
     const echelles = traceur.echelles.map(echelle => arrondir8Chiffres(ln(echelle)));
     valeursNettes.push(echelles);
 
-
     const ligne = [];
+    const ligneCarre = [];
     for (let j = 1; j <= traceur.echelles.length; j++) {
-        console.log('ln(' + traceur.getDataParNom('L' + lampe + '-' + j) + ') - ' + eau.getDataParNom('L' + lampe + '-1'));
         const signal = ln(traceur.getDataParNom('L' + lampe + '-' + j) - eau.getDataParNom('L' + lampe + '-1'));
         ligne.push(arrondir8Chiffres(signal));
+        ligneCarre.push(arrondir8Chiffres(signal ** 2));
     }
     valeursNettes.push(ligne);
+    valeursNettes.push(ligneCarre);
+
+    valeursNettes = transpose(valeursNettes);
 
     return valeursNettes;
 }
@@ -132,6 +142,15 @@ function creerMatriceLn(traceur, tableauValeursNettes) {
     }
     return matriceLn;
 }
+
+
+
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * FONCTIONS DE CALCULS
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
 
 
 /**
@@ -227,6 +246,10 @@ function multipleLinearRegression(X, y) {
     const XT = transpose(X);
     const XT_X = multiply(XT, X);
     const XT_X_inv = inverse(XT_X);
-    const XT_y = multiply(XT, y);
+    console.log(XT);
+    y = transpose(y);
+    console.log(y);
+    const XT_y = multiply(XT, y);//TODO
+    console.log(XT_y);
     return multiply(XT_X_inv, XT_y);
 }
