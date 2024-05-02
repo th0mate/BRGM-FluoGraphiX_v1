@@ -224,7 +224,6 @@ function creerMatriceLn(traceur, tableauValeursNettes) {
     const matriceLn = [];
     for (let i = 0; i < traceur.echelles.length; i++) {
         const ligne = [];
-        //deuxième ligne de tableauValeursNettes
         for (let j = 0; j < tableauValeursNettes[1].length; j++) {
             ligne.push(arrondir8Chiffres(ln(tableauValeursNettes[1][j]) ** i));
         }

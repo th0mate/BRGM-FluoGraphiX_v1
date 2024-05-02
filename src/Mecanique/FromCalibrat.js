@@ -385,19 +385,15 @@ function afficherSelectLigne(idData, traceur) {
 function setBoutonCalculer(idLampe, Traceur) {
     let boutonCalculer = document.querySelector('#boutonCalculer');
 
-    // Cloner le bouton et le remplacer par le clone
     let boutonCalculerClone = boutonCalculer.cloneNode(true);
     boutonCalculer.parentNode.replaceChild(boutonCalculerClone, boutonCalculer);
 
-    // Maintenant, boutonCalculer fait référence au clone sans écouteurs d'événements
     boutonCalculer = boutonCalculerClone;
 
-    // Ajouter le nouvel écouteur d'événements
     boutonCalculer.addEventListener('click', () => {
         calculerConcentration(idLampe, Traceur)
     });
 
-    // Activer le bouton
     boutonCalculer.classList.remove('disabled');
 }
 
