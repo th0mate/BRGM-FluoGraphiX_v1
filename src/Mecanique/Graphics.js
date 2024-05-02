@@ -332,17 +332,16 @@ function afficherGraphiqueTraceur(traceur, idData) {
                 }
             },
             plugins: {
-                crosshair: {
-                    enabled: true,
-                    line: {color: 'rgba(255, 0, 0, 0.5)', width: 2},
-                    sync: {
-                        enabled: true,
-                    },
-                },
                 zoom: {
                     pan: {
                         enabled: true,
                         mode: 'xy',
+                        onPan: function({chart}) {
+                            const scales = chart.scales;
+                            if (scales['x'].min < 0 || scales['y'].min < 0) {
+                                return false;
+                            }
+                        }
                     },
                     zoom: {
                         wheel: {
@@ -352,6 +351,12 @@ function afficherGraphiqueTraceur(traceur, idData) {
                             enabled: true
                         },
                         mode: 'xy',
+                        onZoom: function({chart}) {
+                            const scales = chart.scales;
+                            if (scales['x'].min < 0 || scales['y'].min < 0) {
+                                return false;
+                            }
+                        }
                     }
                 },
             },
