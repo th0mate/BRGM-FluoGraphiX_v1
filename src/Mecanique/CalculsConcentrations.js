@@ -17,7 +17,7 @@ function calculerConcentration(idLampe, traceur) {
     let resultat = [];
 
 
-    if (nbValeurLampe < 4 && nbValeurLampe !== 1) { //TODO - erreur pour certains où n === 3 !!!
+    if (nbValeurLampe < 4 && nbValeurLampe !== 1) {
         const dmV = creerTableauValeursNettes(traceur, idLampe);
         let X = creerMatriceLn(traceur, dmV);
         X = inverse(X);
@@ -39,8 +39,8 @@ function calculerConcentration(idLampe, traceur) {
             }
         }
         dmv.push(temp - eau.getDataParNom('L' + idLampe + '-1'));
-        resultat.push(arrondir8Chiffres((y[1] - y[0]) / (dmv[1] - dmv[0])));
-        return resultat;
+        resultat.push([arrondir8Chiffres((y[1] - y[0]) / (dmv[1] - dmv[0])), 0, 0]);
+        console.log(resultat[0][0]);
 
     } else {
         const regLin = creerTableauValeursNettesLn(traceur, idLampe);
@@ -65,7 +65,7 @@ function calculerConcentration(idLampe, traceur) {
     }
 
 
-
+    console.log(resultat.length)
     if (resultat.length > 0) {
         final.set('Constante', arrondir8Chiffres(resultat[0][0]));
         final.set('Degré 1', arrondir8Chiffres(resultat[0][1]));
