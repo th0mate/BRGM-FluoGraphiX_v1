@@ -63,8 +63,7 @@ function calculerConcentration(idLampe, traceur) {
     }
 
 
-    console.log(resultat.length)
-    if (resultat.length > 1) {
+    if (nbValeurLampe !== 1 && nbValeurLampe !== 0) {
         final.set('Constante', arrondir8Chiffres(resultat[0][0]));
         final.set('Degré 1', arrondir8Chiffres(resultat[0][1]));
         final.set('Degré 2', arrondir8Chiffres(resultat[0][2]));
@@ -112,7 +111,7 @@ function calculerConcentration(idLampe, traceur) {
             existingChart.update();
         }
 
-    } else if (resultat.length === 1) {
+    } else if (nbValeurLampe === 1) {
         const a = resultat[0];
         console.log(a)
         const eau = traceurs.find(traceur => traceur.unite === '');
