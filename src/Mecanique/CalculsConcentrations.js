@@ -39,9 +39,7 @@ function calculerConcentration(idLampe, traceur) {
             }
         }
         dmv.push(temp - eau.getDataParNom('L' + idLampe + '-1'));
-        resultat.push([arrondir8Chiffres((y[1] - y[0]) / (dmv[1] - dmv[0])), 0, 0]);
-        console.log(resultat[0][0]);
-
+        resultat.push(arrondir8Chiffres((y[1] - y[0]) / (dmv[1] - dmv[0])));
     } else {
         const regLin = creerTableauValeursNettesLn(traceur, idLampe);
         let colonne1 = [];
@@ -66,7 +64,7 @@ function calculerConcentration(idLampe, traceur) {
 
 
     console.log(resultat.length)
-    if (resultat.length > 0) {
+    if (resultat.length > 1) {
         final.set('Constante', arrondir8Chiffres(resultat[0][0]));
         final.set('Degré 1', arrondir8Chiffres(resultat[0][1]));
         final.set('Degré 2', arrondir8Chiffres(resultat[0][2]));
@@ -114,11 +112,43 @@ function calculerConcentration(idLampe, traceur) {
             existingChart.update();
         }
 
+    } else if (resultat.length === 1) {
+        const a = resultat[0];
+        console.log(a)
+        const eau = traceurs.find(traceur => traceur.unite === '');
+        const eauValeur = eau.getDataParNom('L' + idLampe + '-1');
+
+        let colonne0 = [];
+        let colonne1 = [];
+
+        for (let i = eauValeur + 0.01; i <= 2500; i += 10) {
+            colonne0.push(i);
+            colonne1.push(a * (i - eauValeur));
+        }
+
+        const data = {
+            label: 'Lampe ' + idLampe,
+            data: [],
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            borderColor: 'rgb(230,65,160)',
+            borderWidth: 2,
+            pointRadius: 0
+        };
+
+        for (let i = 0; i < colonne1.length; i++) {
+            data.data.push({x: colonne0[i], y: colonne1[i]});
+        }
+
+        const canvas = document.getElementById('graphiqueTraceur');
+        const existingChart = Chart.getChart(canvas);
+
+        if (existingChart) {
+            existingChart.data.datasets.push(data);
+            existingChart.update();
+        }
+
     }
 }
-
-
-
 
 
 /**
