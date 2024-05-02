@@ -40,7 +40,6 @@ function calculerConcentration(idLampe, traceur) {
         }
         dmv.push(temp - eau.getDataParNom('L' + idLampe + '-1'));
         resultat.push(arrondir8Chiffres((y[1] - y[0]) / (dmv[1] - dmv[0])));
-        console.log(resultat);
         return resultat;
 
     } else {
@@ -73,30 +72,54 @@ function calculerConcentration(idLampe, traceur) {
         final.set('Degré 2', arrondir8Chiffres(resultat[0][2]));
         console.log(final);
 
-        //TODO : dans le graphique du canvas #graphiqueTraceur, on affiche la courbe selon la formule y= exp(a + b ln(X-X0) + c (ln(X-X0))^2), avec X0 la valeur de l'eau pour la lampe, et a, b et c les valeurs calculées
+        const constante = arrondir8Chiffres(resultat[0][0]);
+        const degre1 = arrondir8Chiffres(resultat[0][1]);
+        const degre2 = arrondir8Chiffres(resultat[0][2]);
+
         const eau = traceurs.find(traceur => traceur.unite === '');
-        const canvas = document.getElementById('graphiqueTraceur');
-        const existingChart = Chart.getChart(canvas);
+        const eauValeur = eau.getDataParNom('L' + idLampe + '-1');
+
+        let colonne0 = [];
+        let colonne1 = [];
+        let colonne2 = [];
+
+        for (let i = eauValeur + 0.01; i <= 2500; i += 10) {
+            colonne0.push(i);
+            colonne1.push(ln(i - eauValeur));
+        }
+
+        for (let i = 0; i < colonne1.length; i++) {
+            colonne2.push(Math.exp(constante + degre1 * colonne1[i] + degre2 * colonne1[i] ** 2));
+        }
+
         const data = {
-            labels: traceur.echelles.map(echelle => echelle - eau.getDataParNom('L' + idLampe + '-1')),
-            datasets: [{
-                label: 'Courbe de calibration',
-                data: traceur.echelles.map(echelle => Math.exp(resultat[0][0] + resultat[0][1] * ln(echelle - eau.getDataParNom('L' + idLampe + '-1')) + resultat[0][2] * (ln(echelle - eau.getDataParNom('L' + idLampe + '-1'))) ** 2)),
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.1,
-                pointRadius: 1
-            }]
+            label: 'Lampe ' + idLampe,
+            data: [],
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            borderColor: 'rgb(230,65,160)',
+            borderWidth: 2,
+            pointRadius: 0
         };
 
+
+        for (let i = 0; i < colonne1.length; i++) {
+            data.data.push({x: colonne0[i], y: colonne2[i]});
+        }
+
+        const canvas = document.getElementById('graphiqueTraceur');
+        const existingChart = Chart.getChart(canvas);
+
         if (existingChart) {
-            //on ajoute la courbe au reste des courbes
-            existingChart.data.datasets.push(data.datasets[0]);
+            existingChart.data.datasets.push(data);
             existingChart.update();
         }
-        return final;
+
     }
-    return null;
 }
+
+
+
+
 
 /**
  * Calcule le logarithme népérien d'un nombre
