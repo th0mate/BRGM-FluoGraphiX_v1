@@ -20,6 +20,7 @@ function calculerConcentration(idLampe, traceur) {
     let resultat = [];
 
 
+    //TODO : deux valeurs !
     if (nbValeurLampe < 4 && nbValeurLampe !== 1) {
         const dmV = creerTableauValeursNettes(traceur, idLampe);
         let X = creerMatriceLn(traceur, dmV);
