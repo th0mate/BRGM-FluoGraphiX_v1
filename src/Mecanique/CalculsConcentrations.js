@@ -148,7 +148,6 @@ function afficherCourbeDepuis1Valeur(resultat, idLampe, traceur) {
     };
 
     const a = resultat[0];
-    console.log(a)
     const eau = traceurs.find(traceur => traceur.unite === '');
     const eauValeur = eau.getDataParNom('L' + idLampe + '-1');
 
