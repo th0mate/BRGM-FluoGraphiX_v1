@@ -18,7 +18,7 @@ function calculerConcentration(idLampe, traceur) {
 
     let resultat = [];
 
-    if (nbValeurLampe < 4 && nbValeurLampe !== 1 && nbValeurLampe !== 2) {
+    if (nbValeurLampe < 4 && nbValeurLampe !== 1) {
         const dmV = creerTableauValeursNettes(traceur, idLampe);
         let X = creerMatriceLn(traceur, dmV);
         X = inverse(X);
@@ -45,8 +45,6 @@ function calculerConcentration(idLampe, traceur) {
         resultat.push(arrondir8Chiffres((y[1] - y[0]) / (dmv[1] - dmv[0])));
         afficherCourbeDepuis1Valeur(resultat, idLampe);
 
-    } else if (nbValeurLampe === 2) {
-        //TODO
     } else {
         const regLin = creerTableauValeursNettesLn(traceur, idLampe);
         let colonne1 = [];
@@ -90,12 +88,14 @@ function afficherCourbeDepuis3Valeurs(resultat, idLampe) {
     let final = new Map();
     final.set('Constante', arrondir8Chiffres(resultat[0][0]));
     final.set('Degré 1', arrondir8Chiffres(resultat[0][1]));
-    final.set('Degré 2', arrondir8Chiffres(resultat[0][2]));
+    if (resultat[0].length === 3) {
+        final.set('Degré 2', arrondir8Chiffres(resultat[0][2]));
+    }
     console.log(final);
 
     const constante = arrondir8Chiffres(resultat[0][0]);
     const degre1 = arrondir8Chiffres(resultat[0][1]);
-    const degre2 = arrondir8Chiffres(resultat[0][2]);
+    const degre2 = resultat[0].length === 3 ? arrondir8Chiffres(resultat[0][2]) : 0;
 
     const eau = traceurs.find(traceur => traceur.unite === '');
     const eauValeur = eau.getDataParNom('L' + idLampe + '-1');
@@ -112,7 +112,6 @@ function afficherCourbeDepuis3Valeurs(resultat, idLampe) {
     for (let i = 0; i < colonne1.length; i++) {
         colonne2.push(Math.exp(constante + degre1 * colonne1[i] + degre2 * colonne1[i] ** 2));
     }
-
 
     for (let i = 0; i < colonne1.length; i++) {
         data.data.push({x: colonne0[i], y: colonne2[i]});
