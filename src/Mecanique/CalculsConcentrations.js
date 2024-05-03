@@ -76,7 +76,6 @@ function calculerConcentration(idLampe, traceur) {
  * @param idLampe l'id de la lampe
  */
 function afficherCourbeDepuis3Valeurs(resultat, idLampe) {
-
     const data = {
         label: 'Lampe ' + idLampe,
         data: [],
@@ -121,7 +120,7 @@ function afficherCourbeDepuis3Valeurs(resultat, idLampe) {
     const canvas = document.getElementById('graphiqueTraceur');
     const existingChart = Chart.getChart(canvas);
 
-    if (existingChart) {
+    if (existingChart && !existingChart.data.datasets.find(dataset => dataset.label === data.label)) {
         existingChart.data.datasets.push(data);
         existingChart.update();
     }
@@ -165,7 +164,7 @@ function afficherCourbeDepuis1Valeur(resultat, idLampe) {
     const canvas = document.getElementById('graphiqueTraceur');
     const existingChart = Chart.getChart(canvas);
 
-    if (existingChart) {
+    if (existingChart && !existingChart.data.datasets.find(dataset => dataset.label === data.label)) {
         existingChart.data.datasets.push(data);
         existingChart.update();
     }
