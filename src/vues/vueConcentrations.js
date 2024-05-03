@@ -16,6 +16,7 @@ function vueConcentrations() {
             <div class="contenu">
                 <p><span onclick="afficherVue('vueAccueil')"><span></span>Accueil</span> <strong> / Calibration</strong></p>
                 <h1>Calibration</h1>
+                <span class="auteur"><img src="Ressources/img/auteur.png" alt=""> <h3>© BRGM - Bertrand Aunay, La Réunion, 2010.</h3></span>
             </div>
         </div>
         

@@ -5,6 +5,7 @@ function vueMentionsLegales() {
         <div class="contenu">
             <p><span onclick="afficherVue('vueAccueil')"><span></span>Accueil</span> <strong> / Mentions Légales</strong></p>
             <h1>Mentions Légales</h1>
+            <span class="auteur"><img src="Ressources/img/auteur.png" alt=""> <h3>© Joe Cornish/Digital Vision/Getty Images, Utah, Etats-Unis.</h3></span>
         </div>
     </div>
     

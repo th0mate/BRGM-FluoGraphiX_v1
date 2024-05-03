@@ -16,7 +16,6 @@ function calculerConcentration(idLampe, traceur) {
         }
     }
 
-    const final = new Map();
     let resultat = [];
 
     //TODO : deux valeurs !

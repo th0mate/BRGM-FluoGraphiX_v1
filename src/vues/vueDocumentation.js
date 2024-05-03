@@ -5,6 +5,7 @@ function vueDocumentation() {
         <div class="contenu">
             <p><span onclick="afficherVue('vueAccueil')"><span></span>Accueil</span> <strong> / Documentation</strong></p>
             <h1>Documentation</h1>
+            <span class="auteur"><img src="Ressources/img/auteur.png" alt=""> <h3>© BRGM - Marie Genevier, Haute-Corse, 2013.</h3></span>
         </div>
     </div>
     

@@ -6,6 +6,7 @@ function vueGraphique() {
         <div class="contenu">
             <p><span onclick="afficherVue('vueAccueil')"><span></span>Accueil</span> <strong> / Graphiques</strong></p>
             <h1>Graphiques</h1>
+            <span class="auteur"><img src="Ressources/img/auteur.png" alt=""> <h3>© ZeiderQualityPicture - Fotolia, Allemagne, 2010.</h3></span>
         </div>
     </div>
     

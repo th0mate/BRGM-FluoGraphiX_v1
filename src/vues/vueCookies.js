@@ -5,6 +5,7 @@ function vueCookies() {
         <div class="contenu">
             <p><span onclick="afficherVue('vueAccueil')"><span></span>Accueil</span> <strong> / Gestion des Cookies</strong></p>
             <h1>Gestion des Cookies</h1>
+            <span class="auteur"><img src="Ressources/img/auteur.png" alt=""> <h3>© AdobeStock - jerry, Arizona, Etats-Unis, 2017.</h3></span>
         </div>
     </div>
     

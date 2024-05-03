@@ -5,6 +5,9 @@ function vueSources() {
         <div class="contenu">
             <p><span onclick="afficherVue('vueAccueil')"><span></span>Accueil</span> <strong> / Sources du Contenu</strong></p>
             <h1>Sources du Contenu</h1>
+            <span class="auteur"><img src="Ressources/img/auteur.png" alt=""> <h3>© BRGM - François Michel, Chamonix, Haute-Savoie, 2008.</h3></span>
+
+</h3></span>
         </div>
     </div>
     <div class="sources">
