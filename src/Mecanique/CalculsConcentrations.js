@@ -24,7 +24,7 @@ function calculerConcentration(idLampe, traceur) {
         X = inverse(X);
         const matriceEntetes = dmV[0];
         resultat = multiply([matriceEntetes], X);
-        afficherCourbeDepuis3Valeurs(resultat, idLampe);
+        afficherCourbeDepuis3Valeurs(resultat, idLampe, traceur);
 
 
     } else if (nbValeurLampe === 1) {
@@ -43,7 +43,7 @@ function calculerConcentration(idLampe, traceur) {
         }
         dmv.push(temp - eau.getDataParNom('L' + idLampe + '-1'));
         resultat.push(arrondir8Chiffres((y[1] - y[0]) / (dmv[1] - dmv[0])));
-        afficherCourbeDepuis1Valeur(resultat, idLampe);
+        afficherCourbeDepuis1Valeur(resultat, idLampe, traceur);
 
     } else {
         const regLin = creerTableauValeursNettesLn(traceur, idLampe);
@@ -64,7 +64,7 @@ function calculerConcentration(idLampe, traceur) {
 
         resultat = multipleLinearRegression(colonne2_3, [colonne1]);
         resultat = transpose(resultat);
-        afficherCourbeDepuis3Valeurs(resultat, idLampe);
+        afficherCourbeDepuis3Valeurs(resultat, idLampe, traceur);
     }
 }
 
@@ -73,8 +73,9 @@ function calculerConcentration(idLampe, traceur) {
  * Affiche la courbe de concentration d'un traceur et d'une lampe donnés ayant nbValeurLampe !== 1
  * @param resultat les résultats du calcul
  * @param idLampe l'id de la lampe
+ * @param traceur le traceur
  */
-function afficherCourbeDepuis3Valeurs(resultat, idLampe) {
+function afficherCourbeDepuis3Valeurs(resultat, idLampe, traceur) {
     const data = {
         label: 'Calibration',
         data: [],
@@ -103,8 +104,9 @@ function afficherCourbeDepuis3Valeurs(resultat, idLampe) {
     let colonne0 = [];
     let colonne1 = [];
     let colonne2 = [];
+    const max = valeurSup10(traceur, idLampe);
 
-    for (let i = eauValeur + 0.01; i <= 2500; i += 10) {
+    for (let i = eauValeur + 0.01; i <= max; i += 10) {
         colonne0.push(i);
         colonne1.push(ln(i - eauValeur));
     }
@@ -131,8 +133,9 @@ function afficherCourbeDepuis3Valeurs(resultat, idLampe) {
  * Affiche la courbe de concentration d'un traceur et d'une lampe donnés ayant nbValeurLampe === 1
  * @param resultat le résultat du calcul
  * @param idLampe l'id de la lampe
+ * @param traceur le traceur
  */
-function afficherCourbeDepuis1Valeur(resultat, idLampe) {
+function afficherCourbeDepuis1Valeur(resultat, idLampe, traceur) {
 
     const data = {
         label: 'Calibration',
@@ -151,8 +154,9 @@ function afficherCourbeDepuis1Valeur(resultat, idLampe) {
 
     let colonne0 = [];
     let colonne1 = [];
+    const max = valeurSup10(traceur, idLampe);
 
-    for (let i = eauValeur + 0.01; i <= 2500; i += 10) {
+    for (let i = eauValeur + 0.01; i <= max; i += 10) {
         colonne0.push(i);
         colonne1.push(a * (i - eauValeur));
     }
@@ -371,4 +375,23 @@ function multipleLinearRegression(X, y) {
     y = transpose(y);
     const XT_y = multiply(XT, y);
     return multiply(XT_X_inv, XT_y);
+}
+
+
+/**
+ * Retourne une valeur supérieure à la valeur maximale du traceur LidLampe, multiple de 10
+ * @param traceur le traceur
+ * @param idLampe l'id de la lampe
+ * @returns {number} la valeur correspondante
+ */
+function valeurSup10(traceur, idLampe) {
+    const valeurs = [];
+    for (let i = 1; i <= traceur.echelles.length; i++) {
+        if (!isNaN(traceur.getDataParNom('L' + idLampe + '-' + i))) {
+            valeurs.push(traceur.getDataParNom('L' + idLampe + '-' + i));
+        }
+    }
+    const max = Math.max(...valeurs);
+    return Math.ceil(max / 10) * 12;
+
 }
