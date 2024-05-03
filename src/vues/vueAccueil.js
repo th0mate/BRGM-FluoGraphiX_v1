@@ -4,16 +4,16 @@ function vueAccueil() {
         <img src="Ressources/img/accueil.jpg" alt="banniere">
         <div class="contenu">
             <h1>FluoriGraphix : l'outil de visualisation et de traitement des données issues de fluorimètres</h1>
-            <a href="#actionsRapides" class="bouton boutonFonce">DÉCOUVRIR</a>
+            <div onclick="redirectTo('actionsRapides')" class="bouton boutonFonce">DÉCOUVRIR</div>
         </div>
     </div>
     
     <div class="accueil">
     
-        <div class="text-container"><h1 id="actionsRapides" class="titreBarre">Actions Rapides</h1></div>
+        <div class="text-container"><h1 class="titreBarre">Actions Rapides</h1></div>
     
             <div class="actionsRapides">
-                <div class="action" onclick="afficherVue('vueGraphique')">
+                <div id="actionsRapides" class="action" onclick="afficherVue('vueGraphique')">
                     <img src="Ressources/img/grandGraphique.png" alt="icone">
                     <h3>Visualisez les données de vos fichiers sous la forme de graphiques</h3>
                     <span></span>

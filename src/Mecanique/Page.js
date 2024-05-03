@@ -191,3 +191,28 @@ window.addEventListener('popstate', function (event) {
         afficherVue('vueAccueil');
     }
 });
+
+
+
+/**
+ * Redirige l'utilisateur vers un élément de la page
+ * @param anchorId - L'ID ou l'élément vers lequel rediriger l'utilisateur
+ * @param isElement précise si anchorId est un élément ou un ID
+ */
+function redirectTo(anchorId, isElement = false) {
+    let element;
+    if (!isElement) {
+        element = document.getElementById(anchorId);
+    } else {
+        element = anchorId;
+    }
+
+    if (element) {
+        if (window.innerWidth < 800) {
+            fermerSommaire();
+        }
+        element.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
+    } else {
+        afficherMessageFlash("Erreur : L'élément demandé n'existe pas.", "danger");
+    }
+}

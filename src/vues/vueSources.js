@@ -23,7 +23,9 @@ function vueSources() {
             <li>© Dmytro Vyshnevskyi sur Flaticon</li>
             <li>© Itim2101 sur Flaticon</li>
             <li>© Itim2101 sur Flaticon</li>
+            <li>© Catalin Fertu sur Flaticon</li>
             <li>© Freepik sur Freepik</li>
+            <li>© Studiogstock sur Freepik</li>
         </ul>
     </div>
     `;
