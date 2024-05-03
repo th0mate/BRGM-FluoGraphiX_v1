@@ -19,7 +19,6 @@ function calculerConcentration(idLampe, traceur) {
     const final = new Map();
     let resultat = [];
 
-
     //TODO : deux valeurs !
     if (nbValeurLampe < 4 && nbValeurLampe !== 1) {
         const dmV = creerTableauValeursNettes(traceur, idLampe);
@@ -27,9 +26,11 @@ function calculerConcentration(idLampe, traceur) {
         X = inverse(X);
         const matriceEntetes = dmV[0];
         resultat = multiply([matriceEntetes], X);
+        afficherCourbeDepuis3Valeurs(resultat, idLampe);
 
 
     } else if (nbValeurLampe === 1) {
+
         const eau = traceurs.find(traceur => traceur.unite === '');
         const dmv = [];
         let temp = 0;
@@ -44,6 +45,8 @@ function calculerConcentration(idLampe, traceur) {
         }
         dmv.push(temp - eau.getDataParNom('L' + idLampe + '-1'));
         resultat.push(arrondir8Chiffres((y[1] - y[0]) / (dmv[1] - dmv[0])));
+        afficherCourbeDepuis1Valeur(resultat, idLampe);
+
     } else {
         const regLin = creerTableauValeursNettesLn(traceur, idLampe);
         let colonne1 = [];
@@ -63,93 +66,107 @@ function calculerConcentration(idLampe, traceur) {
 
         resultat = multipleLinearRegression(colonne2_3, [colonne1]);
         resultat = transpose(resultat);
+        afficherCourbeDepuis3Valeurs(resultat, idLampe);
+    }
+}
 
+
+/**
+ * Affiche la courbe de concentration d'un traceur et d'une lampe donnés ayant nbValeurLampe !== 1
+ * @param resultat les résultats du calcul
+ * @param idLampe l'id de la lampe
+ */
+function afficherCourbeDepuis3Valeurs(resultat, idLampe) {
+
+    const data = {
+        label: 'Lampe ' + idLampe,
+        data: [],
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+        borderColor: 'rgb(230,65,160)',
+        borderWidth: 2,
+        pointRadius: 0
+    };
+
+    let final = new Map();
+    final.set('Constante', arrondir8Chiffres(resultat[0][0]));
+    final.set('Degré 1', arrondir8Chiffres(resultat[0][1]));
+    final.set('Degré 2', arrondir8Chiffres(resultat[0][2]));
+    console.log(final);
+
+    const constante = arrondir8Chiffres(resultat[0][0]);
+    const degre1 = arrondir8Chiffres(resultat[0][1]);
+    const degre2 = arrondir8Chiffres(resultat[0][2]);
+
+    const eau = traceurs.find(traceur => traceur.unite === '');
+    const eauValeur = eau.getDataParNom('L' + idLampe + '-1');
+
+    let colonne0 = [];
+    let colonne1 = [];
+    let colonne2 = [];
+
+    for (let i = eauValeur + 0.01; i <= 2500; i += 10) {
+        colonne0.push(i);
+        colonne1.push(ln(i - eauValeur));
+    }
+
+    for (let i = 0; i < colonne1.length; i++) {
+        colonne2.push(Math.exp(constante + degre1 * colonne1[i] + degre2 * colonne1[i] ** 2));
     }
 
 
-    if (nbValeurLampe !== 1 && nbValeurLampe !== 0) {
-        final.set('Constante', arrondir8Chiffres(resultat[0][0]));
-        final.set('Degré 1', arrondir8Chiffres(resultat[0][1]));
-        final.set('Degré 2', arrondir8Chiffres(resultat[0][2]));
-        console.log(final);
+    for (let i = 0; i < colonne1.length; i++) {
+        data.data.push({x: colonne0[i], y: colonne2[i]});
+    }
 
-        const constante = arrondir8Chiffres(resultat[0][0]);
-        const degre1 = arrondir8Chiffres(resultat[0][1]);
-        const degre2 = arrondir8Chiffres(resultat[0][2]);
+    const canvas = document.getElementById('graphiqueTraceur');
+    const existingChart = Chart.getChart(canvas);
 
-        const eau = traceurs.find(traceur => traceur.unite === '');
-        const eauValeur = eau.getDataParNom('L' + idLampe + '-1');
-
-        let colonne0 = [];
-        let colonne1 = [];
-        let colonne2 = [];
-
-        for (let i = eauValeur + 0.01; i <= 2500; i += 10) {
-            colonne0.push(i);
-            colonne1.push(ln(i - eauValeur));
-        }
-
-        for (let i = 0; i < colonne1.length; i++) {
-            colonne2.push(Math.exp(constante + degre1 * colonne1[i] + degre2 * colonne1[i] ** 2));
-        }
-
-        const data = {
-            label: 'Lampe ' + idLampe,
-            data: [],
-            backgroundColor: 'rgba(0, 0, 0, 0)',
-            borderColor: 'rgb(230,65,160)',
-            borderWidth: 2,
-            pointRadius: 0
-        };
+    if (existingChart) {
+        existingChart.data.datasets.push(data);
+        existingChart.update();
+    }
+}
 
 
-        for (let i = 0; i < colonne1.length; i++) {
-            data.data.push({x: colonne0[i], y: colonne2[i]});
-        }
+/**
+ * Affiche la courbe de concentration d'un traceur et d'une lampe donnés ayant nbValeurLampe === 1
+ * @param resultat le résultat du calcul
+ * @param idLampe l'id de la lampe
+ */
+function afficherCourbeDepuis1Valeur(resultat, idLampe) {
 
-        const canvas = document.getElementById('graphiqueTraceur');
-        const existingChart = Chart.getChart(canvas);
+    const data = {
+        label: 'Lampe ' + idLampe,
+        data: [],
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+        borderColor: 'rgb(230,65,160)',
+        borderWidth: 2,
+        pointRadius: 0
+    };
 
-        if (existingChart) {
-            existingChart.data.datasets.push(data);
-            existingChart.update();
-        }
+    const a = resultat[0];
+    console.log(a)
+    const eau = traceurs.find(traceur => traceur.unite === '');
+    const eauValeur = eau.getDataParNom('L' + idLampe + '-1');
 
-    } else if (nbValeurLampe === 1) {
-        const a = resultat[0];
-        console.log(a)
-        const eau = traceurs.find(traceur => traceur.unite === '');
-        const eauValeur = eau.getDataParNom('L' + idLampe + '-1');
+    let colonne0 = [];
+    let colonne1 = [];
 
-        let colonne0 = [];
-        let colonne1 = [];
+    for (let i = eauValeur + 0.01; i <= 2500; i += 10) {
+        colonne0.push(i);
+        colonne1.push(a * (i - eauValeur));
+    }
 
-        for (let i = eauValeur + 0.01; i <= 2500; i += 10) {
-            colonne0.push(i);
-            colonne1.push(a * (i - eauValeur));
-        }
+    for (let i = 0; i < colonne1.length; i++) {
+        data.data.push({x: colonne0[i], y: colonne1[i]});
+    }
 
-        const data = {
-            label: 'Lampe ' + idLampe,
-            data: [],
-            backgroundColor: 'rgba(0, 0, 0, 0)',
-            borderColor: 'rgb(230,65,160)',
-            borderWidth: 2,
-            pointRadius: 0
-        };
+    const canvas = document.getElementById('graphiqueTraceur');
+    const existingChart = Chart.getChart(canvas);
 
-        for (let i = 0; i < colonne1.length; i++) {
-            data.data.push({x: colonne0[i], y: colonne1[i]});
-        }
-
-        const canvas = document.getElementById('graphiqueTraceur');
-        const existingChart = Chart.getChart(canvas);
-
-        if (existingChart) {
-            existingChart.data.datasets.push(data);
-            existingChart.update();
-        }
-
+    if (existingChart) {
+        existingChart.data.datasets.push(data);
+        existingChart.update();
     }
 }
 
