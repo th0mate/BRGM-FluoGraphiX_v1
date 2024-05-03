@@ -84,7 +84,8 @@ function afficherCourbeDepuis3Valeurs(resultat, idLampe) {
         backgroundColor: 'rgba(0, 0, 0, 0)',
         borderColor: 'rgb(230,65,160)',
         borderWidth: 2,
-        pointRadius: 0
+        pointRadius: 0,
+        tension: 0.4
     };
 
     let final = new Map();
@@ -141,7 +142,8 @@ function afficherCourbeDepuis1Valeur(resultat, idLampe) {
         backgroundColor: 'rgba(0, 0, 0, 0)',
         borderColor: 'rgb(230,65,160)',
         borderWidth: 2,
-        pointRadius: 0
+        pointRadius: 0,
+        tension: 0.4
     };
 
     const a = resultat[0];
