@@ -106,7 +106,7 @@ function afficherCourbeDepuis3Valeurs(resultat, idLampe, traceur) {
     let colonne2 = [];
     const max = valeurSup10(traceur, idLampe);
 
-    for (let i = eauValeur + 0.01; i <= max; i += 10) {
+    for (let i = eauValeur + 0.01; i <= max; i += 2) {
         colonne0.push(i);
         colonne1.push(ln(i - eauValeur));
     }
@@ -156,7 +156,7 @@ function afficherCourbeDepuis1Valeur(resultat, idLampe, traceur) {
     let colonne1 = [];
     const max = valeurSup10(traceur, idLampe);
 
-    for (let i = eauValeur + 0.01; i <= max; i += 10) {
+    for (let i = eauValeur + 0.01; i <= max; i += 2) {
         colonne0.push(i);
         colonne1.push(a * (i - eauValeur));
     }
