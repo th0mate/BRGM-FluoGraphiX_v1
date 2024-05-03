@@ -18,8 +18,7 @@ function calculerConcentration(idLampe, traceur) {
 
     let resultat = [];
 
-    //TODO : deux valeurs !
-    if (nbValeurLampe < 4 && nbValeurLampe !== 1) {
+    if (nbValeurLampe < 4 && nbValeurLampe !== 1 && nbValeurLampe !== 2) {
         const dmV = creerTableauValeursNettes(traceur, idLampe);
         let X = creerMatriceLn(traceur, dmV);
         X = inverse(X);
@@ -46,6 +45,8 @@ function calculerConcentration(idLampe, traceur) {
         resultat.push(arrondir8Chiffres((y[1] - y[0]) / (dmv[1] - dmv[0])));
         afficherCourbeDepuis1Valeur(resultat, idLampe);
 
+    } else if (nbValeurLampe === 2) {
+        //TODO
     } else {
         const regLin = creerTableauValeursNettesLn(traceur, idLampe);
         let colonne1 = [];
