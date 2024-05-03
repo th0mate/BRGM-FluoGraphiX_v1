@@ -1,3 +1,6 @@
+/**
+ * Le nombre de valeurs n'étant pas NaN pour une lampe d'un traceur donné
+ */
 let nbValeurLampe = 0;
 
 /**
