@@ -76,7 +76,7 @@ function calculerConcentration(idLampe, traceur) {
  */
 function afficherCourbeDepuis3Valeurs(resultat, idLampe) {
     const data = {
-        label: 'Lampe ' + idLampe,
+        label: 'Calibration',
         data: [],
         backgroundColor: 'rgba(0, 0, 0, 0)',
         borderColor: 'rgb(230,65,160)',
@@ -135,7 +135,7 @@ function afficherCourbeDepuis3Valeurs(resultat, idLampe) {
 function afficherCourbeDepuis1Valeur(resultat, idLampe) {
 
     const data = {
-        label: 'Lampe ' + idLampe,
+        label: 'Calibration',
         data: [],
         backgroundColor: 'rgba(0, 0, 0, 0)',
         borderColor: 'rgb(230,65,160)',
