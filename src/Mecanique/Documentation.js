@@ -2,7 +2,9 @@
  * Ferme le bandeau de sommaire
  */
 function fermerSommaire() {
-    document.querySelector('.bandeauDocumentation').style.display = "none";
+    if (document.querySelector('.bandeauDocumentation') && document.querySelector('.bandeauDocumentation').style.display === "flex") {
+        document.querySelector('.bandeauDocumentation').style.display = "none";
+    }
 }
 
 
