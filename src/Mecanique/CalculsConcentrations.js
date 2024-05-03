@@ -155,6 +155,20 @@ function calculerConcentration(idLampe, traceur) {
 
 
 /**
+ * Réinitialise le zoom du graphique comme il était d'origine
+ */
+function reinitialiserZoomGraphiqueConcentrations() {
+    const canvas = document.getElementById('graphiqueTraceur');
+    const existingChart = Chart.getChart(canvas);
+    if (existingChart) {
+        existingChart.resetZoom();
+        afficherMessageFlash("Zoom réinitialisé.", 'info');
+    }
+
+}
+
+
+/**
  * Calcule le logarithme népérien d'un nombre
  * @param nb le nombre
  * @return {number} le logarithme népérien du nombre

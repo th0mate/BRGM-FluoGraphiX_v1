@@ -42,8 +42,9 @@ function vueConcentrations() {
                 </div>
                 
                 <div id="selectLigne">
-                    <h4>Paramètres des calculs</h4>
+                    <h4>Calculs / Gestion du Zoom</h4>
                     <div id="boutonCalculer" class="bouton boutonClair disabled">CALCULER</div>
+                    <div onclick="reinitialiserZoomGraphiqueConcentrations()" id="boutonResetZoom" class="bouton boutonClair disabled">RÉINITIALISER LE ZOOM</div>
                     
                 </div>
             </div>
