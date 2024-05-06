@@ -104,8 +104,6 @@ function effectuerCalculsTurbidite(traceur, idLampe) {
 
     const Xinverse = inverse(X);
     return (multiply([ln], Xinverse));
-
-
 }
 
 
@@ -146,7 +144,7 @@ function afficherCourbeDepuis3Valeurs(resultat, idLampe, traceur) {
     let colonne2 = [];
     const max = valeurSup10(traceur, idLampe);
 
-    for (let i = eauValeur + 0.01; i <= 2500; i += 2) {
+    for (let i = eauValeur + 0.01; i <= max; i += 2) {
         colonne0.push(i);
         colonne1.push(ln(i - eauValeur));
     }
@@ -479,7 +477,7 @@ function multipleLinearRegression(X, y) {
 
 
 /**
- * Retourne une valeur supérieure à la valeur maximale du traceur LidLampe, multiple de 10
+ * Retourne une valeur supérieure à la valeur maximale du traceur LidLampe
  * @param traceur le traceur
  * @param idLampe l'id de la lampe
  * @returns {number} la valeur correspondante
@@ -492,6 +490,7 @@ function valeurSup10(traceur, idLampe) {
         }
     }
     const max = Math.max(...valeurs);
-    return Math.ceil(max / 10) * 12;
+    //on retourne max + 20%
+    return max + (max / 3) ;
 
 }
