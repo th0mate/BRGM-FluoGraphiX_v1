@@ -254,7 +254,6 @@ function afficherGraphiqueTraceur(traceur, idData) {
 
             if (i === idData) {
                 const eau = recupererTraceurEau();
-                //on ajoute dans le dataSet la valeur LidData-1 de l'eau
                 let dataEau = [];
                 for (let j = 0; j < labels.length; j++) {
                     const value = eau.getDataParNom('L' + idData + '-' + (j + 1));
@@ -288,52 +287,51 @@ function afficherGraphiqueTraceur(traceur, idData) {
             }
         }
 
+
     } else {
-        //on ajoute dans le graphique en x les valeurs de idLampe et celles de l'eau pour cette idLampe, et en y les valeurs de la lampe 4 pour l'eau et le traceur
         let data = [];
+        const tableauY = [];
         console.log('lampe NON principale !');
+
 
         for (let j = 0; j < labels.length; j++) {
             const value = traceur.getDataParNom('L' + idData + '-' + (j + 1));
             if (value !== null && value !== 'NaN') {
-                data.push({x: value, y: labels[j]});
+                tableauY.push(value);
+            }
+        }
+
+        for (let j = 0; j < labels.length; j++) {
+            const value = traceur.getDataParNom('L4-' + (j + 1));
+            if (value !== null && value !== 'NaN') {
+                data.push({x: value, y: tableauY[j]});
             }
         }
 
         data = data.filter((point) => !isNaN(point.x) && !isNaN(point.y));
 
-        if (data.length > maxDataLength) {
-            maxDataLength = data.length;
-            maxDataIndex = datasets.length;
-        }
 
         let hiddenStatus = false;
         if (data.length > 1 && data[0].x === '0') {
             hiddenStatus = true;
         }
 
-        if (idData === traceur.lampePrincipale) {
-            const eau = recupererTraceurEau();
-            //on ajoute dans le dataSet la valeur LidData-1 de l'eau
-            let dataEau = [];
-            for (let j = 0; j < labels.length; j++) {
-                const value = eau.getDataParNom('L' + idData + '-' + (j + 1));
-                if (value !== null && value !== 'NaN') {
-                    dataEau.push({x: value, y: 0});
-                }
-            }
-            dataEau = dataEau.filter((point) => !isNaN(point.x) && !isNaN(point.y));
-            datasets.push({
-                label: eau.nom,
-                data: dataEau,
-                borderColor: 'rgb(86,135,255)',
-                borderWidth: 2,
-                fill: false,
-                hidden: false,
-                showLine: false,
-                pointStyle: 'cross'
-            });
-        }
+        const eau = recupererTraceurEau();
+        let dataEau = [];
+         dataEau.push({x: eau.getDataParNom('L4-1'), y: eau.getDataParNom('L' + idData + '-1')});
+         console.log(dataEau);
+
+        datasets.push({
+            label: eau.nom,
+            data: dataEau,
+            borderColor: 'rgb(86,135,255)',
+            borderWidth: 2,
+            fill: false,
+            hidden: false,
+            showLine: false,
+            pointStyle: 'cross'
+        });
+
 
         datasets.push({
             label: 'L' + idData,
