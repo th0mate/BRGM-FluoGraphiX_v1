@@ -18,9 +18,10 @@ function calculerConcentration(idLampe, traceur) {
 
     let resultat = [];
 
+    //TODO: CORRIGER LE IF !!!
     if (traceur.unite.toLowerCase() === 'ntu' && idLampe !== 4) {
 
-        afficherCourbeParasites3Valeurs(effectuerCalculsTurbidite(traceur, idLampe), idLampe, traceur);
+        afficherCourbeParasites3Valeurs(effectuerCalculsParasites(traceur, idLampe), idLampe, traceur);
 
     } else if (nbValeurLampe < 4 && nbValeurLampe !== 1) {
         const dmV = creerTableauValeursNettes(traceur, idLampe);
@@ -79,7 +80,7 @@ function calculerConcentration(idLampe, traceur) {
  * @param idLampe l'id de la lampe
  * @returns {*[]} les résultats du calcul
  */
-function effectuerCalculsTurbidite(traceur, idLampe) {
+function effectuerCalculsParasites(traceur, idLampe) {
     const eau = traceurs.find(traceur => traceur.unite === '');
     const ln = [];
     const l4Net = [];
