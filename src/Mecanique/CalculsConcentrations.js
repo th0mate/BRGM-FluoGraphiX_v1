@@ -18,7 +18,11 @@ function calculerConcentration(idLampe, traceur) {
 
     let resultat = [];
 
-    if (nbValeurLampe < 4 && nbValeurLampe !== 1) {
+    if (traceur.unite.toLowerCase() === 'ntu' && idLampe !== 4) {
+
+        afficherCourbeDepuis3Valeurs(effectuerCalculsTurbidite(traceur, idLampe), idLampe, traceur);
+
+    } else if (nbValeurLampe < 4 && nbValeurLampe !== 1) {
         const dmV = creerTableauValeursNettes(traceur, idLampe);
         let X = creerMatriceLn(traceur, dmV);
         X = inverse(X);
@@ -70,6 +74,42 @@ function calculerConcentration(idLampe, traceur) {
 
 
 /**
+ * Effectue les calculs nécessaires pour la turbidité, et plus particulièrement si la lampe !== L4
+ * @param traceur le traceur
+ * @param idLampe l'id de la lampe
+ * @returns {*[]} les résultats du calcul
+ */
+function effectuerCalculsTurbidite(traceur, idLampe) {
+    const eau = traceurs.find(traceur => traceur.unite === '');
+    const ln = [];
+    const l4Net = [];
+    const X = [];
+
+    for (let i = 1; i <= nbValeurLampe; i++) {
+        if (!isNaN(traceur.getDataParNom('L' + idLampe + '-' + i))) {
+            ln.push(arrondir8Chiffres(Math.log(traceur.getDataParNom('L' + idLampe + '-' + i) - eau.getDataParNom('L' + idLampe + '-1'))));
+        }
+        if (!isNaN(traceur.getDataParNom('L4-' + i))) {
+            l4Net.push(arrondir8Chiffres(traceur.getDataParNom('L4-' + i) - eau.getDataParNom('L4-1')));
+        }
+    }
+
+    for (let i = 0; i < 3; i ++) {
+        const ligne = [];
+        for (let j = 0; j < ln.length; j++) {
+            ligne.push(arrondir8Chiffres(Math.log(l4Net[j]) ** i));
+        }
+        X.push(ligne);
+    }
+
+    const Xinverse = inverse(X);
+    return(multiply([ln], Xinverse));
+
+
+}
+
+
+/**
  * Affiche la courbe de concentration d'un traceur et d'une lampe donnés ayant nbValeurLampe !== 1
  * @param resultat les résultats du calcul
  * @param idLampe l'id de la lampe
@@ -106,7 +146,7 @@ function afficherCourbeDepuis3Valeurs(resultat, idLampe, traceur) {
     let colonne2 = [];
     const max = valeurSup10(traceur, idLampe);
 
-    for (let i = eauValeur + 0.01; i <= max; i += 2) {
+    for (let i = eauValeur + 0.01; i <= 2500; i += 2) {
         colonne0.push(i);
         colonne1.push(ln(i - eauValeur));
     }
