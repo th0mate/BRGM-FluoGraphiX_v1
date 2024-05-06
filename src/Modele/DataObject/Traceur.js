@@ -15,6 +15,7 @@ class Traceur {
         this.unite = unite;
         this.data = new Map();
         this.echelles = [];
+        this.lampePrincipale = 5;
     }
 
 

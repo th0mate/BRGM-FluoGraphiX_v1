@@ -65,6 +65,28 @@ function init(estDepuisCalibrat = true) {
         }
 
 
+        for (let i = 0; i < traceurs.length; i++) {
+            const traceur = traceurs[i];
+            let maxDataLength = 0;
+            let maxDataIndex = 0;
+            let labels = traceur.echelles;
+            for (let i = 1; i <= traceur.data.size; i++) {
+                let nbValeurs = 0;
+                for (let j = 0; j < labels.length; j++) {
+                    const value = traceur.getDataParNom('L' + i + '-' + (j + 1));
+                    if (value !== null && value !== 'NaN' && !isNaN(value)) {
+                        nbValeurs++;
+                    }
+                }
+                if (nbValeurs > maxDataLength) {
+                    maxDataLength = nbValeurs;
+                    maxDataIndex = i;
+                }
+
+            }
+            traceur.lampePrincipale = maxDataIndex;
+        }
+
         console.log(traceurs);
         afficherSelectTraceurs();
     } else {
@@ -272,34 +294,15 @@ function afficherSelectTraceurs() {
         const nom = select.value;
         const traceur = recupererTraceurParNom(nom);
 
-        let labels = traceur.echelles;
-        let maxDataLength = 0;
-        let maxDataIndex = 0;
-        let idData = 0;
-        for (let i = 1; i <= traceur.data.size; i++) {
-            let nbValeurs = 0;
-            for (let j = 0; j < labels.length; j++) {
-                const value = traceur.getDataParNom('L' + i + '-' + (j + 1));
-                if (value !== null && value !== 'NaN' && !isNaN(value)) {
-                    nbValeurs++;
-                }
-            }
-            if (nbValeurs > maxDataLength) {
-                maxDataLength = nbValeurs;
-                maxDataIndex = i;
-            }
-
-        }
-        idData = maxDataIndex;
-
         if (document.querySelector('.boutonDlData')) {
             document.querySelector('.boutonDlData').remove();
         }
         afficherTableauTraceur(traceur);
-        afficherSelectLigne(idData, traceur);
-        afficherGraphiqueTraceur(traceur, idData);
-        setBoutonCalculer(idData, traceur);
+        afficherSelectLigne(traceur.lampePrincipale, traceur);
+        afficherGraphiqueTraceur(traceur, traceur.lampePrincipale);
+        setBoutonCalculer(traceur.lampePrincipale, traceur);
     });
+
 
 
     for (let i = 0; i < traceurs.length; i++) {
@@ -314,29 +317,11 @@ function afficherSelectTraceurs() {
                 const traceur = traceurs[i];
 
                 let labels = traceur.echelles;
-                let maxDataLength = 0;
-                let maxDataIndex = 0;
-                let idData = 0;
-                for (let i = 1; i <= traceur.data.size; i++) {
-                    let nbValeurs = 0;
-                    for (let j = 0; j < labels.length; j++) {
-                        const value = traceur.getDataParNom('L' + i + '-' + (j + 1));
-                        if (value !== null && value !== 'NaN' && !isNaN(value)) {
-                            nbValeurs++;
-                        }
-                    }
-                    if (nbValeurs > maxDataLength) {
-                        maxDataLength = nbValeurs;
-                        maxDataIndex = i;
-                    }
-
-                }
-                idData = maxDataIndex;
 
                 afficherTableauTraceur(traceur);
-                afficherSelectLigne(idData, traceur);
-                afficherGraphiqueTraceur(traceur, idData);
-                setBoutonCalculer(idData, traceur);
+                afficherSelectLigne(traceur.lampePrincipale, traceur);
+                afficherGraphiqueTraceur(traceur, traceur.lampePrincipale);
+                setBoutonCalculer(traceur.lampePrincipale, traceur);
             }
             select.appendChild(option);
         }
