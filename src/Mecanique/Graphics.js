@@ -226,18 +226,81 @@ function afficherGraphiqueTraceur(traceur, idData) {
 
     }
 
-    for (let i = 1; i <= 4; i++) {
+
+    if (idData === traceur.lampePrincipale) {
+
+        for (let i = 1; i <= 4; i++) {
+            let data = [];
+            for (let j = 0; j < labels.length; j++) {
+                const value = traceur.getDataParNom('L' + i + '-' + (j + 1));
+                if (value !== null && value !== 'NaN') {
+                    data.push({x: value, y: labels[j]});
+                }
+            }
+
+
+            data = data.filter((point) => !isNaN(point.x) && !isNaN(point.y));
+
+
+            if (data.length > maxDataLength) {
+                maxDataLength = data.length;
+                maxDataIndex = datasets.length;
+            }
+
+            let hiddenStatus = false;
+            if (data.length > 1 && data[0].x === '0') {
+                hiddenStatus = true;
+            }
+
+            if (i === idData) {
+                const eau = recupererTraceurEau();
+                //on ajoute dans le dataSet la valeur LidData-1 de l'eau
+                let dataEau = [];
+                for (let j = 0; j < labels.length; j++) {
+                    const value = eau.getDataParNom('L' + idData + '-' + (j + 1));
+                    if (value !== null && value !== 'NaN') {
+                        dataEau.push({x: value, y: 0});
+                    }
+                }
+                dataEau = dataEau.filter((point) => !isNaN(point.x) && !isNaN(point.y));
+                datasets.push({
+                    label: eau.nom,
+                    data: dataEau,
+                    borderColor: 'rgb(86,135,255)',
+                    borderWidth: 2,
+                    fill: false,
+                    hidden: false,
+                    showLine: false,
+                    pointStyle: 'cross'
+                });
+
+
+                datasets.push({
+                    label: 'L' + i,
+                    data: data,
+                    borderColor: getRandomColor(),
+                    borderWidth: 2,
+                    fill: false,
+                    hidden: hiddenStatus,
+                    showLine: false,
+                    pointStyle: 'cross'
+                });
+            }
+        }
+
+    } else {
+        //on ajoute dans le graphique en x les valeurs de idLampe et celles de l'eau pour cette idLampe, et en y les valeurs de la lampe 4 pour l'eau et le traceur
         let data = [];
+        console.log('lampe NON principale !');
+
         for (let j = 0; j < labels.length; j++) {
-            const value = traceur.getDataParNom('L' + i + '-' + (j + 1));
+            const value = traceur.getDataParNom('L' + idData + '-' + (j + 1));
             if (value !== null && value !== 'NaN') {
                 data.push({x: value, y: labels[j]});
             }
         }
 
-
         data = data.filter((point) => !isNaN(point.x) && !isNaN(point.y));
-
 
         if (data.length > maxDataLength) {
             maxDataLength = data.length;
@@ -249,7 +312,7 @@ function afficherGraphiqueTraceur(traceur, idData) {
             hiddenStatus = true;
         }
 
-        if (i === idData) {
+        if (idData === traceur.lampePrincipale) {
             const eau = recupererTraceurEau();
             //on ajoute dans le dataSet la valeur LidData-1 de l'eau
             let dataEau = [];
@@ -270,19 +333,19 @@ function afficherGraphiqueTraceur(traceur, idData) {
                 showLine: false,
                 pointStyle: 'cross'
             });
-
-
-            datasets.push({
-                label: 'L' + i,
-                data: data,
-                borderColor: getRandomColor(),
-                borderWidth: 2,
-                fill: false,
-                hidden: hiddenStatus,
-                showLine: false,
-                pointStyle: 'cross'
-            });
         }
+
+        datasets.push({
+            label: 'L' + idData,
+            data: data,
+            borderColor: getRandomColor(),
+            borderWidth: 2,
+            fill: false,
+            hidden: hiddenStatus,
+            showLine: false,
+            pointStyle: 'cross'
+        });
+
     }
 
 
@@ -336,7 +399,7 @@ function afficherGraphiqueTraceur(traceur, idData) {
                     pan: {
                         enabled: true,
                         mode: 'xy',
-                        onPan: function({chart}) {
+                        onPan: function ({chart}) {
                             const scales = chart.scales;
                             if (scales['x'].min < 0 || scales['y'].min < 0) {
                                 return false;
@@ -351,7 +414,7 @@ function afficherGraphiqueTraceur(traceur, idData) {
                             enabled: true
                         },
                         mode: 'xy',
-                        onZoom: function({chart}) {
+                        onZoom: function ({chart}) {
                             const scales = chart.scales;
                             if (scales['x'].min < 0 || scales['y'].min < 0) {
                                 return false;

@@ -84,7 +84,11 @@ function init(estDepuisCalibrat = true) {
                 }
 
             }
-            traceur.lampePrincipale = maxDataIndex;
+            if (traceur.unite.toLowerCase() !== 'ntu') {
+                traceur.lampePrincipale = maxDataIndex;
+            } else {
+                traceur.lampePrincipale = 4;
+            }
         }
 
         console.log(traceurs);
