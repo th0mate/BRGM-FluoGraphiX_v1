@@ -106,12 +106,12 @@ function effectuerCalculsParasites(traceur, idLampe) {
     const l4Net = [];
     const X = [];
 
-    for (let i = 1; i <= nbValeurLampe; i++) {
+    for (let i = 1; i <= traceur.echelles.length; i++) {
         if (!isNaN(traceur.getDataParNom('L' + idLampe + '-' + i))) {
             ln.push(arrondir8Chiffres(Math.log(traceur.getDataParNom('L' + idLampe + '-' + i) - eau.getDataParNom('L' + idLampe + '-1'))));
         }
-        if (!isNaN(traceur.getDataParNom('L4-' + i))) {
-            l4Net.push(arrondir8Chiffres(traceur.getDataParNom('L4-' + i) - eau.getDataParNom('L4-1')));
+        if (!isNaN(traceur.getDataParNom('L' + traceur.lampePrincipale + '-' + i))) {
+            l4Net.push(arrondir8Chiffres(traceur.getDataParNom('L' + traceur.lampePrincipale + '-' + i) - eau.getDataParNom('L' + traceur.lampePrincipale + '-1')));
         }
     }
 

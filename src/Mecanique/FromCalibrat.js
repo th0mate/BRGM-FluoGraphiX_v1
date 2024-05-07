@@ -64,33 +64,6 @@ function init(estDepuisCalibrat = true) {
             document.querySelector('.infosConcentration').remove();
         }
 
-
-        for (let i = 0; i < traceurs.length; i++) {
-            const traceur = traceurs[i];
-            let maxDataLength = 0;
-            let maxDataIndex = 0;
-            let labels = traceur.echelles;
-            for (let i = 1; i <= traceur.data.size; i++) {
-                let nbValeurs = 0;
-                for (let j = 0; j < labels.length; j++) {
-                    const value = traceur.getDataParNom('L' + i + '-' + (j + 1));
-                    if (value !== null && value !== 'NaN' && !isNaN(value)) {
-                        nbValeurs++;
-                    }
-                }
-                if (nbValeurs > maxDataLength) {
-                    maxDataLength = nbValeurs;
-                    maxDataIndex = i;
-                }
-
-            }
-            if (traceur.unite.toLowerCase() !== 'ntu') {
-                traceur.lampePrincipale = maxDataIndex;
-            } else {
-                traceur.lampePrincipale = 4;
-            }
-        }
-
         console.log(traceurs);
         afficherSelectTraceurs();
     } else {
@@ -222,6 +195,29 @@ function creerTraceurs() {
                 }
             }
 
+            let maxDataLength = 0;
+            let maxDataIndex = 0;
+            let labels = traceur.echelles;
+            for (let i = 1; i <= traceur.data.size; i++) {
+                let nbValeurs = 0;
+                for (let j = 0; j < labels.length; j++) {
+                    const value = traceur.getDataParNom('L' + i + '-' + (j + 1));
+                    if (value !== null && value !== 'NaN' && !isNaN(value)) {
+                        nbValeurs++;
+                    }
+                }
+                if (nbValeurs > maxDataLength) {
+                    maxDataLength = nbValeurs;
+                    maxDataIndex = i;
+                }
+
+            }
+            if (traceur.unite.toLowerCase() !== 'ntu') {
+                traceur.lampePrincipale = maxDataIndex;
+            } else {
+                traceur.lampePrincipale = 4;
+            }
+
         }
 
         traceurs.push(traceur);
@@ -258,6 +254,7 @@ function creerTurbidity() {
 
         const premierLigne = section[0].split(' ');
         turbidite.echelles.push(parseFloat(premierLigne[0]));
+        turbidite.lampePrincipale = 4;
 
 
         for (let j = 0; j < 4; j++) {
@@ -498,7 +495,8 @@ function convertirEnTexte() {
 
         if (traceurs[i].unite !== '') {
 
-            texte += `${traceurs[i].unite}\n\n`;
+            texte += `${traceurs[i].unite}\n`;
+            texte += `L${traceurs[i].lampePrincipale}\n\n`;
 
             echelles.sort((a, b) => a.echelle - b.echelle);
 
@@ -508,7 +506,7 @@ function convertirEnTexte() {
             }
             texte += '\n';
         } else {
-            texte += '\n\n\n';
+            texte += '\n\n\n\n';
         }
 
         for (let j = 1; j <= 4; j++) {
@@ -602,10 +600,11 @@ function creerTraceurTxt() {
             const section = sections[i].split('\n');
             const nom = section[1].trim();
             let traceur = new Traceur(nom, section[2].trim(), section[3].trim());
+            traceur.lampePrincipale = parseFloat(section[4].charAt(1));
 
             let futuresEchelles = [];
             if (section[3].trim() !== '') {
-                futuresEchelles = section[5].split(/\s+/);
+                futuresEchelles = section[6].split(/\s+/);
                 futuresEchelles = futuresEchelles.filter(echelle => echelle !== '');
             } else {
                 futuresEchelles.push(100);
@@ -618,7 +617,7 @@ function creerTraceurTxt() {
             }
 
             for (let j = 0; j < 4; j++) {
-                const ligne = section[j + 6].split(/\s+/);
+                const ligne = section[j + 7].split(/\s+/);
                 for (let k = 0; k < nbColonnes; k++) {
                     traceur.addData(ligne[0] + `-${k + 1}`, parseFloat(ligne[k + 1]));
                 }
@@ -640,7 +639,8 @@ function creerTurbidityTxt() {
     const section = sections[sections.length - 2].split('\n');
 
     const turbidite = new Traceur('Turbidité', section[2].trim(), section[3].trim());
-    let futuresEchelles = section[5].split(/\s+/);
+    turbidite.lampePrincipale = 4;
+    let futuresEchelles = section[6].split(/\s+/);
     futuresEchelles = futuresEchelles.filter(echelle => echelle !== '');
     const nbColonnes = futuresEchelles.length;
 
@@ -649,7 +649,7 @@ function creerTurbidityTxt() {
     }
 
     for (let i = 0; i < 4; i++) {
-        const ligne = section[i + 6].split(/\s+/);
+        const ligne = section[i + 7].split(/\s+/);
         for (let j = 0; j < nbColonnes; j++) {
             turbidite.addData(ligne[0] + `-${j + 1}`, parseFloat(ligne[j + 1]));
         }
