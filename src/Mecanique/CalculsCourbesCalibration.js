@@ -340,11 +340,11 @@ function afficherCourbeParasites1Valeur(resultat, idLampe, traceur) {
     const a = (pointY - eauValeurLampe) / (pointX - eauValeurL4);
     const b = eauValeurLampe - a * eauValeurL4;
 
-    const marge = eauValeurLampe - (eauValeurLampe / 10);
+    const marge = pointX * 1.2;
     let tempX = 0;
     let tempY = 0;
 
-    for (let x = eauValeurL4 - marge; x <= pointX + marge; x += 2) {
+    for (let x = eauValeurL4; x <= marge; x += 2) {
         const y = a * x + b;
 
         if (x < tempX || y < tempY) {
@@ -586,6 +586,6 @@ function valeurSup10(traceur, idLampe) {
     }
     const max = Math.max(...valeurs);
     //on retourne max + 20%
-    return max + (max / 3);
+    return max * 1.2;
 
 }
