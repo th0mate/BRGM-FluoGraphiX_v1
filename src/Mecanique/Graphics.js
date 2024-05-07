@@ -291,8 +291,6 @@ function afficherGraphiqueTraceur(traceur, idData) {
     } else {
         let data = [];
         const tableauY = [];
-        console.log('lampe NON principale !');
-
 
         for (let j = 0; j < labels.length; j++) {
             const value = traceur.getDataParNom('L' + idData + '-' + (j + 1));

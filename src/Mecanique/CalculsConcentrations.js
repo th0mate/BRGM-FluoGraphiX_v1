@@ -18,58 +18,72 @@ function calculerConcentration(idLampe, traceur) {
 
     let resultat = [];
 
-    //TODO: CORRIGER LE IF !!!
-    if (traceur.unite.toLowerCase() === 'ntu' && idLampe !== 4) {
+    if (traceur.lampePrincipale !== idLampe) {
 
-        afficherCourbeParasites3Valeurs(effectuerCalculsParasites(traceur, idLampe), idLampe, traceur);
+        let result = effectuerCalculsParasites(traceur, idLampe);
+        let countNaN = 0;
 
-    } else if (nbValeurLampe < 4 && nbValeurLampe !== 1) {
-        const dmV = creerTableauValeursNettes(traceur, idLampe);
-        let X = creerMatriceLn(traceur, dmV);
-        X = inverse(X);
-        const matriceEntetes = dmV[0];
-        resultat = multiply([matriceEntetes], X);
-        afficherCourbeDepuis3Valeurs(resultat, idLampe, traceur);
-
-
-    } else if (nbValeurLampe === 1) {
-
-        const eau = traceurs.find(traceur => traceur.unite === '');
-        const dmv = [];
-        let temp = 0;
-        const y = [];
-        y.push(0);
-        dmv.push(0);
-        for (let i = 1; i <= traceur.echelles.length; i++) {
-            if (!isNaN(traceur.getDataParNom('L' + idLampe + '-' + i))) {
-                temp = traceur.getDataParNom('L' + idLampe + '-' + i);
-                y.push(traceur.echelles[i - 1]);
+        for (let i = 0; i < result[0].length; i++) {
+            if (isNaN(result[0][i])) {
+                countNaN++;
             }
         }
-        dmv.push(temp - eau.getDataParNom('L' + idLampe + '-1'));
-        resultat.push(arrondir8Chiffres((y[1] - y[0]) / (dmv[1] - dmv[0])));
-        afficherCourbeDepuis1Valeur(resultat, idLampe, traceur);
+
+        if (countNaN === 0) {
+            afficherCourbeParasites3Valeurs(effectuerCalculsParasites(traceur, idLampe), idLampe, traceur);
+        } else {
+            afficherCourbeParasites1Valeur(effectuerCalculsParasites(traceur, idLampe), idLampe, traceur);
+        }
 
     } else {
-        const regLin = creerTableauValeursNettesLn(traceur, idLampe);
-        let colonne1 = [];
-        let colonne2 = [];
-        let colonne3 = [];
+        if (nbValeurLampe < 4 && nbValeurLampe !== 1) {
+            const dmV = creerTableauValeursNettes(traceur, idLampe);
+            let X = creerMatriceLn(traceur, dmV);
+            X = inverse(X);
+            const matriceEntetes = dmV[0];
+            resultat = multiply([matriceEntetes], X);
+            afficherCourbeDepuis3Valeurs(resultat, idLampe, traceur);
 
-        for (let i = 0; i < regLin.length; i++) {
-            colonne1.push(regLin[i][0]);
-            colonne2.push(regLin[i][1]);
-            colonne3.push(regLin[i][2]);
+
+        } else if (nbValeurLampe === 1) {
+
+            const eau = traceurs.find(traceur => traceur.unite === '');
+            const dmv = [];
+            let temp = 0;
+            const y = [];
+            y.push(0);
+            dmv.push(0);
+            for (let i = 1; i <= traceur.echelles.length; i++) {
+                if (!isNaN(traceur.getDataParNom('L' + idLampe + '-' + i))) {
+                    temp = traceur.getDataParNom('L' + idLampe + '-' + i);
+                    y.push(traceur.echelles[i - 1]);
+                }
+            }
+            dmv.push(temp - eau.getDataParNom('L' + idLampe + '-1'));
+            resultat.push(arrondir8Chiffres((y[1] - y[0]) / (dmv[1] - dmv[0])));
+            afficherCourbeDepuis1Valeur(resultat, idLampe, traceur);
+
+        } else {
+            const regLin = creerTableauValeursNettesLn(traceur, idLampe);
+            let colonne1 = [];
+            let colonne2 = [];
+            let colonne3 = [];
+
+            for (let i = 0; i < regLin.length; i++) {
+                colonne1.push(regLin[i][0]);
+                colonne2.push(regLin[i][1]);
+                colonne3.push(regLin[i][2]);
+            }
+
+            let colonne2_3 = [];
+            for (let i = 0; i < colonne2.length; i++) {
+                colonne2_3.push([1, colonne2[i], colonne3[i]]);
+            }
+
+            resultat = multipleLinearRegression(colonne2_3, [colonne1]);
+            resultat = transpose(resultat);
+            afficherCourbeDepuis3Valeurs(resultat, idLampe, traceur);
         }
-
-        let colonne2_3 = [];
-        for (let i = 0; i < colonne2.length; i++) {
-            colonne2_3.push([1, colonne2[i], colonne3[i]]);
-        }
-
-        resultat = multipleLinearRegression(colonne2_3, [colonne1]);
-        resultat = transpose(resultat);
-        afficherCourbeDepuis3Valeurs(resultat, idLampe, traceur);
     }
 }
 
@@ -271,6 +285,60 @@ function afficherCourbeParasites3Valeurs(resultat, idLampe, traceur) {
         existingChart.data.datasets.push(data);
         existingChart.update();
     }
+}
+
+
+/**
+ * Affiche la courbe de parasites en ayant uniquement la constante et aucun degré. La droite doit alors passer par les deux points
+ * @param resultat le résultat du calcul
+ * @param idLampe l'id de la lampe
+ * @param traceur le traceur
+ */
+function afficherCourbeParasites1Valeur(resultat, idLampe, traceur) {
+    const data = {
+        label: 'Parasites',
+        data: [],
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+        borderColor: 'rgb(230,65,160)',
+        borderWidth: 2,
+        pointRadius: 0,
+        tension: 0.4
+    };
+
+    const eau = traceurs.find(traceur => traceur.unite === '');
+    const eauValeurL4 = eau.getDataParNom('L4-1');
+    const eauValeurLampe = eau.getDataParNom('L' + idLampe + '-1');
+
+    let index = 0;
+
+    for (let i = 1; i <= traceur.echelles.length; i++) {
+        if (!isNaN(traceur.getDataParNom('L' + idLampe + '-' + i))) {
+            index = i;
+            break;
+        }
+    }
+
+    const pointX = traceur.getDataParNom('L4-' + index);
+    const pointY = traceur.getDataParNom('L' + idLampe + '-' + index);
+
+    const a = (pointY - eauValeurLampe) / (pointX - eauValeurL4);
+    const b = eauValeurLampe - a * eauValeurL4;
+
+    const marge = eauValeurLampe - (eauValeurLampe / 10);
+
+    for (let x = eauValeurL4 - marge; x <= pointX + marge; x += 2) {
+        const y = a * x + b;
+        data.data.push({x: x, y: y});
+    }
+
+    const canvas = document.getElementById('graphiqueTraceur');
+    const existingChart = Chart.getChart(canvas);
+
+    if (existingChart && !existingChart.data.datasets.find(dataset => dataset.label === data.label)) {
+        existingChart.data.datasets.push(data);
+        existingChart.update();
+    }
+
 }
 
 
@@ -492,6 +560,6 @@ function valeurSup10(traceur, idLampe) {
     }
     const max = Math.max(...valeurs);
     //on retourne max + 20%
-    return max + (max / 3) ;
+    return max + (max / 3);
 
 }
