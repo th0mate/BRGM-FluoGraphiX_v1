@@ -279,8 +279,6 @@ function afficherCourbeParasites3Valeurs(resultat, idLampe, traceur) {
         }
     }
 
-    console.log(colonne2);
-
     let tempX = 0;
     let tempY = 0;
 
