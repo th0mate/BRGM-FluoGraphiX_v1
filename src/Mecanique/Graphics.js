@@ -293,7 +293,7 @@ function afficherGraphiqueTraceur(traceur, idData) {
 
 
     } else {
-        labelX = `Signal L4 (mV)`;
+        labelX = `Signal L${traceur.lampePrincipale} (mV)`;
         labelY = `Signal parasite L${idData} (mV)`;
 
         let data = [];
@@ -307,7 +307,7 @@ function afficherGraphiqueTraceur(traceur, idData) {
         }
 
         for (let j = 0; j < labels.length; j++) {
-            const value = traceur.getDataParNom('L4-' + (j + 1));
+            const value = traceur.getDataParNom('L' + traceur.lampePrincipale +'-' + (j + 1));
             if (value !== null && value !== 'NaN') {
                 data.push({x: value, y: tableauY[j]});
             }
@@ -323,7 +323,7 @@ function afficherGraphiqueTraceur(traceur, idData) {
 
         const eau = recupererTraceurEau();
         let dataEau = [];
-         dataEau.push({x: eau.getDataParNom('L4-1'), y: eau.getDataParNom('L' + idData + '-1')});
+         dataEau.push({x: eau.getDataParNom('L' + traceur.lampePrincipale + '-1'), y: eau.getDataParNom('L' + idData + '-1')});
 
         datasets.push({
             label: eau.nom,

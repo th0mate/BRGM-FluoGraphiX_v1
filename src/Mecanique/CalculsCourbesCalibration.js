@@ -325,7 +325,7 @@ function afficherCourbeParasites1Valeur(resultat, idLampe, traceur) {
     };
 
     const eau = traceurs.find(traceur => traceur.unite === '');
-    const eauValeurL4 = eau.getDataParNom('L4-1');
+    const eauValeurL4 = eau.getDataParNom('L' + traceur.lampePrincipale + '-1');
     const eauValeurLampe = eau.getDataParNom('L' + idLampe + '-1');
 
     let index = 0;
@@ -337,7 +337,7 @@ function afficherCourbeParasites1Valeur(resultat, idLampe, traceur) {
         }
     }
 
-    const pointX = traceur.getDataParNom('L4-' + index);
+    const pointX = traceur.getDataParNom('L'+ traceur.lampePrincipale + '-' + index);
     const pointY = traceur.getDataParNom('L' + idLampe + '-' + index);
 
     const a = (pointY - eauValeurLampe) / (pointX - eauValeurL4);
