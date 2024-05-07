@@ -630,7 +630,7 @@ footer {
 footer > .logos {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     align-content: center;
     width: 98%;
