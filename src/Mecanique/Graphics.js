@@ -324,7 +324,6 @@ function afficherGraphiqueTraceur(traceur, idData) {
         const eau = recupererTraceurEau();
         let dataEau = [];
          dataEau.push({x: eau.getDataParNom('L4-1'), y: eau.getDataParNom('L' + idData + '-1')});
-         console.log(dataEau);
 
         datasets.push({
             label: eau.nom,

@@ -10,6 +10,7 @@ let donneesCorrompues = false;
  * @param traceur le traceur
  */
 function calculerConcentration(idLampe, traceur) {
+    donneesCorrompues = false;
     nbValeurLampe = 0;
     for (let i = 0; i < traceur.echelles.length; i++) {
         if (!isNaN(traceur.getDataParNom('L' + idLampe + '-' + (i + 1)))) {
@@ -265,18 +266,20 @@ function afficherCourbeParasites3Valeurs(resultat, idLampe, traceur) {
 
     colonne0.push(valeurIni);
     colonne1.push(Math.exp(valeurIni));
-    colonne2.push(eau.getDataParNom('L1-1') + Math.exp(constante + degre1 * Math.log(colonne1[0] - eau.getDataParNom('L4-1')) ** 1 + degre2 * Math.log(colonne1[0] - eau.getDataParNom('L4-1')) ** 2));
+    colonne2.push(eau.getDataParNom('L' + idLampe +'-1') + Math.exp(constante + degre1 * Math.log(colonne1[0] - eau.getDataParNom('L' + traceur.lampePrincipale + '-1')) ** 1 + degre2 * Math.log(colonne1[0] - eau.getDataParNom('L' + traceur.lampePrincipale + '-1')) ** 2));
 
 
     for (let i = 1; i < 100; i++) {
         colonne0.push(colonne0[i - 1] + pas);
         colonne1.push(Math.exp(colonne0[i]));
-        if (colonne1[i] <= eau.getDataParNom('L4-1')) {
+        if (colonne1[i] <= eau.getDataParNom('L' + traceur.lampePrincipale + '-1')) {
             colonne2.push(0);
         } else {
-            colonne2.push(eau.getDataParNom('L1-1') + Math.exp(constante + degre1 * Math.log(colonne1[i] - eau.getDataParNom('L4-1')) ** 1 + degre2 * Math.log(colonne1[i] - eau.getDataParNom('L4-1')) ** 2));
+            colonne2.push(eau.getDataParNom('L' + idLampe +'-1') + Math.exp(constante + degre1 * Math.log(colonne1[i] - eau.getDataParNom('L' + traceur.lampePrincipale + '-1')) ** 1 + degre2 * Math.log(colonne1[i] - eau.getDataParNom('L' + traceur.lampePrincipale + '-1')) ** 2));
         }
     }
+
+    console.log(colonne2);
 
     let tempX = 0;
     let tempY = 0;
@@ -286,7 +289,7 @@ function afficherCourbeParasites3Valeurs(resultat, idLampe, traceur) {
 
         if (colonne1[i] < tempX || colonne2[i] < tempY) {
             donneesCorrompues = true;
-            console.error('aa');
+            console.error('prec (x,y): ' + tempX + ' ou ' + tempY + ' pour: ' + colonne1[i] + ' ou ' + colonne2[i]);
         }
 
         data.data.push({x: colonne1[i], y: colonne2[i]});
