@@ -215,6 +215,8 @@ function afficherGraphiqueTraceur(traceur, idData) {
     let datasets = [];
     let maxDataLength = 0;
     let maxDataIndex = 0;
+    let labelX = '';
+    let labelY = '';
 
 
     let nbValeurs = 0;
@@ -228,6 +230,8 @@ function afficherGraphiqueTraceur(traceur, idData) {
 
 
     if (idData === traceur.lampePrincipale) {
+        labelX = `Signaux (mV)`;
+        labelY = `Concentrations (${traceur.unite})`;
 
         for (let i = 1; i <= 4; i++) {
             let data = [];
@@ -289,6 +293,9 @@ function afficherGraphiqueTraceur(traceur, idData) {
 
 
     } else {
+        labelX = `Signal L4 (mV)`;
+        labelY = `Signal parasite L${idData} (mV)`;
+
         let data = [];
         const tableauY = [];
 
@@ -378,7 +385,7 @@ function afficherGraphiqueTraceur(traceur, idData) {
                     beginAtZero: true,
                     title: {
                         display: true,
-                        text: 'Signaux (mV)'
+                        text: labelX
                     }
                 },
                 y: {
@@ -386,7 +393,7 @@ function afficherGraphiqueTraceur(traceur, idData) {
                     beginAtZero: true,
                     title: {
                         display: true,
-                        text: `Concentrations (${traceur.unite})`
+                        text: labelY
                     }
                 }
             },
