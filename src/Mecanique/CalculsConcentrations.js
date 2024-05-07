@@ -232,7 +232,7 @@ function afficherCourbeDepuis1Valeur(resultat, idLampe, traceur) {
  */
 function afficherCourbeParasites3Valeurs(resultat, idLampe, traceur) {
     const data = {
-        label: 'Parasites',
+        label: 'Signaux parasites',
         data: [],
         backgroundColor: 'rgba(0, 0, 0, 0)',
         borderColor: 'rgb(230,65,160)',
@@ -296,7 +296,7 @@ function afficherCourbeParasites3Valeurs(resultat, idLampe, traceur) {
  */
 function afficherCourbeParasites1Valeur(resultat, idLampe, traceur) {
     const data = {
-        label: 'Parasites',
+        label: 'Signaux parasites',
         data: [],
         backgroundColor: 'rgba(0, 0, 0, 0)',
         borderColor: 'rgb(230,65,160)',
