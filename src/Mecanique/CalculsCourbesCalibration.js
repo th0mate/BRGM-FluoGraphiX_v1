@@ -2,6 +2,7 @@
  * Le nombre de valeurs n'étant pas NaN pour une lampe d'un traceur donné
  */
 let nbValeurLampe = 0;
+let donneesCorrompues = false;
 
 /**
  * Effectue toutes les inits et les calculs nécessaires pour le calcul des concentrations d'un traceur et d'une lampe donnés
@@ -33,6 +34,10 @@ function calculerConcentration(idLampe, traceur) {
             afficherCourbeParasites3Valeurs(effectuerCalculsParasites(traceur, idLampe), idLampe, traceur);
         } else {
             afficherCourbeParasites1Valeur(effectuerCalculsParasites(traceur, idLampe), idLampe, traceur);
+        }
+
+        if (donneesCorrompues) {
+            afficherPopup('<img src="Ressources/img/attention2.png" alt="">', 'Attention : données potentiellement corrompues détectées !', 'Les données affichées par la courbe indiquent une potentielle erreur dans les données pour cette lampe et ce traceur. Assurez-vous qu\'elles soient correctes.', '<div class="bouton boutonFonce" onclick="fermerPopup()">TERMINER</div>');
         }
 
     } else {
@@ -272,10 +277,21 @@ function afficherCourbeParasites3Valeurs(resultat, idLampe, traceur) {
             colonne2.push(eau.getDataParNom('L1-1') + Math.exp(constante + degre1 * Math.log(colonne1[i] - eau.getDataParNom('L4-1')) ** 1 + degre2 * Math.log(colonne1[i] - eau.getDataParNom('L4-1')) ** 2));
         }
     }
-    console.log(colonne2);
+
+    let tempX = 0;
+    let tempY = 0;
+
 
     for (let i = 0; i < colonne1.length; i++) {
+
+        if (colonne1[i] < tempX || colonne2[i] < tempY) {
+            donneesCorrompues = true;
+            console.error('aa');
+        }
+
         data.data.push({x: colonne1[i], y: colonne2[i]});
+        tempX = colonne1[i];
+        tempY = colonne2[i];
     }
 
     const canvas = document.getElementById('graphiqueTraceur');
@@ -325,10 +341,20 @@ function afficherCourbeParasites1Valeur(resultat, idLampe, traceur) {
     const b = eauValeurLampe - a * eauValeurL4;
 
     const marge = eauValeurLampe - (eauValeurLampe / 10);
+    let tempX = 0;
+    let tempY = 0;
 
     for (let x = eauValeurL4 - marge; x <= pointX + marge; x += 2) {
         const y = a * x + b;
+
+        if (x < tempX || y < tempY) {
+            donneesCorrompues = true;
+        }
+
         data.data.push({x: x, y: y});
+        tempX = x;
+        tempY = y;
+
     }
 
     const canvas = document.getElementById('graphiqueTraceur');
