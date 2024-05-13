@@ -85,3 +85,13 @@ function getDateAujourdhui() {
 
     return `${jours[date.getDay()]} ${date.getDate()} ${mois[date.getMonth()]} ${date.getFullYear()}`;
 }
+
+
+/**
+ * Retourne un tableau contenant la date au format dd/mm/yyyy et l'heure au format hh:mm:ss depuis le format dd/mm/yyyy-hh:mm:ss
+ */
+function getDateHeure(date) {
+    const dateHeure = date.split('-');
+    console.log(dateHeure);
+    return [dateHeure[0], dateHeure[1]];
+}

@@ -50,6 +50,7 @@ async function traiterFichier() {
                         const xmlString = reader.result;
                         const mvContent = convertirXMLenMV(xmlString);
                         contenuFichier += mvContent;
+                        console.log(contenuFichier);
                         resolve();
                     };
                 });
@@ -182,9 +183,9 @@ function resetZoom() {
 function telechargerFichier() {
     if (contenuFichier !== "") {
         const element = document.createElement('a');
-        const file = new Blob([contenuFichier], {type: 'text/plain'});
+        const file = new Blob([contenuFichier], {type: 'csv'});
         element.href = URL.createObjectURL(file);
-        element.download = 'export-' + new Date().toLocaleString().replace(/\/|:|,|\s/g, '-') + '.mv';
+        element.download = 'export-' + new Date().toLocaleString().replace(/\/|:|,|\s/g, '-') + '.csv';
         document.body.appendChild(element);
         element.click();
         afficherMessageFlash("Fichier téléchargé avec succès.", 'success');

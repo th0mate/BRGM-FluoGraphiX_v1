@@ -46,10 +46,10 @@ function convertirXMLenMV(xmlString) {
 
     if (times.length > 0) {
         const firstTimeChildren = times[0].children;
-        let header = "    #  Time             R";
+        let header = "Date;Time";
 
         for (let i = 0; i < firstTimeChildren.length; i++) {
-            header += `      ${firstTimeChildren[i].tagName.toUpperCase()}`;
+            header += `;${firstTimeChildren[i].tagName.toUpperCase()}`;
         }
 
         contenuFinal += header + "\n";
@@ -69,11 +69,11 @@ function convertirXMLenMV(xmlString) {
             premiereDate = getTime(timeValue);
         }
 
-        let line = ` ${setEspaces(i + 1, 4)} ${getTime(timeValue)} 0`;
+        let line = `${getDateHeure(getTime(timeValue))[0]};${getDateHeure(getTime(timeValue))[1]}`;
 
         for (let j = 0; j < time.children.length; j++) {
             const child = time.children[j];
-            line += `    ${setEspaces(around(child.getAttribute("v")), 6)}`;
+            line += `;${around(child.getAttribute("v"))}`;
         }
 
         contenuFinal += line + "\n";
