@@ -22,9 +22,16 @@ function calculerConcentration(idLampe, traceur) {
 
     if (traceur.lampePrincipale !== idLampe) {
 
-        let result = effectuerCalculsParasites(traceur, idLampe);
-        let countNaN = 0;
+        let result = [];
 
+        if (nbValeurLampe < 4) {
+            result = effectuerCalculsParasites(traceur, idLampe);
+        } else {
+            result = effectuerCalculsParasites4Valeurs(traceur, idLampe);
+        }
+
+        let countNaN = 0;
+        console.log(result);
         for (let i = 0; i < result[0].length; i++) {
             if (isNaN(result[0][i])) {
                 countNaN++;
@@ -32,9 +39,9 @@ function calculerConcentration(idLampe, traceur) {
         }
 
         if (countNaN === 0) {
-            afficherCourbeParasites3Valeurs(effectuerCalculsParasites(traceur, idLampe), idLampe, traceur);
+            afficherCourbeParasites3Valeurs(result, idLampe, traceur);
         } else {
-            afficherCourbeParasites1Valeur(effectuerCalculsParasites(traceur, idLampe), idLampe, traceur);
+            afficherCourbeParasites1Valeur(result, idLampe, traceur);
         }
 
         if (donneesCorrompues) {
@@ -95,7 +102,7 @@ function calculerConcentration(idLampe, traceur) {
 
 
 /**
- * Effectue les calculs nécessaires pour la turbidité, et plus particulièrement si la lampe !== L4
+ * Effectue les calculs nécessaires obtenir les données parasites d'une lampe, si on a 1, 2 ou 3 valeurs
  * @param traceur le traceur
  * @param idLampe l'id de la lampe
  * @returns {*[]} les résultats du calcul
@@ -129,6 +136,36 @@ function effectuerCalculsParasites(traceur, idLampe) {
 
 
 /**
+ * Effectue les calculs nécessaires obtenir les données parasites d'une lampe, si on a 4 valeurs ou plus
+ * @param traceur le traceur
+ * @param idLampe l'id de la lampe
+ * @returns {*[]} les résultats du calcul
+ */
+function effectuerCalculsParasites4Valeurs(traceur, idLampe) {
+    //TODO marche pas
+    const regLin = creerTableauValeursNettesLn(traceur, idLampe);
+    let colonne1 = [];
+    let colonne2 = [];
+    let colonne3 = [];
+
+    for (let i = 0; i < regLin.length; i++) {
+        colonne1.push(regLin[i][0]);
+        colonne2.push(regLin[i][1]);
+        colonne3.push(regLin[i][2]);
+    }
+
+    let colonne2_3 = [];
+    for (let i = 0; i < colonne2.length; i++) {
+        colonne2_3.push([1, colonne2[i], colonne3[i]]);
+    }
+
+    let resultat = multipleLinearRegression(colonne2_3, [colonne1]);
+    resultat = transpose(resultat);
+    return resultat;
+}
+
+
+/**
  * Affiche la courbe de concentration d'un traceur et d'une lampe donnés ayant nbValeurLampe !== 1
  * @param resultat les résultats du calcul
  * @param idLampe l'id de la lampe
@@ -151,7 +188,6 @@ function afficherCourbeDepuis3Valeurs(resultat, idLampe, traceur) {
     if (resultat[0].length === 3) {
         final.set('Degré 2', arrondir8Chiffres(resultat[0][2]));
     }
-    console.log(final);
 
     const constante = arrondir8Chiffres(resultat[0][0]);
     const degre1 = arrondir8Chiffres(resultat[0][1]);
@@ -266,7 +302,7 @@ function afficherCourbeParasites3Valeurs(resultat, idLampe, traceur) {
 
     colonne0.push(valeurIni);
     colonne1.push(Math.exp(valeurIni));
-    colonne2.push(eau.getDataParNom('L' + idLampe +'-1') + Math.exp(constante + degre1 * Math.log(colonne1[0] - eau.getDataParNom('L' + traceur.lampePrincipale + '-1')) ** 1 + degre2 * Math.log(colonne1[0] - eau.getDataParNom('L' + traceur.lampePrincipale + '-1')) ** 2));
+    colonne2.push(eau.getDataParNom('L' + idLampe + '-1') + Math.exp(constante + degre1 * Math.log(colonne1[0] - eau.getDataParNom('L' + traceur.lampePrincipale + '-1')) ** 1 + degre2 * Math.log(colonne1[0] - eau.getDataParNom('L' + traceur.lampePrincipale + '-1')) ** 2));
 
 
     for (let i = 1; i < 100; i++) {
@@ -275,7 +311,7 @@ function afficherCourbeParasites3Valeurs(resultat, idLampe, traceur) {
         if (colonne1[i] <= eau.getDataParNom('L' + traceur.lampePrincipale + '-1')) {
             colonne2.push(0);
         } else {
-            colonne2.push(eau.getDataParNom('L' + idLampe +'-1') + Math.exp(constante + degre1 * Math.log(colonne1[i] - eau.getDataParNom('L' + traceur.lampePrincipale + '-1')) ** 1 + degre2 * Math.log(colonne1[i] - eau.getDataParNom('L' + traceur.lampePrincipale + '-1')) ** 2));
+            colonne2.push(eau.getDataParNom('L' + idLampe + '-1') + Math.exp(constante + degre1 * Math.log(colonne1[i] - eau.getDataParNom('L' + traceur.lampePrincipale + '-1')) ** 1 + degre2 * Math.log(colonne1[i] - eau.getDataParNom('L' + traceur.lampePrincipale + '-1')) ** 2));
         }
     }
 
@@ -335,7 +371,7 @@ function afficherCourbeParasites1Valeur(resultat, idLampe, traceur) {
         }
     }
 
-    const pointX = traceur.getDataParNom('L'+ traceur.lampePrincipale + '-' + index);
+    const pointX = traceur.getDataParNom('L' + traceur.lampePrincipale + '-' + index);
     const pointY = traceur.getDataParNom('L' + idLampe + '-' + index);
 
     const a = (pointY - eauValeurLampe) / (pointX - eauValeurL4);
