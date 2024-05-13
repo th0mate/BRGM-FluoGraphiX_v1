@@ -58,7 +58,6 @@ function getLabelsColonnes(ligneColonne) {
     labels.push('Date');
     labels.push('Time');
 
-    console.log(ligneColonne);
     let label = '';
     for (let i = 0; i < ligneColonne.length; i++) {
         if (ligneColonne[i].length > 1) {
