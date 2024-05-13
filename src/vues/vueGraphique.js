@@ -34,7 +34,7 @@ function vueGraphique() {
         <div class="wrap">
             <h3>Charger d'autres fichiers</h3>
             <div>
-                <input type="file" id="fileInput" accept=".mv,.dat,.txt,.xml" multiple onchange="traiterFichier()">
+                <input type="file" id="fileInput" accept=".mv,.dat,.txt,.xml,.csv" multiple onchange="traiterFichier()">
             </div>
             </div>
             
@@ -64,7 +64,7 @@ function vueGraphique() {
             </div>
             
             <div>          
-                <div class="bouton boutonFonce downloadFile" onclick="telechargerFichier()">TÉLÉCHARGER LE FICHIER</div>
+                <div class="bouton boutonFonce downloadFile" onclick="telechargerFichier()">EXPORTER LES DONNÉES</div>
             </div>        
         </div>
     </div>

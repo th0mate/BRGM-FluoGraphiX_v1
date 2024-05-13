@@ -87,6 +87,18 @@ async function traiterFichier() {
                         resolve();
                     };
                 });
+            } else if (fichier.name.split('.').pop() === "csv") {
+                const reader = new FileReader();
+                reader.readAsText(fichier);
+                await new Promise((resolve) => {
+                    reader.onload = function () {
+                        if (nbLignes === 0) {
+                            contenuFichier += '\n\n';
+                        }
+                        contenuFichier += reader.result;
+                        resolve();
+                    };
+                });
             } else {
                 afficherMessageFlash("Erreur : type de fichier non pris en charge.", 'danger');
             }
