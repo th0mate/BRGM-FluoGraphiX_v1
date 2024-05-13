@@ -101,6 +101,7 @@ async function traiterFichier() {
         } else {
             try {
                 inputFichier.value = "";
+                console.log(contenuFichier);
                 afficherGraphique(contenuFichier);
                 afficherMessageFlash("Données traitées avec succès.", 'success');
                 document.querySelector('.downloadFile').style.display = 'block';

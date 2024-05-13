@@ -26,17 +26,16 @@ function convertirTexteenMV(texte) {
         stringFinal += "                           -------------------------------------------\n";
     }
 
-    // Créer l'en-tête à partir de la première ligne
     const colonnes = lignes[0].split('\t');
-    let header = "    #  Time             R";
+    let header = "Date;Time";
     let indicesColonnesValides = [];
     for (let i = 0; i < colonnes.length; i++) {
-        //si la ligne 1 pour la colonne i contient bien un nombre, on la met dans l'en-tête
+
         if (lignes[1].split('\t')[i] !== undefined && !isNaN(lignes[1].split('\t')[i]) && colonnes[i] !== 'Timestamp') {
             if (colonnes[i] === 'T [�C]') {
-                header += `        T   `;
+                header += `;T`;
             } else {
-                header += `    ${colonnes[i]}`;
+                header += `;${colonnes[i]}`;
             }
             indicesColonnesValides.push(i);
         }
@@ -64,14 +63,11 @@ function convertirTexteenMV(texte) {
             premiereDate = getTime(timeValue);
         }
 
-        let line = ` ${setEspaces(i, 4)} ${getTime(timeValue)} 0`;
+        let line = `${getDateHeure(getTime(timeValue))[0]};${getDateHeure(getTime(timeValue))[1]}`;
 
         for (let j = 0; j < indicesColonnesValides.length; j++) {
-            if (colonnes[indicesColonnesValides[j]] === 0) {
-                line += `${setEspaces(around(colonnes[indicesColonnesValides[j]]), 1)}`;
-            } else {
-            line += `     ${setEspaces(around(colonnes[indicesColonnesValides[j]]), 6)}`;
-            }
+            line += `;${around(colonnes[indicesColonnesValides[j]])}`;
+
         }
 
         stringFinal += line + "\n";
