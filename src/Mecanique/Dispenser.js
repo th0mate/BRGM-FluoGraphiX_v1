@@ -50,7 +50,6 @@ async function traiterFichier() {
                         const xmlString = reader.result;
                         const mvContent = convertirXMLenMV(xmlString);
                         contenuFichier += mvContent;
-                        console.log(contenuFichier);
                         resolve();
                     };
                 });

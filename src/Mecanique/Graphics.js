@@ -6,23 +6,23 @@ const DateTime = luxon.DateTime;
  * @param mvContent le contenu du fichier .mv à afficher
  */
 function afficherGraphique(mvContent) {
-    const couleurs = ['rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)', 'rgba(54, 162, 235, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 206, 86, 1)', 'rgba(255, 159, 64, 1)', 'rgba(255, 99, 132, 1)', 'rgb(249,158,255)'];
+    const couleurs = ['rgba(75, 192, 192, 1)', 'rgba(54, 162, 235, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 206, 86, 1)', 'rgba(255, 159, 64, 1)', 'rgba(255, 99, 132, 1)', 'rgb(249,158,255)', 'rgba(255, 99, 132, 1)'];
     const lignes = mvContent.split('\n');
 
-    const header = lignes[2].split(/ {2,}/).slice(3);
+    const header = lignes[2].split(';').splice(2);
 
     const dataColumns = header.map(() => []);
 
     for (let i = 3; i < lignes.length - 1; i++) {
-        const colonnes = lignes[i].split(/\s+/);
+        const colonnes = lignes[i].split(';');
 
-        const dateStr = colonnes[2];
+        const dateStr = colonnes[0] + '-' + colonnes[1];
         const timeDate = DateTime.fromFormat(dateStr, 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
 
         const timestamp = timeDate.toMillis();
 
         for (let j = 0; j < dataColumns.length; j++) {
-            const value = parseFloat(colonnes[j + 3]);
+            const value = parseFloat(colonnes[j + 2]);
             dataColumns[j].push({x: timestamp, y: value});
         }
     }

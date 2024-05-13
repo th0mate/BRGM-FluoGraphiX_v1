@@ -92,6 +92,5 @@ function getDateAujourdhui() {
  */
 function getDateHeure(date) {
     const dateHeure = date.split('-');
-    console.log(dateHeure);
     return [dateHeure[0], dateHeure[1]];
 }
