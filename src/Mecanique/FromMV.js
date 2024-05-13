@@ -8,39 +8,37 @@ function getStringDepuisFichierMV(fichier, callback) {
     const reader = new FileReader();
     reader.onload = function (e) {
         let lignes = e.target.result.split('\n');
-
-        lignes.splice(0, 2);
-        lignes.pop();
+        const colonnes = lignes[2].split(/\s+/).splice(4);
+        console.log(lignes[2]);
 
         let texteFinal = "";
         if (nbLignes === 0) {
             texteFinal = `                   FluoriGraphix - Export du ${getDateAujourdhui()} - Signaux en mV\n`;
             texteFinal += "                           -------------------------------------------\n";
-            texteFinal += "    #  Time             R  Tracer 1  Tracer 2  Tracer 3  Turbidity  Baseline  Battery V     T    Conductiv\n";
+
+            texteFinal += getLabelsColonnes(colonnes).join(';') + "\n";
         }
 
-        for (let i = 1; i < lignes.length; i++) {
+        for (let i = 3; i < lignes.length; i++) {
 
             if (lignes[i].length < 3 || /^\s+$/.test(lignes[i]) || /^\t+$/.test(lignes[i])) {
                 continue;
             }
 
-            const colonnes = lignes[i].split(/\s+/);
-            const timeValue = colonnes[2];
-            const a145Value = colonnes[4];
-            const a146Value = colonnes[5];
-            const a147Value = colonnes[6];
-            const a148Value = colonnes[7];
-            const a144Value = colonnes[8];
-            const a149Value = colonnes[9];
-            const a150Value = colonnes[10];
-            const a151Value = colonnes[11];
+            const colonnesLigne = lignes[i].split(/\s+/);
+            const timeValue = colonnesLigne[2];
 
             if (i === 1) {
                 premiereDate = getTimeFromMV(timeValue);
             }
 
-            texteFinal += ` ${setEspaces((nbLignes + i), 4)} ${getTimeFromMV(timeValue)} 0 ${setEspaces(around(a145Value), 7)}    ${setEspaces(around(a146Value), 6)}    ${setEspaces(around(a147Value), 6)}     ${setEspaces(around(a148Value), 6)}    ${setEspaces(around(a144Value), 6)}      ${setEspaces(around(a149Value), 5)}     ${setEspaces(around(a150Value), 5)}    ${setEspaces(around(a151Value), 5)}\n`;
+            let ligne = `${getDateHeure(getTimeFromMV(timeValue))[0]};${getDateHeure(getTimeFromMV(timeValue))[1]}`;
+
+            for (let i = 4; i < colonnesLigne.length; i++) {
+                ligne += `;${around(colonnesLigne[i])}`;
+            }
+            ligne += '\n';
+            texteFinal += ligne;
 
         }
 
@@ -51,3 +49,33 @@ function getStringDepuisFichierMV(fichier, callback) {
     reader.readAsText(fichier);
 }
 
+
+/**
+ * Retourne les labels des colonnes du fichier original
+ */
+function getLabelsColonnes(ligneColonne) {
+    let labels = [];
+    labels.push('Date');
+    labels.push('Time');
+
+    console.log(ligneColonne);
+    let label = '';
+    for (let i = 0; i < ligneColonne.length; i++) {
+        if (ligneColonne[i].length > 1) {
+            if (label !== '') {
+                labels.push(label);
+            }
+            label = ligneColonne[i];
+        } else {
+            if (ligneColonne[i] === 'T') {
+                labels.push(label);
+                label = 'Conductiv';
+                labels.push('T[°C]');
+            } else {
+                label += ligneColonne[i];
+            }
+        }
+    }
+
+    return labels;
+}
