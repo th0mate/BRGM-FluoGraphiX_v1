@@ -156,11 +156,12 @@ function traiterCalibrat() {
                 init();
                 afficherMessageFlash("Fichier Calibrat.dat traité avec succès.", 'success');
             };
-        } else if (fichier.name.split('.').pop() === "txt") {
+        } else if (fichier.name.split('.').pop() === "csv") {
             const reader = new FileReader();
             reader.readAsText(fichier);
             reader.onload = function () {
                 contenuCalibrat = reader.result;
+                console.log(contenuCalibrat);
                 init(false);
                 afficherMessageFlash("Fichier Calibrat.dat traité avec succès.", 'success');
             };

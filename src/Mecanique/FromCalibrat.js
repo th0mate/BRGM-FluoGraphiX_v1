@@ -53,10 +53,11 @@ function init(estDepuisCalibrat = true) {
             contenuCalibrat = convertirEnTexte();
         } else {
             lignesCalibrat = contenuCalibrat.split('\n');
-            sectionsCalibrat = getSectionsCalibratTxt();
-            nomsTraceur = getNomsTraceursTxt();
-            numeroFluorimetre = getNumeroFluorimetreTxt();
-            creerTraceurTxt();
+            sectionsCalibrat = getSectionsCalibratCSV();
+            console.log(sectionsCalibrat);
+            nomsTraceur = getNomsTraceursCSV();
+            numeroFluorimetre = getNumeroFluorimetreCSV();
+            creerTraceurCSV();
         }
 
 
@@ -466,7 +467,7 @@ function afficherTableauTraceur(traceur) {
     tableau.appendChild(tbody);
     tableau.insertAdjacentHTML('afterbegin', `<caption>Signaux en mV du traceur ${traceur.nom}</caption>`);
     document.querySelector('.donnees').appendChild(tableau);
-    document.querySelector('.lesBoutons').insertAdjacentHTML('beforeend', '<div class="bouton boutonClair boutonDlData" onclick="telechargerFichierTxt()">TÉLÉCHARGER LES DONNÉES</div>');
+    document.querySelector('.lesBoutons').insertAdjacentHTML('beforeend', '<div class="bouton boutonClair boutonDlData" onclick="telechargerFichierCSV()">TÉLÉCHARGER LES DONNÉES</div>');
 }
 
 
@@ -482,10 +483,10 @@ function afficherTableauTraceur(traceur) {
  * @return {string} le contenu du fichier texte
  */
 function convertirEnTexte() {
-    let texte = `FluoriGraphix - Export du ${getDateAujourdhui()} - Appareil n°${numeroFluorimetre}\n\n`;
+    let texte = `FluoriGraphix - Export du ${getDateAujourdhui()} - Appareil ${numeroFluorimetre}\n\n`;
     texte += `/!\\ Par convention, la turbidité doit toujours se trouver en dernière position dans le fichier, et l'eau en première position..\n`;
     texte += `Pour plus d'informations sur le fonctionnement de ce fichier, visitez la rubrique 'Documentation' du site FluoriGraphix.\n\n`;
-    texte += `----------------------------------------------------------------\n`;
+    texte += `----------------------------------------------------------------------------------------\n`;
 
     for (let i = 0; i < traceurs.length; i++) {
         texte += `${traceurs[i].nom}\n`;
@@ -500,9 +501,9 @@ function convertirEnTexte() {
 
             echelles.sort((a, b) => a.echelle - b.echelle);
 
-            texte += '         ';
+            texte += '';
             for (let j = 0; j < echelles.length; j++) {
-                texte += `${setEspaces(echelles[j].echelle, 5)}       `;
+                texte += `;${echelles[j].echelle}`;
             }
             texte += '\n';
         } else {
@@ -514,13 +515,13 @@ function convertirEnTexte() {
             for (let k = 0; k < echelles.length; k++) {
                 const dataValue = traceurs[i].getDataParNom('L' + j + '-' + (echelles[k].index + 1));
                 if (dataValue !== undefined) {
-                    texte += `     ${setEspaces(dataValue, 7)}`;
+                    texte += `;${dataValue}`;
                 }
             }
             texte += '\n';
         }
 
-        texte += `----------------------------------------------------------------\n`;
+        texte += `----------------------------------------------------------------------------------------\n`;
     }
     return texte;
 }
@@ -529,11 +530,12 @@ function convertirEnTexte() {
 /**
  * Télécharge un fichier txt contenant les données de contenuCalibrat
  */
-function telechargerFichierTxt() {
+function telechargerFichierCSV() {
     if (contenuCalibrat !== '') {
         const element = document.createElement('a');
-        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(contenuCalibrat));
-        element.setAttribute('download', 'ExportConcentrations-' + new Date().toLocaleString().replace(/\/|:|,|\s/g, '-') + '.txt');
+        const encodedData = encodeURIComponent(contenuCalibrat);
+        element.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodedData);
+        element.setAttribute('download', 'ExportConcentrations-' + new Date().toLocaleString().replace(/\/|:|,|\s/g, '-') + '.csv');
         element.style.display = 'none';
         document.body.appendChild(element);
         element.click();
@@ -555,10 +557,10 @@ function telechargerFichierTxt() {
  * Récupère la date d'aujourd'hui au format jj/mm/aaaa
  * @return {string}
  */
-function getNumeroFluorimetreTxt() {
+function getNumeroFluorimetreCSV() {
     const lignes = contenuCalibrat.split('\n');
     const premiereLigne = lignes[0];
-    const index = premiereLigne.indexOf('Appareil n°');
+    const index = premiereLigne.indexOf('Appareil');
     return premiereLigne.substring(index + 11).trim();
 }
 
@@ -567,8 +569,8 @@ function getNumeroFluorimetreTxt() {
  * Récupère les sections du fichier txt.
  * @return {string[]} les sections du fichier txt
  */
-function getSectionsCalibratTxt() {
-    return contenuCalibrat.split('----------------------------------------------------------------');
+function getSectionsCalibratCSV() {
+    return contenuCalibrat.split('----------------------------------------------------------------------------------------');
 }
 
 
@@ -576,7 +578,7 @@ function getSectionsCalibratTxt() {
  * Récupère les noms des traceurs du fichier txt.
  * @return {*[]} les noms des traceurs
  */
-function getNomsTraceursTxt() {
+function getNomsTraceursCSV() {
     const noms = [];
     const sections = getSectionsCalibrat();
     for (let i = 1; i < sections.length; i++) {
@@ -592,9 +594,9 @@ function getNomsTraceursTxt() {
  * Crée des objets de type Traceur à partir des données du fichier txt
  * @returns {Traceur[]} les objets Traceur créés
  */
-function creerTraceurTxt() {
+function creerTraceurCSV() {
     traceurs = [];
-    const sections = getSectionsCalibratTxt();
+    const sections = getSectionsCalibratCSV();
     for (let i = 1; i < sections.length - 2; i++) {
         if (sections[i] !== '' && sections[i] !== ' ') {
             const section = sections[i].split('\n');
@@ -604,7 +606,7 @@ function creerTraceurTxt() {
 
             let futuresEchelles = [];
             if (section[3].trim() !== '') {
-                futuresEchelles = section[6].split(/\s+/);
+                futuresEchelles = section[6].split(';');
                 futuresEchelles = futuresEchelles.filter(echelle => echelle !== '');
             } else {
                 futuresEchelles.push(100);
@@ -617,7 +619,7 @@ function creerTraceurTxt() {
             }
 
             for (let j = 0; j < 4; j++) {
-                const ligne = section[j + 7].split(/\s+/);
+                const ligne = section[j + 7].split(';');
                 for (let k = 0; k < nbColonnes; k++) {
                     traceur.addData(ligne[0] + `-${k + 1}`, parseFloat(ligne[k + 1]));
                 }
@@ -626,7 +628,7 @@ function creerTraceurTxt() {
             traceurs.push(traceur);
         }
     }
-    creerTurbidityTxt();
+    creerTurbidityCSV();
 }
 
 
@@ -634,13 +636,13 @@ function creerTraceurTxt() {
  * Crée un objet Traceur de type Turbidité à partir des données du fichier txt.
  * La turbidité est la dernière section du fichier txt
  */
-function creerTurbidityTxt() {
-    const sections = getSectionsCalibratTxt();
+function creerTurbidityCSV() {
+    const sections = getSectionsCalibratCSV();
     const section = sections[sections.length - 2].split('\n');
 
     const turbidite = new Traceur('Turbidité', section[2].trim(), section[3].trim());
     turbidite.lampePrincipale = 4;
-    let futuresEchelles = section[6].split(/\s+/);
+    let futuresEchelles = section[6].split(';');
     futuresEchelles = futuresEchelles.filter(echelle => echelle !== '');
     const nbColonnes = futuresEchelles.length;
 
@@ -649,7 +651,7 @@ function creerTurbidityTxt() {
     }
 
     for (let i = 0; i < 4; i++) {
-        const ligne = section[i + 7].split(/\s+/);
+        const ligne = section[i + 7].split(';');
         for (let j = 0; j < nbColonnes; j++) {
             turbidite.addData(ligne[0] + `-${j + 1}`, parseFloat(ligne[j + 1]));
         }
