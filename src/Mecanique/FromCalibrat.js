@@ -533,8 +533,8 @@ function convertirEnTexte() {
 function telechargerFichierCSV() {
     if (contenuCalibrat !== '') {
         const element = document.createElement('a');
-        const encodedData = encodeURIComponent(contenuCalibrat);
-        element.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodedData);
+        const universalBOM = "\uFEFF";
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(universalBOM + contenuCalibrat));
         element.setAttribute('download', 'ExportConcentrations-' + new Date().toLocaleString().replace(/\/|:|,|\s/g, '-') + '.csv');
         element.style.display = 'none';
         document.body.appendChild(element);
