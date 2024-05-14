@@ -226,7 +226,7 @@ function creerTraceurs() {
 
 
 /**
- * Calcule une échelle en ppb à partir de la puissance de dix passée en paramètre
+ * Calcule une échelle en ppb à partir de la puissance de dix, passée en paramètre
  * @param puissanceDix la puissance de dix
  * @returns {number} l'échelle en ppb
  */
@@ -266,6 +266,7 @@ function creerTurbidity() {
     traceurs.push(turbidite);
 }
 
+
 /**
  * Récupère un objet traceur par son nom
  * @param nom le nom du traceur
@@ -274,6 +275,7 @@ function creerTurbidity() {
 function recupererTraceurParNom(nom) {
     return traceurs.find(traceur => traceur.nom === nom);
 }
+
 
 /**
  * Récupère l'objet traceur Eau, qui est le seul à ne pas avoir d'unité
@@ -330,6 +332,7 @@ function afficherSelectTraceurs() {
     document.querySelector('#selectTraceur').appendChild(select);
 }
 
+
 /**
  * Affiche un sélect pour choisir une ligne parmi L1, L2, L3 et L4, avec comme valeur par défaut idData
  * @param idData la valeur par défaut
@@ -362,6 +365,7 @@ function afficherSelectLigne(idData, traceur) {
     document.querySelector('#selectLigne').appendChild(select);
 }
 
+
 /**
  * Paramètre le bouton de calcul
  * @param idLampe l'id de la lampe à traiter
@@ -386,7 +390,7 @@ function setBoutonCalculer(idLampe, Traceur) {
 
 /**
  * Affiche dans une div un tableau contenant les données d'un traceur : 4 lignes de L1 à L4, et plusieurs colonnes pour tous les Y de LX-Y
- * @param traceur
+ * @param traceur le traceur à partir duquel les données doivent être affichées
  */
 function afficherTableauTraceur(traceur) {
 
@@ -477,12 +481,12 @@ function afficherTableauTraceur(traceur) {
 
 
 /**
- * Exporte les données du fichier Calibrat sous la forme d'un fichier texte
+ * Exporte les données du fichier Calibrat sous la forme d'un fichier CSV
  * @return {string} le contenu du fichier texte
  */
 function convertirEnTexte() {
     let texte = `FluoriGraphix - Export du ${getDateAujourdhui()} - Appareil ${numeroFluorimetre}\n\n`;
-    texte += `/!\\ Par convention, la turbidité doit toujours se trouver en dernière position dans le fichier, et l'eau en première position..\n`;
+    texte += `/!\\ Par convention, la turbidité doit toujours se trouver en dernière position dans le fichier, et l'eau en première position.\n`;
     texte += `Pour plus d'informations sur le fonctionnement de ce fichier, visitez la rubrique 'Documentation' du site FluoriGraphix.\n\n`;
     texte += `----------------------------------------------------------------------------------------\n`;
 
@@ -526,7 +530,7 @@ function convertirEnTexte() {
 
 
 /**
- * Télécharge un fichier txt contenant les données de contenuCalibrat
+ * Télécharge un fichier CSV contenant les données de contenuCalibrat, donc du fichier originel
  */
 function telechargerFichierCSV() {
     if (contenuCalibrat !== '') {
@@ -545,14 +549,18 @@ function telechargerFichierCSV() {
 }
 
 
+
+
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * PARTIE FICHIERS TXT
  * ---------------------------------------------------------------------------------------------------------------------
  */
 
+
+
 /**
- * Récupère la date d'aujourd'hui au format jj/mm/aaaa
+ * Récupère le numéro du fluorimètre depuis le fichier CSV
  * @return {string}
  */
 function getNumeroFluorimetreCSV() {
@@ -564,7 +572,7 @@ function getNumeroFluorimetreCSV() {
 
 
 /**
- * Récupère les sections du fichier txt.
+ * Récupère les sections du fichier CSV, séparées par une suite de tirets.
  * @return {string[]} les sections du fichier txt
  */
 function getSectionsCalibratCSV() {
@@ -573,7 +581,7 @@ function getSectionsCalibratCSV() {
 
 
 /**
- * Récupère les noms des traceurs du fichier txt.
+ * Récupère les noms des traceurs du fichier CSV.
  * @return {*[]} les noms des traceurs
  */
 function getNomsTraceursCSV() {
@@ -589,7 +597,7 @@ function getNomsTraceursCSV() {
 
 
 /**
- * Crée des objets de type Traceur à partir des données du fichier txt
+ * Crée des objets de type Traceur à partir des données du fichier CSV
  * @returns {Traceur[]} les objets Traceur créés
  */
 function creerTraceurCSV() {
@@ -633,7 +641,7 @@ function creerTraceurCSV() {
 
 
 /**
- * Crée un objet Traceur de type Turbidité à partir des données du fichier txt.
+ * Crée un objet Traceur de type Turbidité à partir des données du fichier CSV.
  * La turbidité est la dernière section du fichier txt
  */
 function creerTurbidityCSV() {
