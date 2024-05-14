@@ -287,13 +287,19 @@ function afficherCourbeParasites3Valeurs(resultat, idLampe, traceur) {
     const degre1 = arrondir8Chiffres(resultat[0][1]);
     const degre2 = arrondir8Chiffres(resultat[0][2]);
 
+    let maxTraceur = 0;
+
+    for (let i = 1; i <= traceur.echelles.length; i++) {
+        if (!isNaN(traceur.getDataParNom('L' + traceur.lampePrincipale + '-' + i)) && traceur.getDataParNom('L' + traceur.lampePrincipale + '-' + i) > maxTraceur) {
+            maxTraceur = traceur.getDataParNom('L' + traceur.lampePrincipale + '-' + i);
+        }
+    }
+
     const eau = traceurs.find(traceur => traceur.unite === '');
-    const eauValeur = eau.getDataParNom('L' + idLampe + '-1');
-    const valeurIni = Math.log(eau.getDataParNom('L4-1') + 0.01);
-    const valeurFinale = Math.log(traceur.getDataParNom('L4-3') * 1.2);
+    const valeurIni = Math.log(eau.getDataParNom(`L${traceur.lampePrincipale}-1`) + 0.01);
+    const valeurFinale = Math.log(maxTraceur * 1.2);
 
     const pas = (valeurFinale - valeurIni) / (100 - 1);
-
 
     let colonne0 = [];
     let colonne1 = [];
