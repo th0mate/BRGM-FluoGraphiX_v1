@@ -92,8 +92,8 @@ async function traiterFichier() {
                 reader.readAsText(fichier);
                 await new Promise((resolve) => {
                     reader.onload = function () {
-                        if (nbLignes === 0) {
-                            contenuFichier += '\n\n';
+                        if (reader.result.split('\n')[0].includes('FluoriGraphix')) {
+                            reader.result = reader.result.split('\n').slice(2).join('\n');
                         }
                         contenuFichier += reader.result;
                         resolve();
