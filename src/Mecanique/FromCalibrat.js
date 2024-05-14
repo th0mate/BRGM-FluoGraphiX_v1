@@ -54,7 +54,6 @@ function init(estDepuisCalibrat = true) {
         } else {
             lignesCalibrat = contenuCalibrat.split('\n');
             sectionsCalibrat = getSectionsCalibratCSV();
-            console.log(sectionsCalibrat);
             nomsTraceur = getNomsTraceursCSV();
             numeroFluorimetre = getNumeroFluorimetreCSV();
             creerTraceurCSV();
@@ -304,7 +303,6 @@ function afficherSelectTraceurs() {
         afficherGraphiqueTraceur(traceur, traceur.lampePrincipale);
         setBoutonCalculer(traceur.lampePrincipale, traceur);
     });
-
 
 
     for (let i = 0; i < traceurs.length; i++) {
@@ -561,7 +559,7 @@ function getNumeroFluorimetreCSV() {
     const lignes = contenuCalibrat.split('\n');
     const premiereLigne = lignes[0];
     const index = premiereLigne.indexOf('Appareil');
-    return premiereLigne.substring(index + 11).trim();
+    return supprimerPointVirgule(premiereLigne.substring(index + 9).trim());
 }
 
 
@@ -600,8 +598,8 @@ function creerTraceurCSV() {
     for (let i = 1; i < sections.length - 2; i++) {
         if (sections[i] !== '' && sections[i] !== ' ') {
             const section = sections[i].split('\n');
-            const nom = section[1].trim();
-            let traceur = new Traceur(nom, section[2].trim(), section[3].trim());
+            const nom = supprimerPointVirgule(section[1].trim());
+            let traceur = new Traceur(nom, supprimerPointVirgule(section[2].trim()), supprimerPointVirgule(section[3].trim()));
             traceur.lampePrincipale = parseFloat(section[4].charAt(1));
 
             let futuresEchelles = [];
@@ -615,7 +613,9 @@ function creerTraceurCSV() {
             const nbColonnes = futuresEchelles.length;
 
             for (let j = 0; j < nbColonnes; j++) {
-                traceur.echelles.push(parseFloat(futuresEchelles[j]));
+                if (!isNaN(parseFloat(futuresEchelles[j]))) {
+                    traceur.echelles.push(parseFloat(futuresEchelles[j]));
+                }
             }
 
             for (let j = 0; j < 4; j++) {
@@ -640,7 +640,7 @@ function creerTurbidityCSV() {
     const sections = getSectionsCalibratCSV();
     const section = sections[sections.length - 2].split('\n');
 
-    const turbidite = new Traceur('Turbidité', section[2].trim(), section[3].trim());
+    const turbidite = new Traceur('Turbidité', supprimerPointVirgule(section[2].trim()), supprimerPointVirgule(section[3].trim()));
     turbidite.lampePrincipale = 4;
     let futuresEchelles = section[6].split(';');
     futuresEchelles = futuresEchelles.filter(echelle => echelle !== '');
@@ -659,3 +659,12 @@ function creerTurbidityCSV() {
     traceurs.push(turbidite);
 }
 
+
+/**
+ * Supprime tous les ';' d'un texte passé en paramètre
+ * @param texte le texte à modifier
+ * @return {string} le texte sans les ';'
+ */
+function supprimerPointVirgule(texte) {
+    return texte.replace(/;/g, '');
+}

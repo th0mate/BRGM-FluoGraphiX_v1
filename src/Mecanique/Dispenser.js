@@ -161,7 +161,6 @@ function traiterCalibrat() {
             reader.readAsText(fichier);
             reader.onload = function () {
                 contenuCalibrat = reader.result;
-                console.log(contenuCalibrat);
                 init(false);
                 afficherMessageFlash("Fichier Calibrat.dat traité avec succès.", 'success');
             };
