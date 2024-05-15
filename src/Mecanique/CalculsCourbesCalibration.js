@@ -186,7 +186,6 @@ function effectuerCalculsParasites4Valeurs(traceur, idLampe) {
     }
 
     const erreurType = 1.96 * (Math.sqrt(derniereColonne / (nbValeurLampe - 3)));
-    final = final[0];
     final.push(erreurType);
     return final;
 
@@ -353,7 +352,6 @@ function afficherCourbeParasites3Valeurs(resultat, idLampe, traceur) {
     let tempX = 0;
     let tempY = 0;
 
-
     for (let i = 0; i < colonne1.length; i++) {
 
         if (colonne1[i] < tempX || colonne2[i] < tempY) {
@@ -366,12 +364,61 @@ function afficherCourbeParasites3Valeurs(resultat, idLampe, traceur) {
         tempY = colonne2[i];
     }
 
-    const canvas = document.getElementById('graphiqueTraceur');
-    const existingChart = Chart.getChart(canvas);
+    if (resultat.length > 1) {
+        let colonne95Plus = [];
+        let colonne95Moins = [];
 
-    if (existingChart && !existingChart.data.datasets.find(dataset => dataset.label === data.label)) {
-        existingChart.data.datasets.push(data);
-        existingChart.update();
+        const data2 = {
+            label: '95%',
+            data: [],
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            borderColor: 'black',
+            borderWidth: 1,
+            pointRadius: 0,
+            borderDash: [5, 5],
+            tension: 0.4
+        };
+
+        const data3 = {
+            label: '-95%',
+            data: [],
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            borderColor: 'black',
+            borderWidth: 1,
+            pointRadius: 0,
+            borderDash: [5, 5],
+            tension: 0.4
+        }
+
+        for (let i = 0; i < colonne1.length; i++) {
+            colonne95Plus.push(eau.getDataParNom('L' + idLampe + '-1') + Math.exp(resultat[1] + constante + degre1 * Math.log(colonne1[i] - eau.getDataParNom('L' + traceur.lampePrincipale + '-1')) ** 1 + degre2 * Math.log(colonne1[i] - eau.getDataParNom('L' + traceur.lampePrincipale + '-1')) ** 2));
+            colonne95Moins.push(eau.getDataParNom('L' + idLampe + '-1') + Math.exp(-resultat[1] + constante + degre1 * Math.log(colonne1[i] - eau.getDataParNom('L' + traceur.lampePrincipale + '-1')) ** 1 + degre2 * Math.log(colonne1[i] - eau.getDataParNom('L' + traceur.lampePrincipale + '-1')) ** 2));
+        }
+
+        for (let i = 0; i < colonne1.length; i++) {
+            data2.data.push({x: colonne1[i], y: colonne95Plus[i]});
+            data3.data.push({x: colonne1[i], y: colonne95Moins[i]});
+        }
+
+        const canvas = document.getElementById('graphiqueTraceur');
+        const existingChart = Chart.getChart(canvas);
+
+        if (existingChart && !existingChart.data.datasets.find(dataset => dataset.label === data.label)) {
+            existingChart.data.datasets.push(data);
+            existingChart.data.datasets.push(data2);
+            existingChart.data.datasets.push(data3);
+            existingChart.update();
+        }
+
+    } else {
+
+        const canvas = document.getElementById('graphiqueTraceur');
+        const existingChart = Chart.getChart(canvas);
+
+        if (existingChart && !existingChart.data.datasets.find(dataset => dataset.label === data.label)) {
+            existingChart.data.datasets.push(data);
+            existingChart.update();
+        }
     }
 }
 
