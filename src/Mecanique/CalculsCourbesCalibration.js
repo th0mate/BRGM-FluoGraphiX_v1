@@ -142,26 +142,55 @@ function effectuerCalculsParasites(traceur, idLampe) {
  * @returns {*[]} les résultats du calcul
  */
 function effectuerCalculsParasites4Valeurs(traceur, idLampe) {
-    //TODO marche pas
-    const regLin = creerTableauValeursNettesLn(traceur, idLampe);
-    let colonne1 = [];
-    let colonne2 = [];
-    let colonne3 = [];
 
-    for (let i = 0; i < regLin.length; i++) {
-        colonne1.push(regLin[i][0]);
-        colonne2.push(regLin[i][1]);
-        colonne3.push(regLin[i][2]);
+    let Y = [];
+    let X = [];
+    const eau = traceurs.find(traceur => traceur.unite === '');
+
+    for (let i = 0; i < nbValeurLampe; i++) {
+        Y.push(Math.log(traceur.getDataParNom('L' + idLampe + '-' + (i + 1)) - eau.getDataParNom('L' + idLampe + '-1')));
+        const ligne = [];
+        ligne.push(1);
+        const data = Math.log(traceur.getDataParNom('L' + traceur.lampePrincipale + '-' + (i + 1)) - eau.getDataParNom('L' + traceur.lampePrincipale + '-1'));
+        ligne.push(data);
+        ligne.push(data ** 2);
+        X.push(ligne);
     }
 
-    let colonne2_3 = [];
-    for (let i = 0; i < colonne2.length; i++) {
-        colonne2_3.push([1, colonne2[i], colonne3[i]]);
+    Y = transpose([Y]);
+    let XT = transpose(X);
+    let Xmultiply = multiply(XT, X);
+    Xmultiply = inverse(Xmultiply);
+    let beforeRegression = multiply(Xmultiply, XT);
+
+    let final = multiply(beforeRegression, Y);
+
+    X = X.map(ligne => ligne.slice(1));
+
+    let tableauIntervaleConfiance = [];
+
+    let derniereColonne = 0;
+
+    final = transpose(final);
+
+    for (let i = 0; i < nbValeurLampe; i++) {
+        const ligne = [];
+        const data = X[i][0];
+        ligne.push(data);
+        ligne.push(Y[i][0]);
+        const data2 = final[0][0] + final[0][1] * data + final[0][2] * data ** 2;
+        ligne.push(data2);
+        ligne.push((Y[i][0] - data2) ** 2);
+        derniereColonne += (Y[i][0] - data2) ** 2;
+        tableauIntervaleConfiance.push(ligne);
     }
 
-    let resultat = multipleLinearRegression(colonne2_3, [colonne1]);
-    resultat = transpose(resultat);
-    return resultat;
+    const erreurType = 1.96 * (Math.sqrt(derniereColonne / (nbValeurLampe - 3)));
+    final = final[0];
+    final.push(erreurType);
+    return final;
+
+
 }
 
 
