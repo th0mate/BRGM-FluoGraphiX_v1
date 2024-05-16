@@ -25,8 +25,11 @@ function vueGraphique() {
         
         <div class="settings">
             <div class="entete">
-                <h2>Paramètres</h2>
-                <img src="Ressources/img/aide.png" alt="Réduire" onclick="afficherVue('vueAccueil')">
+                <h2>Affichage</h2>
+                <div class="bouton boutonFonce">
+                    AUTRES
+                    <img src="Ressources/img/parametres.png" alt="Réduire">
+                </div>
             </div>
         
        

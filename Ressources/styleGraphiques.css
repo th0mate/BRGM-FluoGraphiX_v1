@@ -110,16 +110,28 @@
     color: var(--orangeBRGM);
 }
 
-.settings > .entete > img {
+.settings > .entete > .bouton {
+    font-size: 0.8em;
+    color: white;
+    background-color: var(--orangeBRGM);
+    border: 5px solid var(--orangeBRGM);
+    box-shadow: none;
+    transition: box-shadow 0.3s ease;
+    height: 30px;
+    min-height: auto;
+    max-height: 20px;
+}
+
+.settings > .entete > .bouton:hover {
+    box-shadow: inset 0 0 0 1px white;
+}
+
+.settings > .entete > .bouton > img {
     width: 25px;
     height: 25px;
     cursor: pointer;
     padding: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.settings > .entete > img:hover {
-    background-color: var(--orangeBRGM);
+    margin-left: 10px;
 }
 
 .settings > .details {
