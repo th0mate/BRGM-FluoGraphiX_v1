@@ -452,7 +452,7 @@ nav > .redirections > .action {
     align-content: center;
 }
 
-.popup > .entete > .close {
+.popup > .entete > .close, .grandPopup > .entete > .close {
     width: 25px;
     height: 25px;
     padding: 5px;
@@ -460,12 +460,12 @@ nav > .redirections > .action {
     transition: background-color 0.3s ease;
 }
 
-.popup > .entete > .close:hover {
+.popup > .entete > .close:hover, .grandPopup > .entete > .close:hover {
     background-color: var(--orangeBRGM);
 }
 
 
-.popup > img:not(.close, .loading) {
+.popup > img:not(.close, .loading), .grandPopup > img:not(.close, .loading) {
     width: 300px;
 }
 
@@ -473,11 +473,11 @@ nav > .redirections > .action {
     width: 150px;
 }
 
-.popup > h1, .popup > h2 {
+.popup > h1, .popup > h2, .grandPopup > h1, .grandPopup > h2 {
     color: var(--orangeBRGM);
 }
 
-.popup > .conteneurBoutons {
+.popup > .conteneurBoutons, .grandPopup > .conteneurBoutons {
     width: 98%;
     display: flex;
     flex-direction: row;
@@ -486,20 +486,20 @@ nav > .redirections > .action {
     align-content: center;
 }
 
-.popup > .conteneurBoutons > .bouton:nth-child(1) {
+.popup > .conteneurBoutons > .bouton:nth-child(1), .grandPopup > .conteneurBoutons > .bouton:nth-child(1) {
     background-color: var(--orangeBRGM);
     border: 5px solid var(--orangeBRGM);
     min-width: 200px;
 }
 
-.popup > .conteneurBoutons > .bouton:nth-child(2) {
+.popup > .conteneurBoutons > .bouton:nth-child(2), .grandPopup > .conteneurBoutons > .bouton:nth-child(2) {
     background-color: transparent;
     border: 5px solid transparent;
     box-shadow: 0 0 0 1px white;
     min-width: 200px;
 }
 
-.popup > .conteneurBoutons > .bouton:nth-child(2):hover {
+.popup > .conteneurBoutons > .bouton:nth-child(2):hover, .grandPopup > .conteneurBoutons > .bouton:nth-child(2):hover {
     box-shadow: 0 0 0 1px white, inset 0 0 1px white;
 }
 

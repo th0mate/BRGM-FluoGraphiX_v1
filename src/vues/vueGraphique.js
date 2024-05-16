@@ -26,7 +26,7 @@ function vueGraphique() {
         <div class="settings">
             <div class="entete">
                 <h2>Affichage</h2>
-                <div class="bouton boutonFonce">
+                <div class="bouton boutonFonce" onclick="afficherParametresParasites()">
                     AUTRES
                     <img src="Ressources/img/parametres.png" alt="Réduire">
                 </div>

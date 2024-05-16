@@ -78,6 +78,10 @@
 -------------------------------------------------  BANDEAU DE PARAMETRES  ----------------------------------------------
  */
 
+.annonce {
+    display: none;
+}
+
 
 
 .settings {
@@ -248,11 +252,69 @@ input[type="checkbox"]:checked {
 
 /*
 ------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------  ANNONCE  -------------------------------------------------------
+-------------------------------------------------------  POPUP  --------------------------------------------------------
  */
 
-.annonce {
-    display: none;
+.grandPopup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-content: flex-start;
+    background-color: var(--grisBRGM);
+    width: 700px;
+    min-height: 400px;
+    padding: 10px;
+    color: white;
+    border: 2px solid white;
+    text-align: center;
+}
+
+.grandPopup > .entete {
+    width: 98%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}
+
+.grandPopup > .entete > h2 {
+    color: var(--orangeBRGM);
+}
+
+
+.grandPopup > span {
+    color: var(--orangeBRGM);
+    display: flex;
+    align-items: center;
+}
+
+.grandPopup > span > input {
+    max-width: 120px;
+    color: transparent;
+    margin-left: 20px;
+}
+
+.grandPopup > span > input::file-selector-button {
+    border: 5px solid var(--orangeBRGM);
+    background-color: var(--orangeBRGM);
+    box-shadow: none;
+    width: 100%;
+    transition: box-shadow 0.3s ease;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    margin: 0;
+}
+
+.grandPopup > span > input::file-selector-button:hover {
+    box-shadow: inset 0 0 0 1px white;
 }
 
 
