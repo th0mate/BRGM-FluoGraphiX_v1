@@ -38,7 +38,7 @@ function afficherParametresParasites() {
         </div>
         
         <div class="ongletParam" id="1">
-            1
+            
         </div>
         
         <div class="ongletParam" id="2">
@@ -118,11 +118,7 @@ function lierCalibratetGraphiqueAuto() {
         }
     }
 
-    if (estIdentique) {
-        //TODO
-    } else {
-
-    }
+    return estIdentique;
 }
 
 
