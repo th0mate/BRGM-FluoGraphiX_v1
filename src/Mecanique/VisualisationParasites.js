@@ -27,15 +27,15 @@ function afficherParametresParasites() {
             message = '<span class="calibratAbsent"><img src="Ressources/img/attentionOrange.png" alt="Perte de connexion">Aucun fichier de calibration n\'a été importé. <input type="file" id="inputCalibrat" accept=".dat,.csv" onchange="initParasites()"></span>';
         }
 
-
         let popupHTML = "";
         popupHTML += `
-    <div class='grandPopup'>
-        <div class="entete">
-            <h2>Paramètres supplémentaires</h2>
-            <img src="Ressources/img/close.png" class="close" onclick="fermerPopupParametres()" alt="fermer">
-        </div>
-        ${message}
+        <div class='grandPopup'>
+            <div class="entete">
+                <h2>Paramètres supplémentaires</h2>
+                <img src="Ressources/img/close.png" class="close" onclick="fermerPopupParametres()" alt="fermer">
+            </div>
+            ${message}
+            
         <div class="ongletsParam">
             <div class="bouton boutonFonce" onclick="afficherOngletParametre(1)">Renommer les courbes</div>
             <div class="bouton boutonFonce" onclick="afficherOngletParametre(2)">Corriger la turbidité</div>
