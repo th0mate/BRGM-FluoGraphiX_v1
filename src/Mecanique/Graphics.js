@@ -27,6 +27,10 @@ function afficherGraphique(mvContent) {
         }
     }
 
+    if (contenuCalibrat !== '') {
+        lierCalibratetGraphiqueAuto()
+    }
+
     const datasets = [];
     for (let i = 0; i < header.length; i++) {
         if (header[i] !== '' && header[i] !== 'R' && header[i] !== '    ' && header[i] !== '  ') {

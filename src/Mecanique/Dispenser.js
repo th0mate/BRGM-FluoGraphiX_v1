@@ -17,7 +17,7 @@ let contenuCalibrat = "";
 async function traiterFichier() {
     const inputFichier = document.getElementById('fileInput');
     let fichiers = Array.from(inputFichier.files);
-    afficherPopup('<img class="loading" src="Ressources/img/loading.gif" alt="">', 'Veuillez Patienter', 'Traitement des données en cours - Veuillez patienter...', '' )
+    afficherPopup('<img class="loading" src="Ressources/img/loading.gif" alt="">', 'Veuillez Patienter', 'Traitement des données en cours - Veuillez patienter...', '')
 
 
     if (fichiers.length > 1) {
@@ -36,6 +36,8 @@ async function traiterFichier() {
     nbLignes = 0;
     document.querySelector('#selectFormatDate').disabled = false;
     let derniereDate;
+
+    let fichierCalibrationFormatDat = true;
 
     for (let i = 0; i < fichiers.length; i++) {
         const fichier = fichiers[i];
@@ -95,7 +97,13 @@ async function traiterFichier() {
                         if (reader.result.split('\n')[0].includes('FluoriGraphix')) {
                             reader.result = reader.result.split('\n').slice(2).join('\n');
                         }
-                        contenuFichier += reader.result;
+
+                        if (!reader.result.split('\n')[0].includes('Appareil')) {
+                            contenuFichier += reader.result;
+                        } else {
+                            fichierCalibrationFormatDat = false;
+                            contenuCalibrat = reader.result;
+                        }
                         resolve();
                     };
                 });
@@ -132,7 +140,7 @@ async function traiterFichier() {
     } else if (contenuCalibrat !== "") {
         afficherMessageFlash("Fichier Calibrat.dat détecté. Redirection.", 'info');
         afficherVue('vueConcentrations');
-        init();
+        init(fichierCalibrationFormatDat);
     } else {
         afficherMessageFlash("Erreur : aucune donnée exploitable.", 'danger');
     }
@@ -148,7 +156,7 @@ function traiterCalibrat() {
     let fichier = inputFichier.files[0];
     contenuCalibrat = "";
     if (fichier) {
-        if (fichier.name.split('.').pop() === "dat"){
+        if (fichier.name.split('.').pop() === "dat") {
             const reader = new FileReader();
             reader.readAsText(fichier);
             reader.onload = function () {

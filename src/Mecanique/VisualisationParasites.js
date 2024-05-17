@@ -98,6 +98,8 @@ function lierCalibratetGraphiqueAuto() {
         }
     }
 
+    console.log(estIdentique);
+
     if (estIdentique) {
         //TODO
     } else {

@@ -20,7 +20,7 @@ let traceurs = [];
 /**
  * Initialise les variables issues du fichier Calibrat.dat nécessaires pour le calcul de la régression linéaire
  */
-function init(estDepuisCalibrat = true, estDepuisCalibration = true) {
+function init(estFichierDat = true, estDepuisCalibration = true) {
     if (contenuCalibrat !== '') {
 
         if (document.querySelector('.boutonDlData')) {
@@ -43,7 +43,7 @@ function init(estDepuisCalibrat = true, estDepuisCalibration = true) {
             document.querySelector('.selectLigne').remove();
         }
 
-        if (estDepuisCalibrat) {
+        if (estFichierDat) {
             lignesCalibrat = contenuCalibrat.split('\n');
             sectionsCalibrat = getSectionsCalibrat();
             nomsTraceur = getNomsTraceursCalibrat();
@@ -68,6 +68,10 @@ function init(estDepuisCalibrat = true, estDepuisCalibration = true) {
 
         if (estDepuisCalibration) {
             afficherSelectTraceurs();
+        }
+
+        if (contenuFichier !== '') {
+            lierCalibratetGraphiqueAuto()
         }
 
     } else {
