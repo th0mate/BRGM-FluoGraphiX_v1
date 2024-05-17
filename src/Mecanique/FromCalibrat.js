@@ -70,10 +70,6 @@ function init(estFichierDat = true, estDepuisCalibration = true) {
             afficherSelectTraceurs();
         }
 
-        if (contenuFichier !== '') {
-            lierCalibratetGraphiqueAuto()
-        }
-
     } else {
         afficherMessageFlash('Erreur : aucune donnée exploitable.', 'danger');
     }

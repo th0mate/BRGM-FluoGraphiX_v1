@@ -1,4 +1,3 @@
-
 /*
 ------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------  GRAPHIQUE  -----------------------------------------------------
@@ -49,7 +48,7 @@
     width: 250px;
 }
 
-.infos > h2, .infos > h4{
+.infos > h2, .infos > h4 {
     color: var(--orangeBRGM);
 }
 
@@ -81,7 +80,6 @@
 .annonce {
     display: none;
 }
-
 
 
 .settings {
@@ -179,7 +177,7 @@
     margin-right: 10px;
 }
 
-.settings > .details >  .wrap > div > input::file-selector-button:hover {
+.settings > .details > .wrap > div > input::file-selector-button:hover {
     box-shadow: inset 0 0 0 1px white;
 }
 
@@ -338,7 +336,7 @@ input[type="checkbox"]:checked {
     margin: 0;
 }
 
-.grandPopup > .ongletsParam > .bouton:hover{
+.grandPopup > .ongletsParam > .bouton:hover {
     box-shadow: 0 0 0 1px white, inset 0 0 0 1px white;
 }
 
@@ -349,8 +347,52 @@ input[type="checkbox"]:checked {
 
 .grandPopup > .ongletParam {
     display: none;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+    margin: auto;
+    padding-bottom: 30px;
 }
 
+.grandPopup > .ongletParam > table {
+    text-align: center;
+    color: white;
+    border: 5px solid white;
+    width: 300px;
+}
+
+.grandPopup > .ongletParam > table > tbody > tr:nth-child(odd) {
+    background-color: var(--grisClair);
+    border: 1px solid white;
+}
+
+.grandPopup > .ongletParam > table > tbody > tr:nth-child(even) {
+    background-color: var(--orangeBRGM);
+    border: 1px solid white;
+}
+
+.grandPopup > .ongletParam > table > tbody > tr > td {
+    padding: 5px;
+}
+
+.grandPopup > .ongletParam > table > tbody > tr > td > select {
+    width: 130px;
+    height: 30px;
+    color: black;
+    background-color: var(--grisFin);
+    border-radius: 0;
+}
+
+.grandPopup > .ongletParam > table > tbody > tr > th {
+    padding: 5px;
+}
+
+.grandPopup > .ongletParam > table > thead > tr {
+    background-color: var(--orangeBRGM);
+    color: white;
+    padding: 5px;
+}
 
 
 /*
@@ -363,7 +405,7 @@ input[type="checkbox"]:checked {
     .graphiques {
         display: flex;
         flex-direction: column-reverse;
-        justify-content: flex-start!important;
+        justify-content: flex-start !important;
         align-items: center;
         align-content: center;
     }
@@ -425,7 +467,7 @@ input[type="checkbox"]:checked {
 
     .settings > .details > .wrap > div > input::file-selector-button {
         width: 100%;
-        margin : 0;
+        margin: 0;
     }
 
 
@@ -434,7 +476,7 @@ input[type="checkbox"]:checked {
 @media (max-width: 790px) {
 
     .graphique {
-        display: none!important;
+        display: none !important;
     }
 
     .settings {

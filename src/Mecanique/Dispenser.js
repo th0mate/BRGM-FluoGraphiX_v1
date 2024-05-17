@@ -22,7 +22,7 @@ async function traiterFichier() {
 
     if (fichiers.length > 1) {
         for (let i = 0; i < fichiers.length; i++) {
-            if (fichiers[i].name === "Calibrat.dat") {
+            if ((fichiers[i].name.split('.').pop() === "dat") || (fichiers[i].name.split('.').pop() === "csv" && fichiers[i].name.split('\n')[0].includes('Appareil'))) {
                 const calibrat = fichiers[i];
                 fichiers.splice(i, 1);
                 fichiers.unshift(calibrat);

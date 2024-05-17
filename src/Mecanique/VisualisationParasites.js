@@ -4,6 +4,11 @@
 function afficherParametresParasites() {
     if (contenuFichier !== '') {
         fermerPopupParametres();
+
+        if (traceurs.length === 0) {
+            init(false, false);
+        }
+
         let overlay = document.createElement('div');
         overlay.style.position = 'fixed';
         overlay.style.top = '0';
@@ -37,8 +42,49 @@ function afficherParametresParasites() {
             <div class="bouton boutonFonce" onclick="afficherOngletParametre(3)">Convertir en concentrations</div>
         </div>
         
-        <div class="ongletParam" id="1">
-            
+        <div class="ongletParam" id="1">`;
+
+
+        if (lierCalibratetGraphiqueAuto()) {
+            popupHTML += `<h4>Les courbes ont été liées aux labels du fichier de calibration automatiquement. Aucune action n'est requise de votre part.</h4>`;
+        } else {
+            popupHTML += `
+            <h4>Veuillez lier les labels du fichier de calibration à des courbes :</h4>
+            <table>
+                <tr>
+                    <th>Label</th>
+                    <th>Courbe</th>
+                </tr>`;
+
+            for (let i = 0; i < traceurs.length; i++) {
+                const traceur = traceurs[i];
+                if (isNaN(traceur.lampePrincipale)) {
+                    continue;
+                }
+                popupHTML += `
+                <tr>
+                    <td>L${traceur.lampePrincipale}</td>
+                    <td>
+                        <select id="courbe${traceur.lampePrincipale}">
+                            `;
+                const lignes = contenuFichier.split('\n');
+                const header = lignes[2].split(';').splice(2);
+
+                for (let j = 0; j < header.length; j++) {
+                    popupHTML += `<option value="${header[j]}">${header[j]}</option>`;
+                }
+
+                popupHTML += `
+                        </select>
+                    </td>
+                </tr>`;
+            }
+
+            popupHTML += `</table>
+            `;
+        }
+
+        popupHTML += `
         </div>
         
         <div class="ongletParam" id="2">
@@ -101,6 +147,7 @@ function initParasites() {
 function lierCalibratetGraphiqueAuto() {
     const lignes = contenuFichier.split('\n');
     const header = lignes[2].split(';').splice(2);
+
     let headerCalibrat = [];
 
     for (let i = 0; i < traceurs.length; i++) {
