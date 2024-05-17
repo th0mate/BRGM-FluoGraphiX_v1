@@ -138,6 +138,11 @@ function initParasites() {
         document.querySelector('.calibratAbsent').remove();
     };
 
+    fermerPopupParametres();
+    setTimeout(() => {
+        afficherParametresParasites();
+    }, 500);
+
 }
 
 
