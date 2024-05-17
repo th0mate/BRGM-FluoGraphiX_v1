@@ -31,7 +31,12 @@ function afficherParametresParasites() {
             <img src="Ressources/img/close.png" class="close" onclick="fermerPopupParametres()" alt="fermer">
         </div>
         ${message}
-        <h2>tt</h2><h4>tt</h4>
+        <div class="ongletsParam">
+            <div class="bouton boutonFonce">Renommer les courbes</div>
+            <div class="bouton boutonFonce">Corriger la turbidité</div>
+            <div class="bouton boutonFonce">Convertir en concentrations</div>
+        </div>
+        
         <div class="conteneurBoutons"><div class="boutonFonce bouton">TERMINER</div></div>
     </div>`;
         overlay.innerHTML += popupHTML;
@@ -98,8 +103,6 @@ function lierCalibratetGraphiqueAuto() {
         }
     }
 
-    console.log(estIdentique);
-
     if (estIdentique) {
         //TODO
     } else {
@@ -107,4 +110,20 @@ function lierCalibratetGraphiqueAuto() {
     }
 
 
+}
+
+
+/**
+ * Affiche l'onglet correspondant aux paramètres supplémentaires de visualisation
+ * @param idOnglet ID de l'onglet à afficher
+ * @param e Événement
+ */
+function afficherOngletParametre(idOnglet, e) {
+    e.target.classList.add('active');
+
+    const onglets = document.querySelectorAll('.ongletsParam div');
+    for (let i = 0; i < onglets.length; i++) {
+        onglets[i].style.display = 'none';
+    }
+    onglets[idOnglet].style.display = 'flex';
 }
