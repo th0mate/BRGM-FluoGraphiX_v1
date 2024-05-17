@@ -71,7 +71,7 @@ h4, h5, h6, p {
     justify-content: flex-start;
     align-items: center;
     align-content: center;
-    z-index: 3;
+    z-index: 1001;
     position: fixed;
     left: 50%;
     transform: translateX(-50%);

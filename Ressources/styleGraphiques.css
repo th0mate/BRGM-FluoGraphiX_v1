@@ -296,7 +296,8 @@ input[type="checkbox"]:checked {
 }
 
 .grandPopup > span > input {
-    max-width: 120px;
+    max-width: 150px;
+    min-width: auto;
     color: transparent;
     margin-left: 20px;
 }

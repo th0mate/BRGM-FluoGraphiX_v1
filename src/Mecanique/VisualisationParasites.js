@@ -18,7 +18,7 @@ function afficherParametresParasites() {
     let message = '';
 
     if (contenuCalibrat === '') {
-        message = '<span><img src="Ressources/img/attentionOrange.png" alt="Perte de connexion">Aucun fichier de calibration n\'a été importé. <input type="file" id="fileInput" accept=".mv,.dat,.txt,.xml,.csv" multiple onchange="traiterFichier()"></span>';
+        message = '<span class="calibratAbsent"><img src="Ressources/img/attentionOrange.png" alt="Perte de connexion">Aucun fichier de calibration n\'a été importé. <input type="file" id="inputCalibrat" accept=".dat,.csv" onchange="initParasites()"></span>';
     }
 
 
@@ -48,4 +48,28 @@ function fermerPopupParametres() {
     if (document.querySelector('div[style*="z-index: 1000"]') !== null) {
         document.querySelector('div[style*="z-index: 1000"]').remove();
     }
+}
+
+
+/**
+ * Lit le fichier de calibration et initialise les données
+ */
+function initParasites() {
+    const inputFichier = document.getElementById('inputCalibrat');
+    const reader = new FileReader();
+    reader.readAsText(inputFichier.files[0]);
+
+    let estFichierDat = false;
+
+    if (inputFichier.files[0].name.split('.').pop() === "dat") {
+        estFichierDat = true;
+    }
+
+    reader.onload = function () {
+        contenuCalibrat = reader.result;
+        init(estFichierDat, false);
+        afficherMessageFlash("Fichier Calibrat.dat importé avec succès.", 'success');
+        document.querySelector('.calibratAbsent').remove();
+    };
+
 }
