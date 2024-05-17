@@ -59,7 +59,7 @@ function fermerPopupParametres() {
 
 
 /**
- * Lit le fichier de calibration et initialise les données
+ * Lit le fichier de calibration et initialise les données, sans afficher les tableaux et les courbes de la partie calibration
  */
 function initParasites() {
     const inputFichier = document.getElementById('inputCalibrat');
@@ -82,7 +82,9 @@ function initParasites() {
 }
 
 
-
+/**
+ * Tente de lier automatiquement les labels des courbes aux labels des lampes du fichier de calibration.
+ */
 function lierCalibratetGraphiqueAuto() {
     const lignes = contenuFichier.split('\n');
     const header = lignes[2].split(';').splice(2);
@@ -108,8 +110,6 @@ function lierCalibratetGraphiqueAuto() {
     } else {
 
     }
-
-
 }
 
 
