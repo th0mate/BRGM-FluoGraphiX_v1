@@ -2,28 +2,29 @@
  * Affiche les paramètres supplémentaires pour la visualisation des parasites sous la forme d'un popup
  */
 function afficherParametresParasites() {
-    fermerPopupParametres();
-    let overlay = document.createElement('div');
-    overlay.style.position = 'fixed';
-    overlay.style.top = '0';
-    overlay.style.left = '0';
-    overlay.style.width = '100%';
-    overlay.style.height = '100%';
-    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-    overlay.style.zIndex = '1000';
-    document.body.appendChild(overlay);
+    if (contenuFichier !== '') {
+        fermerPopupParametres();
+        let overlay = document.createElement('div');
+        overlay.style.position = 'fixed';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100%';
+        overlay.style.height = '100%';
+        overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+        overlay.style.zIndex = '1000';
+        document.body.appendChild(overlay);
 
-    document.body.style.overflowY = 'hidden';
+        document.body.style.overflowY = 'hidden';
 
-    let message = '';
+        let message = '';
 
-    if (contenuCalibrat === '') {
-        message = '<span class="calibratAbsent"><img src="Ressources/img/attentionOrange.png" alt="Perte de connexion">Aucun fichier de calibration n\'a été importé. <input type="file" id="inputCalibrat" accept=".dat,.csv" onchange="initParasites()"></span>';
-    }
+        if (contenuCalibrat === '') {
+            message = '<span class="calibratAbsent"><img src="Ressources/img/attentionOrange.png" alt="Perte de connexion">Aucun fichier de calibration n\'a été importé. <input type="file" id="inputCalibrat" accept=".dat,.csv" onchange="initParasites()"></span>';
+        }
 
 
-    let popupHTML = "";
-    popupHTML += `
+        let popupHTML = "";
+        popupHTML += `
     <div class='grandPopup'>
         <div class="entete">
             <h2>Paramètres supplémentaires</h2>
@@ -33,7 +34,8 @@ function afficherParametresParasites() {
         <h2>tt</h2><h4>tt</h4>
         <div class="conteneurBoutons"><div class="boutonFonce bouton">TERMINER</div></div>
     </div>`;
-    overlay.innerHTML += popupHTML;
+        overlay.innerHTML += popupHTML;
+    }
 }
 
 
@@ -71,5 +73,36 @@ function initParasites() {
         afficherMessageFlash("Fichier Calibrat.dat importé avec succès.", 'success');
         document.querySelector('.calibratAbsent').remove();
     };
+
+}
+
+
+
+function lierCalibratetGraphiqueAuto() {
+    const lignes = contenuFichier.split('\n');
+    const header = lignes[2].split(';').splice(2);
+    let headerCalibrat = [];
+
+    for (let i = 0; i < traceurs.length; i++) {
+        const traceur = traceurs[i];
+
+        if (traceur.lampePrincipale !== '') {
+            headerCalibrat.push(traceur.lampePrincipale);
+        }
+    }
+
+    let estIdentique = true;
+    for (let i = 0; i < headerCalibrat.length; i++) {
+        if (!header.includes(headerCalibrat[i])) {
+            estIdentique = false;
+        }
+    }
+
+    if (estIdentique) {
+        //TODO
+    } else {
+
+    }
+
 
 }
