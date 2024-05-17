@@ -331,16 +331,25 @@ input[type="checkbox"]:checked {
     height: 20px;
     font-size: 0.8em;
     transition: box-shadow 0.3s ease;
+    transition: color 0.3s ease;
     font-weight: bold;
     color: white;
     cursor: pointer;
     margin: 0;
 }
 
-.grandPopup > .ongletsParam > .bouton:hover {
-    box-shadow: 0 0 0 1px white, inset 0 0 2px white;
+.grandPopup > .ongletsParam > .bouton:hover{
+    box-shadow: 0 0 0 1px white, inset 0 0 0 1px white;
 }
 
+.grandPopup > .ongletsParam > .active {
+    box-shadow: 0 0 0 1px var(--orangeBRGM);
+    color: var(--orangeBRGM);
+}
+
+.grandPopup > .ongletParam {
+    display: none;
+}
 
 
 

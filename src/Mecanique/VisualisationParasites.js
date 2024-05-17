@@ -32,14 +32,27 @@ function afficherParametresParasites() {
         </div>
         ${message}
         <div class="ongletsParam">
-            <div class="bouton boutonFonce">Renommer les courbes</div>
-            <div class="bouton boutonFonce">Corriger la turbidité</div>
-            <div class="bouton boutonFonce">Convertir en concentrations</div>
+            <div class="bouton boutonFonce" onclick="afficherOngletParametre(1)">Renommer les courbes</div>
+            <div class="bouton boutonFonce" onclick="afficherOngletParametre(2)">Corriger la turbidité</div>
+            <div class="bouton boutonFonce" onclick="afficherOngletParametre(3)">Convertir en concentrations</div>
+        </div>
+        
+        <div class="ongletParam" id="1">
+            1
+        </div>
+        
+        <div class="ongletParam" id="2">
+            2
+        </div>
+        
+        <div class="ongletParam" id="3">
+            3
         </div>
         
         <div class="conteneurBoutons"><div class="boutonFonce bouton">TERMINER</div></div>
     </div>`;
         overlay.innerHTML += popupHTML;
+        afficherOngletParametre(1);
     }
 }
 
@@ -116,14 +129,19 @@ function lierCalibratetGraphiqueAuto() {
 /**
  * Affiche l'onglet correspondant aux paramètres supplémentaires de visualisation
  * @param idOnglet ID de l'onglet à afficher
- * @param e Événement
  */
-function afficherOngletParametre(idOnglet, e) {
-    e.target.classList.add('active');
+function afficherOngletParametre(idOnglet) {
+    const onglets1 = document.querySelectorAll('.ongletsParam .bouton');
 
-    const onglets = document.querySelectorAll('.ongletsParam div');
+    for (let i = 0; i < onglets1.length; i++) {
+        onglets1[i].classList.remove('active');
+    }
+    onglets1[idOnglet - 1].classList.add('active');
+
+    const onglets = document.querySelectorAll('.ongletParam');
+
     for (let i = 0; i < onglets.length; i++) {
         onglets[i].style.display = 'none';
     }
-    onglets[idOnglet].style.display = 'flex';
+    onglets[idOnglet - 1].style.display = 'flex';
 }
