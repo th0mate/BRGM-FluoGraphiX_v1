@@ -62,7 +62,7 @@ function vueDocumentation() {
             <div>
                 <h3>Calibration</h3>
                 <div class="sommaire" data-content="Calibration : Présentation et importation" onclick="redirectTo('calibrationDoc')"><span></span>Présentation et Importation de données<img src="Ressources/img/droite.png" alt=""></div>
-                <div class="sommaire" data-content="Fichiers txt (Calibration)" onclick="redirectTo('paramCalibrationDoc')"><span></span>Présentation des Fichiers txt<img src="Ressources/img/droite.png" alt=""></div>
+                <div class="sommaire" data-content="Fichiers txt (Calibration)" onclick="redirectTo('paramCalibrationDoc')"><span></span>Présentation des Fichiers CSV<img src="Ressources/img/droite.png" alt=""></div>
             </div>
             
         </div>
@@ -186,7 +186,7 @@ function vueDocumentation() {
                 <div class="etape">
                     <div>
                         <h3 class="findable"><span>1</span>Sélection de fichiers</h3>
-                        <p>Vous pouvez sélectionner un ou plusieurs fichiers de type .mv, .txt (xml converti), .xml, .dat (fichiers de calibration). En cas de modification de ces fichiers, prenez garde à ce que la syntaxe d'origine de ce fichier soit bien respectée.</p>
+                        <p>Vous pouvez sélectionner un ou plusieurs fichiers de type .mv, .txt (xml converti), .xml, .dat (fichiers de calibration), et csv (calibration ou données de mesures). En cas de modification de ces fichiers, prenez garde à ce que la syntaxe d'origine de ce fichier soit bien respectée.</p>
                     </div>
                     <img src="Ressources/img/screen10.png" alt="">
                 </div>
@@ -219,7 +219,7 @@ function vueDocumentation() {
                 <div class="etape">
                     <div>
                         <h3 class="findable"><span>4</span>Export</h3>
-                        <p>Vous pouvez exporter le ou les fichiers importés sous la forme d'un seul fichier .mv.</p>
+                        <p>Vous pouvez exporter le ou les fichiers importés sous la forme d'un seul fichier CSV, pris en charge également à l'importation.</p>
                     </div>
                     <img src="Ressources/img/screen10.png" alt="">
                 </div>
@@ -233,7 +233,7 @@ function vueDocumentation() {
                 <div class="etape">
                     <div>
                         <h3 class="findable"><span>1</span>Importation de fichiers</h3>
-                        <p>Vous pouvez importer des fichiers de type .mv, .txt (xml converti), .xml, .dat (fichiers de calibration)</p>
+                        <p>Vous pouvez importer des fichiers de type .mv, .txt (xml converti), .xml, .dat (fichiers de calibration) et CSV.</p>
                         <p>Pour les Fichiers .mv et .txt : le programme lit le fichier en fonction du nombre d'espaces séparant chaque colonne. Si des modifications ont été apportées, veillez à ce que la syntaxe d'origine soit parfaitement respectée.</p>
                         <p>Si le graphique est altéré/corrompu, il est possible que votre fichier ne respecte pas la syntaxe attendue, ou que le format de date ne soit pas correctement paramétré.</p>
                     </div>
@@ -242,10 +242,9 @@ function vueDocumentation() {
                 
                 <div class="etape">
                     <div>
-                        <h3 class="findable"><span>2</span>Fichiers .dat</h3>
-                        <p>Vous pouvez également importer des fichiers de calibration au format .dat. S'ils sont sélectionnés en plus d'autres fichiers, ils permettent de paramétrer automatiquement le format de dates du graphique.</p>
-                        <p>Si un fichier .dat est importé seul, vous serez redirigé vers l'onglet "Calibration", et vos données seront affichées.</p>
-                        <p>Notez que les fichiers .txt exportés par FluoriGraphix dans l'onglet "Calibration" ne sont pas pris en charge dans la partie "Graphiques".</p>
+                        <h3 class="findable"><span>2</span>Fichiers .dat ou CSV</h3>
+                        <p>Vous pouvez également importer des fichiers de calibration au format .dat ou CSV. S'ils sont sélectionnés en plus d'autres fichiers, ils permettent de paramétrer automatiquement le format de dates du graphique.</p>
+                        <p>Si un fichier de calibration est importé seul, vous serez redirigé vers l'onglet "Calibration", et vos données seront affichées.</p>
                     </div>
                     <img src="Ressources/img/screen14.png" alt="">
                 </div>
@@ -267,10 +266,10 @@ function vueDocumentation() {
                 
                 <div class="etape">
                     <div>
-                        <h3 class="findable"><span>1</span>Exportation en fichier mv</h3>
-                        <p>Vous pouvez exporter vos fichiers sous la forme d'un fichier .mv. Ce fichier contiendra toutes les données importées, et sera réutilisable par la suite dans FluoriGraphix.</p>
-                        <p>Les fichiers .mv ont l'avantage d'être très lisibles et compréhensibles, contrairement au xml ou au txt.</p>
-                        <p>Le téléchargement débute aussitôt le bouton "Télécharger le fichier" cliqué.</p>
+                        <h3 class="findable"><span>1</span>Exportation en fichier CSV</h3>
+                        <p>Vous pouvez exporter vos fichiers sous la forme d'un fichier .CSV. Ce fichier contiendra toutes les données importées, et sera réutilisable par la suite dans FluoriGraphix.</p>
+                        <p>Les fichiers .CSV ont l'avantage d'être très lisibles et compréhensibles, contrairement au xml ou au txt.</p>
+                        <p>Le téléchargement débute aussitôt le bouton "Exporter les données" cliqué.</p>
                     </div>
                     <img src="Ressources/img/screen15.png" alt="">
                 </div>
@@ -320,13 +319,13 @@ function vueDocumentation() {
             <div class="section">
                 <h3>Calibration</h3>
                 <h1 id="calibrationDoc" class="titreBarre findable">Calibration : Présentation et importation</h1>
-                <h3>La page "Calibration" vous permet de visualiser, de traiter, et de manipuler des données de calibration, issues de fichiers de calibration .dat, ou .txt si elles ont été exportées depuis FluoriGraphix</h3>
+                <h3>La page "Calibration" vous permet de visualiser, de traiter, et de manipuler des données de calibration, issues de fichiers de calibration .dat, ou .CSV si elles ont été exportées depuis FluoriGraphix</h3>
                 
                 <div class="etape">
                     <div>
                         <h3 class="findable"><span>1</span>Importation d'un fichier de calibration .dat</h3>
                         <p>Vous pouvez importer un fichier de calibration .dat issu d'un fluorimètre. Cela vous permettra de visualiser les données de calibration de vos traceurs sous la forme d'un tableau et d'un graphique.</p>
-                        <p>Vous pouvez également importer un fichier de calibration simplifié issu de FluoriGraphix, vous permettant de modifier facilement les données de ce fichier.</p>
+                        <p>Vous pouvez également importer un fichier de calibration simplifié (CSV) issu de FluoriGraphix, vous permettant de modifier facilement les données de ce fichier.</p>
                     </div>
                     <img src="Ressources/img/screen17.png" alt="">
                 </div>
@@ -365,8 +364,8 @@ function vueDocumentation() {
                 
                 <div class="etape">
                     <div>
-                        <h3 class="findable"><span>1</span>Présentation générale des fichiers txt de calibration</h3>
-                        <p>Les fichiers de calibration au format txt vous sont proposés à l'exportation depuis la page "Calibration" après avoir importé un fichier de calibration .dat ou .txt</p>
+                        <h3 class="findable"><span>1</span>Présentation générale des fichiers CSV de calibration</h3>
+                        <p>Les fichiers de calibration au format CSV vous sont proposés à l'exportation depuis la page "Calibration" après avoir importé un fichier de calibration .dat ou .CSV</p>
                         <p>Étant construits d'une façon simple et lisible, vous pouvez les modifier selon vos besoins pour les importer par la suite.</p>
                     </div>
                     <img src="Ressources/img/screen20.png" alt="">
@@ -374,7 +373,7 @@ function vueDocumentation() {
                 
                 <div class="etape">
                     <div>
-                        <h3 class="findable"><span>2</span>Fichiers txt de calibration : En-tête</h3>
+                        <h3 class="findable"><span>2</span>Fichiers CSV de calibration : En-tête</h3>
                         <p>L'en-tête du fichier vous fournit les informations nécessaires importantes des mesures, comme la date de l'export ou encore le numéro de l'appareil de mesure associé.</p>
                         <p>D'autres informations sont également affichées, comme un résumé simple du fonctionnement de ce fichier. Vous pouvez consulter l'espace dédié de cette documentation pour en savoir plus.</p>
                     </div>
@@ -383,7 +382,7 @@ function vueDocumentation() {
                 
                 <div class="etape">
                     <div>
-                        <h3 class="findable"><span>3</span>Fichiers txt de calibration : Ordre des traceurs</h3>
+                        <h3 class="findable"><span>3</span>Fichiers CSV de calibration : Ordre des traceurs</h3>
                         <p>Les fichiers de calibration doivent toujours respecter le même ordre des traceurs, pour ne pas afficher des données corrompues par la suite.</p>
                         <p>En effet, l'eau doit toujours être disposée en <strong>première position</strong> dans le fichier, tandis que la turbidité doit toujours être placée en <strong>dernière position</strong>.</p>
                         <p>Les autres traceurs doivent donc se trouver entre ces deux parties du fichier, sans ordre spécifique.</p>
@@ -393,7 +392,7 @@ function vueDocumentation() {
                 
                 <div class="etape">
                     <div>
-                        <h3 class="findable"><span>4</span>Fichiers txt de calibration : Eau</h3>
+                        <h3 class="findable"><span>4</span>Fichiers CSV de calibration : Eau</h3>
                         <p>L'eau doit être affichée en première position dans le fichier, avant tous les autres traceurs.</p>
                         <p>Dans les premières lignes, on peut voir son label ainsi que sa date de mesure</p>
                         <p>On peut retrouver ensuite ses valeurs de L1 à L4.</p>
@@ -403,7 +402,7 @@ function vueDocumentation() {
                 
                 <div class="etape">
                     <div>
-                        <h3 class="findable"><span>5</span>Fichiers txt de calibration : Traceur</h3>
+                        <h3 class="findable"><span>5</span>Fichiers CSV de calibration : Traceur</h3>
                         <p>Les traceurs ont tous la même forme dans ce fichier.</p>
                         <p>Dans les premières lignes, on peut voir le label, la date de mesure, ainsi que l'unité de mesure du traceur.</p>
                         <p>On peut retrouver ensuite un tableau contenant toutes les valeurs du traceur, avec les lignes L1 à L4, et les colonnes représentant les échelles de mesures (100, 200) en unité spécifiée juste avant.</p>
@@ -413,7 +412,7 @@ function vueDocumentation() {
                 
                 <div class="etape">
                     <div>
-                        <h3 class="findable"><span>6</span>Fichiers txt de calibration : Turbidité</h3>
+                        <h3 class="findable"><span>6</span>Fichiers CSV de calibration : Turbidité</h3>
                         <p>La turbidité doit toujours se trouver en dernière position dans ce fichier, après tous les traceurs et l'eau.</p>
                         <p>Dans les premières lignes, on peut voir le label, la date de mesure, ainsi que l'unité de mesure de la turbidité.</p>
                         <p>On peut retrouver ensuite un tableau contenant toutes les valeurs de la turbidité, avec les lignes L1 à L4, et les colonnes représentant les échelles de mesures (1, 10, 100) en unité spécifiée juste avant.</p>
@@ -424,7 +423,7 @@ function vueDocumentation() {
                 <div class="etape">
                     <div>
                         <h3 class="findable"><span>7</span>Exportation des données de Calibration</h3>
-                        <p>Quelque-soit le fichier importé, vous pouvez télécharger un fichier txt en cliquant sur le bouton "Télécharger les données".</p>
+                        <p>Quelque-soit le fichier importé, vous pouvez télécharger un fichier CSV en cliquant sur le bouton "Télécharger les données".</p>
                     </div>
                     <img src="Ressources/img/screen25.png" alt="">
                 </div>
