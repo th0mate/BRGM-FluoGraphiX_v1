@@ -31,7 +31,6 @@ function calculerConcentration(idLampe, traceur) {
         }
 
         let countNaN = 0;
-        console.log(result);
         for (let i = 0; i < result[0].length; i++) {
             if (isNaN(result[0][i])) {
                 countNaN++;
@@ -95,6 +94,24 @@ function calculerConcentration(idLampe, traceur) {
 
             resultat = multipleLinearRegression(colonne2_3, [colonne1]);
             resultat = transpose(resultat);
+
+            let tableauIntervaleConfiance = [];
+            let derniereColonne = 0;
+            for (let i = 0; i < colonne1.length; i++) {
+                const ligne = [];
+                const data = colonne2[i];
+                ligne.push(data);
+                ligne.push(colonne1[i]);
+                const data2 = resultat[0][0] + resultat[0][1] * colonne2[i] + resultat[0][2] * colonne3[i];
+                ligne.push(data2);
+                ligne.push((colonne1[i] - data2) ** 2);
+                derniereColonne += (colonne1[i] - data2) ** 2;
+                tableauIntervaleConfiance.push(ligne);
+            }
+
+            const erreurType = 1.96 * (Math.sqrt(derniereColonne / (colonne1.length - 3)));
+            resultat.push(erreurType);
+
             afficherCourbeDepuis3Valeurs(resultat, idLampe, traceur);
         }
     }
@@ -245,9 +262,56 @@ function afficherCourbeDepuis3Valeurs(resultat, idLampe, traceur) {
     const canvas = document.getElementById('graphiqueTraceur');
     const existingChart = Chart.getChart(canvas);
 
-    if (existingChart && !existingChart.data.datasets.find(dataset => dataset.label === data.label)) {
-        existingChart.data.datasets.push(data);
-        existingChart.update();
+    if (resultat.length > 1) {
+        let colonne95Plus = [];
+        let colonne95Moins = [];
+
+        const data2 = {
+            label: '95%',
+            data: [],
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            borderColor: 'black',
+            borderWidth: 1,
+            pointRadius: 0,
+            borderDash: [5, 5],
+            tension: 0.4
+        }
+
+        const data3 = {
+            label: '-95%',
+            data: [],
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            borderColor: 'black',
+            borderWidth: 1,
+            pointRadius: 0,
+            borderDash: [5, 5],
+            tension: 0.4
+        }
+
+        for (let i = 0; i < colonne1.length; i++) {
+            colonne95Plus.push(Math.exp(resultat[1] + constante + degre1 * colonne1[i] + degre2 * colonne1[i] ** 2));
+            colonne95Moins.push(Math.exp(-resultat[1] + constante + degre1 * colonne1[i] + degre2 * colonne1[i] ** 2));
+        }
+
+        for (let i = 0; i < colonne1.length; i++) {
+            data2.data.push({x: colonne0[i], y: colonne95Plus[i]});
+            data3.data.push({x: colonne0[i], y: colonne95Moins[i]});
+        }
+
+        if (existingChart && !existingChart.data.datasets.find(dataset => dataset.label === data.label)) {
+            existingChart.data.datasets.push(data);
+            existingChart.data.datasets.push(data2);
+            existingChart.data.datasets.push(data3);
+            existingChart.update();
+        }
+
+    } else {
+
+
+        if (existingChart && !existingChart.data.datasets.find(dataset => dataset.label === data.label)) {
+            existingChart.data.datasets.push(data);
+            existingChart.update();
+        }
     }
 }
 
@@ -290,10 +354,12 @@ function afficherCourbeDepuis1Valeur(resultat, idLampe, traceur) {
     const canvas = document.getElementById('graphiqueTraceur');
     const existingChart = Chart.getChart(canvas);
 
+
     if (existingChart && !existingChart.data.datasets.find(dataset => dataset.label === data.label)) {
         existingChart.data.datasets.push(data);
         existingChart.update();
     }
+
 }
 
 
