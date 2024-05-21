@@ -102,7 +102,7 @@ async function traiterFichier() {
                             contenuFichier += reader.result;
                         } else {
                             fichierCalibrationFormatDat = false;
-                            contenuCalibrat = reader.result;
+                            contenuCalibrat = supprimerPointsVirgulesSiPlusieurs(reader.result);
                         }
                         resolve();
                     };
@@ -168,7 +168,7 @@ function traiterCalibrat() {
             const reader = new FileReader();
             reader.readAsText(fichier);
             reader.onload = function () {
-                contenuCalibrat = reader.result;
+                contenuCalibrat = supprimerPointsVirgulesSiPlusieurs(reader.result);
                 init(false);
                 afficherMessageFlash("Fichier Calibrat.dat traité avec succès.", 'success');
             };

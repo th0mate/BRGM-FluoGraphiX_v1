@@ -134,7 +134,7 @@ function initParasites() {
     }
 
     reader.onload = function () {
-        contenuCalibrat = reader.result;
+        contenuCalibrat = supprimerPointsVirgulesSiPlusieurs(reader.result);
         init(estFichierDat, false);
         afficherMessageFlash("Fichier Calibrat.dat importé avec succès.", 'success');
         document.querySelector('.calibratAbsent').remove();

@@ -94,3 +94,16 @@ function getDateHeure(date) {
     const dateHeure = date.split('-');
     return [dateHeure[0], dateHeure[1]];
 }
+
+
+/**
+ * Remplace dans contenuCalibrat tous les points virgules, s'il y en a plusieurs, par du vide
+ */
+function supprimerPointsVirgulesSiPlusieurs(contenuCalibrat) {
+    let contenuCalibrat1 = contenuCalibrat.split('\n');
+    for (let i = 0; i < contenuCalibrat1.length; i++) {
+        contenuCalibrat1[i] = contenuCalibrat1[i].replace(/;{2,}/g, '');
+    }
+
+    return contenuCalibrat1.join('\n');
+}
