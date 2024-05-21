@@ -61,11 +61,13 @@ function afficherParametresParasites() {
                 if (isNaN(traceur.lampePrincipale)) {
                     continue;
                 }
+
                 popupHTML += `
                 <tr>
                     <td>L${traceur.lampePrincipale}</td>
                     <td>
-                        <select id="courbe${traceur.lampePrincipale}">
+                        <select onchange="remplacerDonneesFichier(this.value, 'L${traceur.lampePrincipale}')">
+                        <option value="" selected disabled>Sélectionner</option>
                             `;
                 const lignes = contenuFichier.split('\n');
                 const header = lignes[2].split(';').splice(2);
@@ -192,4 +194,30 @@ function afficherOngletParametre(idOnglet) {
         onglets[i].style.display = 'none';
     }
     onglets[idOnglet - 1].style.display = 'flex';
+}
+
+
+/**
+ * Remplace une suite de caractère par une autre dans contenuFichier, et affiche à nouveau le graphique à partir de ces nouvelles données
+ * @param ancien Ancien label à remplacer
+ * @param nouveau Nouveau label à ajouter
+ */
+function remplacerDonneesFichier(ancien, nouveau) {
+    let lignes = contenuFichier.split('\n');
+    let header = lignes[2].split(';');
+
+    for (let i = 0; i < header.length; i++) {
+        if (header[i] === ancien) {
+            header[i] = nouveau;
+        }
+
+        if (header[i] === 'L' + ancien) {
+            header[i] = 'L' + nouveau;
+        }
+    }
+
+    lignes[2] = header.join(';');
+
+    contenuFichier = lignes.join('\n');
+    afficherGraphique(contenuFichier);
 }
