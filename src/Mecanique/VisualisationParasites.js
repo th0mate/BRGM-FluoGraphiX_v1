@@ -42,15 +42,15 @@ function afficherParametresParasites() {
             <div class="bouton boutonFonce" onclick="afficherOngletParametre(3)">Convertir en concentrations</div>
         </div>
         
-        <div class="ongletParam" id="1">`;
+        <div class="ongletParam onglet1" id="1">`;
 
 
-        if (lierCalibratetGraphiqueAuto()) {
-            popupHTML += `<h4>Les courbes ont été liées aux labels du fichier de calibration automatiquement. Aucune action n'est requise de votre part.</h4>`;
+        if (calibrationEstLieGraphiques()) {
+            popupHTML += `<img src="Ressources/img/goodNew.png" alt="Succès"><h4>Les courbes ont été liées aux labels du fichier de calibration automatiquement. Aucune action n'est requise de votre part.</h4>`;
         } else {
             popupHTML += `
             <h4>Veuillez lier les labels du fichier de calibration à des courbes :</h4>
-            <table>
+            <table class="">
                 <tr>
                     <th>Label</th>
                     <th>Courbe</th>
@@ -151,7 +151,7 @@ function initParasites() {
 /**
  * Tente de lier automatiquement les labels des courbes aux labels des lampes du fichier de calibration.
  */
-function lierCalibratetGraphiqueAuto() {
+function calibrationEstLieGraphiques() {
     const lignes = contenuFichier.split('\n');
     const header = lignes[2].split(';').splice(2);
 
@@ -161,12 +161,17 @@ function lierCalibratetGraphiqueAuto() {
         const traceur = traceurs[i];
 
         if (traceur.lampePrincipale !== '') {
-            headerCalibrat.push(traceur.lampePrincipale);
+            headerCalibrat.push('L' + traceur.lampePrincipale);
         }
     }
 
     let estIdentique = true;
     for (let i = 0; i < headerCalibrat.length; i++) {
+
+        if (headerCalibrat[i] === 'LNaN') {
+            continue;
+        }
+
         if (!header.includes(headerCalibrat[i])) {
             estIdentique = false;
         }
@@ -220,4 +225,8 @@ function remplacerDonneesFichier(ancien, nouveau) {
 
     contenuFichier = lignes.join('\n');
     afficherGraphique(contenuFichier);
+
+    if (calibrationEstLieGraphiques()) {
+        document.querySelector('.onglet1').innerHTML = `<img src="Ressources/img/goodNew.png" alt="Succès"> <h4>Les courbes ont été liées aux labels du fichier de calibration avec succès.</h4>`;
+    }
 }

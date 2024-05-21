@@ -355,6 +355,10 @@ input[type="checkbox"]:checked {
     padding-bottom: 30px;
 }
 
+.grandPopup > .ongletParam > img {
+    width: 300px;
+}
+
 .grandPopup > .ongletParam > table {
     text-align: center;
     color: white;
