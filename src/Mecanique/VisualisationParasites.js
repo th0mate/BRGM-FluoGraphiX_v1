@@ -262,8 +262,30 @@ function corrigerTurbidite(idLampe) {
         }
     }
 
+    //inversé par rapport au fichier Excel
     const coeffs = multipleLinearRegression(x, [y]);
-    console.log(coeffs);
+
+    const data = {
+        label: `L${idLampe}Corr`,
+        data: [],
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+        borderColor: getRandomColor(),
+        borderWidth: 2,
+        pointRadius: 0
+    };
+
+    let contenu = [];
+    const lignes = contenuFichier.split('\n');
+    const colonnes = lignes[i].split(';');
+    const indexLampe = colonnes.findIndex(colonne => colonne.includes(`L${idLampe}`));
+    const indexTurb = colonnes.findIndex(colonne => colonne.includes(`L4`));
+
+    for (let i = 0; i < contenuFichier.length; i ++) {
+
+        //si la valeur de la turbidité dans contenuFichier est inférieure ou égale à la valeur L4 de l'eau, on ne fait rien
+
+
+    }
 
 
 }
