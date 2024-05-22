@@ -262,8 +262,7 @@ function corrigerTurbidite(idLampe) {
         }
     }
 
-    //inversé par rapport au fichier Excel
-    const coeffs = multipleLinearRegression(x, [y]);
+    const resultat = multipleLinearRegression(x, [y]);
 
     const data = {
         label: `L${idLampe}Corr`,
@@ -276,15 +275,49 @@ function corrigerTurbidite(idLampe) {
 
     let contenu = [];
     const lignes = contenuFichier.split('\n');
-    const colonnes = lignes[i].split(';');
-    const indexLampe = colonnes.findIndex(colonne => colonne.includes(`L${idLampe}`));
-    const indexTurb = colonnes.findIndex(colonne => colonne.includes(`L4`));
+    let colonnes = lignes[2].split(';');
+    let indexLampe = 0;
+    let indexTurb = 0;
 
-    for (let i = 0; i < contenuFichier.length; i ++) {
+    colonnes = colonnes.map(colonne => colonne.replace(/[\n\r]/g, ''));
 
-        //si la valeur de la turbidité dans contenuFichier est inférieure ou égale à la valeur L4 de l'eau, on ne fait rien
+    for (let j = 0; j < colonnes.length; j++) {
+        if (colonnes[j] === `L${idLampe}`) {
+            indexLampe = j;
+        }
+        if (colonnes[j] === `L4`) {
+            indexTurb = j;
+        }
+    }
 
+    for (let i = 3; i < lignes.length - 1; i++) {
+        const colonnes = lignes[i].split(';');
 
+        if (colonnes[indexLampe] !== '' && colonnes[indexTurb] !== '') {
+            const ligne = [];
+            ligne.push(colonnes[0] + '-' + colonnes[1]);
+            ligne.push(colonnes[indexLampe].replace(/[\n\r]/g, ''));
+            ligne.push(colonnes[indexTurb].replace(/[\n\r]/g, ''));
+            contenu.push(ligne);
+        }
+    }
+
+    if (resultat.length === 3) {
+        const colonne = [];
+        const TS = 1; //TODO
+
+        //[date, valeurLampe, valeurTurbidité]
+
+        for (let i = 0; i < contenu.length; i++) {
+            if (contenu[i][2] <= eau.getDataParNom('L4-1')) {
+                colonne.push(contenu[i][1])
+            } else {
+                //TODO Marche pas
+                colonne.push(contenu[i][1] - TS * Math.exp(resultat[0] + resultat[1] * Math.log(contenu[i][2] - eau.getDataParNom('L4-1')) ** 1 + resultat[2] * Math.log(contenu[i][2] - eau.getDataParNom('L4-1')) ** 2));
+            }
+        }
+
+        console.log(colonne);
     }
 
 
