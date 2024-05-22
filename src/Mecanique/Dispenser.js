@@ -15,6 +15,7 @@ let contenuCalibrat = "";
  * Traite le fichier sélectionné par l'utilisateur et redirige le contenu du fichier vers la fonction de traitement appropriée
  */
 async function traiterFichier() {
+    traceurs = [];
     const inputFichier = document.getElementById('fileInput');
     let fichiers = Array.from(inputFichier.files);
     afficherPopup('<img class="loading" src="Ressources/img/loading.gif" alt="">', 'Veuillez Patienter', 'Traitement des données en cours - Veuillez patienter...', '')
@@ -121,7 +122,6 @@ async function traiterFichier() {
         } else {
             try {
                 inputFichier.value = "";
-                console.log(contenuFichier);
                 afficherGraphique(contenuFichier);
                 afficherMessageFlash("Données traitées avec succès.", 'success');
                 document.querySelector('.downloadFile').style.display = 'block';
@@ -161,7 +161,7 @@ function traiterCalibrat() {
             reader.readAsText(fichier);
             reader.onload = function () {
                 contenuCalibrat = reader.result;
-                init();
+                init(true);
                 afficherMessageFlash("Fichier Calibrat.dat traité avec succès.", 'success');
             };
         } else if (fichier.name.split('.').pop() === "csv") {

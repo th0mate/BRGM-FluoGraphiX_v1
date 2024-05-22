@@ -21,6 +21,7 @@ let traceurs = [];
  * Initialise les variables issues du fichier Calibrat.dat nécessaires pour le calcul de la régression linéaire
  */
 function init(estFichierDat = true, estDepuisCalibration = true) {
+
     if (contenuCalibrat !== '') {
 
         if (document.querySelector('.boutonDlData')) {

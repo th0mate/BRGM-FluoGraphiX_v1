@@ -5,8 +5,15 @@ function afficherParametresParasites() {
     if (contenuFichier !== '') {
         fermerPopupParametres();
 
+        let estFichierDat = true;
+        if (contenuCalibrat.split('\n')[0].includes('FluoriGraphix')) {
+            estFichierDat = false;
+        }
+
+        console.log(estFichierDat);
+
         if (traceurs.length === 0) {
-            init(false, false);
+            init(estFichierDat, false);
         }
 
         let overlay = document.createElement('div');
