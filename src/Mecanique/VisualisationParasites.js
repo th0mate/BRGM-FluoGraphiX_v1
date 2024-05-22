@@ -98,7 +98,7 @@ function afficherParametresParasites() {
         </div>
         
         <div class="ongletParam" id="2">
-            2
+            <h2 onclick="corrigerTurbidite(1)">Tester</h2>
         </div>
         
         <div class="ongletParam" id="3">
@@ -237,4 +237,33 @@ function remplacerDonneesFichier(ancien, nouveau) {
     if (calibrationEstLieGraphiques()) {
         document.querySelector('.onglet1').innerHTML = `<img src="Ressources/img/goodNew.png" alt="Succès"> <h4>Les courbes ont été liées aux labels du fichier de calibration avec succès.</h4>`;
     }
+}
+
+
+/**
+ * Affiche une courbe de correction de la turbidité pour une lampe donnée
+ */
+function corrigerTurbidite(idLampe) {
+    const traceur = traceurs.find(traceur => traceur.lampePrincipale === idLampe);
+    const eau = traceurs.find(traceur => traceur.unite === '');
+    const turbidite = traceurs.find(traceur => traceur.unite.toLowerCase() === 'ntu');
+
+    let y = [];
+    let x = [];
+
+    for (let i = 0; i < turbidite.echelles.length; i ++) {
+        if (!isNaN(turbidite.getDataParNom(`L${idLampe}-${i+1}`))) {
+            y.push(Math.log(turbidite.getDataParNom(`L${idLampe}-${i + 1}`) - eau.getDataParNom(`L${idLampe}-1`)));
+            const ligne = [];
+            ligne.push(1);
+            ligne.push(Math.log(turbidite.getDataParNom(`L${turbidite.lampePrincipale}-${i + 1}`) - eau.getDataParNom(`L${turbidite.lampePrincipale}-1`)));
+            ligne.push(Math.log(turbidite.getDataParNom(`L${turbidite.lampePrincipale}-${i + 1}`) - eau.getDataParNom(`L${turbidite.lampePrincipale}-1`)) ** 2);
+            x.push(ligne);
+        }
+    }
+
+    const coeffs = multipleLinearRegression(x, [y]);
+    console.log(coeffs);
+
+
 }
