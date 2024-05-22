@@ -200,6 +200,7 @@ function creerTraceurs() {
                 }
             }
 
+
             let maxDataLength = 0;
             let maxDataIndex = 0;
             let labels = traceur.echelles;
@@ -223,6 +224,8 @@ function creerTraceurs() {
                 traceur.lampePrincipale = 4;
             }
 
+        } else {
+            traceur.lampePrincipale = 'NaN';
         }
 
         traceurs.push(traceur);

@@ -68,6 +68,7 @@ function afficherParametresParasites() {
                 if (isNaN(traceur.lampePrincipale)) {
                     continue;
                 }
+                console.log(traceur);
 
                 popupHTML += `
                 <tr>
