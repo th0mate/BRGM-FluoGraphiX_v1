@@ -196,6 +196,10 @@ function calibrationEstLieGraphiques() {
     const lignes = contenuFichier.split('\n');
     const header = lignes[2].split(';').splice(2);
 
+    for (let i = 0; i < header.length; i++) {
+        header[i] = header[i].replace(/[\n\r]/g, '');
+    }
+
     let headerCalibrat = [];
 
     for (let i = 0; i < traceurs.length; i++) {
