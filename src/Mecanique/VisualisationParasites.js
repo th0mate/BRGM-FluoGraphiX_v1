@@ -1,3 +1,6 @@
+let niveauCorrection = 1;
+let listeLampesACorriger = [];
+
 /**
  * Affiche les paramètres supplémentaires pour la visualisation des parasites sous la forme d'un popup
  */
@@ -91,18 +94,51 @@ function afficherParametresParasites() {
             `;
         }
 
+        let checkBoxBoutons = '';
+
+        for (let i = 0; i < traceurs.length; i++) {
+            const traceur = traceurs[i];
+            if (traceur.lampePrincipale !== '' && !isNaN(traceur.lampePrincipale) && traceur.unite.toLowerCase() !== 'ntu') {
+
+                const canvas = document.getElementById('graphique');
+                const existingChart = Chart.getChart(canvas);
+
+                if (existingChart.data.datasets.find(dataset => dataset.label === `L${traceur.lampePrincipale}Corr`)) {
+                    existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur.lampePrincipale}Corr`);
+                }
+
+                checkBoxBoutons += `<label><input type="checkbox" onchange="modifierListeLampe(this.value)" value="${traceur.lampePrincipale}">L${traceur.lampePrincipale}</label>`;
+            }
+        }
+
         popupHTML += `
         </div>
         
         <div class="ongletParam" id="2">
-            <h2 onclick="corrigerTurbidite(3)">Tester</h2>
+            <br>
+            <h2>Correction de la turbidité</h2>
+            <br>
+            <h4>Choisissez le niveau de correction de la turbidité à appliquer</h4>
+        
+            <div class='range'>
+                <input id="inputRange" type="range" min='0' max='2' step='0.1' />
+                <span>1</span>
+            </div>
+            <br>
+                        
+            <h4>Sélectionner les lampes à corriger :</h4>
+            
+            <div class="checkBoxLampes">
+                ${checkBoxBoutons}
+            </div>
+            
+            <div class="boutonFonce bouton boutonOrange" onclick="lancerCorrectionTurbidite()">TERMINER</div></div>
         </div>
         
         <div class="ongletParam" id="3">
             3
         </div>
         
-        <div class="conteneurBoutons"><div class="boutonFonce bouton">TERMINER</div></div>
     </div>`;
         overlay.innerHTML += popupHTML;
         afficherOngletParametre(1);
@@ -204,6 +240,10 @@ function afficherOngletParametre(idOnglet) {
         onglets[i].style.display = 'none';
     }
     onglets[idOnglet - 1].style.display = 'flex';
+
+    if (idOnglet === 2) {
+        preparerInputRange();
+    }
 }
 
 
@@ -240,7 +280,7 @@ function remplacerDonneesFichier(ancien, nouveau) {
 /**
  * Affiche une courbe de correction de la turbidité pour une lampe donnée sur le graphique de la partie visualisation
  */
-function corrigerTurbidite(idLampe, TS = 1) {
+function corrigerTurbidite(idLampe, TS = niveauCorrection) {
     const eau = traceurs.find(traceur => traceur.unite === '');
     const turbidite = traceurs.find(traceur => traceur.unite.toLowerCase() === 'ntu');
 
@@ -286,9 +326,8 @@ function corrigerTurbidite(idLampe, TS = 1) {
 
     let colonneFinale = [];
 
-    if (resultat[0].length === 3) {
 
-        //[date, valeurLampe, valeurTurbidité]
+    if (resultat[0].length === 3) {
 
         for (let i = 0; i < contenu.length; i++) {
             if (contenu[i][2] <= eau.getDataParNom('L4-1')) {
@@ -303,23 +342,85 @@ function corrigerTurbidite(idLampe, TS = 1) {
             }
         }
 
+    } else if (resultat[0].length === 2) {
 
         for (let i = 0; i < contenu.length; i++) {
-            const timeDate = DateTime.fromFormat(contenu[i][0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
-            const timestamp = timeDate.toMillis();
+            if (contenu[i][2] <= eau.getDataParNom('L4-1')) {
+                colonneFinale.push(contenu[i][1])
+            } else {
+                const log = Math.log(parseFloat(contenu[i][2]) - parseFloat(eau.getDataParNom('L4-1')));
+                const exp = Math.exp(parseFloat(resultat[0][0]) + parseFloat(resultat[0][1]) * log);
+                const valeur = parseFloat(contenu[i][1]) - TS * exp;
 
-            data.data.push({x: timestamp, y: colonneFinale[i]});
+                colonneFinale.push(valeur);
+            }
         }
+    } else {
 
-        const canvas = document.getElementById('graphique');
-        const existingChart = Chart.getChart(canvas);
-
-        if (existingChart) {
-            existingChart.data.datasets.push(data);
-            existingChart.update();
-            fermerPopupParametres();
+        for (let i = 0; i < contenu.length; i++) {
+            if (contenu[i][2] <= eau.getDataParNom('L4-1')) {
+                colonneFinale.push(contenu[i][1])
+            } else {
+                const valeur = parseFloat(contenu[i][1]) - TS * parseFloat(resultat[0][0]);
+                colonneFinale.push(valeur);
+            }
         }
     }
 
 
+    for (let i = 0; i < contenu.length; i++) {
+        const timeDate = DateTime.fromFormat(contenu[i][0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
+        const timestamp = timeDate.toMillis();
+
+        data.data.push({x: timestamp, y: colonneFinale[i]});
+    }
+
+    const canvas = document.getElementById('graphique');
+    const existingChart = Chart.getChart(canvas);
+
+    if (existingChart) {
+        existingChart.data.datasets.push(data);
+        existingChart.update();
+    }
+
+}
+
+
+/**
+ * Prépare le visuel pour le choix du niveau de correction de la turbidité
+ */
+function preparerInputRange() {
+    document.querySelector('#inputRange').addEventListener('input', function () {
+        document.querySelector('.range span').innerText = this.value;
+        niveauCorrection = this.value;
+    });
+}
+
+
+/**
+ * Ajoute ou supprime un id de lampe dans la liste des lampes à corriger
+ */
+function modifierListeLampe(idLampe) {
+    if (listeLampesACorriger.includes(idLampe)) {
+        listeLampesACorriger = listeLampesACorriger.filter(lampe => lampe !== idLampe);
+    } else {
+        listeLampesACorriger.push(idLampe);
+    }
+}
+
+
+/**
+ * Lance la correction de la turbidité pour les lampes sélectionnées
+ */
+function lancerCorrectionTurbidite() {
+    for (let i = 0; i < listeLampesACorriger.length; i++) {
+        corrigerTurbidite(listeLampesACorriger[i]);
+        const canvas = document.getElementById('graphique');
+        const existingChart = Chart.getChart(canvas);
+        existingChart.data.datasets.forEach(dataset => {
+            dataset.hidden = dataset.label !== `L${listeLampesACorriger[i]}` && dataset.label !== `L${listeLampesACorriger[i]}Corr`;
+        });
+    }
+    listeLampesACorriger = [];
+    fermerPopupParametres();
 }
