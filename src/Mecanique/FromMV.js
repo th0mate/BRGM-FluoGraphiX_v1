@@ -9,7 +9,6 @@ function getStringDepuisFichierMV(fichier, callback) {
     reader.onload = function (e) {
         let lignes = e.target.result.split('\n');
         const colonnes = lignes[2].split(/\s+/).splice(4);
-        console.log(lignes[2]);
 
         let texteFinal = "";
         if (nbLignes === 0) {

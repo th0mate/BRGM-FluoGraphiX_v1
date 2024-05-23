@@ -10,8 +10,6 @@ function afficherParametresParasites() {
             estFichierDat = false;
         }
 
-        console.log(estFichierDat);
-
         if (traceurs.length === 0) {
             init(estFichierDat, false);
         }
@@ -68,7 +66,6 @@ function afficherParametresParasites() {
                 if (isNaN(traceur.lampePrincipale)) {
                     continue;
                 }
-                console.log(traceur);
 
                 popupHTML += `
                 <tr>
@@ -241,28 +238,14 @@ function remplacerDonneesFichier(ancien, nouveau) {
 
 
 /**
- * Affiche une courbe de correction de la turbidité pour une lampe donnée
+ * Affiche une courbe de correction de la turbidité pour une lampe donnée sur le graphique de la partie visualisation
  */
-function corrigerTurbidite(idLampe) {
+function corrigerTurbidite(idLampe, TS = 1) {
     const traceur = traceurs.find(traceur => traceur.lampePrincipale === idLampe);
     const eau = traceurs.find(traceur => traceur.unite === '');
     const turbidite = traceurs.find(traceur => traceur.unite.toLowerCase() === 'ntu');
 
-    let y = [];
-    let x = [];
-
-    for (let i = 0; i < turbidite.echelles.length; i ++) {
-        if (!isNaN(turbidite.getDataParNom(`L${idLampe}-${i+1}`))) {
-            y.push(Math.log(turbidite.getDataParNom(`L${idLampe}-${i + 1}`) - eau.getDataParNom(`L${idLampe}-1`)));
-            const ligne = [];
-            ligne.push(1);
-            ligne.push(Math.log(turbidite.getDataParNom(`L${turbidite.lampePrincipale}-${i + 1}`) - eau.getDataParNom(`L${turbidite.lampePrincipale}-1`)));
-            ligne.push(Math.log(turbidite.getDataParNom(`L${turbidite.lampePrincipale}-${i + 1}`) - eau.getDataParNom(`L${turbidite.lampePrincipale}-1`)) ** 2);
-            x.push(ligne);
-        }
-    }
-
-    const resultat = multipleLinearRegression(x, [y]);
+    const resultat = effectuerCalculsCourbes(idLampe, turbidite);
 
     const data = {
         label: `L${idLampe}Corr`,
@@ -302,22 +285,45 @@ function corrigerTurbidite(idLampe) {
         }
     }
 
-    if (resultat.length === 3) {
-        const colonne = [];
-        const TS = 1; //TODO
+    let colonneFinale = [];
+
+    if (resultat[0].length === 3) {
 
         //[date, valeurLampe, valeurTurbidité]
 
         for (let i = 0; i < contenu.length; i++) {
             if (contenu[i][2] <= eau.getDataParNom('L4-1')) {
-                colonne.push(contenu[i][1])
+                colonneFinale.push(contenu[i][1])
             } else {
-                //TODO Marche pas
-                colonne.push(contenu[i][1] - TS * Math.exp(resultat[0] + resultat[1] * Math.log(contenu[i][2] - eau.getDataParNom('L4-1')) ** 1 + resultat[2] * Math.log(contenu[i][2] - eau.getDataParNom('L4-1')) ** 2));
+                const log = Math.log(parseFloat(contenu[i][2]) - parseFloat(eau.getDataParNom('L4-1')));
+                const log2 = Math.log(parseFloat(contenu[i][2]) - parseFloat(eau.getDataParNom('L4-1'))) ** 2;
+                const exp = Math.exp(parseFloat(resultat[0][0]) + parseFloat(resultat[0][1]) * log + parseFloat(resultat[0][2]) * log2);
+                const valeur = parseFloat(contenu[i][1]) - TS * exp;
+
+                colonneFinale.push(valeur);
+                if (i === 0) {
+                    console.log(`${contenu[i][1]} - ${TS} * exp(${resultat[0][0]} + ${resultat[0][1]} * log(${contenu[i][2]} - ${eau.getDataParNom('L4-1')}) ** 1 + ${resultat[0][2]} * log(${contenu[i][2]} - ${eau.getDataParNom('L4-1')}) ** 2)`)
+                }
             }
         }
 
-        console.log(colonne);
+        console.log(colonneFinale);
+
+        for (let i = 0; i < contenu.length; i++) {
+            const timeDate = DateTime.fromFormat(contenu[i][0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
+            const timestamp = timeDate.toMillis();
+
+            data.data.push({x: timestamp, y: colonneFinale[i]});
+        }
+
+        const canvas = document.getElementById('graphique');
+        const existingChart = Chart.getChart(canvas);
+
+        if (existingChart) {
+            existingChart.data.datasets.push(data);
+            existingChart.update();
+            fermerPopupParametres();
+        }
     }
 
 
