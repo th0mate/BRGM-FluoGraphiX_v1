@@ -455,6 +455,16 @@ input[type="checkbox"]:checked {
     box-shadow: inset 0 0 0 1px white;
 }
 
+.selectOrange {
+    color: white;
+    background-color: var(--orangeBRGM);
+    border: 5px solid var(--orangeBRGM);
+    box-shadow: none;
+    width: 150px;
+    height: 30px;
+    border-radius: 0;
+}
+
 .checkBoxLampes {
     display: flex;
     flex-wrap: wrap;
