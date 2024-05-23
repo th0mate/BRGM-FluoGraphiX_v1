@@ -389,7 +389,7 @@ function setBoutonCalculer(idLampe, Traceur) {
     boutonCalculer = boutonCalculerClone;
 
     boutonCalculer.addEventListener('click', () => {
-        calculerConcentration(idLampe, Traceur)
+        initialiserCalculsCourbes(idLampe, Traceur)
     });
 
     boutonCalculer.classList.remove('disabled');

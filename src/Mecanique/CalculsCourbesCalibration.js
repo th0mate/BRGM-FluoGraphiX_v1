@@ -5,11 +5,46 @@ let nbValeurLampe = 0;
 let donneesCorrompues = false;
 
 /**
- * Effectue toutes les inits et les calculs nécessaires pour le calcul des concentrations d'un traceur et d'une lampe donnés
+ * Envoie les données du traceur vers des fonctions de calculs en fonction de leurs caractéristiques et affiche les courbes correspondantes
  * @param idLampe l'id de la lampe
  * @param traceur le traceur
  */
-function calculerConcentration(idLampe, traceur) {
+function initialiserCalculsCourbes(idLampe, traceur) {
+    const resultat = effectuerCalculsCourbes(idLampe, traceur);
+
+    if (traceur.lampePrincipale !== idLampe) {
+
+        let countNaN = 0;
+        for (let i = 0; i < resultat[0].length; i++) {
+            if (isNaN(resultat[0][i])) {
+                countNaN++;
+            }
+        }
+
+        if (countNaN === 0) {
+            afficherCourbeParasites3Valeurs(resultat, idLampe, traceur);
+        } else {
+            afficherCourbeParasites1Valeur(resultat, idLampe, traceur);
+        }
+
+        if (donneesCorrompues) {
+            afficherPopup('<img src="Ressources/img/attention2.png" alt="">', 'Attention : données potentiellement corrompues détectées !', 'Les données affichées par la courbe indiquent une potentielle erreur dans les données pour cette lampe et ce traceur. Assurez-vous qu\'elles soient correctes.', '<div class="bouton boutonFonce" onclick="fermerPopup()">TERMINER</div>');
+        }
+
+    } else {
+
+        if (nbValeurLampe !== 1) {
+            afficherCourbeDepuis3Valeurs(resultat, idLampe, traceur);
+        } else {
+            afficherCourbeDepuis1Valeur(resultat, idLampe, traceur);
+        }
+
+    }
+}
+
+
+
+function effectuerCalculsCourbes(idLampe, traceur) {
     donneesCorrompues = false;
     nbValeurLampe = 0;
     for (let i = 0; i < traceur.echelles.length; i++) {
@@ -22,29 +57,10 @@ function calculerConcentration(idLampe, traceur) {
 
     if (traceur.lampePrincipale !== idLampe) {
 
-        let result = [];
-
         if (nbValeurLampe < 4) {
-            result = effectuerCalculsParasites(traceur, idLampe);
+            return effectuerCalculsParasites(traceur, idLampe);
         } else {
-            result = effectuerCalculsParasites4Valeurs(traceur, idLampe);
-        }
-
-        let countNaN = 0;
-        for (let i = 0; i < result[0].length; i++) {
-            if (isNaN(result[0][i])) {
-                countNaN++;
-            }
-        }
-
-        if (countNaN === 0) {
-            afficherCourbeParasites3Valeurs(result, idLampe, traceur);
-        } else {
-            afficherCourbeParasites1Valeur(result, idLampe, traceur);
-        }
-
-        if (donneesCorrompues) {
-            afficherPopup('<img src="Ressources/img/attention2.png" alt="">', 'Attention : données potentiellement corrompues détectées !', 'Les données affichées par la courbe indiquent une potentielle erreur dans les données pour cette lampe et ce traceur. Assurez-vous qu\'elles soient correctes.', '<div class="bouton boutonFonce" onclick="fermerPopup()">TERMINER</div>');
+            return effectuerCalculsParasites4Valeurs(traceur, idLampe);
         }
 
     } else {
@@ -53,9 +69,7 @@ function calculerConcentration(idLampe, traceur) {
             let X = creerMatriceLn(traceur, dmV);
             X = inverse(X);
             const matriceEntetes = dmV[0];
-            resultat = multiply([matriceEntetes], X);
-            afficherCourbeDepuis3Valeurs(resultat, idLampe, traceur);
-
+            return multiply([matriceEntetes], X);
 
         } else if (nbValeurLampe === 1) {
 
@@ -73,7 +87,7 @@ function calculerConcentration(idLampe, traceur) {
             }
             dmv.push(temp - eau.getDataParNom('L' + idLampe + '-1'));
             resultat.push(arrondir8Chiffres((y[1] - y[0]) / (dmv[1] - dmv[0])));
-            afficherCourbeDepuis1Valeur(resultat, idLampe, traceur);
+            return resultat;
 
         } else {
             const regLin = creerTableauValeursNettesLn(traceur, idLampe);
@@ -111,8 +125,8 @@ function calculerConcentration(idLampe, traceur) {
 
             const erreurType = 1.96 * (Math.sqrt(derniereColonne / (colonne1.length - 3)));
             resultat.push(erreurType);
+            return resultat;
 
-            afficherCourbeDepuis3Valeurs(resultat, idLampe, traceur);
         }
     }
 }
