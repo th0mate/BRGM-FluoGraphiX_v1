@@ -50,13 +50,14 @@ function afficherParametresParasites() {
             <div class="bouton boutonFonce" onclick="afficherOngletParametre(3)">Convertir en concentrations</div>
         </div>
         
-        <div class="ongletParam onglet1" id="1">`;
+        <div class="ongletParam onglet1" id="1"><br><h2>Renommer les labels des courbes</h2>`;
 
 
         if (calibrationEstLieGraphiques()) {
             popupHTML += `<img src="Ressources/img/goodNew.png" alt="Succès"><h4>Les courbes ont été liées aux labels du fichier de calibration automatiquement. Aucune action n'est requise de votre part.</h4>`;
         } else {
             popupHTML += `
+           
             <h4>Veuillez lier les labels du fichier de calibration à des courbes :</h4>
             <table class="">
                 <tr>
@@ -99,14 +100,6 @@ function afficherParametresParasites() {
         for (let i = 0; i < traceurs.length; i++) {
             const traceur = traceurs[i];
             if (traceur.lampePrincipale !== '' && !isNaN(traceur.lampePrincipale) && traceur.unite.toLowerCase() !== 'ntu') {
-
-                const canvas = document.getElementById('graphique');
-                const existingChart = Chart.getChart(canvas);
-
-                if (existingChart.data.datasets.find(dataset => dataset.label === `L${traceur.lampePrincipale}Corr`)) {
-                    existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur.lampePrincipale}Corr`);
-                }
-
                 checkBoxBoutons += `<label><input type="checkbox" onchange="modifierListeLampe(this.value)" value="${traceur.lampePrincipale}">L${traceur.lampePrincipale}</label>`;
             }
         }
@@ -118,7 +111,7 @@ function afficherParametresParasites() {
             <br>
             <h2>Correction de la turbidité</h2>
             <br>
-            <h4>Choisissez le niveau de correction de la turbidité à appliquer</h4>
+            <h4>Choisissez le niveau de correction de la turbidité à appliquer :</h4>
         
             <div class='range'>
                 <input id="inputRange" type="range" min='0' max='2' step='0.1' />
@@ -417,10 +410,19 @@ function modifierListeLampe(idLampe) {
  * Lance la correction de la turbidité pour les lampes sélectionnées
  */
 function lancerCorrectionTurbidite() {
+    const canvas = document.getElementById('graphique');
+    const existingChart = Chart.getChart(canvas);
+
+    for (let i = 0; i < traceurs.length; i++) {
+        if (existingChart.data.datasets.find(dataset => dataset.label === `L${traceurs[i].lampePrincipale}Corr`)) {
+            existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceurs[i].lampePrincipale}Corr`);
+        }
+    }
+
+
     for (let i = 0; i < listeLampesACorriger.length; i++) {
         corrigerTurbidite(listeLampesACorriger[i]);
-        const canvas = document.getElementById('graphique');
-        const existingChart = Chart.getChart(canvas);
+
         existingChart.data.datasets.forEach(dataset => {
             dataset.hidden = dataset.label !== `L${listeLampesACorriger[i]}` && dataset.label !== `L${listeLampesACorriger[i]}Corr`;
         });
