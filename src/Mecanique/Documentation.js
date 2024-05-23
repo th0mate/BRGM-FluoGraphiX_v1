@@ -84,8 +84,6 @@ function scrollDocumentation() {
 
             if (matchingSommaireElement) {
                 matchingSommaireElement.classList.add('activeDoc');
-            } else {
-                console.error(`L'élément du sommaire avec data-content="${h3Content}" n'existe pas.`);
             }
         }
 

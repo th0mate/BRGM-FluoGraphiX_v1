@@ -441,7 +441,6 @@ function afficherCourbeParasites3Valeurs(resultat, idLampe, traceur) {
 
         if (colonne1[i] < tempX || colonne2[i] < tempY) {
             donneesCorrompues = true;
-            console.error('prec (x,y): ' + tempX + ' ou ' + tempY + ' pour: ' + colonne1[i] + ' ou ' + colonne2[i]);
         }
 
         data.data.push({x: colonne1[i], y: colonne2[i]});
@@ -735,8 +734,7 @@ function inverse(matrix) {
         }
 
         if (augmentedMatrix[maxElementIndex][i] === 0) {
-            console.error(matrix);
-            throw new Error('La matrice est singulière et ne peut pas être inversée');
+            afficherMessageFlash('La matrice est singulière et ne peut pas être inversée', 'danger');
         }
 
         [augmentedMatrix[i], augmentedMatrix[maxElementIndex]] = [augmentedMatrix[maxElementIndex], augmentedMatrix[i]];
