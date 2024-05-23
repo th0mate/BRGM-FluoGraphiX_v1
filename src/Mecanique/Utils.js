@@ -97,12 +97,13 @@ function getDateHeure(date) {
 
 
 /**
- * Remplace dans contenuCalibrat tous les points virgules, s'il y en a plusieurs, par du vide
+ * Remplace dans contenuFichier tous les points virgules, s'il y en a plusieurs, par du vide
  */
-function supprimerPointsVirgulesSiPlusieurs(contenuCalibrat) {
-    let contenuCalibrat1 = contenuCalibrat.split('\n');
+function supprimerPointsVirgulesSiPlusieurs(contenuFichier) {
+    let contenuCalibrat1 = contenuFichier.split('\n');
     for (let i = 0; i < contenuCalibrat1.length; i++) {
         contenuCalibrat1[i] = contenuCalibrat1[i].replace(/;{2,}/g, '');
+        contenuCalibrat1[i] = contenuCalibrat1[i].replace(/,/g, '.');
     }
 
     return contenuCalibrat1.join('\n');

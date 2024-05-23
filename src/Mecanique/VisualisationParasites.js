@@ -95,7 +95,7 @@ function afficherParametresParasites() {
         </div>
         
         <div class="ongletParam" id="2">
-            <h2 onclick="corrigerTurbidite(1)">Tester</h2>
+            <h2 onclick="corrigerTurbidite(3)">Tester</h2>
         </div>
         
         <div class="ongletParam" id="3">
@@ -241,7 +241,6 @@ function remplacerDonneesFichier(ancien, nouveau) {
  * Affiche une courbe de correction de la turbidité pour une lampe donnée sur le graphique de la partie visualisation
  */
 function corrigerTurbidite(idLampe, TS = 1) {
-    const traceur = traceurs.find(traceur => traceur.lampePrincipale === idLampe);
     const eau = traceurs.find(traceur => traceur.unite === '');
     const turbidite = traceurs.find(traceur => traceur.unite.toLowerCase() === 'ntu');
 
@@ -301,13 +300,9 @@ function corrigerTurbidite(idLampe, TS = 1) {
                 const valeur = parseFloat(contenu[i][1]) - TS * exp;
 
                 colonneFinale.push(valeur);
-                if (i === 0) {
-                    console.log(`${contenu[i][1]} - ${TS} * exp(${resultat[0][0]} + ${resultat[0][1]} * log(${contenu[i][2]} - ${eau.getDataParNom('L4-1')}) ** 1 + ${resultat[0][2]} * log(${contenu[i][2]} - ${eau.getDataParNom('L4-1')}) ** 2)`)
-                }
             }
         }
 
-        console.log(colonneFinale);
 
         for (let i = 0; i < contenu.length; i++) {
             const timeDate = DateTime.fromFormat(contenu[i][0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});

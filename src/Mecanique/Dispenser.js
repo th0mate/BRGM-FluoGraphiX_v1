@@ -96,11 +96,11 @@ async function traiterFichier() {
                 await new Promise((resolve) => {
                     reader.onload = function () {
                         if (reader.result.split('\n')[0].includes('FluoriGraphix')) {
-                            reader.result = reader.result.split('\n').slice(2).join('\n');
+                            reader.result =  reader.result.split('\n').slice(2).join('\n');
                         }
 
                         if (!reader.result.split('\n')[0].includes('Appareil')) {
-                            contenuFichier += reader.result;
+                            contenuFichier += supprimerPointsVirgulesSiPlusieurs(reader.result);
                         } else {
                             fichierCalibrationFormatDat = false;
                             contenuCalibrat = supprimerPointsVirgulesSiPlusieurs(reader.result);
