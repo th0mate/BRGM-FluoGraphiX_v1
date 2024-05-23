@@ -43,7 +43,12 @@ function initialiserCalculsCourbes(idLampe, traceur) {
 }
 
 
-
+/**
+ * Effectue les calculs nécessaires pour obtenir les coefficients des courbes à afficher ensuite sur la partie visualisation ou la partie calibration du site.
+ * @param idLampe l'id de la lampe
+ * @param traceur le traceur
+ * @return {*|*[]|*[][]|*[]} les résultats du calcul, contenant au maximum le degré1, le degré2, la constante et l'erreur type.
+ */
 function effectuerCalculsCourbes(idLampe, traceur) {
     donneesCorrompues = false;
     nbValeurLampe = 0;
@@ -258,7 +263,7 @@ function afficherCourbeDepuis3Valeurs(resultat, idLampe, traceur) {
     let colonne0 = [];
     let colonne1 = [];
     let colonne2 = [];
-    const max = valeurSup10(traceur, idLampe);
+    const max = getValeurSup20Pourcents(traceur, idLampe);
 
     for (let i = eauValeur + 0.01; i <= max; i += 2) {
         colonne0.push(i);
@@ -354,7 +359,7 @@ function afficherCourbeDepuis1Valeur(resultat, idLampe, traceur) {
 
     let colonne0 = [];
     let colonne1 = [];
-    const max = valeurSup10(traceur, idLampe);
+    const max = getValeurSup20Pourcents(traceur, idLampe);
 
     for (let i = eauValeur + 0.01; i <= max; i += 2) {
         colonne0.push(i);
@@ -412,7 +417,7 @@ function afficherCourbeParasites3Valeurs(resultat, idLampe, traceur) {
     let colonne0 = [];
     let colonne1 = [];
     let colonne2 = [];
-    const max = valeurSup10(traceur, idLampe);
+    const max = getValeurSup20Pourcents(traceur, idLampe);
 
     colonne0.push(valeurIni);
     colonne1.push(Math.exp(valeurIni));
@@ -771,12 +776,12 @@ function multipleLinearRegression(X, y) {
 
 
 /**
- * Retourne une valeur supérieure à la valeur maximale du traceur LidLampe
+ * Retourne une valeur supérieure (+20%) à la valeur maximale du traceur LidLampe
  * @param traceur le traceur
  * @param idLampe l'id de la lampe
  * @returns {number} la valeur correspondante
  */
-function valeurSup10(traceur, idLampe) {
+function getValeurSup20Pourcents(traceur, idLampe) {
     const valeurs = [];
     for (let i = 1; i <= traceur.echelles.length; i++) {
         if (!isNaN(traceur.getDataParNom('L' + idLampe + '-' + i))) {
@@ -784,7 +789,6 @@ function valeurSup10(traceur, idLampe) {
         }
     }
     const max = Math.max(...valeurs);
-    //on retourne max + 20%
     return max * 1.2;
 
 }
