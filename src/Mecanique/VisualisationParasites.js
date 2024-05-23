@@ -92,7 +92,7 @@ function afficherParametresParasites() {
             }
 
             popupHTML += `</table>
-            `;
+            </div>`;
         }
 
         let checkBoxBoutons = '';
@@ -104,9 +104,7 @@ function afficherParametresParasites() {
             }
         }
 
-        popupHTML += `
-        </div>
-        
+        popupHTML += `</div>
         <div class="ongletParam" id="2">
             <br>
             <h2>Correction de la turbidité</h2>
@@ -126,11 +124,25 @@ function afficherParametresParasites() {
             </div>
             
             <div class="boutonFonce bouton boutonOrange" onclick="lancerCorrectionTurbidite()">TERMINER</div></div>
-        </div>
+        
         
         <div class="ongletParam" id="3">
-            3
-        </div>
+            <br>
+            <h2>Calcul de concentrations de traceurs</h2>
+            <br>
+            <h4>Sélectionner le traceur à afficher :</h4>
+            <select>`;
+
+        for (let i = 0; i < traceurs.length; i++) {
+            const traceur = traceurs[i];
+            if (traceur.lampePrincipale !== '' && !isNaN(traceur.lampePrincipale)) {
+                popupHTML += `
+                <option value="${traceur.nom}">${traceur.nom}</option>
+                `;
+            }
+        }
+
+        popupHTML += `</select><div class="boutonFonce bouton boutonOrange" onclick="lancerCorrectionTurbidite()">TERMINER</div></div>
         
     </div>`;
         overlay.innerHTML += popupHTML;
