@@ -109,3 +109,13 @@ function nettoyerFichierCSV(contenuFichier) {
 
     return contenuCalibrat1.join('\n');
 }
+
+
+/**
+ * Arrondi le chiffre passé en paramètre à 2 décimales
+ * @param chiffre le chiffre à arrondir
+ * @returns {number} le chiffre arrondi à 2 décimales
+ */
+function arrondirA2Decimales(chiffre) {
+    return Math.round(chiffre * 100) / 100;
+}

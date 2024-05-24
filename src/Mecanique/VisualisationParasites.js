@@ -380,12 +380,22 @@ function corrigerTurbidite(idLampe, TS = niveauCorrection) {
     }
 
 
+    const header = lignes[2].replace(/[\n\r]/g, '').split(';');
+    header.push(`L${idLampe}Corr`);
+    lignes[2] = header.join(';');
+
     for (let i = 0; i < contenu.length; i++) {
         const timeDate = DateTime.fromFormat(contenu[i][0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
         const timestamp = timeDate.toMillis();
 
+        lignes[i + 3] = lignes[i + 3].replace(/[\n\r]/g, '');
+        lignes[i + 3] += `;${arrondirA2Decimales(colonneFinale[i])}`;
+
+
         data.data.push({x: timestamp, y: colonneFinale[i]});
     }
+
+    contenuFichier = lignes.join('\n');
 
     const canvas = document.getElementById('graphique');
     const existingChart = Chart.getChart(canvas);

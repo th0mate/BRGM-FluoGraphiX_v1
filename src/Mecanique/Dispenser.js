@@ -198,7 +198,7 @@ function resetZoom() {
 
 
 /**
- * Télécharge un fichier .txt contenant le contenu de la variable globale contenuFichier
+ * Télécharge un fichier .csv contenant le contenu de la variable globale contenuFichier
  */
 function telechargerFichier() {
     if (contenuFichier !== "") {
@@ -216,19 +216,26 @@ function telechargerFichier() {
 
         const canvas = document.getElementById('graphique');
         const existingChart = Chart.getChart(canvas);
+
         if (existingChart) {
 
-
             for (let i = 0; i < existingChart.data.datasets.length; i++) {
-                if (existingChart.getDatasetMeta(i).hidden) {
-                    const label = existingChart.data.datasets[i].label;
-                    const index = contenuFichier.split('\n')[2].split(';').indexOf(label);
+                const isHidden = existingChart.data.datasets[i].hidden === true || existingChart.isDatasetVisible(i) === false;
+
+                //TODO : L4 apparait tout le temps dans le CSV, même si caché
+                if (isHidden) {
+                    const nomCourbe = existingChart.data.datasets[i].label;
                     const lignes = contenuFichier.split('\n');
-                    contenuFichier = lignes.map(ligne => {
-                        const colonnes = ligne.split(';');
-                        colonnes.splice(index, 1);
-                        return colonnes.join(';');
-                    }).join('\n');
+                    const header = lignes[2].replace(/[\n\r]/g, '').split(';');
+                    console.log(existingChart.data.datasets[i].label , header[5]);
+                    const index = header.indexOf(nomCourbe);
+                    if (index !== -1) {
+                        contenuFichier = lignes.map(ligne => {
+                            const colonnes = ligne.split(';');
+                            colonnes.splice(index, 1);
+                            return colonnes.join(';');
+                        }).join('\n');
+                    }
                 }
             }
 
