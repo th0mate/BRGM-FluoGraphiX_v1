@@ -535,6 +535,10 @@ function ajouterCourbeConcentrationTraceur(traceur) {
             }
         }
 
+        const header = lignes[2].replace(/[\n\r]/g, '').split(';');
+        header.push(`${traceur.nom}`);
+        lignes[2] = header.join(';');
+
         for (let i = 0; i < contenu.length; i++) {
             const timestamp = DateTime.fromFormat(contenu[i][0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toMillis();
             const mVValue = contenu[i][1];
@@ -549,16 +553,25 @@ function ajouterCourbeConcentrationTraceur(traceur) {
                         const log2Value = logValue ** 2;
                         const concentration = Math.exp(parseFloat(resultat[0][0]) + parseFloat(resultat[0][1]) * logValue + parseFloat(resultat[0][2]) * log2Value);
                         data.data.push({x: timestamp, y: concentration});
+                        lignes[i + 3] = lignes[i + 3].replace(/[\n\r]/g, '');
+                        lignes[i + 3] += `;${arrondirA2Decimales(concentration)}`;
+
                     } else if (resultat[0].length === 2) {
                         const concentration = Math.exp(parseFloat(resultat[0][0]) + parseFloat(resultat[0][1]) * logValue);
                         data.data.push({x: timestamp, y: concentration});
+                        lignes[i + 3] = lignes[i + 3].replace(/[\n\r]/g, '');
+                        lignes[i + 3] += `;${arrondirA2Decimales(concentration)}`;
                     } else if (resultat[0].length === 1) {
                         const concentration = parseFloat(resultat[0][0]) * mVValue;
                         data.data.push({x: timestamp, y: concentration});
+                        lignes[i + 3] = lignes[i + 3].replace(/[\n\r]/g, '');
+                        lignes[i + 3] += `;${arrondirA2Decimales(concentration)}`;
                     }
                 }
             }
         }
+
+        contenuFichier = lignes.join('\n');
 
         for (let i = 0; i < existingChart.data.datasets.length; i++) {
             if (existingChart.data.datasets[i].label === `L${traceur.lampePrincipale}Corr`) {
