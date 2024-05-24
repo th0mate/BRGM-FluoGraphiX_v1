@@ -97,9 +97,10 @@ function getDateHeure(date) {
 
 
 /**
- * Remplace dans contenuFichier tous les points virgules, s'il y en a plusieurs, par du vide
+ * Est appelée lorsqu'un fichier CSV est chargé.
+ * Permet de 'nettoyer' le fichier pour supprimer les points virgules superflus et remplacer les virgules par des points pour rendre les données lisibles en JS
  */
-function supprimerPointsVirgulesSiPlusieurs(contenuFichier) {
+function nettoyerFichierCSV(contenuFichier) {
     let contenuCalibrat1 = contenuFichier.split('\n');
     for (let i = 0; i < contenuCalibrat1.length; i++) {
         contenuCalibrat1[i] = contenuCalibrat1[i].replace(/;{2,}/g, '');

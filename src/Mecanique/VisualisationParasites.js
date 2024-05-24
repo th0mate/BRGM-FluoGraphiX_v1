@@ -183,7 +183,7 @@ function initParasites() {
     }
 
     reader.onload = function () {
-        contenuCalibrat = supprimerPointsVirgulesSiPlusieurs(reader.result);
+        contenuCalibrat = nettoyerFichierCSV(reader.result);
         init(estFichierDat, false);
         afficherMessageFlash("Fichier Calibrat.dat importé avec succès.", 'success');
         document.querySelector('.calibratAbsent').remove();

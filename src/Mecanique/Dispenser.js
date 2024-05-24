@@ -100,10 +100,10 @@ async function traiterFichier() {
                         }
 
                         if (!reader.result.split('\n')[0].includes('Appareil')) {
-                            contenuFichier += supprimerPointsVirgulesSiPlusieurs(reader.result);
+                            contenuFichier += nettoyerFichierCSV(reader.result);
                         } else {
                             fichierCalibrationFormatDat = false;
-                            contenuCalibrat = supprimerPointsVirgulesSiPlusieurs(reader.result);
+                            contenuCalibrat = nettoyerFichierCSV(reader.result);
                         }
                         resolve();
                     };
@@ -168,7 +168,7 @@ function traiterCalibrat() {
             const reader = new FileReader();
             reader.readAsText(fichier);
             reader.onload = function () {
-                contenuCalibrat = supprimerPointsVirgulesSiPlusieurs(reader.result);
+                contenuCalibrat = nettoyerFichierCSV(reader.result);
                 init(false);
                 afficherMessageFlash("Fichier Calibrat.dat traité avec succès.", 'success');
             };
