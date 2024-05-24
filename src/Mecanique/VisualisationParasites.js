@@ -390,6 +390,12 @@ function corrigerTurbidite(idLampe, TS = niveauCorrection) {
     const canvas = document.getElementById('graphique');
     const existingChart = Chart.getChart(canvas);
 
+    for (let i = 0; i < existingChart.data.datasets.length; i++) {
+        if (existingChart.data.datasets[i].label === `L${idLampe}Corr`) {
+            existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${idLampe}Corr`);
+        }
+    }
+
     if (existingChart) {
         existingChart.data.datasets.push(data);
         existingChart.update();
@@ -467,7 +473,7 @@ function ajouterCourbeConcentrationTraceur(traceur) {
         const resultat = effectuerCalculsCourbes(traceur.lampePrincipale, traceur);
 
         const data = {
-            label: `${traceur.nom}`,
+            label: `L${traceur.lampePrincipale}Corr`,
             data: [],
             backgroundColor: 'rgba(0, 0, 0, 0)',
             borderColor: getRandomColor(),
@@ -541,6 +547,12 @@ function ajouterCourbeConcentrationTraceur(traceur) {
                         data.data.push({x: timestamp, y: concentration});
                     }
                 }
+            }
+        }
+
+        for (let i = 0; i < existingChart.data.datasets.length; i++) {
+            if (existingChart.data.datasets[i].label === `L${traceur.lampePrincipale}Corr`) {
+                existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur.lampePrincipale}Corr`);
             }
         }
 
