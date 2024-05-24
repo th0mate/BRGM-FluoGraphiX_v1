@@ -202,10 +202,23 @@ function resetZoom() {
  */
 function telechargerFichier() {
     if (contenuFichier !== "") {
+
+        const lignes = contenuFichier.split('\n');
+
+        if (lignes[0].includes('FluoriGraphix')) {
+              contenuFichier = lignes.slice(2).join('\n');
+        }
+
+        const temp = contenuFichier;
+        contenuFichier = `                   FluoriGraphix - Export du ${getDateAujourdhui()} - Signaux en mV\n`;
+        contenuFichier += "                           -------------------------------------------\n";
+        contenuFichier += temp;
+
+
         const element = document.createElement('a');
         const file = new Blob([contenuFichier], {type: 'csv'});
         element.href = URL.createObjectURL(file);
-        element.download = 'export-' + new Date().toLocaleString().replace(/\/|:|,|\s/g, '-') + '.csv';
+        element.download = 'FluoriGraphix-ExportDonnees-' + new Date().toLocaleString().replace(/\/|:|,|\s/g, '-') + '.csv';
         document.body.appendChild(element);
         element.click();
         afficherMessageFlash("Fichier téléchargé avec succès.", 'success');

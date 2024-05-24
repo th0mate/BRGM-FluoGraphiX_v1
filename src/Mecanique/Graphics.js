@@ -9,6 +9,11 @@ function afficherGraphique(mvContent) {
     const couleurs = ['rgba(75, 192, 192, 1)', 'rgba(54, 162, 235, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 206, 86, 1)', 'rgba(255, 159, 64, 1)', 'rgba(255, 99, 132, 1)', 'rgb(249,158,255)', 'rgba(255, 99, 132, 1)'];
     const lignes = mvContent.split('\n');
 
+    if (!lignes[0].includes('FluoriGraphix')) {
+        lignes.unshift('\n');
+        lignes.unshift('\n');
+    }
+
     const header = lignes[2].split(';').splice(2);
 
     const dataColumns = header.map(() => []);
