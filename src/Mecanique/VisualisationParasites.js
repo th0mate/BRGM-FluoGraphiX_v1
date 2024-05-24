@@ -462,12 +462,10 @@ function metAJourTraceurAModifier(nomTraceur) {
  * @param traceur Traceur dont la concentration doit être affichée
  */
 function ajouterCourbeConcentrationTraceur(traceur) {
-    //TODO ne marche pas
     if (traceur) {
-        const eau = traceurs.find(traceur => traceur.unite === '');
+        const eau = traceurs.find(t => t.unite === '');
         const resultat = effectuerCalculsCourbes(traceur.lampePrincipale, traceur);
 
-        //on a dans résultat les paramètres de la courbe donnant la concentration du traceur en fonction de ses datas. On utilise ces résultats pour afficher la courbe de concentration du traceur
         const data = {
             label: `${traceur.nom}`,
             data: [],
@@ -477,96 +475,59 @@ function ajouterCourbeConcentrationTraceur(traceur) {
             pointRadius: 0
         };
 
-        //pas besoin d'utiliser niveauCorrection ici, car on ne corrige pas la turbidité, on ne fait que convertir les données en concentration
-
-        let contenu = [];
+        const contenu = [];
         const lignes = contenuFichier.split('\n');
         let colonnes = lignes[2].split(';');
-        let indexLampe = 0;
-        let indexTurb = 0;
+        let indexLampe = -1;
 
         colonnes = colonnes.map(colonne => colonne.replace(/[\n\r]/g, ''));
 
         for (let j = 0; j < colonnes.length; j++) {
             if (colonnes[j] === `L${traceur.lampePrincipale}`) {
                 indexLampe = j;
-            }
-            if (colonnes[j] === `L4`) {
-                indexTurb = j;
+                break;
             }
         }
 
         for (let i = 3; i < lignes.length - 1; i++) {
             const colonnes = lignes[i].split(';');
-
-            if (colonnes[indexLampe] !== '' && colonnes[indexTurb] !== '') {
+            if (colonnes[indexLampe] !== '') {
                 const ligne = [];
                 ligne.push(colonnes[0] + '-' + colonnes[1]);
-                ligne.push(colonnes[indexLampe].replace(/[\n\r]/g, ''));
-                ligne.push(colonnes[indexTurb].replace(/[\n\r]/g, ''));
+                ligne.push(parseFloat(colonnes[indexLampe].replace(/[\n\r]/g, '')));
                 contenu.push(ligne);
             }
         }
 
-        let colonneFinale = [];
-
-        if (resultat[0].length === 3) {
-
-            for (let i = 0; i < contenu.length; i++) {
-                if (contenu[i][2] <= eau.getDataParNom('L4-1')) {
-                    colonneFinale.push(contenu[i][1])
-                } else {
-                    const log = Math.log(parseFloat(contenu[i][2]) - parseFloat(eau.getDataParNom('L4-1')));
-                    const log2 = Math.log(parseFloat(contenu[i][2]) - parseFloat(eau.getDataParNom('L4-1'))) ** 2;
-                    const exp = Math.exp(parseFloat(resultat[0][0]) + parseFloat(resultat[0][1]) * log + parseFloat(resultat[0][2]) * log2);
-                    const valeur = parseFloat(contenu[i][1]) - exp;
-
-                    colonneFinale.push(valeur);
-                }
-            }
-
-        } else if (resultat[0].length === 2) {
-
-            for (let i = 0; i < contenu.length; i++) {
-                if (contenu[i][2] <= eau.getDataParNom('L4-1')) {
-                    colonneFinale.push(contenu[i][1])
-                } else {
-                    const log = Math.log(parseFloat(contenu[i][2]) - parseFloat(eau.getDataParNom('L4-1')));
-                    const exp = Math.exp(parseFloat(resultat[0][0]) + parseFloat(resultat[0][1]) * log);
-                    const valeur = parseFloat(contenu[i][1]) - exp;
-
-                    colonneFinale.push(valeur);
-                }
-            }
-        } else {
-
-            for (let i = 0; i < contenu.length; i++) {
-                if (contenu[i][2] <= eau.getDataParNom('L4-1')) {
-                    colonneFinale.push(contenu[i][1])
-                } else {
-                    const valeur = parseFloat(contenu[i][1]) - parseFloat(resultat[0][0]);
-                    colonneFinale.push(valeur);
-                }
-            }
-        }
-
         for (let i = 0; i < contenu.length; i++) {
-            const timeDate = DateTime.fromFormat(contenu[i][0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
-            const timestamp = timeDate.toMillis();
+            const timestamp = DateTime.fromFormat(contenu[i][0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toMillis();
+            const mVValue = contenu[i][1];
 
-            data.data.push({x: timestamp, y: colonneFinale[i]});
+            if (!isNaN(mVValue)) {
+                const eauValue = parseFloat(eau.getDataParNom('L' + traceur.lampePrincipale + '-1'));
+                console.log(eauValue);
+                if (!isNaN(eauValue) && mVValue > eauValue) {
+                    const logValue = Math.log(mVValue - eauValue);
+
+                    if (resultat[0].length === 3) {
+                        const log2Value = logValue ** 2;
+                        const concentration = Math.exp(parseFloat(resultat[0][0]) + parseFloat(resultat[0][1]) * logValue + parseFloat(resultat[0][2]) * log2Value);
+                        data.data.push({x: timestamp, y: concentration});
+                    } else if (resultat[0].length === 2) {
+                        const concentration = Math.exp(parseFloat(resultat[0][0]) + parseFloat(resultat[0][1]) * logValue);
+                        data.data.push({x: timestamp, y: concentration});
+                    } else if (resultat[0].length === 1) {
+                        const concentration = parseFloat(resultat[0][0]) * mVValue;
+                        data.data.push({x: timestamp, y: concentration});
+                    }
+                }
+            }
         }
 
         const canvas = document.getElementById('graphique');
         const existingChart = Chart.getChart(canvas);
-
-        if (existingChart) {
-            existingChart.data.datasets.push(data);
-            existingChart.update();
-        }
-
-        fermerPopupParametres();
-
-
+        existingChart.data.datasets.push(data);
+        existingChart.update();
     }
 }
+
