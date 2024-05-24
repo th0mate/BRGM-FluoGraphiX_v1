@@ -565,7 +565,9 @@ input[type="checkbox"]:checked {
 
     .settings > .details > .wrap > div > input::file-selector-button {
         width: 100%;
+        max-width: 100%;
         margin: 0;
+        flex-shrink: initial;
     }
 
 
