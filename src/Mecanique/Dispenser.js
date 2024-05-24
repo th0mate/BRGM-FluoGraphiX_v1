@@ -214,6 +214,26 @@ function telechargerFichier() {
         contenuFichier += "                           -------------------------------------------\n";
         contenuFichier += temp;
 
+        const canvas = document.getElementById('graphique');
+        const existingChart = Chart.getChart(canvas);
+        if (existingChart) {
+
+
+            for (let i = 0; i < existingChart.data.datasets.length; i++) {
+                if (existingChart.getDatasetMeta(i).hidden) {
+                    const label = existingChart.data.datasets[i].label;
+                    const index = contenuFichier.split('\n')[2].split(';').indexOf(label);
+                    const lignes = contenuFichier.split('\n');
+                    contenuFichier = lignes.map(ligne => {
+                        const colonnes = ligne.split(';');
+                        colonnes.splice(index, 1);
+                        return colonnes.join(';');
+                    }).join('\n');
+                }
+            }
+
+        }
+
 
         const element = document.createElement('a');
         const file = new Blob([contenuFichier], {type: 'csv'});
