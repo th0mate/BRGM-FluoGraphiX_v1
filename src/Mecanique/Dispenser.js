@@ -216,21 +216,24 @@ function telechargerFichier() {
 
         const canvas = document.getElementById('graphique');
         const existingChart = Chart.getChart(canvas);
+        let fichier = contenuFichier;
 
         if (existingChart) {
+
 
             for (let i = 0; i < existingChart.data.datasets.length; i++) {
                 const isHidden = existingChart.data.datasets[i].hidden === true || existingChart.isDatasetVisible(i) === false;
 
-                //TODO : L4 apparait tout le temps dans le CSV, même si caché
                 if (isHidden) {
-                    const nomCourbe = existingChart.data.datasets[i].label;
-                    const lignes = contenuFichier.split('\n');
+                    let nomCourbe = existingChart.data.datasets[i].label;
+                    const lignes = fichier.split('\n');
                     const header = lignes[2].replace(/[\n\r]/g, '').split(';');
-                    console.log(existingChart.data.datasets[i].label , header[5]);
-                    const index = header.indexOf(nomCourbe);
+                    //on nettoie nomCourbe
+                    nomCourbe = nomCourbe.replace(/[\n\r]/g, '');
+                    let index = header.indexOf(nomCourbe);
+                    console.log(index);
                     if (index !== -1) {
-                        contenuFichier = lignes.map(ligne => {
+                        fichier = lignes.map(ligne => {
                             const colonnes = ligne.split(';');
                             colonnes.splice(index, 1);
                             return colonnes.join(';');
@@ -243,7 +246,7 @@ function telechargerFichier() {
 
 
         const element = document.createElement('a');
-        const file = new Blob([contenuFichier], {type: 'csv'});
+        const file = new Blob([fichier], {type: 'csv'});
         element.href = URL.createObjectURL(file);
         element.download = 'FluoriGraphix-ExportDonnees-' + new Date().toLocaleString().replace(/\/|:|,|\s/g, '-') + '.csv';
         document.body.appendChild(element);
