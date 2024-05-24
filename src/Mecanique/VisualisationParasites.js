@@ -481,21 +481,41 @@ function ajouterCourbeConcentrationTraceur(traceur) {
         let indexLampe = -1;
 
         colonnes = colonnes.map(colonne => colonne.replace(/[\n\r]/g, ''));
+        const canvas = document.getElementById('graphique');
+        const existingChart = Chart.getChart(canvas);
 
-        for (let j = 0; j < colonnes.length; j++) {
-            if (colonnes[j] === `L${traceur.lampePrincipale}`) {
-                indexLampe = j;
-                break;
+        if (existingChart.data.datasets.find(dataset => dataset.label === `L${traceur.lampePrincipale}Corr`)) {
+
+            afficherMessageFlash('Courbe de correction de la turbidité associée détectée', 'info');
+            for (let i = 0; i < existingChart.data.datasets.length; i++) {
+                if (existingChart.data.datasets[i].label === `L${traceur.lampePrincipale}Corr`) {
+                    const dataset = existingChart.data.datasets[i];
+                    for (let j = 0; j < dataset.data.length; j++) {
+                        const timeDate = DateTime.fromMillis(dataset.data[j].x, {zone: 'UTC'});
+                        const timestamp = timeDate.toFormat('dd/MM/yy-HH:mm:ss');
+                        contenu.push([timestamp, dataset.data[j].y]);
+                    }
+                }
             }
-        }
 
-        for (let i = 3; i < lignes.length - 1; i++) {
-            const colonnes = lignes[i].split(';');
-            if (colonnes[indexLampe] !== '') {
-                const ligne = [];
-                ligne.push(colonnes[0] + '-' + colonnes[1]);
-                ligne.push(parseFloat(colonnes[indexLampe].replace(/[\n\r]/g, '')));
-                contenu.push(ligne);
+        } else {
+            for (let j = 0; j < colonnes.length; j++) {
+
+                if (colonnes[j] === `L${traceur.lampePrincipale}`) {
+                    indexLampe = j;
+                    break;
+                }
+            }
+
+
+            for (let i = 3; i < lignes.length - 1; i++) {
+                const colonnes = lignes[i].split(';');
+                if (colonnes[indexLampe] !== '') {
+                    const ligne = [];
+                    ligne.push(colonnes[0] + '-' + colonnes[1]);
+                    ligne.push(parseFloat(colonnes[indexLampe].replace(/[\n\r]/g, '')));
+                    contenu.push(ligne);
+                }
             }
         }
 
@@ -524,10 +544,9 @@ function ajouterCourbeConcentrationTraceur(traceur) {
             }
         }
 
-        const canvas = document.getElementById('graphique');
-        const existingChart = Chart.getChart(canvas);
         existingChart.data.datasets.push(data);
         existingChart.update();
+        fermerPopupParametres();
     }
 }
 
