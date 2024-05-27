@@ -401,7 +401,6 @@ function setBoutonCalculer(idLampe, Traceur) {
  * @param traceur le traceur à partir duquel les données doivent être affichées
  */
 function afficherTableauTraceur(traceur) {
-
     if (document.querySelector('.tableauTraceur')) {
         document.querySelector('.tableauTraceur').remove();
     }
@@ -420,9 +419,6 @@ function afficherTableauTraceur(traceur) {
     th1.textContent = eau.nom;
     tr.appendChild(th1);
 
-    /**
-     * Les colonnes
-     */
     let echellesTableau = [];
     for (let i = 0; i < traceur.echelles.length; i++) {
         echellesTableau.push(traceur.echelles[i]);
@@ -439,20 +435,15 @@ function afficherTableauTraceur(traceur) {
     thead.appendChild(tr);
     tableau.appendChild(thead);
 
-    let data = [];
-    for (let i = 1; i <= 4; i++) {
-        let rowData = [];
-        for (let j = 1; j <= nbColonnes; j++) {
-            rowData.push({value: traceur.getDataParNom('L' + i + '-' + j), index: j});
+    let dataMap = new Map();
+    for (let i = 0; i < traceur.echelles.length; i++) {
+        let echelle = traceur.echelles[i];
+        let data = [];
+        for (let j = 1; j <= 4; j++) {
+            data.push(traceur.getDataParNom('L' + j + '-' + (i + 1)));
         }
-        data.push(rowData);
+        dataMap.set(echelle, data);
     }
-
-    let transposedData = data[0].map((_, i) => data.map(row => row[i]));
-
-    transposedData.sort((a, b) => a[0].value - b[0].value);
-
-    let sortedData = transposedData[0].map((_, i) => transposedData.map(row => row[i]));
 
     for (let i = 0; i < 4; i++) {
         const tr = document.createElement('tr');
@@ -465,7 +456,9 @@ function afficherTableauTraceur(traceur) {
             if (j === 0) {
                 td.textContent = eau.getDataParNom('L' + (i + 1) + '-' + 1);
             } else {
-                td.textContent = sortedData[i][j - 1].value;
+                let echelle = echellesTableau[j - 1];
+                let data = dataMap.get(echelle);
+                td.textContent = data[i];
             }
             tr.appendChild(td);
         }
@@ -473,9 +466,7 @@ function afficherTableauTraceur(traceur) {
         tbody.appendChild(tr);
     }
 
-    document.querySelector('.descriptionConcentration').innerHTML = `<h2>Données de l'appareil <span>${numeroFluorimetre}</span> du <span>${traceur.dateMesure}</span> :</h2>`;
     tableau.appendChild(tbody);
-    tableau.insertAdjacentHTML('afterbegin', `<caption>Signaux en mV du traceur ${traceur.nom}</caption>`);
     document.querySelector('.donnees').appendChild(tableau);
     document.querySelector('.lesBoutons').insertAdjacentHTML('beforeend', '<div class="bouton boutonClair boutonDlData" onclick="telechargerFichierCSV()">EXPORTER LES DONNÉES</div>');
 }
