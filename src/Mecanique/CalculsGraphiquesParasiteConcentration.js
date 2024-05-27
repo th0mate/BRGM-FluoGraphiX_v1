@@ -465,8 +465,13 @@ function lancerCorrectionTurbidite() {
     for (let i = 0; i < listeLampesACorriger.length; i++) {
         corrigerTurbidite(listeLampesACorriger[i]);
 
-        existingChart.data.datasets.forEach(dataset => {
-            dataset.hidden = dataset.label !== `L${listeLampesACorriger[i]}` && dataset.label !== `L${listeLampesACorriger[i]}Corr`;
+        existingChart.data.datasets.forEach((dataset, index) => {
+            if (dataset.label !== `L${listeLampesACorriger[i]}` && dataset.label !== `L${listeLampesACorriger[i]}Corr`) {
+                dataset.hidden = true;
+                if (existingChart.isDatasetVisible(index)) {
+                    existingChart.toggleDataVisibility(index);
+                }
+            }
         });
     }
     listeLampesACorriger = [];
@@ -593,8 +598,13 @@ function ajouterCourbeConcentrationTraceur(traceur) {
 
         contenuFichier = lignes.join('\n');
 
-        existingChart.data.datasets.forEach(dataset => {
-            dataset.hidden = dataset.label !== `L${traceur.lampePrincipale}` && dataset.label !== `L${traceur.lampePrincipale}Corr` && dataset.label !== `${traceur.nom}`;
+        existingChart.data.datasets.forEach((dataset, index) => {
+            if (dataset.label !== `L${traceur.lampePrincipale}` && dataset.label !== `L${traceur.lampePrincipale}Corr` && dataset.label !== `${traceur.nom}`) {
+                dataset.hidden = true;
+                if (existingChart.isDatasetVisible(index)) {
+                    existingChart.toggleDataVisibility(index);
+                }
+            }
         });
 
         existingChart.data.datasets.push(data);

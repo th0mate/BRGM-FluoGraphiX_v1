@@ -240,16 +240,19 @@ function telechargerFichier() {
 
         if (existingChart) {
             for (let i = 0; i < existingChart.data.datasets.length; i++) {
-                const isHidden = existingChart.data.datasets[i].hidden === true || existingChart.isDatasetVisible(i) === false;
+
+                const isHidden = !existingChart.isDatasetVisible(i);
+
+                if (isHidden) {
+                    console.log(existingChart.data.datasets[i].label, ' hidden');
+                }
 
                 if (isHidden) {
                     let nomCourbe = existingChart.data.datasets[i].label;
                     const lignes = fichier.split('\n');
                     const header = lignes[2].replace(/[\n\r]/g, '').split(';');
-                    //on nettoie nomCourbe
                     nomCourbe = nomCourbe.replace(/[\n\r]/g, '');
                     let index = header.indexOf(nomCourbe);
-                    console.log(nomCourbe);
                     if (index !== -1) {
                         fichier = lignes.map(ligne => {
                             const colonnes = ligne.split(';');

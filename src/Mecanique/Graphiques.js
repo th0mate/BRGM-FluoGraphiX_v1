@@ -157,6 +157,10 @@ function cacherDoublons() {
         for (let i = 0; i < datasets.length; i++) {
             if (isConstant(datasets[i].data)) {
                 datasets[i].hidden = true;
+                const index = existingChart.data.datasets.findIndex(dataset => dataset.label === datasets[i].label);
+                if (existingChart.isDatasetVisible(index)) {
+                    existingChart.toggleDataVisibility(index);
+                }
             }
         }
         existingChart.update();
