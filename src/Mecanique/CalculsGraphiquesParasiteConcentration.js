@@ -94,7 +94,7 @@ function afficherParametresParasites() {
             }
 
             popupHTML += `</table>
-            </div>`;
+            `;
         }
 
         let checkBoxBoutons = '';
