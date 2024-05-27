@@ -16,6 +16,7 @@ let contenuCalibrat = "";
  */
 async function traiterFichier() {
     traceurs = [];
+    listeCalculs = [];
     const inputFichier = document.getElementById('fileInput');
     let fichiers = Array.from(inputFichier.files);
     afficherPopup('<img class="loading" src="Ressources/img/loading.gif" alt="">', 'Veuillez Patienter', 'Traitement des données en cours - Veuillez patienter...', '')
@@ -96,7 +97,7 @@ async function traiterFichier() {
                 await new Promise((resolve) => {
                     reader.onload = function () {
                         if (reader.result.split('\n')[0].includes('FluoriGraphix')) {
-                            reader.result =  reader.result.split('\n').slice(2).join('\n');
+                            reader.result = reader.result.split('\n').slice(2).join('\n');
                         }
 
                         if (!reader.result.split('\n')[0].includes('Appareil')) {
@@ -206,21 +207,38 @@ function telechargerFichier() {
         const lignes = contenuFichier.split('\n');
 
         if (lignes[0].includes('FluoriGraphix')) {
-              contenuFichier = lignes.slice(2).join('\n');
+            contenuFichier = lignes.slice(2).join('\n');
         }
 
-        const temp = contenuFichier;
+        let temp = contenuFichier;
         contenuFichier = `                   FluoriGraphix - Export du ${getDateAujourdhui()} - Signaux en mV\n`;
         contenuFichier += "                           -------------------------------------------\n";
-        contenuFichier += temp;
+
+        const nbColonnes = temp.split('\n')[0].split(';').length;
+        let ligne = temp.split('\n')[1];
+        ligne = ligne.replace(/[\n\r]/g, '');
+        const colonnes = ligne.split(';');
+        colonnes.splice(nbColonnes, colonnes.length - nbColonnes);
+        ligne = colonnes.join(';');
+        ligne += '; ;'
+
+        for (let i = 0; i < listeCalculs.length; i++) {
+            ligne += listeCalculs[i].toString() + '//';
+
+        }
+        ligne += '\n';
+
+        console.log(ligne);
+
+        contenuFichier += temp.split('\n')[0] + '\n';
+        contenuFichier += ligne;
+        contenuFichier += temp.split('\n').slice(2).join('\n');
 
         const canvas = document.getElementById('graphique');
         const existingChart = Chart.getChart(canvas);
         let fichier = contenuFichier;
 
         if (existingChart) {
-
-
             for (let i = 0; i < existingChart.data.datasets.length; i++) {
                 const isHidden = existingChart.data.datasets[i].hidden === true || existingChart.isDatasetVisible(i) === false;
 
@@ -231,7 +249,7 @@ function telechargerFichier() {
                     //on nettoie nomCourbe
                     nomCourbe = nomCourbe.replace(/[\n\r]/g, '');
                     let index = header.indexOf(nomCourbe);
-                    console.log(index);
+                    console.log(nomCourbe);
                     if (index !== -1) {
                         fichier = lignes.map(ligne => {
                             const colonnes = ligne.split(';');
@@ -246,8 +264,9 @@ function telechargerFichier() {
 
 
         const element = document.createElement('a');
-        const file = new Blob([fichier], {type: 'csv'});
-        element.href = URL.createObjectURL(file);
+        const universalBOM = "\uFEFF";
+        const csv = universalBOM + fichier;
+        element.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv));
         element.download = 'FluoriGraphix-ExportDonnees-' + new Date().toLocaleString().replace(/\/|:|,|\s/g, '-') + '.csv';
         document.body.appendChild(element);
         element.click();

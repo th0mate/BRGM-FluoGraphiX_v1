@@ -477,7 +477,7 @@ function afficherTableauTraceur(traceur) {
     tableau.appendChild(tbody);
     tableau.insertAdjacentHTML('afterbegin', `<caption>Signaux en mV du traceur ${traceur.nom}</caption>`);
     document.querySelector('.donnees').appendChild(tableau);
-    document.querySelector('.lesBoutons').insertAdjacentHTML('beforeend', '<div class="bouton boutonClair boutonDlData" onclick="telechargerFichierCSV()">TÉLÉCHARGER LES DONNÉES</div>');
+    document.querySelector('.lesBoutons').insertAdjacentHTML('beforeend', '<div class="bouton boutonClair boutonDlData" onclick="telechargerFichierCSV()">EXPORTER LES DONNÉES</div>');
 }
 
 

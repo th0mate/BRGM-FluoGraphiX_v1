@@ -1,6 +1,7 @@
 let niveauCorrection = 1;
 let listeLampesACorriger = [];
 let traceurATraiter;
+let listeCalculs = [];
 
 /**
  * Affiche les paramètres supplémentaires pour la visualisation des parasites sous la forme d'un popup
@@ -172,6 +173,7 @@ function fermerPopupParametres() {
  * Lit le fichier de calibration et initialise les données, sans afficher les tableaux et les courbes de la partie calibration
  */
 function initParasites() {
+    listeCalculs = [];
     const inputFichier = document.getElementById('inputCalibrat');
     const reader = new FileReader();
     reader.readAsText(inputFichier.files[0]);
@@ -297,6 +299,15 @@ function corrigerTurbidite(idLampe, TS = niveauCorrection) {
     const turbidite = traceurs.find(traceur => traceur.unite.toLowerCase() === 'ntu');
 
     const resultat = effectuerCalculsCourbes(idLampe, turbidite);
+    const calcul = new Calculs(`Correction de turbidité (L${idLampe})`, 'oui');
+
+    if (!listeCalculs.includes(calcul)) {
+        for (let i = 0; i < resultat.length; i++) {
+            calcul.ajouterParametreCalcul(`a${i}` ,resultat[0][i]);
+        }
+        calcul.ajouterParametreCalcul(`TS` ,TS);
+        listeCalculs.push(calcul);
+    }
 
     const data = {
         label: `L${idLampe}Corr`,
@@ -469,7 +480,6 @@ function lancerCorrectionTurbidite() {
  */
 function metAJourTraceurAModifier(nomTraceur) {
     traceurATraiter = traceurs.find(traceur => traceur.nom === nomTraceur);
-    console.log(traceurATraiter);
 }
 
 
@@ -481,6 +491,14 @@ function ajouterCourbeConcentrationTraceur(traceur) {
     if (traceur) {
         const eau = traceurs.find(t => t.unite === '');
         const resultat = effectuerCalculsCourbes(traceur.lampePrincipale, traceur);
+        const calcul = new Calculs(`${traceur.nom}: Coefficients mV->${traceur.unite}`, 'oui');
+
+        if (!listeCalculs.includes(calcul)) {
+            for (let i = 0; i < resultat.length; i++) {
+                calcul.ajouterParametreCalcul(`a${i}` ,resultat[0][i]);
+            }
+            listeCalculs.push(calcul);
+        }
 
         const data = {
             label: `L${traceur.lampePrincipale}Corr`,
@@ -546,7 +564,6 @@ function ajouterCourbeConcentrationTraceur(traceur) {
 
             if (!isNaN(mVValue)) {
                 const eauValue = parseFloat(eau.getDataParNom('L' + traceur.lampePrincipale + '-1'));
-                console.log(eauValue);
                 if (!isNaN(eauValue) && mVValue > eauValue) {
 
                     const logValue = Math.log(mVValue - eauValue);
