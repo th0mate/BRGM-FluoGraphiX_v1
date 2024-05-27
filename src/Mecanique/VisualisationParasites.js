@@ -579,6 +579,10 @@ function ajouterCourbeConcentrationTraceur(traceur) {
             }
         }
 
+        existingChart.data.datasets.forEach(dataset => {
+            dataset.hidden = dataset.label !== `L${traceur.lampePrincipale}` && dataset.label !== `L${traceur.lampePrincipale}Corr`;
+        });
+
         existingChart.data.datasets.push(data);
         existingChart.update();
         fermerPopupParametres();

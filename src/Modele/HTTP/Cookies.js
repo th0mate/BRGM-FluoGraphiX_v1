@@ -2,7 +2,7 @@
  * Crée un cookie avec le nom "page" et la valeur passée en paramètre si aucun cookie avec le nom "page" n'existe
  * Sinon, on modifie la valeur du cookie "page" par la valeur passée en paramètre
  */
-function createCookie(nomPage) {
+function creerCookieOuStockageLocal(nomPage) {
     if (window.location.protocol !== "file:") {
         if (!cookieExists()) {
             document.cookie = "page=" + nomPage;

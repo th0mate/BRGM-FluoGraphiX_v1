@@ -98,7 +98,7 @@ function ouvrirInternet() {
 
 
 /**
- * Affiche dans l'élément #contenu de ../index.html le fichier html passé en paramètres, se trouvant dans src/vues
+ * Affiche dans l'élément #contenu de ../index.html le contenu du fichier JS, don le nom est passé en paramètre, se trouvant dans src/vues
  * @param nomFichier{string} le nom du fichier à afficher
  */
 function afficherVue(nomFichier) {
@@ -110,7 +110,7 @@ function afficherVue(nomFichier) {
 
     fermerMenu();
     window.pageActuelle = nomFichier;
-    createCookie(nomFichier);
+    creerCookieOuStockageLocal(nomFichier);
     document.querySelector('#contenu').innerHTML = window[nomFichier]();
     window.scrollTo(0, 0);
     if (nomFichier === 'vueAccueil') {
