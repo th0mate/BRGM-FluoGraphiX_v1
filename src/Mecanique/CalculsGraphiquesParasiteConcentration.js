@@ -501,7 +501,7 @@ function ajouterCourbeConcentrationTraceur(traceur) {
         }
 
         const data = {
-            label: `L${traceur.lampePrincipale}Corr`,
+            label: `${traceur.nom}`,
             data: [],
             backgroundColor: 'rgba(0, 0, 0, 0)',
             borderColor: getRandomColor(),
@@ -593,14 +593,8 @@ function ajouterCourbeConcentrationTraceur(traceur) {
 
         contenuFichier = lignes.join('\n');
 
-        for (let i = 0; i < existingChart.data.datasets.length; i++) {
-            if (existingChart.data.datasets[i].label === `L${traceur.lampePrincipale}Corr`) {
-                existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur.lampePrincipale}Corr`);
-            }
-        }
-
         existingChart.data.datasets.forEach(dataset => {
-            dataset.hidden = dataset.label !== `L${traceur.lampePrincipale}` && dataset.label !== `L${traceur.lampePrincipale}Corr`;
+            dataset.hidden = dataset.label !== `L${traceur.lampePrincipale}` && dataset.label !== `L${traceur.lampePrincipale}Corr` && dataset.label !== `${traceur.nom}`;
         });
 
         existingChart.data.datasets.push(data);
