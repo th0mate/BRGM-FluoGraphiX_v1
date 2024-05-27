@@ -501,8 +501,8 @@ function ajouterCourbeConcentrationTraceur(traceur) {
         const existingChart = Chart.getChart(canvas);
 
         if (existingChart.data.datasets.find(dataset => dataset.label === `L${traceur.lampePrincipale}Corr`)) {
-
             afficherMessageFlash('Courbe de correction de la turbidité associée détectée', 'info');
+
             for (let i = 0; i < existingChart.data.datasets.length; i++) {
                 if (existingChart.data.datasets[i].label === `L${traceur.lampePrincipale}Corr`) {
                     const dataset = existingChart.data.datasets[i];
@@ -515,6 +515,7 @@ function ajouterCourbeConcentrationTraceur(traceur) {
             }
 
         } else {
+
             for (let j = 0; j < colonnes.length; j++) {
 
                 if (colonnes[j] === `L${traceur.lampePrincipale}`) {
@@ -547,6 +548,7 @@ function ajouterCourbeConcentrationTraceur(traceur) {
                 const eauValue = parseFloat(eau.getDataParNom('L' + traceur.lampePrincipale + '-1'));
                 console.log(eauValue);
                 if (!isNaN(eauValue) && mVValue > eauValue) {
+
                     const logValue = Math.log(mVValue - eauValue);
 
                     if (resultat[0].length === 3) {
@@ -561,6 +563,7 @@ function ajouterCourbeConcentrationTraceur(traceur) {
                         data.data.push({x: timestamp, y: concentration});
                         lignes[i + 3] = lignes[i + 3].replace(/[\n\r]/g, '');
                         lignes[i + 3] += `;${arrondirA2Decimales(concentration)}`;
+
                     } else if (resultat[0].length === 1) {
                         const concentration = parseFloat(resultat[0][0]) * mVValue;
                         data.data.push({x: timestamp, y: concentration});

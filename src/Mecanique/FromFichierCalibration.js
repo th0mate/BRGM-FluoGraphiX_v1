@@ -545,7 +545,7 @@ function telechargerFichierCSV() {
         const element = document.createElement('a');
         const universalBOM = "\uFEFF";
         element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(universalBOM + contenuCalibrat));
-        element.setAttribute('download', 'ExportConcentrations-' + new Date().toLocaleString().replace(/\/|:|,|\s/g, '-') + '.csv');
+        element.setAttribute('download', 'ExportCalibration-' + new Date().toLocaleString().replace(/\/|:|,|\s/g, '-') + '.csv');
         element.style.display = 'none';
         document.body.appendChild(element);
         element.click();
