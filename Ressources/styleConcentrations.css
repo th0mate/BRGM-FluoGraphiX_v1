@@ -97,7 +97,7 @@
 
 
 .concentrations > .bandeau > .wrap > div > .bouton:not(.disabled):hover {
-    box-shadow: inset 0 0 0 2px white;
+    box-shadow: inset 0 0 0 1px white;
     cursor: pointer;
 }
 

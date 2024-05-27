@@ -224,7 +224,7 @@ input[type="checkbox"]:checked {
 }
 
 .settings > .details > .wrap > div > .bouton:hover {
-    box-shadow: 0 0 0 1px white, inset 0 0 2px white;
+    box-shadow: 0 0 0 1px white, inset 0 0 0 1px white;
 }
 
 .settings > .details > div > .downloadFile {

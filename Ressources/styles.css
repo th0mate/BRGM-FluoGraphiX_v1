@@ -500,7 +500,7 @@ nav > .redirections > .action {
 }
 
 .popup > .conteneurBoutons > .bouton:nth-child(2):hover, .grandPopup > .conteneurBoutons > .bouton:nth-child(2):hover {
-    box-shadow: 0 0 0 1px white, inset 0 0 1px white;
+    box-shadow: 0 0 0 1px white, inset 0 0 0 1px white;
 }
 
 
