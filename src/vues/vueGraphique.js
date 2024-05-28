@@ -66,7 +66,7 @@ function vueGraphique() {
             </div>
             </div>
             
-            <div>          
+            <div class="boutonsGraphique">          
                 <div class="bouton boutonFonce downloadFile" onclick="telechargerFichier()">EXPORTER LES DONNÉES</div>
             </div>        
         </div>

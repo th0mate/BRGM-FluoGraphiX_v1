@@ -500,7 +500,7 @@ function ajouterCourbeConcentrationTraceur(traceur) {
 
         if (!listeCalculs.includes(calcul)) {
             for (let i = 0; i < resultat.length; i++) {
-                calcul.ajouterParametreCalcul(`a${i}` ,resultat[0][i]);
+                calcul.ajouterParametreCalcul(`a${i}`, resultat[0][i]);
             }
             listeCalculs.push(calcul);
         }
@@ -609,7 +609,99 @@ function ajouterCourbeConcentrationTraceur(traceur) {
 
         existingChart.data.datasets.push(data);
         existingChart.update();
+
+        document.querySelector('.downloadFile').onclick = function () {
+            afficherPopupTelecharger();
+        }
+
         fermerPopupParametres();
+    }
+}
+
+
+/**
+ * Affiche un pop-up permettant de choisir entre un export normal et un export TRAC
+ */
+function afficherPopupTelecharger() {
+    let overlay = document.createElement('div');
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+    overlay.style.zIndex = '1000';
+    document.body.appendChild(overlay);
+
+    document.body.style.overflowY = 'hidden';
+
+    const canvas = document.getElementById('graphique');
+    const existingChart = Chart.getChart(canvas);
+    const dateMin = 'min=' + DateTime.fromMillis(existingChart.data.datasets[0].data[0].x, {zone: 'UTC'}).toFormat('yyyy-MM-dd');
+    const dateMax = 'max=' + DateTime.fromMillis(existingChart.data.datasets[0].data[existingChart.data.datasets[0].data.length - 1].x, {zone: 'UTC'}).toFormat('yyyy-MM-dd');
+
+    const listeTraceursConcentration = [];
+    for (let i = 0; i < existingChart.data.datasets.length; i++) {
+        for (let j = 0; j < traceurs.length; j++) {
+            if (existingChart.data.datasets[i].label === traceurs[j].nom) {
+                listeTraceursConcentration.push(traceurs[j]);
+            }
+        }
+    }
+
+    let select = '';
+    if (listeTraceursConcentration.length > 1) {
+        select = '<h4>Choisissez le traceur à exporter</h4>';
+        select += '<select class="selectOrange" id="selectTraceurExport">';
+        select += '<option value="" selected disabled>Sélectionner...</option>';
+
+        for (let i = 0; i < listeTraceursConcentration.length; i++) {
+            select += `<option value="${listeTraceursConcentration[i].nom}">${listeTraceursConcentration[i].nom}</option>`;
+        }
+        select += '</select>';
+    }
+
+
+    let popupHTML = `
+    <div class='grandPopup'>
+        <div class="entete">
+            <h2>Exporter les données</h2>
+            <img src="Ressources/img/close.png" class="close" onclick="fermerPopupTelecharger()" alt="fermer">
+        </div>
+        <h2 style="color: white">Choisissez le format d'export :</h2>
+        <h3>Format Standard CSV</h3>
+        <div class="boutonFonce bouton boutonOrange dl" onclick="telechargerFichier()">EXPORTER LES DONNÉES</div>
+        <br>
+        <br>
+        <h3>Format TRAC</h3>
+        <div class="separateur">
+        <span>
+        <h4>Choisissez la date d'injection</h4>
+        <input type="date" id="dateInjection" ${dateMin} ${dateMax}>
+        </span>
+        <br>
+        <span>
+        ${select}
+        </span>
+        </div>
+        <div class="boutonFonce bouton boutonOrange dl" onclick="telechargerTRAC()">EXPORTER VERS TRAC</div>
+    </div>
+    `;
+
+    overlay.innerHTML += popupHTML;
+}
+
+
+/**
+ * Ferme le popup de téléchargement
+ */
+function fermerPopupTelecharger() {
+    if (document.querySelector('.grandPopup') !== null) {
+        document.querySelector('.grandPopup').remove();
+        document.body.style.overflow = 'auto';
+    }
+    if (document.querySelector('div[style*="z-index: 1000"]') !== null) {
+        document.querySelector('div[style*="z-index: 1000"]').remove();
     }
 }
 
