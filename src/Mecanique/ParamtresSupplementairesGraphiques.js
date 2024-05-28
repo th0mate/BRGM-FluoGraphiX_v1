@@ -2,6 +2,8 @@ let niveauCorrection = 1;
 let listeLampesACorriger = [];
 let traceurATraiter;
 let listeCalculs = [];
+let traceurAExporter;
+let dateInjection;
 
 /**
  * Affiche les paramètres supplémentaires pour la visualisation des parasites sous la forme d'un popup
@@ -303,9 +305,9 @@ function corrigerTurbidite(idLampe, TS = niveauCorrection) {
 
     if (!listeCalculs.includes(calcul)) {
         for (let i = 0; i < resultat.length; i++) {
-            calcul.ajouterParametreCalcul(`a${i}` ,resultat[0][i]);
+            calcul.ajouterParametreCalcul(`a${i}`, resultat[0][i]);
         }
-        calcul.ajouterParametreCalcul(`TS` ,TS);
+        calcul.ajouterParametreCalcul(`TS`, TS);
         listeCalculs.push(calcul);
     }
 
@@ -650,6 +652,7 @@ function afficherPopupTelecharger() {
     }
 
     let select = '';
+    let border = '';
     if (listeTraceursConcentration.length > 1) {
         select = '<h4>Choisissez le traceur à exporter</h4>';
         select += '<select class="selectOrange" id="selectTraceurExport">';
@@ -659,38 +662,47 @@ function afficherPopupTelecharger() {
             select += `<option value="${listeTraceursConcentration[i].nom}">${listeTraceursConcentration[i].nom}</option>`;
         }
         select += '</select>';
+    } else {
+        border = 'style="border: none;"';
+        traceurAExporter = listeTraceursConcentration[0];
     }
 
 
     let popupHTML = `
-    <div class='grandPopup'>
-        <div class="entete">
-            <h2>Exporter les données</h2>
-            <img src="Ressources/img/close.png" class="close" onclick="fermerPopupTelecharger()" alt="fermer">
-        </div>
-        <h2 style="color: white">Choisissez le format d'export :</h2>
-        <h3>Format Standard CSV</h3>
-        <div class="boutonFonce bouton boutonOrange dl" onclick="telechargerFichier()">EXPORTER LES DONNÉES</div>
-        <br>
-        <br>
-        <h3>Format TRAC</h3>
-        <div class="separateur">
-        <span>
-        <h4>Choisissez la date d'injection</h4>
-        <input type="date" id="dateInjection" ${dateMin} ${dateMax}>
-        </span>
-        <br>
-        <span>
-        ${select}
-        </span>
-        </div>
-        <div class="boutonFonce bouton boutonOrange dl" onclick="telechargerTRAC()">EXPORTER VERS TRAC</div>
+<div class='grandPopup'>
+    <div class="entete">
+        <h2>Exporter les données</h2>
+        <img src="Ressources/img/close.png" class="close" onclick="fermerPopupTelecharger()" alt="fermer">
     </div>
-    `;
+    <h2 style="color: white">Choisissez le format d'export :</h2>
+    <h3>Format Standard CSV</h3>
+    <div class="boutonFonce bouton boutonOrange dl" onclick="telechargerFichier()">EXPORTER LES DONNÉES</div>
+    <br>
+    <br>
+    <h3>Format TRAC</h3>
+    <div class="separateur">
+    <span ${border}>
+    <h4>Choisissez la date d'injection</h4>
+    <input type="date" id="dateInjection" ${dateMin} ${dateMax} onchange="dateInjection = this.value;">
+    </span>
+    <br>
+    <span>
+    ${select}
+    </span>
+    </div>
+    <div class="boutonFonce bouton boutonOrange dl" onclick="telechargerTRAC(dateInjection, traceurAExporter);">EXPORTER VERS TRAC</div>
+</div>
+`;
 
     overlay.innerHTML += popupHTML;
-}
 
+    if (document.querySelector('#selectTraceurExport')) {
+        document.querySelector('#selectTraceurExport').onchange = function () {
+            traceurAExporter = listeTraceursConcentration.find(t => t.nom === this.value);
+        }
+    }
+
+}
 
 
 /**
@@ -704,5 +716,14 @@ function fermerPopupTelecharger() {
     if (document.querySelector('div[style*="z-index: 1000"]') !== null) {
         document.querySelector('div[style*="z-index: 1000"]').remove();
     }
+}
+
+
+/**
+ * Télécharge les données au format TRAC
+ */
+function telechargerTRAC(dateInjection, traceur) {
+    afficherMessageFlash('Pas encore implémenté !', 'warning');
+    console.log(dateInjection, traceur);
 }
 

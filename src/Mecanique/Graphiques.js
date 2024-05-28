@@ -73,10 +73,10 @@ function afficherGraphique(mvContent) {
                     type: 'time',
                     time: {
                         parser: 'x',
-                        unit: 'minute',
+                        unit: 'hour',
                         tooltipFormat: 'DD/MM/YY-HH:mm:ss',
                         displayFormats: {
-                            minute: 'DD/MM/YY-HH:mm:ss'
+                            hour: 'DD/MM/YY-HH:mm:ss'
                         }
                     },
                     ticks: {
