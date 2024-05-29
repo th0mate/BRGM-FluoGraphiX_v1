@@ -52,6 +52,8 @@ function afficherParametresParasites() {
             <div class="bouton boutonFonce" onclick="afficherOngletParametre(1)">Renommer les courbes</div>
             <div class="bouton boutonFonce" onclick="afficherOngletParametre(2)">Corriger la turbidité</div>
             <div class="bouton boutonFonce" onclick="afficherOngletParametre(3)">Convertir en concentrations</div>
+            <div class="bouton boutonFonce" onclick="afficherOngletParametre(4)">Corriger les interférences</div>
+            <div class="bouton boutonFonce" onclick="afficherOngletParametre(5)">Corriger le bruit de fond</div>
         </div>
         
         <div class="ongletParam onglet1" id="1"><br><h2>Renommer les labels des courbes</h2>`;
@@ -149,8 +151,29 @@ function afficherParametresParasites() {
         }
 
         popupHTML += `</select><div class="boutonFonce bouton boutonOrange" onclick="ajouterCourbeConcentrationTraceur(traceurATraiter)">TERMINER</div></div>
+
+
+        <div class="ongletParam" id="4">
+            <br>
+            <h2>Correction des interférences</h2>
+            <br>
+        </div>
         
-    </div>`;
+        
+        <div class="ongletParam" id="5">
+            <br>
+            <h2>Correction du bruit de fond</h2>
+            <br>
+        </div>
+    
+        
+        
+    </div>
+
+    
+
+
+    `;
         overlay.innerHTML += popupHTML;
         afficherOngletParametre(1);
     }
@@ -768,7 +791,7 @@ function telechargerTRAC(dateInjection, traceur) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `exportTRAC-${new Date().toLocaleString().replace(/\/|:|,|\s/g, '-')}.csv`;
+    a.download = `exportTRAC-${traceur.nom}-${new Date().toLocaleString().replace(/\/|:|,|\s/g, '-')}.csv`;
     a.click();
     afficherMessageFlash('Fichier téléchargé avec succès.', 'success');
     URL.revokeObjectURL(url);

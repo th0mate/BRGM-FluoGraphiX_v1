@@ -272,7 +272,7 @@ input[type="checkbox"]:checked {
     align-content: flex-start;
     background-color: var(--grisBRGM);
     width: 700px;
-    min-height: 400px;
+    min-height: 530px;
     max-height: 98vh;
     padding: 10px;
     color: white;
@@ -467,7 +467,7 @@ input[type="checkbox"]:checked {
     background-color: var(--orangeBRGM);
     border: 5px solid var(--orangeBRGM);
     box-shadow: none;
-    width: 150px;
+    width: 250px;
     height: 30px;
     border-radius: 0;
 }
