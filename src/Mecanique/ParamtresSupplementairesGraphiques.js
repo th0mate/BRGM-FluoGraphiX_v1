@@ -723,7 +723,55 @@ function fermerPopupTelecharger() {
  * Télécharge les données au format TRAC
  */
 function telechargerTRAC(dateInjection, traceur) {
-    afficherMessageFlash('Pas encore implémenté !', 'warning');
-    console.log(dateInjection, traceur);
+    let contenuCSVTRAC = 'j;ppb';
+
+    const lignes = contenuFichier.split('\n');
+    const header = lignes[2].split(';');
+    let indexTraceur = -1;
+
+    for (let i = 0; i < header.length; i++) {
+        if (header[i] === traceur.nom) {
+            indexTraceur = i;
+        }
+    }
+
+    for (let i = 3; i < lignes.length - 1; i++) {
+        const colonnes = lignes[i].split(';');
+
+        if (colonnes.length < header.length) {
+            continue;
+        }
+
+        const timeDate = DateTime.fromFormat(colonnes[0] + '-' + colonnes[1], 'dd/MM/yy-HH:mm:ss', { zone: 'UTC' });
+        console.log(timeDate);
+
+        if (!timeDate.isValid) {
+            console.error('Date invalide à la ligne:', i + 1);
+            continue;
+        }
+
+        const timestamp = timeDate.toFormat('dd/MM/yy-HH:mm:ss');
+        const date = DateTime.fromFormat(timestamp, 'dd/MM/yy-HH:mm:ss', { zone: 'UTC' });
+        const dateInjectionObj = DateTime.fromFormat(dateInjection, 'yyyy-MM-dd', { zone: 'UTC' });
+        const diff = date.diff(dateInjectionObj, 'days').toObject();
+        const diffString = diff.days + (diff.months || 0) * 30 + (diff.years || 0) * 365;
+
+        if (diffString < 0) {
+            continue;
+        }
+
+        contenuCSVTRAC += '\n' + diffString + ';' + colonnes[indexTraceur];
+    }
+
+    const universalBOM = "\uFEFF";
+    const blob = new Blob([universalBOM + contenuCSVTRAC], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `exportTRAC-${new Date().toLocaleString().replace(/\/|:|,|\s/g, '-')}.csv`;
+    a.click();
+    afficherMessageFlash('Fichier téléchargé avec succès.', 'success');
+    URL.revokeObjectURL(url);
+    fermerPopupTelecharger();
 }
 
