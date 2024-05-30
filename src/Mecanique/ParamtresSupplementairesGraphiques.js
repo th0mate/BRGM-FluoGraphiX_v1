@@ -1,9 +1,65 @@
+/**
+ * Ce fichier JavaScript contient toutes les fonctions utiles pour les paramètres supplémentaires proposés dans la partie "visualisation" de FluoriGraphix
+ * Se trouvent ici les fonctions d'affichage du popup, de calcul et d'interactions en lien avec les fonctionnalités de calculs de :
+ * Correction de la turbidité / laison des labels de calibration avec les noms de courbes / correction des interférences / conversion en concentrations / correction du bruit de fond
+ * /!\ ATTENTION : sont utilisées des fonctions de Graphiques.js ; calculsCourbesCalibration.js; utils.js: dispenserVisualisation.js
+ */
+
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * DECLARATION DES VARIABLES GLOBALES
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+
+/**
+ * Le niveau de correction à appliquer pour la correction de la turbidité
+ * @type {number} un nombre compris entre 0 et 2
+ */
 let niveauCorrection = 1;
+
+/**
+ * Liste des lampes à corriger pour la correction de la turbidité
+ * @type {*[]} un tableau contenant les ID des lampes à corriger
+ */
 let listeLampesACorriger = [];
+
+/**
+ * Le traceur à traiter pour la conversion en concentration
+ * @type {Traceur} un objet Traceur
+ */
 let traceurATraiter;
+
+/**
+ * Liste des calculs effectués pour les courbes de correction de la turbidité et de conversion en concentration. Utilisés ensuite lors de l'export en CSV
+ * @type {*[]} un tableau contenant les objets Calculs
+ */
 let listeCalculs = [];
+
+/**
+ * Le traceur, en concentration, à exporter au format CSV pour TRAC
+ * @type {Traceur} un objet Traceur
+ */
 let traceurAExporter;
+
+/**
+ * La date d'injection à renseigner pour l'export TRAC
+ * @type {string} une date au format 'yyyy-MM-dd'
+ */
 let dateInjection;
+
+
+
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * GESTION DE L'AFFICHAGE DU POPUP DE PARAMETRES ET FONCTIONS UTILES
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+
+
 
 /**
  * Affiche les paramètres supplémentaires pour la visualisation des parasites sous la forme d'un popup
@@ -338,6 +394,17 @@ function remplacerDonneesFichier(ancien, nouveau) {
 }
 
 
+
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * GESTION DE LA CORRECTION DE LA TURBIDITE
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+
+
+
 /**
  * Affiche une courbe de correction de la turbidité pour une lampe donnée sur le graphique de la partie visualisation
  */
@@ -536,6 +603,16 @@ function metAJourTraceurAModifier(nomTraceur) {
 }
 
 
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * GESTION DE LA CONVERSION D'UN TRACEUR EN CONCENTRATION
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+
+
+
 /**
  * Ajoute dans le graphique la courbe de concentration pour le traceur sélectionné, à partir des calculs effectués
  * @param traceur Traceur dont la concentration doit être affichée
@@ -665,6 +742,16 @@ function ajouterCourbeConcentrationTraceur(traceur) {
         fermerPopupParametres();
     }
 }
+
+
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * GESTION DE L'EXPORT TRAC ET CSV
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+
 
 
 /**
@@ -822,6 +909,15 @@ function telechargerTRAC(dateInjection, traceur) {
 }
 
 
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * GESTION DES INTERFERENCES SUR UN OU PLUSIEURS TRACEURS
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+
+
 /**
  * Modifie l'affichage du popup en fonction du nombre de traceurs à corriger (interférences)
  */
@@ -848,6 +944,16 @@ function mettreAJourNbTraceurs(nb) {
         div.innerHTML = txt;
     }
 }
+
+
+
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * GESTION DE LA SELECTION D'UNE ZONE SUR LE GRAPHIQUE
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
 
 
 /**
