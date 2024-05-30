@@ -150,13 +150,34 @@ function afficherParametresParasites() {
             }
         }
 
-        popupHTML += `</select><div class="boutonFonce bouton boutonOrange" onclick="ajouterCourbeConcentrationTraceur(traceurATraiter)">TERMINER</div></div>
+        popupHTML += `</select><div class="boutonFonce bouton boutonOrange" onclick="ajouterCourbeConcentrationTraceur(traceurATraiter)">TERMINER</div></div>`;
 
 
-        <div class="ongletParam" id="4">
+        const nbTraceurs = traceurs.length - 2;
+
+        let selectNbTraceurs = '<select class="selectOrange" onchange="mettreAJourNbTraceurs(this.value)"><option selected disabled value="">Sélectionnez une valeur...</option>';
+        for (let i = 0; i < nbTraceurs; i++) {
+            let s = '';
+            if (i + 1 > 1) {
+                s = 's';
+            }
+            selectNbTraceurs += `<option value="${i + 1}">${i + 1} Traceur${s}</option>`;
+        }
+        selectNbTraceurs += '</select>';
+
+        popupHTML += `<div class="ongletParam" id="4">
             <br>
             <h2>Correction des interférences</h2>
             <br>
+            
+            <h4>Choisissez le nombre de traceurs présents :</h4>
+       
+            ${selectNbTraceurs}
+            
+            <div class="listeSelectsTraceurs">
+            </div>
+            
+            <div class="boutonFonce bouton boutonOrange" onclick="ajouterCourbeConcentrationTraceur(traceurATraiter)">TERMINER</div>
         </div>
         
         
@@ -459,6 +480,7 @@ function preparerInputRange() {
         niveauCorrection = this.value;
     });
 }
+
 
 
 /**
@@ -798,3 +820,31 @@ function telechargerTRAC(dateInjection, traceur) {
     fermerPopupTelecharger();
 }
 
+
+/**
+ *
+ */
+function mettreAJourNbTraceurs(nb) {
+    //en fonction de nb, mets dans la div de classe listeSelectsTraceurs les selects pour choisir les traceurs.
+    const div = document.querySelector('.listeSelectsTraceurs');
+    let txt = '';
+
+    for (let i = 0; i < nb; i++) {
+        let span = '';
+        if (i !== nb -1) {
+            span = '<span></span>';
+        }
+        txt += `<div class="separateurSelect">
+                <h4>Traceur ${i + 1}</h4>
+                <select class="selectOrange" id="selectTraceur${i + 1}">
+                <option value="" selected disabled>Sélectionner...</option>
+                `;
+        for (let j = 0; j < traceurs.length; j++) {
+            if (traceurs[j].lampePrincipale !== '' && !isNaN(traceurs[j].lampePrincipale)) {
+                txt += `<option value="${traceurs[j].nom}">${traceurs[j].nom}</option>`;
+            }
+        }
+        txt += `</select></div>${span}`;
+        div.innerHTML = txt;
+    }
+}

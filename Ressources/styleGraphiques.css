@@ -472,6 +472,42 @@ input[type="checkbox"]:checked {
     border-radius: 0;
 }
 
+.listeSelectsTraceurs {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    margin-bottom: 20px;
+    width: 500px;
+    margin-top: 20px;
+}
+
+.listeSelectsTraceurs > span {
+    height: 100px;
+    border: 1px solid white;
+    min-height: 100%;
+    margin-right: 20px;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+
+}
+
+.separateurSelect {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    margin-bottom: 20px;
+}
+
+.separateurSelect > .selectOrange {
+    width: 150px;
+}
+
 .grandPopup > .dl {
     margin: auto;
 }
