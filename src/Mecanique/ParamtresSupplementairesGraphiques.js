@@ -246,7 +246,8 @@ function initParasites() {
 
 
 /**
- * Tente de lier automatiquement les labels des courbes aux labels des lampes du fichier de calibration.
+ * Détecte si les noms des courbes correspondent aux labels du fichier de calibration
+ * @returns {boolean} true si les labels correspondent, false sinon
  */
 function calibrationEstLieGraphiques() {
     const lignes = contenuFichier.split('\n');
@@ -822,10 +823,9 @@ function telechargerTRAC(dateInjection, traceur) {
 
 
 /**
- *
+ * Modifie l'affichage du popup en fonction du nombre de traceurs à corriger (interférences)
  */
 function mettreAJourNbTraceurs(nb) {
-    //en fonction de nb, mets dans la div de classe listeSelectsTraceurs les selects pour choisir les traceurs.
     const div = document.querySelector('.listeSelectsTraceurs');
     let txt = '';
 
