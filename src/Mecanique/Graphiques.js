@@ -107,6 +107,9 @@ function afficherGraphique(mvContent) {
                         mode: `${zoom}`,
                     }
                 },
+                annotation : {
+                    annotation: {}
+                },
                 tooltip: {
                     callbacks: {
                         title: function (tooltipItem) {

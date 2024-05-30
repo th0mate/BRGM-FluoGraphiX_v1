@@ -848,3 +848,65 @@ function mettreAJourNbTraceurs(nb) {
         div.innerHTML = txt;
     }
 }
+
+
+function test() {
+
+    const canvas = document.getElementById('graphique');
+    const myChart = Chart.getChart(canvas);
+
+    if (!myChart) return;
+
+    // Disable zoom and pan
+    myChart.options.plugins.zoom.pan.enabled = false;
+    myChart.options.plugins.zoom.zoom.wheel.enabled = false;
+
+    // Add annotation plugin interaction for zone selection
+    myChart.options.plugins.annotation.annotations = {
+        selection: {
+            type: 'box',
+            xMin: null,
+            xMax: null,
+            backgroundColor: 'rgba(255, 99, 132, 0.25)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 2,
+            drag: {
+                enabled: true
+            }
+        }
+    };
+
+    myChart.update();
+
+    canvas.onmousedown = function(e) {
+        const rect = e.target.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const xValue = myChart.scales.x.getValueForPixel(x);
+
+        myChart.options.plugins.annotation.annotations.selection.xMin = xValue;
+        myChart.update();
+    };
+
+    canvas.onmouseup = function(e) {
+        const rect = e.target.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const xValue = myChart.scales.x.getValueForPixel(x);
+
+        myChart.options.plugins.annotation.annotations.selection.xMax = xValue;
+        myChart.update();
+
+        const startDate = DateTime.fromMillis(myChart.options.plugins.annotation.annotations.selection.xMin, {zone: 'UTC'}).toFormat('dd/MM/yy-HH:mm:ss');
+        const endDate = DateTime.fromMillis(myChart.options.plugins.annotation.annotations.selection.xMax, {zone: 'UTC'}).toFormat('dd/MM/yy-HH:mm:ss');
+
+        console.log('Start Date:', startDate);
+        console.log('End Date:', endDate);
+
+        // Reset selection and re-enable zoom and pan
+        myChart.options.plugins.annotation.annotations.selection = {};
+        myChart.options.plugins.zoom.pan.enabled = true;
+        myChart.options.plugins.zoom.zoom.wheel.enabled = true;
+        myChart.update();
+    };
+}
