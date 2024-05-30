@@ -1,9 +1,33 @@
-const DateTime = luxon.DateTime;
+/**
+ * Ce fichier JavaScript contient les fonctions servant à afficher les graphiques ChartJS sur le site.
+ * Il se décompose en deux parties principales :
+ *  - Partie visualisation, pour l'affichage des données de mesure (mV) issues de fluorimètres
+ *  - Partie calibration, pour l'affichage des graphiques (parasites, concentration) des traceurs
+ *  /!\ ATTENTION : dépend fortement de l'utilisation de librairies externes, téléchargées dans le dossier src/libs : ChartJS, Luxon, Hammer, etc.
+ * @type {DateTime}
+ */
 
 
 /**
- * Traite les données pour les afficher sous forme de graphique
- * @param mvContent le contenu du fichier .mv à afficher
+ * Librairie Luxon pour la gestion des dates et heures. Utile pour éviter les gros problèmes lors de changements d'heures.
+ * @type {DateTime}
+ */
+const DateTime = luxon.DateTime;
+
+
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * PARTIE VISUALISATION
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+
+
+
+/**
+ * Traite les données de mesures pour les afficher sous la forme d'un graphique : milliVolts en fonction du temps - Partie Visualisation
+ * @param mvContent le contenu du ou des fichier(s) importé(s) par l'utilisateur à afficher
  */
 function afficherGraphique(mvContent) {
     const couleurs = ['rgba(75, 192, 192, 1)', 'rgba(54, 162, 235, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 206, 86, 1)', 'rgba(255, 159, 64, 1)', 'rgba(255, 99, 132, 1)', 'rgb(249,158,255)', 'rgba(255, 99, 132, 1)'];
@@ -133,6 +157,15 @@ function afficherGraphique(mvContent) {
 }
 
 
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * FONCTIONS UTILITAIRES
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+
+
 /**
  * Return true si le string passé en paramètre contient ne contient que des duplications du même nombre
  * @param string le string - donc la colonne de données à vérifier
@@ -218,8 +251,19 @@ function hexToRgb(hex) {
 }
 
 
+
+
 /**
- * Affiche un graphique pour un traceur donné de ses LX en fonction de la valeur des signaux
+ * ---------------------------------------------------------------------------------------------------------------------
+ * PARTIE CALIBRATION
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+
+
+
+/**
+ * Affiche un graphique pour un traceur donné de ses LX en fonction de la valeur des signaux - Partie Calibration
  * @param traceur le traceur à afficher
  * @param idData l'id du traceur
  */
