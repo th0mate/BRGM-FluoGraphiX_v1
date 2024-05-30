@@ -1,14 +1,42 @@
 /**
- * Gère le lien entre le HTML et le back
- * @type {boolean} si l'optimisation est activée ou non
+ * Ce fichier JavaScript permet de distribuer les données importées depuis un fichier de mesures vers les différentes fonctions de traitement, en fonction du type de fichier
+ * Distribue également les données vers la partie "visualisation" ou "calibration" en fonction de leur contenu
  */
 
 
-let isOptimise = false;
+/**
+ * Contenu du fichier importé par l'utilisateur
+ * @type {string} le contenu du fichier
+ */
 let contenuFichier = "";
+
+/**
+ * Le nombre de lignes total du fichier importé par l'utilisateur
+ * @type {number} le nombre de lignes
+ */
 let nbLignes = 0;
+
+/**
+ * La date de la première ligne du fichier importé par l'utilisateur
+ * @type {string} la date de la première ligne
+ */
 let premiereDate = "";
+
+/**
+ * Le contenu du fichier de calibration importé par l'utilisateur
+ * @type {string}
+ */
 let contenuCalibrat = "";
+
+
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * DISTRIBUTION DES DONNEES VERS LES FONCTIONS APPROPRIEES
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+
 
 
 /**
@@ -149,6 +177,16 @@ async function traiterFichier() {
 }
 
 
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * TRAITEMENT DES FICHIERS DE CALIBRATION
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+
+
+
 /**
  * Traite un fichier Calibrat.dat seul
  */
@@ -183,6 +221,16 @@ function traiterCalibrat() {
 }
 
 
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * FONCTIONS UTILITAIRES
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+
+
+
 /**
  * Réinitialise le zoom du graphique comme il était d'origine
  */
@@ -196,6 +244,76 @@ function resetZoom() {
         afficherMessageFlash("Erreur : Aucun graphique à modifier.", 'warning');
     }
 }
+
+
+/**
+ * Permet de modifier le format de la date
+ * 0 : dd/mm/yy-hh:mm:ss
+ * 1 : dd/mm/yy-hh:mm:ss
+ * 2 : yy/mm/dd-hh:mm:ss
+ * @param cle la clé du format
+ */
+function modifierFormat(cle) {
+    format = cle;
+}
+
+
+/**
+ * Retourne la dernière date de contenuFichier
+ */
+function getLastDate() {
+    if (contenuFichier !== "") {
+        const lignes = contenuFichier.split('\n');
+        const lastLine = lignes[lignes.length - 2];
+        return lastLine.substring(6, 26);
+    }
+    return "";
+}
+
+
+/**
+ * Retourne true si la différence entre deux dates est supérieure à 1 jour
+ * @param date1 la première date au format dd/mm/yy-hh:mm:ss
+ * @param date2 la deuxième date au format dd/mm/yy-hh:mm:ss
+ */
+function estPlusDeUnJour(date1, date2) {
+    if (date1 === "" || date2 === "") {
+        return false;
+    }
+
+    const date1Parts = date1.split('/');
+    const date2Parts = date2.split('/');
+
+    const date1Day = parseInt(date1Parts[0]);
+    const date2Day = parseInt(date2Parts[0]);
+
+    const date1Month = parseInt(date1Parts[1]);
+    const date2Month = parseInt(date2Parts[1]);
+
+    const date1Year = parseInt(date1Parts[2].substring(0, 2));
+    const date2Year = parseInt(date2Parts[2].substring(0, 2));
+
+    if (date1Year !== date2Year) {
+        return true;
+    }
+
+    if (date1Month !== date2Month) {
+        return true;
+    }
+
+    return date2Day - date1Day > 9;
+}
+
+
+
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * TELECHARGEMENT DU FICHIER CSV POUR EXPORT
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+
 
 
 /**
@@ -279,62 +397,4 @@ function telechargerFichier() {
     }
 }
 
-
-/**
- * Permet de modifier le format de la date
- * 0 : dd/mm/yy-hh:mm:ss
- * 1 : dd/mm/yy-hh:mm:ss
- * 2 : yy/mm/dd-hh:mm:ss
- * @param cle la clé du format
- */
-function modifierFormat(cle) {
-    format = cle;
-}
-
-
-/**
- * Retourne la dernière date de contenuFichier
- */
-function getLastDate() {
-    if (contenuFichier !== "") {
-        const lignes = contenuFichier.split('\n');
-        const lastLine = lignes[lignes.length - 2];
-        return lastLine.substring(6, 26);
-    }
-    return "";
-}
-
-
-/**
- * Retourne true si la différence entre deux dates est supérieure à 1 jour
- * @param date1 la première date au format dd/mm/yy-hh:mm:ss
- * @param date2 la deuxième date au format dd/mm/yy-hh:mm:ss
- */
-function estPlusDeUnJour(date1, date2) {
-    if (date1 === "" || date2 === "") {
-        return false;
-    }
-
-    const date1Parts = date1.split('/');
-    const date2Parts = date2.split('/');
-
-    const date1Day = parseInt(date1Parts[0]);
-    const date2Day = parseInt(date2Parts[0]);
-
-    const date1Month = parseInt(date1Parts[1]);
-    const date2Month = parseInt(date2Parts[1]);
-
-    const date1Year = parseInt(date1Parts[2].substring(0, 2));
-    const date2Year = parseInt(date2Parts[2].substring(0, 2));
-
-    if (date1Year !== date2Year) {
-        return true;
-    }
-
-    if (date1Month !== date2Month) {
-        return true;
-    }
-
-    return date2Day - date1Day > 9;
-}
 
