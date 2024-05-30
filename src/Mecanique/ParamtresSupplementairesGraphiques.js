@@ -850,63 +850,85 @@ function mettreAJourNbTraceurs(nb) {
 }
 
 
-function test() {
-
+/**
+ * Permet à l'utilisateur de sélectionner une zone sur le graphique. Retourne les valeurs minimales et maximale de l'axe X de la zone sélectionnée.
+ * Met en couleur la zone sélectionnée aussi
+ * @returns {Array} Tableau contenant les valeurs minimales et maximales de l'axe X (des dates) de la zone sélectionnée
+ */
+function selectionnerZoneGraphique() {
     const canvas = document.getElementById('graphique');
     const myChart = Chart.getChart(canvas);
 
     if (!myChart) return;
+    let flag = true;
 
-    // Disable zoom and pan
     myChart.options.plugins.zoom.pan.enabled = false;
     myChart.options.plugins.zoom.zoom.wheel.enabled = false;
 
-    // Add annotation plugin interaction for zone selection
-    myChart.options.plugins.annotation.annotations = {
-        selection: {
-            type: 'box',
-            xMin: null,
-            xMax: null,
-            backgroundColor: 'rgba(255, 99, 132, 0.25)',
-            borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 2,
-            drag: {
-                enabled: true
-            }
+    let isSelecting = false;
+    let startX = null;
+    let currentX = null;
+
+    canvas.addEventListener('mousedown', function(e) {
+        if (flag) {
+            isSelecting = true;
+            const rect = canvas.getBoundingClientRect();
+            startX = e.clientX - rect.left;
+            currentX = startX;
         }
-    };
+    });
 
-    myChart.update();
+    canvas.addEventListener('mousemove', function(e) {
+        if (isSelecting && flag) {
+            currentX = e.clientX - canvas.getBoundingClientRect().left;
 
-    canvas.onmousedown = function(e) {
-        const rect = e.target.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const xValue = myChart.scales.x.getValueForPixel(x);
+            const width = Math.abs(currentX - startX);
 
-        myChart.options.plugins.annotation.annotations.selection.xMin = xValue;
-        myChart.update();
-    };
+            myChart.options.plugins.annotation.annotations = [{
+                type: 'box',
+                xMin: myChart.scales['x'].getValueForPixel(Math.min(startX, currentX)),
+                xMax: myChart.scales['x'].getValueForPixel(Math.max(startX, currentX)),
+                yMin: -Infinity,
+                yMax: Infinity,
+                backgroundColor: 'rgba(255, 99, 132, 0.25)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 2
+            }];
+            myChart.update();
 
-    canvas.onmouseup = function(e) {
-        const rect = e.target.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const xValue = myChart.scales.x.getValueForPixel(x);
+            const xMin = Math.min(startX, currentX);
+            const xMax = Math.max(startX, currentX);
+            const startDate = new Date(myChart.scales['x'].getValueForPixel(xMin));
+            const endDate = new Date(myChart.scales['x'].getValueForPixel(xMax));
+        }
+    });
 
-        myChart.options.plugins.annotation.annotations.selection.xMax = xValue;
-        myChart.update();
+    canvas.addEventListener('mouseup', function(e) {
+        if (isSelecting && flag) {
+            isSelecting = false;
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const xMin = Math.min(startX, x);
+            const xMax = Math.max(startX, x);
 
-        const startDate = DateTime.fromMillis(myChart.options.plugins.annotation.annotations.selection.xMin, {zone: 'UTC'}).toFormat('dd/MM/yy-HH:mm:ss');
-        const endDate = DateTime.fromMillis(myChart.options.plugins.annotation.annotations.selection.xMax, {zone: 'UTC'}).toFormat('dd/MM/yy-HH:mm:ss');
+            const startDate = DateTime.fromMillis(myChart.scales['x'].getValueForPixel(xMin), {zone: 'UTC'}).toFormat('dd/MM/yyyy-HH:mm:ss');
+            const endDate = DateTime.fromMillis(myChart.scales['x'].getValueForPixel(xMax), {zone: 'UTC'}).toFormat('dd/MM/yyyy-HH:mm:ss');
 
-        console.log('Start Date:', startDate);
-        console.log('End Date:', endDate);
+            myChart.options.plugins.annotation.annotations = [];
+            myChart.update();
+            afficherMessageFlash(`Sélection X: ${startDate} - ${endDate}`, 'info');
 
-        // Reset selection and re-enable zoom and pan
-        myChart.options.plugins.annotation.annotations.selection = {};
-        myChart.options.plugins.zoom.pan.enabled = true;
-        myChart.options.plugins.zoom.zoom.wheel.enabled = true;
-        myChart.update();
-    };
+            canvas.removeEventListener('mousedown', function() {});
+            canvas.removeEventListener('mousemove', function() {});
+            canvas.removeEventListener('mouseup', function() {});
+            flag = false;
+
+
+            myChart.options.plugins.zoom.pan.enabled = true;
+            myChart.options.plugins.zoom.zoom.wheel.enabled = true;
+
+
+            return [startDate, endDate];
+        }
+    });
 }

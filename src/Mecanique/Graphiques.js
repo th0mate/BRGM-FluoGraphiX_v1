@@ -108,7 +108,8 @@ function afficherGraphique(mvContent) {
                     }
                 },
                 annotation : {
-                    annotation: {}
+                    annotation: {
+                    }
                 },
                 tooltip: {
                     callbacks: {

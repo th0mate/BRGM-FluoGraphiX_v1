@@ -5,7 +5,7 @@
  * Released under the MIT License
  */
 !function (t, e) {
-    "object" == typeof exports && "undefined" != typeof module ? module.exports = e(require("chart.js"), require("chart.js/helpers")) : "function" == typeof define && define.amd ? define(["chart.js", "chart.js/helpers"], e) : (t = "undefined" != typeof globalThis ? globalThis : t || self)["chartjs-plugin-annotation"] = 0
+    "object" == typeof exports && "undefined" != typeof module ? module.exports = e(require("chart.js"), require("chart.js/helpers")) : "function" == typeof define && define.amd ? define(["chart.js", "chart.js/helpers"], e) : (t = "undefined" != typeof globalThis ? globalThis : t || self)["chartjs-plugin-annotation"] = e(t.Chart, t.Chart.helpers)
 }(this, (function (t, e) {
     "use strict";
     const o = {
