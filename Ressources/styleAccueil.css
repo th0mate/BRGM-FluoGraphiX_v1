@@ -122,6 +122,7 @@
     color: white;
     text-decoration: none;
     cursor: pointer;
+    user-select: none;
     position: relative;
     margin-bottom: 50px;
 }

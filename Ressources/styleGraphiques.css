@@ -65,6 +65,7 @@
     font-weight: bold;
     color: white;
     cursor: pointer;
+    user-select: none;
 }
 
 .infos > .bouton:hover {
@@ -179,6 +180,7 @@
     font-weight: bold;
     color: white;
     cursor: pointer;
+    user-select: none;
     margin-right: 10px;
 }
 
@@ -316,6 +318,7 @@ input[type="checkbox"]:checked {
     font-weight: bold;
     color: white;
     cursor: pointer;
+    user-select: none;
     margin: 0;
 }
 
@@ -456,6 +459,7 @@ input[type="checkbox"]:checked {
     font-weight: bold;
     color: white;
     cursor: pointer;
+    user-select: none;
 }
 
 .boutonOrange:hover {
@@ -470,6 +474,7 @@ input[type="checkbox"]:checked {
     width: 250px;
     height: 30px;
     border-radius: 0;
+    user-select: none;
 }
 
 .listeSelectsTraceurs {

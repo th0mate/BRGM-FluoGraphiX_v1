@@ -30,6 +30,7 @@
     padding: 10px;
     width: 160px;
     cursor: pointer;
+    user-select: none;
     text-decoration: none;
     display: flex;
     justify-content: space-between;
@@ -85,6 +86,7 @@
     color: white;
     padding: 5px;
     cursor: pointer;
+    user-select: none;
     transition: background-color 0.3s ease-in-out;
     overflow-x: hidden;
     text-overflow: ellipsis;
@@ -195,6 +197,7 @@
     transition: color 0.3s ease-in-out;
     font-size: 1.2em;
     cursor: pointer;
+    user-select: none;
 }
 
 .bandeauDocumentation > div > div > span {
@@ -301,6 +304,7 @@
     margin-top: 20px;
     width: 150px;
     cursor: pointer;
+    user-select: none;
     text-decoration: none;
 }
 
