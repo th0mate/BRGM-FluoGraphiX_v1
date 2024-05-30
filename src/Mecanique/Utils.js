@@ -1,4 +1,9 @@
 /**
+ * Ce fichier JavaScript contient des fonctions utilitaires, utilisées dans tout le site.
+ */
+
+
+/**
  * Ajoute des espaces pour aligner les chiffres
  * @param n le nombre à aligner
  * @param e le nombre d'espaces à ajouter au maximum

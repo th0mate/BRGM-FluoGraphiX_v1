@@ -1,5 +1,5 @@
 /**
- * Classe permettant le CRUD sur les messages flash et les popups
+ * Ce fichier JavaScript contient toutes les fonctions pour l'affichage et la destruction des messages flash et popups
  */
 
 

@@ -1,5 +1,6 @@
 /**
- * Gestion des popups d'information
+ * Ce fichier JavaScript contient toutes les fonctions pour gérer la navigation sur le site
+ * C'est ici que sont gérées les redirections, les affichages de vues, les popups, etc.
  */
 
 
