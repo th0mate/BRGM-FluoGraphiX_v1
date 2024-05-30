@@ -1,8 +1,33 @@
 /**
- * Le nombre de valeurs n'étant pas NaN pour une lampe d'un traceur donné
+ * Ce fichier JavaScript contient les fonctions nécessaires pour afficher les données de calibration dans la partie "calibration" de FluoriGraphix
+ * Certains des calculs effectués dans ce fichier, notamment pour obtenir les coefficients de certaines courbes, sont réutilisés dans la partie "visualisation" du site
+ * Utilise des fichiers externes, comme Graphiques.js, notamment.
+ * /!\ ATTENTION : Pour la correction de bugs, bien faire attention à ne pas modifier les fonctions de ce fichier sans vérifier que cela n'impacte d'autres fonctions !
+ */
+
+
+
+/**
+ * Le nombre de valeurs n'étant pas NaN pour une lampe d'un traceur donné (donc pas pour l'eau)
  */
 let nbValeurLampe = 0;
+
+/**
+ * Indique si des données potentiellement corrompues ont été détectées
+ * @type {boolean} true si des données potentiellement corrompues ont été détectées, false sinon
+ */
 let donneesCorrompues = false;
+
+
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * INITIALISATION DES DONNEES
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+
+
 
 /**
  * Envoie les données du traceur vers des fonctions de calculs en fonction de leurs caractéristiques et affiche les courbes correspondantes
@@ -41,6 +66,17 @@ function initialiserCalculsCourbes(idLampe, traceur) {
 
     }
 }
+
+
+
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * CALCULS DES COURBES (DEGRE1; DEGRE2; CONSTANTES; ERREURS TYPES)
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+
 
 
 /**
@@ -137,6 +173,15 @@ function effectuerCalculsCourbes(idLampe, traceur) {
 }
 
 
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * CALCULS DES PARASITES
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+
+
 /**
  * Effectue les calculs nécessaires obtenir les données parasites d'une lampe, si on a 1, 2 ou 3 valeurs
  * @param traceur le traceur
@@ -227,6 +272,15 @@ function effectuerCalculsParasites4Valeurs(traceur, idLampe) {
 
 
 }
+
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * AFFICHAGE DES COURBES - CONCENTRATION
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+
 
 
 /**
@@ -380,6 +434,17 @@ function afficherCourbeDepuis1Valeur(resultat, idLampe, traceur) {
     }
 
 }
+
+
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * AFFICHAGE DES COURBES - PARASITES
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+
+
 
 
 /**
@@ -571,6 +636,17 @@ function afficherCourbeParasites1Valeur(resultat, idLampe, traceur) {
 }
 
 
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * FONCTIONS UTILITAIRES
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+
+
+
+
 /**
  * Réinitialise le zoom du graphique comme il était d'origine
  */
@@ -668,11 +744,15 @@ function creerMatriceLn(traceur, tableauValeursNettes) {
 }
 
 
+
+
 /**
  * ---------------------------------------------------------------------------------------------------------------------
- * FONCTIONS DE CALCULS
+ * FONCTIONS DE CALCULS MATRICIELS
  * ---------------------------------------------------------------------------------------------------------------------
  */
+
+
 
 
 /**
