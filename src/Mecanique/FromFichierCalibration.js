@@ -1,24 +1,52 @@
 /**
- * Classe chargée de récupérer les informations nécessaires à partir du fichier Calibrat.dat et de les utiliser pour en effectuer des calculs
+ * Ce fichier JavaScript contient toutes les fonctions permettant de lire, puis de traiter les fichiers de calibration pour la partie "calibration" du site.
+ * C'est ici que sont affichées les tableaux et les courbes des traceurs, et que sont exportés les fichiers CSV de calibration
  */
 
-
+/**
+ * Lignes du fichier de calibration
+ * @type {string[]} lignesCalibrat
+ */
 let lignesCalibrat = [];
+
+/**
+ * Sections du fichier de calibration
+ * @type {*[]} sectionsCalibrat
+ */
 let sectionsCalibrat = [];
+
+/**
+ * Tableau contenant les noms des traceurs
+ * @type {*[]} nomsTraceur
+ */
 let nomsTraceur = [];
+
+/**
+ * Numéro du fluorimètre dans le fichier de calibration
+ * @type {string} numéro
+ */
 let numeroFluorimetre = '';
+
+/**
+ * Tableau contenant tous les objets Traceur créés
+ * @type {Traceur[]} traceurs
+ */
 let traceurs = [];
 
 
+
 /**
  * ---------------------------------------------------------------------------------------------------------------------
- * PARTIE FICHIERS DAT
+ * INITIALISATION
  * ---------------------------------------------------------------------------------------------------------------------
  */
 
 
 /**
- * Initialise les variables issues du fichier Calibrat.dat nécessaires pour le calcul de la régression linéaire
+ * Initialise les variables issues du fichier de calibration.
+ * Prend en charge les fichiers de calibration CSV et DAT
+ * @param estFichierDat - true si le fichier est un DAT, false si c'est un CSV
+ * @param estDepuisCalibration - true si l'initialisation est faite depuis la page de calibration, false si c'est depuis la page de comparaison
  */
 function init(estFichierDat = true, estDepuisCalibration = true) {
 
@@ -75,6 +103,16 @@ function init(estFichierDat = true, estDepuisCalibration = true) {
         afficherMessageFlash('Erreur : aucune donnée exploitable.', 'danger');
     }
 }
+
+
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * FONCTIONS POUR LES FICHIERS .DAT
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+
 
 
 /**
@@ -275,6 +313,15 @@ function creerTurbidity() {
 }
 
 
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * FONCTIONS UTILITAIRES
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+
+
 /**
  * Récupère un objet traceur par son nom
  * @param nom le nom du traceur
@@ -396,6 +443,16 @@ function setBoutonCalculer(idLampe, Traceur) {
 }
 
 
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * AFFICHAGE DES DONNEES (TABLEAU)
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+
+
+
 /**
  * Affiche dans une div un tableau contenant les données d'un traceur : 4 lignes de L1 à L4, et plusieurs colonnes pour tous les Y de LX-Y
  * @param traceur le traceur à partir duquel les données doivent être affichées
@@ -474,11 +531,14 @@ function afficherTableauTraceur(traceur) {
 }
 
 
+
+
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * PARTIE EXPORT
  * ---------------------------------------------------------------------------------------------------------------------
  */
+
 
 
 /**
@@ -530,6 +590,7 @@ function convertirEnTexte() {
 }
 
 
+
 /**
  * Télécharge un fichier CSV contenant les données de contenuCalibrat, donc du fichier originel
  */
@@ -554,7 +615,7 @@ function telechargerFichierCSV() {
 
 /**
  * ---------------------------------------------------------------------------------------------------------------------
- * PARTIE FICHIERS TXT
+ * PARTIE FICHIERS CSV
  * ---------------------------------------------------------------------------------------------------------------------
  */
 

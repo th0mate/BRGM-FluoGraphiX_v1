@@ -1,4 +1,9 @@
 /**
+ * Ce fichier JavaScript permet de gérer toutes les interactions possibles avec la page "documentation" du site.
+ */
+
+
+/**
  * Ferme le bandeau de sommaire
  */
 function fermerSommaire() {
@@ -14,9 +19,6 @@ function fermerSommaire() {
 function ouvrirSommaire() {
     document.querySelector('.bandeauDocumentation').style.display = "flex";
 }
-
-
-
 
 
 /**
@@ -59,6 +61,9 @@ function quitterFocus() {
 }
 
 
+/**
+ * Permet de mettre en surbrillance le titre de la section correspondant à l'élément affiché sur la page
+ */
 function scrollDocumentation() {
     let observer;
     let sommaireElements = document.querySelectorAll('.sommaire');
