@@ -37,7 +37,7 @@ if (window.location.protocol !== "file:") {
     let middleIndex = Math.floor(parentElement.children.length / 2);
     let middleChild = parentElement.children[middleIndex];
 
-    middleChild.insertAdjacentHTML('beforebegin', `<div class="action">
+    middleChild.insertAdjacentHTML('beforebegin', `<div onclick="afficherVue('vueTelecharger')" class="action">
             <img src="Ressources/img/dl.png" alt="aide">
             TÉLÉCHARGER
             <span></span>
@@ -47,7 +47,7 @@ if (window.location.protocol !== "file:") {
     let middleIndexMenu = Math.floor(parentMenu.children.length / 2);
     let middleChildMenu = parentMenu.children[middleIndexMenu];
     middleChildMenu.insertAdjacentHTML('beforebegin', `
-        <div class="action" onclick="afficherVue('vueTélécharger')">
+        <div class="action" onclick="afficherVue('vueTelecharger')">
             <div>
                 <img src="Ressources/img/dl.png" alt="aide">
                 <h3>TÉLÉCHARGER</h3>
@@ -74,7 +74,7 @@ function afficherDl() {
     if (navigator.onLine) {
 
         document.querySelector('.actionsRapides').innerHTML += `
-                <div class="action">
+                <div class="action" onclick="afficherVue('vueTelecharger')">
                     <img src="Ressources/img/dl.png" alt="icone">
                     <h3>Téléchargez la dernière version de FluoriGraphix sur votre ordinateur</h3>
                     <span></span>
