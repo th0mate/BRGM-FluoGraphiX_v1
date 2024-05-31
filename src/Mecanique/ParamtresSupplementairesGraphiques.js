@@ -64,7 +64,7 @@ let dateInjection;
 /**
  * Affiche les paramètres supplémentaires pour la visualisation des parasites sous la forme d'un popup
  */
-function afficherParametresParasites() {
+function afficherPopupParametresGraphiques() {
     if (contenuFichier !== '') {
         fermerPopupParametres();
 
@@ -241,6 +241,9 @@ function afficherParametresParasites() {
             <br>
             <h2>Correction du bruit de fond</h2>
             <br>
+            <h4 class="texteZoneSelection"></h4>
+            <br>
+            <div class="boutonFonce bouton boutonOrange" onclick="selectionnerZoneGraphique()">SELECTIONNER</div>
         </div>
     
         
@@ -295,7 +298,7 @@ function initParasites() {
 
     fermerPopupParametres();
     setTimeout(() => {
-        afficherParametresParasites();
+        afficherPopupParametresGraphiques();
     }, 500);
 
 }
@@ -970,6 +973,8 @@ function selectionnerZoneGraphique() {
 
     myChart.options.plugins.zoom.pan.enabled = false;
     myChart.options.plugins.zoom.zoom.wheel.enabled = false;
+    fermerPopupParametres();
+    afficherPopup('<img alt="" src="Ressources/img/select.png">', 'Sélectionnez une zone sur le graphique', 'Commencez par sélectionner la zone à étudier en cliquant et en maintenant le clic gauche sur le graphique, puis en relâchant le clic à la fin de la zone à sélectionner.', '<div class="bouton boutonFonce" onclick="fermerPopup()">COMMENCER</div>')
 
     let isSelecting = false;
     let startX = null;
@@ -1022,7 +1027,6 @@ function selectionnerZoneGraphique() {
 
             myChart.options.plugins.annotation.annotations = [];
             myChart.update();
-            afficherMessageFlash(`Sélection X: ${startDate} - ${endDate}`, 'info');
 
             canvas.removeEventListener('mousedown', function() {});
             canvas.removeEventListener('mousemove', function() {});
@@ -1032,6 +1036,10 @@ function selectionnerZoneGraphique() {
 
             myChart.options.plugins.zoom.pan.enabled = true;
             myChart.options.plugins.zoom.zoom.wheel.enabled = true;
+
+            afficherPopupParametresGraphiques();
+            afficherOngletParametre(5);
+            document.querySelector('.texteZoneSelection').innerText = `Zone sélectionnée: ${startDate} - ${endDate}`;
 
 
             return [startDate, endDate];
