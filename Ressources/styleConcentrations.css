@@ -172,12 +172,18 @@
     color: white;
     border: 5px solid var(--grisBRGM);
     margin: auto;
+    position: relative;
 }
 
 .donnees > table > caption {
     color: var(--orangeBRGM);
     font-size: 1.3em;
-    margin-bottom: 10px;
+    position: absolute;
+    top: -40px;
+    /* centré */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
 }
 
 .donnees > table > tbody > tr:nth-child(odd) {
