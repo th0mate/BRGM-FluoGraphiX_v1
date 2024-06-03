@@ -429,6 +429,7 @@ function afficherSelectLigne(idData, traceur) {
 function setBoutonCalculer(idLampe, Traceur) {
     let boutonCalculer = document.querySelector('#boutonCalculer');
     document.querySelector('#boutonResetZoom').classList.remove('disabled');
+    document.querySelector('.copier').style.display = 'flex';
 
     let boutonCalculerClone = boutonCalculer.cloneNode(true);
     boutonCalculer.parentNode.replaceChild(boutonCalculerClone, boutonCalculer);
