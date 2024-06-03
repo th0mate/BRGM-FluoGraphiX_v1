@@ -49,10 +49,12 @@ function vueConcentrations() {
                     
                 </div>
             </div>
+                        <div class="copier" onclick="copierScreenElement('.donnees')"><img src="Ressources/img/copier.png" alt=""> Copier une image</div>
+
         </div>
         
         <div class="descriptionConcentration"></div>
-        
+                
         <div class="donnees">
             <div class="tableau"></div>
             <div class="infosConcentration">

@@ -11,7 +11,7 @@ function vueGraphique() {
     </div>
     
     <div class="graphiques">
-        <canvas class="graphique" id="graphique"></canvas>   
+        <canvas class="graphique" id="graphique"></canvas>
         <div class="infos">
             <img src="Ressources/img/graphiqueIllu.png" alt="Graphique">
             <h2>Importez un fichier et prenez le contrôle de vos données.</h2>
@@ -24,6 +24,7 @@ function vueGraphique() {
         
         
         <div class="settings">
+        <div class="copier" onclick="copierScreenElement('.graphique')"><img src="Ressources/img/copier.png" alt=""> Copier une image</div>
             <div class="entete">
                 <h2>Affichage</h2>
                 <div class="bouton boutonFonce" onclick="afficherPopupParametresGraphiques()">

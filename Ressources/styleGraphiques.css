@@ -21,6 +21,7 @@
     max-width: 70%;
     max-height: 85vh;
     display: none;
+    position: relative;
 }
 
 
@@ -96,6 +97,11 @@
     padding: 10px;
     margin-top: 10px;
     text-align: left;
+    position: relative;
+}
+
+.settings > .copier {
+    top : -30px;
 }
 
 
