@@ -3,6 +3,7 @@
  * Se trouvent ici les fonctions d'affichage du popup, de calcul et d'interactions en lien avec les fonctionnalités de calculs de :
  * Correction de la turbidité / laison des labels de calibration avec les noms de courbes / correction des interférences / conversion en concentrations / correction du bruit de fond
  * /!\ ATTENTION : sont utilisées des fonctions de Graphiques.js ; calculsCourbesCalibration.js; utils.js: dispenserVisualisation.js
+ * Ce fichier est très long, il m'a pris énormément de temps à coder. Bon courage ;)
  */
 
 

@@ -217,3 +217,9 @@ function redirectTo(anchorId, isElement = false) {
         afficherMessageFlash("Erreur : L'élément demandé n'existe pas.", "danger");
     }
 }
+
+
+/**
+ * Signature
+ */
+console.log('%c Made with ❤️ by Thomas Loye (2024) - thomasloye.fr', 'color: #ff0000; font-size: 1.5em; font-weight: bold; text-shadow: 2px 2px 0 #000000;)');
