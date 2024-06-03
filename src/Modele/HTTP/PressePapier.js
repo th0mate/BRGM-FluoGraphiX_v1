@@ -18,6 +18,7 @@ async function copierScreenElement(querySelectorElement) {
             width: elementRect.width,
             height: elementRect.height,
             useCORS: true,
+            debug: false,
         });
 
         const blob = await new Promise(resolve => canvas.toBlob(resolve));
