@@ -154,21 +154,22 @@ function ouvrirChoisirFichier() {
 
 
 /**
- * Télécharge les fichiers du site en .zip
+ * Télécharge le fichier Ressources/FluoriGraphix.zip
  */
 async function downloadSite() {
-    const jszip = new JSZip();
-    const files = ['index.html', 'Ressources/', 'Ressources/img/', 'src/libs/', 'src/Mecanique/', 'src/Modele/DataObjetc/', 'src/Modele/HTTP/', 'src/vues/'];
-
-    for (const file of files) {
-        const response = await fetch(file);
-        const blob = await response.blob();
-        jszip.file(file, blob);
-    }
-
-    const zip = await jszip.generateAsync({type: 'blob'});
-    saveAs(zip, 'FluoriGraphix.zip');
+    const response = await fetch('Ressources/FluoriGraphix.zip');
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = url;
+    a.download = 'FluoriGraphix.zip';
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    afficherMessageFlash('Téléchargement de FluoriGraphix en cours...', 'success');
 }
+
 
 
 /**
@@ -222,4 +223,4 @@ function redirectTo(anchorId, isElement = false) {
 /**
  * Signature
  */
-console.log('%c Made with ❤️ by Thomas Loye (2024) - thomasloye.fr', 'color: #ff0000; font-size: 1.5em; font-weight: bold; text-shadow: 2px 2px 0 #000000;)');
+console.log('%c Développé avec ❤️ par Thomas Loye en 2024 - thomasloye.fr', 'color: #1283ff; font-size: 1.5em; font-weight: bold; text-shadow: 2px 2px 0 #000000;)');
