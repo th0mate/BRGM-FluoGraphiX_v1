@@ -1025,32 +1025,34 @@ function calculerInterferences(listeTraceur) {
 
             for (let k = 0; k < contenu.length; k++) {
                 const timestamp = DateTime.fromFormat(contenu[k][0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toMillis();
-                const mVValue = contenu[k][1];
+                const mVValueL1 = contenu[k][1]; //TODO vérifier que c'est bien L1
+                const mVValueL2 = contenu[k][2]; //TODO vérifier que c'est bien L2
 
-                if (!isNaN(mVValue)) {
+                if (!isNaN(mVValueL1)) {
                     const eauValue = parseFloat(eau.getDataParNom('L' + tableauLampesATraiter[i] + '-1'));
-                    if (!isNaN(eauValue) && mVValue > eauValue) {
+                    if (!isNaN(eauValue) && mVValueL1 > eauValue) {
 
-                        const logValue = Math.log(mVValue - eauValue);
+                        const logValue = Math.log(mVValueL1 - eauValue);
 
                         if (resultat.length === 3) {
                             const log2Value = logValue ** 2;
                             const valeur = Math.exp(parseFloat(resultat[0]) + parseFloat(resultat[1]) * logValue + parseFloat(resultat[2]) * log2Value);
                             data.data.push({x: timestamp, y: valeur});
-                            lignes[i + 3] = lignes[i + 3].replace(/[\n\r]/g, '');
-                            lignes[i + 3] += `;${arrondirA2Decimales(valeur)}`;
+                            lignes[k + 3] = lignes[k + 3].replace(/[\n\r]/g, '');
+                            lignes[k + 3] += `;${arrondirA2Decimales(valeur)}`;
 
                         } else if (resultat.length === 2) {
                             const valeur = Math.exp(parseFloat(resultat[0]) + parseFloat(resultat[1]) * logValue);
                             data.data.push({x: timestamp, y: valeur});
-                            lignes[i + 3] = lignes[i + 3].replace(/[\n\r]/g, '');
-                            lignes[i + 3] += `;${arrondirA2Decimales(valeur)}`;
+                            lignes[k + 3] = lignes[k + 3].replace(/[\n\r]/g, '');
+                            lignes[k + 3] += `;${arrondirA2Decimales(valeur)}`;
 
                         } else if (resultat.length === 1) {
-                            const valeur = parseFloat(resultat[0]) * mVValue;
+                            const valeur = mVValueL2 - (parseFloat(resultat[0]) * (mVValueL1 - 1.6));
+                            console.log(resultat);
                             data.data.push({x: timestamp, y: valeur});
-                            lignes[i + 3] = lignes[i + 3].replace(/[\n\r]/g, '');
-                            lignes[i + 3] += `;${arrondirA2Decimales(valeur)}`;
+                            lignes[k + 3] = lignes[k + 3].replace(/[\n\r]/g, '');
+                            lignes[k + 3] += `;${arrondirA2Decimales(valeur)}`;
                         }
                     }
                 }

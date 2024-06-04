@@ -42,6 +42,7 @@ function initialiserCalculsCourbes(idLampe, traceur) {
             }
         }
 
+        //TODO corriger ce foutoir
         if (countNaN === 0) {
             afficherCourbeParasites3Valeurs(resultat, idLampe, traceur);
         } else {
@@ -97,6 +98,7 @@ function effectuerCalculsCourbes(idLampe, traceur) {
     if (traceur.lampePrincipale !== idLampe) {
 
         if (nbValeurLampe < 4) {
+            console.log(effectuerCalculsParasites(traceur, idLampe));
             return effectuerCalculsParasites(traceur, idLampe);
         } else {
             return effectuerCalculsParasites4Valeurs(traceur, idLampe);
@@ -569,6 +571,7 @@ function afficherCourbeParasites3Valeurs(resultat, idLampe, traceur) {
  * @param traceur le traceur
  */
 function afficherCourbeParasites1Valeur(resultat, idLampe, traceur) {
+    //TODO on utilise pas résultat ??? Corriger effectuerCalculs pour retourner cette valeur.
     const data = {
         label: 'Signaux parasites',
         data: [],
@@ -594,7 +597,7 @@ function afficherCourbeParasites1Valeur(resultat, idLampe, traceur) {
 
     const pointX = traceur.getDataParNom('L' + traceur.lampePrincipale + '-' + index);
     const pointY = traceur.getDataParNom('L' + idLampe + '-' + index);
-
+    //TODO c'est a qu'il faut retourner dans effectuerCalculs
     const a = (pointY - eauValeurLampe) / (pointX - eauValeurL4);
     const b = eauValeurLampe - a * eauValeurL4;
 
