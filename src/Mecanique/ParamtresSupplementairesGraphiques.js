@@ -51,15 +51,11 @@ let traceurAExporter;
 let dateInjection;
 
 
-
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * GESTION DE L'AFFICHAGE DU POPUP DE PARAMETRES ET FONCTIONS UTILES
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
-
 
 
 /**
@@ -234,7 +230,7 @@ function afficherPopupParametresGraphiques() {
             <div class="listeSelectsTraceurs">
             </div>
             
-            <div class="boutonFonce bouton boutonOrange" onclick="ajouterCourbeConcentrationTraceur(traceurATraiter)">TERMINER</div>
+            <div class="boutonFonce bouton boutonOrange" onclick="fermerPopupParametres()">TERMINER</div>
         </div>
         
         
@@ -398,15 +394,11 @@ function remplacerDonneesFichier(ancien, nouveau) {
 }
 
 
-
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * GESTION DE LA CORRECTION DE LA TURBIDITE
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
-
 
 
 /**
@@ -554,7 +546,6 @@ function preparerInputRange() {
 }
 
 
-
 /**
  * Ajoute ou supprime un id de lampe dans la liste des lampes à corriger
  */
@@ -607,14 +598,11 @@ function metAJourTraceurAModifier(nomTraceur) {
 }
 
 
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * GESTION DE LA CONVERSION D'UN TRACEUR EN CONCENTRATION
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
-
 
 
 /**
@@ -748,14 +736,11 @@ function ajouterCourbeConcentrationTraceur(traceur) {
 }
 
 
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * GESTION DE L'EXPORT TRAC ET CSV
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
-
 
 
 /**
@@ -879,7 +864,7 @@ function telechargerTRAC(dateInjection, traceur) {
             continue;
         }
 
-        const timeDate = DateTime.fromFormat(colonnes[0] + '-' + colonnes[1], 'dd/MM/yy-HH:mm:ss', { zone: 'UTC' });
+        const timeDate = DateTime.fromFormat(colonnes[0] + '-' + colonnes[1], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
         console.log(timeDate);
 
         if (!timeDate.isValid) {
@@ -888,8 +873,8 @@ function telechargerTRAC(dateInjection, traceur) {
         }
 
         const timestamp = timeDate.toFormat('dd/MM/yy-HH:mm:ss');
-        const date = DateTime.fromFormat(timestamp, 'dd/MM/yy-HH:mm:ss', { zone: 'UTC' });
-        const dateInjectionObj = DateTime.fromFormat(dateInjection, 'yyyy-MM-dd', { zone: 'UTC' });
+        const date = DateTime.fromFormat(timestamp, 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
+        const dateInjectionObj = DateTime.fromFormat(dateInjection, 'yyyy-MM-dd', {zone: 'UTC'});
         const diff = date.diff(dateInjectionObj, 'days').toObject();
         const diffString = diff.days + (diff.months || 0) * 30 + (diff.years || 0) * 365;
 
@@ -901,7 +886,7 @@ function telechargerTRAC(dateInjection, traceur) {
     }
 
     const universalBOM = "\uFEFF";
-    const blob = new Blob([universalBOM + contenuCSVTRAC], { type: 'text/csv;charset=utf-8' });
+    const blob = new Blob([universalBOM + contenuCSVTRAC], {type: 'text/csv;charset=utf-8'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -913,13 +898,11 @@ function telechargerTRAC(dateInjection, traceur) {
 }
 
 
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * GESTION DES INTERFERENCES SUR UN OU PLUSIEURS TRACEURS
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
 
 
 /**
@@ -931,16 +914,16 @@ function mettreAJourNbTraceurs(nb) {
 
     for (let i = 0; i < nb; i++) {
         let span = '';
-        if (i !== nb -1) {
+        if (i !== nb - 1) {
             span = '<span></span>';
         }
         txt += `<div class="separateurSelect">
                 <h4>Traceur ${i + 1}</h4>
-                <select class="selectOrange" id="selectTraceur${i + 1}">
+                <select class="selectOrange" id="selectTraceur${i + 1}" onchange="initCalculsInterferences(${nb}, this.value, ${i + 1})">
                 <option value="" selected disabled>Sélectionner...</option>
                 `;
         for (let j = 0; j < traceurs.length; j++) {
-            if (traceurs[j].lampePrincipale !== '' && !isNaN(traceurs[j].lampePrincipale)) {
+            if (traceurs[j].lampePrincipale !== '' && !isNaN(traceurs[j].lampePrincipale) && traceurs[j].unite.toLowerCase() !== 'ntu' && i === 0) {
                 txt += `<option value="${traceurs[j].nom}">${traceurs[j].nom}</option>`;
             }
         }
@@ -950,6 +933,159 @@ function mettreAJourNbTraceurs(nb) {
 }
 
 
+/**
+ * Prépare les selects des traceurs à choisir, et redirige vers la fonction de calcul
+ * @param nbTraceurs le nombre de traceurs que l'utilisateur souhaite sélectionner
+ * @param valeurSelect la valeur sélectionnée dans le select (un nom de traceur)
+ * @param idSelect le numéro du select (1, 2 ou 3)
+ */
+function initCalculsInterferences(nbTraceurs, valeurSelect, idSelect) {
+    if (nbTraceurs === 1) {
+        calculerInterferences([traceurs.find(traceur => traceur.nom === valeurSelect)]);
+
+    } else if (nbTraceurs === 2) {
+
+    } else {
+
+    }
+}
+
+
+/**
+ * Calcule les interférences entre les traceurs sélectionnés
+ * Affiche une ou plusieurs courbes corrigées
+ * @param listeTraceur
+ */
+function calculerInterferences(listeTraceur) {
+
+
+    /**
+     * Cas pour un seul traceur
+     */
+    if (listeTraceur.length === 1) {
+        const tableauLampesATraiter = [];
+        const traceur = listeTraceur[0];
+
+        for (let i = 1; i <= 4; i++) {
+            if (i !== traceur.lampePrincipale && i !== 4) {
+                tableauLampesATraiter.push(i);
+            }
+        }
+
+        const resultats = [effectuerCalculsCourbes(tableauLampesATraiter[0], traceur)[0], effectuerCalculsCourbes(tableauLampesATraiter[1], traceur)[0]];
+
+        for (let i = 0; i < resultats.length; i++) {
+            resultats[i] = resultats[i].filter(valeur => !isNaN(valeur));
+        }
+
+        for (let i = 0; i < 2; i++) {
+            const resultat = resultats[i];
+            const eau = traceurs.find(t => t.unite === '');
+
+            const data = {
+                label: `L${tableauLampesATraiter[i]}Corr`,
+                data: [],
+                backgroundColor: 'rgba(0, 0, 0, 0)',
+                borderColor: getRandomColor(),
+                borderWidth: 2,
+                pointRadius: 0
+            };
+
+            const contenu = [];
+            const lignes = contenuFichier.split('\n');
+            let colonnes = lignes[2].split(';');
+            let indexLampe = -1;
+
+            colonnes = colonnes.map(colonne => colonne.replace(/[\n\r]/g, ''));
+            const canvas = document.getElementById('graphique');
+            const existingChart = Chart.getChart(canvas);
+
+            for (let j = 0; j < colonnes.length; j++) {
+                if (colonnes[j] === `L${tableauLampesATraiter[i]}`) {
+                    indexLampe = j;
+                    break;
+                }
+            }
+
+            for (let i = 3; i < lignes.length - 1; i++) {
+                const colonnes = lignes[i].split(';');
+                if (colonnes[indexLampe] !== '') {
+                    const ligne = [];
+                    ligne.push(colonnes[0] + '-' + colonnes[1]);
+                    ligne.push(parseFloat(colonnes[indexLampe].replace(/[\n\r]/g, '')));
+                    contenu.push(ligne);
+                }
+            }
+
+            const header = lignes[2].replace(/[\n\r]/g, '').split(';');
+            header.push(`L${tableauLampesATraiter[i]}Corr`);
+            lignes[2] = header.join(';');
+
+            console.log(contenu);
+
+            for (let k = 0; k < contenu.length; k++) {
+                const timestamp = DateTime.fromFormat(contenu[k][0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toMillis();
+                const mVValue = contenu[k][1];
+
+                if (!isNaN(mVValue)) {
+                    const eauValue = parseFloat(eau.getDataParNom('L' + tableauLampesATraiter[i] + '-1'));
+                    if (!isNaN(eauValue) && mVValue > eauValue) {
+
+                        const logValue = Math.log(mVValue - eauValue);
+
+                        if (resultat.length === 3) {
+                            const log2Value = logValue ** 2;
+                            const valeur = Math.exp(parseFloat(resultat[0]) + parseFloat(resultat[1]) * logValue + parseFloat(resultat[2]) * log2Value);
+                            data.data.push({x: timestamp, y: valeur});
+                            lignes[i + 3] = lignes[i + 3].replace(/[\n\r]/g, '');
+                            lignes[i + 3] += `;${arrondirA2Decimales(valeur)}`;
+
+                        } else if (resultat.length === 2) {
+                            const valeur = Math.exp(parseFloat(resultat[0]) + parseFloat(resultat[1]) * logValue);
+                            data.data.push({x: timestamp, y: valeur});
+                            lignes[i + 3] = lignes[i + 3].replace(/[\n\r]/g, '');
+                            lignes[i + 3] += `;${arrondirA2Decimales(valeur)}`;
+
+                        } else if (resultat.length === 1) {
+                            const valeur = parseFloat(resultat[0]) * mVValue;
+                            data.data.push({x: timestamp, y: valeur});
+                            lignes[i + 3] = lignes[i + 3].replace(/[\n\r]/g, '');
+                            lignes[i + 3] += `;${arrondirA2Decimales(valeur)}`;
+                        }
+                    }
+                }
+            }
+
+            contenuFichier = lignes.join('\n');
+
+            existingChart.data.datasets.forEach((dataset, index) => {
+                if (dataset.label !== `L${tableauLampesATraiter[0]}Corr` && dataset.label !== `L${tableauLampesATraiter[1]}Corr`) {
+                    dataset.hidden = true;
+                    if (existingChart.isDatasetVisible(index)) {
+                        existingChart.toggleDataVisibility(index);
+                    }
+                }
+            });
+
+            console.log(data);
+
+            existingChart.data.datasets.push(data);
+            existingChart.update();
+        }
+
+        /**
+         * Cas pour deux traceurs
+         */
+    } else if (listeTraceur.length === 2) {
+
+
+        /**
+         * Cas pour trois traceurs
+         */
+    } else {
+
+    }
+}
 
 
 /**
@@ -957,7 +1093,6 @@ function mettreAJourNbTraceurs(nb) {
  * GESTION DE LA SELECTION D'UNE ZONE SUR LE GRAPHIQUE
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
 
 
 /**
@@ -981,7 +1116,7 @@ function selectionnerZoneGraphique() {
     let startX = null;
     let currentX = null;
 
-    canvas.addEventListener('mousedown', function(e) {
+    canvas.addEventListener('mousedown', function (e) {
         if (flag) {
             isSelecting = true;
             const rect = canvas.getBoundingClientRect();
@@ -990,7 +1125,7 @@ function selectionnerZoneGraphique() {
         }
     });
 
-    canvas.addEventListener('mousemove', function(e) {
+    canvas.addEventListener('mousemove', function (e) {
         if (isSelecting && flag) {
             currentX = e.clientX - canvas.getBoundingClientRect().left;
 
@@ -1015,7 +1150,7 @@ function selectionnerZoneGraphique() {
         }
     });
 
-    canvas.addEventListener('mouseup', function(e) {
+    canvas.addEventListener('mouseup', function (e) {
         if (isSelecting && flag) {
             isSelecting = false;
             const rect = canvas.getBoundingClientRect();
@@ -1029,9 +1164,12 @@ function selectionnerZoneGraphique() {
             myChart.options.plugins.annotation.annotations = [];
             myChart.update();
 
-            canvas.removeEventListener('mousedown', function() {});
-            canvas.removeEventListener('mousemove', function() {});
-            canvas.removeEventListener('mouseup', function() {});
+            canvas.removeEventListener('mousedown', function () {
+            });
+            canvas.removeEventListener('mousemove', function () {
+            });
+            canvas.removeEventListener('mouseup', function () {
+            });
             flag = false;
 
 

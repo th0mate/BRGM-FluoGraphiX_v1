@@ -57,6 +57,7 @@ function vueDocumentation() {
                 <div class="sommaire" data-content="Importation" onclick="redirectTo('importGraphiqueDoc')"><span></span>Importation<img src="Ressources/img/droite.png" alt=""></div>
                 <div class="sommaire" data-content="Exportation" onclick="redirectTo('expGraphiqueDoc')"><span></span>Exportation<img src="Ressources/img/droite.png" alt=""></div>
                 <div class="sommaire" data-content="Graphique" onclick="redirectTo('GraphiqueDoc')"><span></span>Graphique<img src="Ressources/img/droite.png" alt=""></div>
+                <div class="sommaire" data-content="Graphique" onclick="redirectTo('CalculsDoc')"><span></span>Calculs<img src="Ressources/img/droite.png" alt=""></div>
             </div>
             
             <div>
@@ -270,6 +271,7 @@ function vueDocumentation() {
                         <p>Vous pouvez exporter vos fichiers sous la forme d'un fichier .CSV. Ce fichier contiendra toutes les données importées, et sera réutilisable par la suite dans FluoriGraphix.</p>
                         <p>Les fichiers .CSV ont l'avantage d'être très lisibles et compréhensibles, contrairement au xml ou au txt.</p>
                         <p>Le téléchargement débute aussitôt le bouton "Exporter les données" cliqué.</p>
+                        <p>Se référer à la partie "Calculs depuis les graphiques" pour la documentation traitant les exports TRAC.</p>
                     </div>
                     <img src="Ressources/img/screen15.png" alt="">
                 </div>
@@ -312,6 +314,79 @@ function vueDocumentation() {
                         <p>Vous pouvez afficher cette courbe à tout moment en cliquant sur son label ou sur la couleur de son label.</p>
                     </div>
                     <img src="Ressources/img/screen9.png" alt="">
+                </div>
+            </div>
+            
+            
+            <div class="section">
+                <h3>Graphiques</h3>
+                <h1 id="CalculsDoc" class="titreBarre findable">Calculs</h1>
+                
+                <div class="etape">
+                    <div>
+                        <h3 class="findable"><span>1</span>Présentation</h3>
+                        <p>Des paramètres supplémentaires, vous permettant de manipuler les données de mesures et les données de calibration, vous sont proposés en cliquant sur le bouton "Autres" dans le bandeau de paramètres.</p>
+                        <p>Un pop-up de paramètres s'affiche, vous permettant de jongler entre plusieurs onglets, chacun représentant une fonctionnalité.</p>
+                    </div>
+                    <img src="Ressources/img/screen80.png" alt="">
+                </div>
+                <div class="etape">
+                    <div>
+                        <h3 class="findable"><span>2</span>Importation de données de calibration</h3>
+                        <p>Pour importer des données de calibration, plusieurs possibilités s'offrent à vous : soit vous importez un fichier de calibration en même temps qu'un fichier de données de mesure; soit vous importez un fichier de calibration depuis le pop-up de paramètres si cela n'a pas été fait auparavant.</p>
+                        <p>Dans le cas où aucun fichier de calibration n'a été importé, un avertissement s'affiche dans le popup de paramètres, vous invitant à en joindre un.</p>
+                    </div>
+                    <img src="Ressources/img/screen81.png" alt="">
+                </div>
+                <div class="etape">
+                    <div>
+                        <h3 class="findable"><span>3</span>Avertissement de données corrompues</h3>
+                        <p>Après avoir importé un fichier de calibration, un popup peut apparaître sur votre écran.</p>
+                        <p>Ce popup apparaît si vous venez de joindre un fichier de calibration depuis le popup de paramètres, ou si vous venez d'ouvrir le popup de paramètres.</p>
+                        <p>Ce message vous indique que l'application a détecté une potentielle erreur dans vos données de calibration. Il est recommandé de corriger cette erreur avant d'effectuer d'autres actions.</p>
+                    </div>
+                    <img src="Ressources/img/screen82.png" alt="">
+                </div>
+                <div class="etape">
+                    <div>
+                        <h3 class="findable"><span>4</span>Renommer ses courbes</h3>
+                        <p>Si vos noms de courbes ne sont pas nommées L1, L2, L3 ou L4, comme dans votre fichier de calibration, l'application vous demandera de les renommer.</p>
+                        <p>Cette action se fait par le biais d'un tableau, en faisant correspondre les noms du fichier de calibration, avec les noms de vos courbes.</p>
+                        <p>Vos courbes sont alors automatiquement renommées pour correspondre à votre fichier de calibration. Une fois l'opération terminée, l'application vous indique que toutes les données sont conformes.</p>
+                        <p>Si vous sautez cette étape, et que vous effectuez des calculs depuis la partie de visualisation ("graphiques"), des bugs et erreurs peuvent survenir.</p>
+                    </div>
+                    <img src="Ressources/img/screen83.png" alt="">
+                </div>
+                <div class="etape">
+                    <div>
+                        <h3 class="findable"><span>5</span>Correction de la turbidité</h3>
+                        <p>Vous pouvez corriger l'incidence de la turbidité sur vos courbes, en vous rendant dans l'onglet "corriger la turbidité".</p>
+                        <p>Cet onglet vous permet de créer de nouvelles courbes, représentant les courbes sélectionnées corrigées en fonction de la turbidité du fichier de calibration.</p>
+                        <p>Vous pouvez donc sélectionner le niveau de correction à appliquer (entre 1 et 2), puis sélectionner la ou les courbes à corriger.</p>
+                        <p>En appuyant sur le bouton "terminer", les courbes corrigées apparaissant avec le nom "LxCorr" dans votre graphique. Pensez à les afficher en cliquant sur leur nom.</p>
+                    </div>
+                    <img src="Ressources/img/screen84.png" alt="">
+                </div>
+                <div class="etape">
+                    <div>
+                        <h3 class="findable"><span>6</span>Conversion en concentration</h3>
+                        <p>Vous pouvez convertir vos traceurs en concentrations en vous rendant dans l'onglet "Convertir en concentration".</p>
+                        <p>Les traceurs sont récupérés à partir du fichier de calibration. Chaque traceur est associé à une courbe, en fonction de sa lampe principale.</p>
+                        <p>Vous pouvez sélectionner un traceur à convertir puis cliquer sur "terminer". La courbe représentant alors votre traceur en concentration apparaît.</p>
+                    </div>
+                    <img src="Ressources/img/screen85.png" alt="">
+                </div>
+                <div class="etape">
+                    <div>
+                        <h3 class="findable"><span>7</span>Exporter vers TRAC</h3>
+                        <p>Après avoir converti un ou plusieurs traceurs en concentration, vous pouvez exporter vos données en un format CSV adapté pour le logiciel TRAC.</p>
+                        <p>Pour ce faire, vous pouvez cliquer sur le bouton "exporter les données". Un nouveau popup s'ouvre.</p>
+                        <p>Vous pouvez alors choisir en un export standard CSV, ou un export CSV dédié à TRAC.</p>
+                        <p>Sélectionnez alors la date d'injection, en utilisant votre clavier ou en cliquant sur le calendrier. Vous pouvez sélectionner une date comprise entre la première et la dernière date du graphique affiché.</p>
+                        <p>Si plusieurs traceurs ont été convertis en concentration, il vous est demandé d'en sélectionner un.</p>
+                        <p>Vous pouvez cliquer sur "exporter vers trac" pour débuter le téléchargement du fichier.</p>
+                    </div>
+                    <img src="Ressources/img/screen86.png" alt="">
                 </div>
             </div>
             
@@ -360,7 +435,7 @@ function vueDocumentation() {
             
             <div class="section">
                 <h3>Calibration</h3>
-                <h1 id="paramCalibrationDoc" class="titreBarre findable">Fichiers txt (Calibration)</h1>
+                <h1 id="paramCalibrationDoc" class="titreBarre findable">Fichiers CSV (Calibration)</h1>
                 
                 <div class="etape">
                     <div>
