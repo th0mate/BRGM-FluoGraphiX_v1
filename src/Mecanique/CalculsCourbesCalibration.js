@@ -32,7 +32,6 @@ let donneesCorrompues = false;
  */
 function initialiserCalculsCourbes(idLampe, traceur) {
     const resultat = effectuerCalculsCourbes(idLampe, traceur);
-    console.log(resultat);
 
     if (traceur.lampePrincipale !== idLampe) {
 

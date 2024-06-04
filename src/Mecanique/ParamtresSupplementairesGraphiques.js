@@ -995,6 +995,7 @@ function calculerInterferences(listeTraceur) {
             const lignes = contenuFichier.split('\n');
             let colonnes = lignes[2].split(';');
             let indexLampe = -1;
+            let indexLampePrincipale = -1;
 
             colonnes = colonnes.map(colonne => colonne.replace(/[\n\r]/g, ''));
             const canvas = document.getElementById('graphique');
@@ -1003,16 +1004,20 @@ function calculerInterferences(listeTraceur) {
             for (let j = 0; j < colonnes.length; j++) {
                 if (colonnes[j] === `L${tableauLampesATraiter[i]}`) {
                     indexLampe = j;
-                    break;
+                }
+
+                if (colonnes[j] === `L${traceur.lampePrincipale}`) {
+                    indexLampePrincipale = j;
                 }
             }
 
             for (let i = 3; i < lignes.length - 1; i++) {
                 const colonnes = lignes[i].split(';');
-                if (colonnes[indexLampe] !== '') {
+                if (colonnes[indexLampe] !== '' && colonnes[indexLampePrincipale] !== '') {
                     const ligne = [];
                     ligne.push(colonnes[0] + '-' + colonnes[1]);
-                    ligne.push(parseFloat(colonnes[indexLampe].replace(/[\n\r]/g, '')));
+                    ligne.push(colonnes[indexLampe].replace(/[\n\r]/g, ''));
+                    ligne.push(colonnes[indexLampePrincipale].replace(/[\n\r]/g, ''));
                     contenu.push(ligne);
                 }
             }
@@ -1021,12 +1026,11 @@ function calculerInterferences(listeTraceur) {
             header.push(`L${tableauLampesATraiter[i]}Corr`);
             lignes[2] = header.join(';');
 
-            console.log(contenu);
-
             for (let k = 0; k < contenu.length; k++) {
                 const timestamp = DateTime.fromFormat(contenu[k][0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toMillis();
                 const mVValueL1 = contenu[k][1]; //TODO vérifier que c'est bien L1
                 const mVValueL2 = contenu[k][2]; //TODO vérifier que c'est bien L2
+
 
                 if (!isNaN(mVValueL1)) {
                     const eauValue = parseFloat(eau.getDataParNom('L' + tableauLampesATraiter[i] + '-1'));
@@ -1048,8 +1052,8 @@ function calculerInterferences(listeTraceur) {
                             lignes[k + 3] += `;${arrondirA2Decimales(valeur)}`;
 
                         } else if (resultat.length === 1) {
-                            const valeur = mVValueL2 - (parseFloat(resultat[0]) * (mVValueL1 - 1.6));
-                            console.log(resultat);
+                            //TODO Marche pas
+                            const valeur = mVValueL2 - (parseFloat(resultat[0]) * (mVValueL1 - eauValue));
                             data.data.push({x: timestamp, y: valeur});
                             lignes[k + 3] = lignes[k + 3].replace(/[\n\r]/g, '');
                             lignes[k + 3] += `;${arrondirA2Decimales(valeur)}`;
@@ -1068,8 +1072,6 @@ function calculerInterferences(listeTraceur) {
                     }
                 }
             });
-
-            console.log(data);
 
             existingChart.data.datasets.push(data);
             existingChart.update();
