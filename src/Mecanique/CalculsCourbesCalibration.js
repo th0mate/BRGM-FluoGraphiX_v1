@@ -32,6 +32,7 @@ let donneesCorrompues = false;
  */
 function initialiserCalculsCourbes(idLampe, traceur) {
     const resultat = effectuerCalculsCourbes(idLampe, traceur);
+    console.log(resultat);
 
     if (traceur.lampePrincipale !== idLampe) {
 
@@ -42,7 +43,6 @@ function initialiserCalculsCourbes(idLampe, traceur) {
             }
         }
 
-        //TODO corriger ce foutoir
         if (countNaN === 0) {
             afficherCourbeParasites3Valeurs(resultat, idLampe, traceur);
         } else {
@@ -97,9 +97,26 @@ function effectuerCalculsCourbes(idLampe, traceur) {
 
     if (traceur.lampePrincipale !== idLampe) {
 
-        if (nbValeurLampe < 4) {
-            console.log(effectuerCalculsParasites(traceur, idLampe));
+        if (nbValeurLampe < 4 && nbValeurLampe !== 1) {
             return effectuerCalculsParasites(traceur, idLampe);
+        } else if (nbValeurLampe === 1) {
+            let index = 0;
+
+            for (let i = 1; i <= traceur.echelles.length; i++) {
+                if (!isNaN(traceur.getDataParNom('L' + idLampe + '-' + i))) {
+                    index = i;
+                    break;
+                }
+            }
+
+            const eau = traceurs.find(traceur => traceur.unite === '');
+            const eauValeurLampePrincipale = eau.getDataParNom('L' + traceur.lampePrincipale + '-1');
+            const eauValeurLampe = eau.getDataParNom('L' + idLampe + '-1');
+
+            const pointX = traceur.getDataParNom('L' + traceur.lampePrincipale + '-' + index);
+            const pointY = traceur.getDataParNom('L' + idLampe + '-' + index);
+
+            return [[(pointY - eauValeurLampe) / (pointX - eauValeurLampePrincipale), NaN, NaN]];
         } else {
             return effectuerCalculsParasites4Valeurs(traceur, idLampe);
         }
@@ -571,7 +588,6 @@ function afficherCourbeParasites3Valeurs(resultat, idLampe, traceur) {
  * @param traceur le traceur
  */
 function afficherCourbeParasites1Valeur(resultat, idLampe, traceur) {
-    //TODO on utilise pas résultat ??? Corriger effectuerCalculs pour retourner cette valeur.
     const data = {
         label: 'Signaux parasites',
         data: [],
@@ -583,7 +599,7 @@ function afficherCourbeParasites1Valeur(resultat, idLampe, traceur) {
     };
 
     const eau = traceurs.find(traceur => traceur.unite === '');
-    const eauValeurL4 = eau.getDataParNom('L' + traceur.lampePrincipale + '-1');
+    const eauValeurLampePrincipale = eau.getDataParNom('L' + traceur.lampePrincipale + '-1');
     const eauValeurLampe = eau.getDataParNom('L' + idLampe + '-1');
 
     let index = 0;
@@ -595,17 +611,17 @@ function afficherCourbeParasites1Valeur(resultat, idLampe, traceur) {
         }
     }
 
+
     const pointX = traceur.getDataParNom('L' + traceur.lampePrincipale + '-' + index);
-    const pointY = traceur.getDataParNom('L' + idLampe + '-' + index);
-    //TODO c'est a qu'il faut retourner dans effectuerCalculs
-    const a = (pointY - eauValeurLampe) / (pointX - eauValeurL4);
-    const b = eauValeurLampe - a * eauValeurL4;
+
+    const a = resultat[0][0];
+    const b = eauValeurLampe - a * eauValeurLampePrincipale;
 
     const marge = pointX * 1.2;
     let tempX = 0;
     let tempY = 0;
 
-    for (let x = eauValeurL4; x <= marge; x += 2) {
+    for (let x = eauValeurLampePrincipale; x <= marge; x += 2) {
         const y = a * x + b;
 
         if (x < tempX || y < tempY) {
