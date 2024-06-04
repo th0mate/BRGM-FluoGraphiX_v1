@@ -108,7 +108,8 @@ function initFichierCalibration(estFichierDat = true, estDepuisCalibration = tru
 
 
 /**
- * Crée un graphique et affiche la courbe de calculs pour chaque lampe de chaque traceur, permettant d'afficher un popup si une erreur dans les données est constatée.
+ * Crée un graphique invisible et affiche la courbe de calculs pour chaque lampe de chaque traceur, permettant d'afficher un popup si une erreur dans les données est constatée.
+ * Cette fonction est utilisée dans la partie visualisation, pour alerter l'utilisateur si ses données de calibration sont suspectées incorrectes.
  */
 function testerTousTraceurs() {
     for (let i = 0; i < traceurs.length; i++) {
