@@ -6,7 +6,6 @@
  */
 
 
-
 /**
  * Le nombre de valeurs n'étant pas NaN pour une lampe d'un traceur donné (donc pas pour l'eau)
  */
@@ -19,14 +18,11 @@ let nbValeurLampe = 0;
 let donneesCorrompues = false;
 
 
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * INITIALISATION DES DONNEES
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
-
 
 
 /**
@@ -53,7 +49,9 @@ function initialiserCalculsCourbes(idLampe, traceur) {
         }
 
         if (donneesCorrompues) {
-            afficherPopup('<img src="Ressources/img/attention2.png" alt="">', 'Attention : données potentiellement corrompues détectées !', 'Les données affichées par la courbe indiquent une potentielle erreur dans les données pour cette lampe et ce traceur. Assurez-vous qu\'elles soient correctes.', '<div class="bouton boutonFonce" onclick="fermerPopup()">TERMINER</div>');
+            setTimeout(() => {
+                afficherPopup('<img src="Ressources/img/attention2.png" alt="">', 'Attention : données potentiellement corrompues détectées !', 'Les données calculées indiquent une potentielle erreur dans les données de calibration importées. Assurez-vous qu\'elles soient correctes.', '<div class="bouton boutonFonce" onclick="fermerPopup()">TERMINER</div>');
+            }, 500);
         }
 
     } else {
@@ -68,15 +66,11 @@ function initialiserCalculsCourbes(idLampe, traceur) {
 }
 
 
-
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * CALCULS DES COURBES (DEGRE1; DEGRE2; CONSTANTES; ERREURS TYPES)
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
-
 
 
 /**
@@ -173,13 +167,11 @@ function effectuerCalculsCourbes(idLampe, traceur) {
 }
 
 
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * CALCULS DES PARASITES
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
 
 
 /**
@@ -279,8 +271,6 @@ function effectuerCalculsParasites4Valeurs(traceur, idLampe) {
  * AFFICHAGE DES COURBES - CONCENTRATION
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
-
 
 
 /**
@@ -436,15 +426,11 @@ function afficherCourbeDepuis1Valeur(resultat, idLampe, traceur) {
 }
 
 
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * AFFICHAGE DES COURBES - PARASITES
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
-
-
 
 
 /**
@@ -636,15 +622,11 @@ function afficherCourbeParasites1Valeur(resultat, idLampe, traceur) {
 }
 
 
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * FONCTIONS UTILITAIRES
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
-
-
 
 
 /**
@@ -744,15 +726,11 @@ function creerMatriceLn(traceur, tableauValeursNettes) {
 }
 
 
-
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * FONCTIONS DE CALCULS MATRICIELS
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
-
 
 
 /**

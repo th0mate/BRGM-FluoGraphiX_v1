@@ -75,7 +75,7 @@ function afficherPopupParametresGraphiques() {
         }
 
         if (traceurs.length === 0) {
-            init(estFichierDat, false);
+            initFichierCalibration(estFichierDat, false);
         }
 
         let overlay = document.createElement('div');
@@ -292,7 +292,7 @@ function initParasites() {
 
     reader.onload = function () {
         contenuCalibrat = nettoyerFichierCSV(reader.result);
-        init(estFichierDat, false);
+        initFichierCalibration(estFichierDat, false);
         afficherMessageFlash("Fichier Calibrat.dat importé avec succès.", 'success');
         document.querySelector('.calibratAbsent').remove();
     };

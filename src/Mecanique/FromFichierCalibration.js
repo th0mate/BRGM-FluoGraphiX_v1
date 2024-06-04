@@ -46,9 +46,9 @@ let traceurs = [];
  * Initialise les variables issues du fichier de calibration.
  * Prend en charge les fichiers de calibration CSV et DAT
  * @param estFichierDat - true si le fichier est un DAT, false si c'est un CSV
- * @param estDepuisCalibration - true si l'initialisation est faite depuis la page de calibration, false si c'est depuis la page de comparaison
+ * @param estDepuisCalibration - true si l'initialisation est faite depuis la page de calibration, false si c'est depuis une autre page
  */
-function init(estFichierDat = true, estDepuisCalibration = true) {
+function initFichierCalibration(estFichierDat = true, estDepuisCalibration = true) {
 
     if (contenuCalibrat !== '') {
 
@@ -97,10 +97,25 @@ function init(estFichierDat = true, estDepuisCalibration = true) {
 
         if (estDepuisCalibration) {
             afficherSelectTraceurs();
+        } else {
+            testerTousTraceurs();
         }
 
     } else {
         afficherMessageFlash('Erreur : aucune donnée exploitable.', 'danger');
+    }
+}
+
+
+/**
+ * Crée un graphique et affiche la courbe de calculs pour chaque lampe de chaque traceur, permettant d'afficher un popup si une erreur dans les données est constatée.
+ */
+function testerTousTraceurs() {
+    for (let i = 0; i < traceurs.length; i++) {
+        for (let j = 1; j <= 4; j++) {
+            afficherGraphiqueTraceur(traceurs[i], j);
+            initialiserCalculsCourbes(j, traceurs[i]);
+        }
     }
 }
 

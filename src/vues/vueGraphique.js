@@ -78,6 +78,7 @@ function vueGraphique() {
         <h4>L'appareil avec lequel vous utilisez ce site n'a pas un écran suffisamment large pour afficher les données de façon lisible</h4>
         <h4>Si vous êtes sur ordinateur et que votre fenêtre de votre navigateur est réduite, agrandissez-la au maximum.</h4>
     </div>
+    <div class="donnees" style="display: none;"></div>
 </div>
 </div>
 

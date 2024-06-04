@@ -65,8 +65,7 @@ function vueConcentrations() {
         </div>
         
     
-        
-        
+     
         
     </div>
 

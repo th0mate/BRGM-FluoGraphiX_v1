@@ -169,7 +169,7 @@ async function traiterFichier() {
     } else if (contenuCalibrat !== "") {
         afficherMessageFlash("Fichier Calibrat.dat détecté. Redirection.", 'info');
         afficherVue('vueConcentrations');
-        init(fichierCalibrationFormatDat);
+        initFichierCalibration(fichierCalibrationFormatDat);
     } else {
         afficherMessageFlash("Erreur : aucune donnée exploitable.", 'danger');
     }
@@ -200,7 +200,7 @@ function traiterCalibrat() {
             reader.readAsText(fichier);
             reader.onload = function () {
                 contenuCalibrat = reader.result;
-                init(true);
+                initFichierCalibration(true);
                 afficherMessageFlash("Fichier Calibrat.dat traité avec succès.", 'success');
             };
         } else if (fichier.name.split('.').pop() === "csv") {
@@ -208,7 +208,7 @@ function traiterCalibrat() {
             reader.readAsText(fichier);
             reader.onload = function () {
                 contenuCalibrat = nettoyerFichierCSV(reader.result);
-                init(false);
+                initFichierCalibration(false);
                 afficherMessageFlash("Fichier Calibrat.dat traité avec succès.", 'success');
             };
         } else {
