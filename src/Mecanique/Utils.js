@@ -110,6 +110,10 @@ function nettoyerFichierCSV(contenuFichier) {
     for (let i = 0; i < contenuCalibrat1.length; i++) {
         contenuCalibrat1[i] = contenuCalibrat1[i].replace(/;{2,}/g, '');
         contenuCalibrat1[i] = contenuCalibrat1[i].replace(/,/g, '.');
+        contenuCalibrat1[i] = contenuCalibrat1[i].trim();
+        if (contenuCalibrat1[i].charAt(contenuCalibrat1[i].length - 1) === ';') {
+            contenuCalibrat1[i] = contenuCalibrat1[i].substring(0, contenuCalibrat1[i].length - 1);
+        }
     }
 
     return contenuCalibrat1.join('\n');
