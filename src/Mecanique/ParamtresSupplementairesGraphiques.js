@@ -944,9 +944,63 @@ function initCalculsInterferences(nbTraceurs, valeurSelect, idSelect) {
         calculerInterferences([traceurs.find(traceur => traceur.nom === valeurSelect)]);
 
     } else if (nbTraceurs === 2) {
+        let traceur1 = null;
+        let traceur2 = null;
 
+        if (idSelect === 1) {
+            const selectTraceur2 = document.getElementById('selectTraceur2');
+            const traceur1 = traceurs.find(traceur => traceur.nom === valeurSelect);
+            selectTraceur2.innerHTML = '<option value="" selected disabled>Sélectionner...</option>';
+
+            for (let i = 0; i < traceurs.length; i++) {
+                if (traceurs[i].lampePrincipale !== traceur1.lampePrincipale && traceurs[i].unite !== '' && traceurs[i].unite.toLowerCase() !== 'ntu') {
+                    selectTraceur2.innerHTML += `<option value="${traceurs[i].nom}">${traceurs[i].nom}</option>`;
+                }
+            }
+        } else {
+            traceur1 = traceurs.find(traceur => traceur.nom === document.getElementById('selectTraceur1').value);
+            traceur2 = traceurs.find(traceur => traceur.nom === valeurSelect);
+        }
+
+        if (traceur1 && traceur2) {
+            calculerInterferences([traceur1, traceur2]);
+        }
     } else {
+        if (idSelect === 1) {
+            const selectTraceur2 = document.getElementById('selectTraceur2');
+            const selectTraceur3 = document.getElementById('selectTraceur3');
+            const traceur1 = traceurs.find(traceur => traceur.nom === valeurSelect);
+            selectTraceur2.innerHTML = '<option value="" selected disabled>Sélectionner...</option>';
+            selectTraceur3.innerHTML = '<option value="" selected disabled>Sélectionner...</option>';
 
+            for (let i = 0; i < traceurs.length; i++) {
+                if (traceurs[i].lampePrincipale !== traceur1.lampePrincipale && traceurs[i].unite !== '' && traceurs[i].unite.toLowerCase() !== 'ntu') {
+                    selectTraceur2.innerHTML += `<option value="${traceurs[i].nom}">${traceurs[i].nom}</option>`;
+                }
+            }
+
+        } else if (idSelect === 2) {
+
+            const selectTraceur3 = document.getElementById('selectTraceur3');
+            const traceur1 = traceurs.find(traceur => traceur.nom === document.getElementById('selectTraceur1').value);
+            const traceur2 = traceurs.find(traceur => traceur.nom === valeurSelect);
+            selectTraceur3.innerHTML = '<option value="" selected disabled>Sélectionner...</option>';
+
+            for (let i = 0; i < traceurs.length; i++) {
+                if (traceurs[i].lampePrincipale !== traceur1.lampePrincipale && traceurs[i].lampePrincipale !== traceur2.lampePrincipale && traceurs[i].unite !== '' && traceurs[i].unite.toLowerCase() !== 'ntu') {
+                    selectTraceur3.innerHTML += `<option value="${traceurs[i].nom}">${traceurs[i].nom}</option>`;
+                }
+            }
+
+        } else {
+            let traceur1 = traceurs.find(traceur => traceur.nom === document.getElementById('selectTraceur1').value);
+            let traceur2 = traceurs.find(traceur => traceur.nom === document.getElementById('selectTraceur2').value);
+            let traceur3 = traceurs.find(traceur => traceur.nom === valeurSelect);
+
+            if (traceur1 && traceur2 && traceur3) {
+                calculerInterferences([traceur1, traceur2, traceur3]);
+            }
+        }
     }
 }
 
@@ -1092,11 +1146,15 @@ function calculerInterferences(listeTraceur) {
 }
 
 
+
+
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * GESTION DE LA SELECTION D'UNE ZONE SUR LE GRAPHIQUE
  * ---------------------------------------------------------------------------------------------------------------------
  */
+
+
 
 
 /**
