@@ -346,7 +346,6 @@ function telechargerFichier() {
         }
         ligne += '\n';
 
-        console.log(ligne);
 
         contenuFichier += temp.split('\n')[0] + '\n';
         contenuFichier += ligne;

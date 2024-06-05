@@ -42,6 +42,7 @@ function initialiserCalculsCourbes(idLampe, traceur) {
             }
         }
 
+
         if (countNaN === 0) {
             afficherCourbeParasites3Valeurs(resultat, idLampe, traceur);
         } else if (countNaN === 1) {
@@ -98,7 +99,7 @@ function effectuerCalculsCourbes(idLampe, traceur) {
 
     if (traceur.lampePrincipale !== idLampe) {
 
-        if (nbValeurLampe < 4 && nbValeurLampe !== 1) {
+        if (nbValeurLampe < 4 && nbValeurLampe !== 1 && nbValeurLampe !== 2) {
             return effectuerCalculsParasites(traceur, idLampe);
         } else if (nbValeurLampe === 1) {
             let index = 0;
@@ -118,6 +119,8 @@ function effectuerCalculsCourbes(idLampe, traceur) {
             const pointY = traceur.getDataParNom('L' + idLampe + '-' + index);
 
             return [[(pointY - eauValeurLampe) / (pointX - eauValeurLampePrincipale), NaN, NaN]];
+        } else if (nbValeurLampe === 2) {
+            return effectuerCalculsParasites3Valeurs(traceur, idLampe);
         } else {
             return effectuerCalculsParasites4Valeurs(traceur, idLampe);
         }
@@ -228,7 +231,6 @@ function effectuerCalculsParasites(traceur, idLampe) {
     }
 
     const Xinverse = inverse(X);
-    console.log(multiply([ln], Xinverse));
     return (multiply([ln], Xinverse));
 }
 
@@ -286,7 +288,42 @@ function effectuerCalculsParasites4Valeurs(traceur, idLampe) {
     const erreurType = 1.96 * (Math.sqrt(derniereColonne / (nbValeurLampe - 3)));
     final.push(erreurType);
     return final;
+}
 
+
+/**
+ * Effectue les calculs nécessaires obtenir les données parasites d'une lampe, si on a 2 valeurs
+ * @param traceur le traceur
+ * @param idLampe l'id de la lampe
+ * @return {(number|number)[][]} les résultats du calcul (constante et degré1)
+ */
+function effectuerCalculsParasites3Valeurs(traceur, idLampe) {
+
+    const eau = traceurs.find(traceur => traceur.unite === '');
+    let ligneLampePrincipale = [];
+    let ligneLampeATraiter = [];
+
+    for (let i = 1; i <= traceur.echelles.length; i++) {
+        
+        if (!isNaN(traceur.getDataParNom('L' + traceur.lampePrincipale + '-' + i))) {
+            ligneLampePrincipale.push([traceur.getDataParNom('L' + traceur.lampePrincipale + '-' + i) - eau.getDataParNom('L' + traceur.lampePrincipale + '-1')]);
+        }
+        
+        if (!isNaN(traceur.getDataParNom('L' + idLampe + '-' + i))) {
+            ligneLampeATraiter.push([traceur.getDataParNom('L' + idLampe + '-' + i) - eau.getDataParNom('L' + idLampe + '-1')]);
+        }
+
+    }
+
+
+    ligneLampePrincipale = ligneLampePrincipale.map(ligne => [Math.log(ligne[0])]);
+    ligneLampeATraiter = ligneLampeATraiter.map(ligne => [Math.log(ligne[0])]);
+
+
+    const constante = (ligneLampeATraiter[1] - ligneLampeATraiter[0]) / (ligneLampePrincipale[1] - ligneLampePrincipale[0]);
+    const degre1 = ligneLampeATraiter[1] - constante * ligneLampePrincipale[1];
+
+    return [[constante, degre1, NaN], NaN];
 
 }
 
@@ -600,8 +637,8 @@ function afficherCourbeParasites2Valeurs(resultat, idLampe, traceur) {
         tension: 0.4
     };
 
-    const constante = arrondir8Chiffres(resultat[0][1]);
-    const degre1 = arrondir8Chiffres(resultat[0][0]);
+    const degre1 = resultat[0][0];
+    const constante = resultat[0][1];
 
     let maxTraceur = 0;
 
