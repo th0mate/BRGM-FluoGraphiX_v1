@@ -1086,8 +1086,8 @@ function calculerInterferences(listeTraceur) {
 
             for (let k = 0; k < contenu.length; k++) {
                 const timestamp = DateTime.fromFormat(contenu[k][0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toMillis();
-                const mVValueLampeTraceur1 = contenu[k][1]; //TODO vérifier que c'est bien L1
-                const mVValueLampeATraiter = contenu[k][2]; //TODO vérifier que c'est bien L2
+                const mVValueLampeTraceur1 = contenu[k][1];
+                const mVValueLampeATraiter = contenu[k][2];
 
 
                 if (!isNaN(mVValueLampeTraceur1)) {
