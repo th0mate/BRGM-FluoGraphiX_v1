@@ -1117,6 +1117,8 @@ function calculerInterferences(listeTraceur) {
 
             contenuFichier = lignes.join('\n');
 
+            existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${tableauLampesATraiter[i]}Corr`);
+
             existingChart.data.datasets.forEach((dataset, index) => {
                 if (dataset.label !== `L${tableauLampesATraiter[0]}Corr` && dataset.label !== `L${tableauLampesATraiter[1]}Corr`) {
                     dataset.hidden = true;
