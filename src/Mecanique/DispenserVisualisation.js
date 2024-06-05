@@ -8,7 +8,7 @@
  * Contenu du fichier importé par l'utilisateur
  * @type {string} le contenu du fichier
  */
-let contenuFichier = "";
+let contenuFichierMesures = "";
 
 /**
  * Le nombre de lignes total du fichier importé par l'utilisateur
@@ -26,7 +26,7 @@ let premiereDate = "";
  * Le contenu du fichier de calibration importé par l'utilisateur
  * @type {string}
  */
-let contenuCalibrat = "";
+let contenuFichierCalibration = "";
 
 
 
@@ -61,8 +61,8 @@ async function traiterFichier() {
         }
     }
 
-    contenuFichier = "";
-    contenuCalibrat = "";
+    contenuFichierMesures = "";
+    contenuFichierCalibration = "";
     nbLignes = 0;
     document.querySelector('#selectFormatDate').disabled = false;
     let derniereDate;
@@ -81,7 +81,7 @@ async function traiterFichier() {
                     reader.onload = function () {
                         const xmlString = reader.result;
                         const mvContent = convertirXMLenMV(xmlString);
-                        contenuFichier += mvContent;
+                        contenuFichierMesures += mvContent;
                         resolve();
                     };
                 });
@@ -90,7 +90,7 @@ async function traiterFichier() {
                     chargerTexteFichier(fichier, function (txtContent) {
                         if (txtContent !== '') {
                             const mvContent = convertirTexteenMV(txtContent);
-                            contenuFichier += mvContent;
+                            contenuFichierMesures += mvContent;
                             resolve();
                         } else {
                             afficherMessageFlash("Erreur de lecture fichier TXT : fichier invalide.", 'danger');
@@ -102,7 +102,7 @@ async function traiterFichier() {
                 await new Promise((resolve) => {
                     getStringDepuisFichierMV(fichier, function (mvContent) {
                         if (mvContent !== '') {
-                            contenuFichier += mvContent;
+                            contenuFichierMesures += mvContent;
                             resolve();
                         } else {
                             afficherMessageFlash("Erreur de lecture fichier MV : fichier invalide.", 'danger');
@@ -115,7 +115,7 @@ async function traiterFichier() {
                 await new Promise((resolve) => {
                     reader.onload = function () {
                         parametrerSiteDepuisCalibrat(reader.result);
-                        contenuCalibrat = reader.result;
+                        contenuFichierCalibration = reader.result;
                         resolve();
                     };
                 });
@@ -129,10 +129,10 @@ async function traiterFichier() {
                         }
 
                         if (!reader.result.split('\n')[0].includes('Appareil')) {
-                            contenuFichier += nettoyerFichierCSV(reader.result);
+                            contenuFichierMesures += nettoyerFichierCSV(reader.result);
                         } else {
                             fichierCalibrationFormatDat = false;
-                            contenuCalibrat = nettoyerFichierCSV(reader.result);
+                            contenuFichierCalibration = nettoyerFichierCSV(reader.result);
                         }
                         resolve();
                     };
@@ -145,19 +145,19 @@ async function traiterFichier() {
         }
     }
 
-    if (contenuFichier !== "") {
+    if (contenuFichierMesures !== "") {
         if (estPlusDeUnJour(derniereDate, premiereDate)) {
             afficherMessageFlash("Trop grand écart entre les dates de fichiers : les données sont corrompues.", 'warning');
         } else {
             try {
                 inputFichier.value = "";
-                afficherGraphique(contenuFichier);
+                afficherGraphique(contenuFichierMesures);
                 afficherMessageFlash("Données traitées avec succès.", 'success');
                 document.querySelector('.downloadFile').style.display = 'block';
             } catch (e) {
                 setTimeout(() => {
                     document.querySelector('.graphique').style.display = 'none';
-                    contenuFichier = "";
+                    contenuFichierMesures = "";
                     inputFichier.value = "";
                     fichiers = [];
                     afficherPopup('<img src="Ressources/img/perteConnexion.png" alt="">', "Erreur lors de l'affichage des données", "Une erreur est survenue lors de l'affichage des données. Peut-être avez-vous mal configuré le format de date dans les paramètres ?", "<div class='bouton boutonFonce' onclick='fermerPopup()'>FERMER</div>");
@@ -166,7 +166,7 @@ async function traiterFichier() {
             }
 
         }
-    } else if (contenuCalibrat !== "") {
+    } else if (contenuFichierCalibration !== "") {
         afficherMessageFlash("Fichier Calibrat.dat détecté. Redirection.", 'info');
         afficherVue('vueConcentrations');
         initFichierCalibration(fichierCalibrationFormatDat);
@@ -193,13 +193,13 @@ async function traiterFichier() {
 function traiterCalibrat() {
     const inputFichier = document.getElementById('calibratInput');
     let fichier = inputFichier.files[0];
-    contenuCalibrat = "";
+    contenuFichierCalibration = "";
     if (fichier) {
         if (fichier.name.split('.').pop() === "dat") {
             const reader = new FileReader();
             reader.readAsText(fichier);
             reader.onload = function () {
-                contenuCalibrat = reader.result;
+                contenuFichierCalibration = reader.result;
                 initFichierCalibration(true);
                 afficherMessageFlash("Fichier Calibrat.dat traité avec succès.", 'success');
             };
@@ -207,7 +207,7 @@ function traiterCalibrat() {
             const reader = new FileReader();
             reader.readAsText(fichier);
             reader.onload = function () {
-                contenuCalibrat = nettoyerFichierCSV(reader.result);
+                contenuFichierCalibration = nettoyerFichierCSV(reader.result);
                 initFichierCalibration(false);
                 afficherMessageFlash("Fichier Calibrat.dat traité avec succès.", 'success');
             };
@@ -262,8 +262,8 @@ function modifierFormat(cle) {
  * Retourne la dernière date de contenuFichier
  */
 function getLastDate() {
-    if (contenuFichier !== "") {
-        const lignes = contenuFichier.split('\n');
+    if (contenuFichierMesures !== "") {
+        const lignes = contenuFichierMesures.split('\n');
         const lastLine = lignes[lignes.length - 2];
         return lastLine.substring(6, 26);
     }
@@ -320,17 +320,17 @@ function estPlusDeUnJour(date1, date2) {
  * Télécharge un fichier .csv contenant le contenu de la variable globale contenuFichier
  */
 function telechargerFichier() {
-    if (contenuFichier !== "") {
+    if (contenuFichierMesures !== "") {
 
-        const lignes = contenuFichier.split('\n');
+        const lignes = contenuFichierMesures.split('\n');
 
         if (lignes[0].includes('FluoriGraphix')) {
-            contenuFichier = lignes.slice(2).join('\n');
+            contenuFichierMesures = lignes.slice(2).join('\n');
         }
 
-        let temp = contenuFichier;
-        contenuFichier = `                   FluoriGraphix - Export du ${getDateAujourdhui()} - Signaux en mV\n`;
-        contenuFichier += "                           -------------------------------------------\n";
+        let temp = contenuFichierMesures;
+        contenuFichierMesures = `                   FluoriGraphix - Export du ${getDateAujourdhui()} - Signaux en mV\n`;
+        contenuFichierMesures += "                           -------------------------------------------\n";
 
         const nbColonnes = temp.split('\n')[0].split(';').length;
         let ligne = temp.split('\n')[1];
@@ -347,13 +347,13 @@ function telechargerFichier() {
         ligne += '\n';
 
 
-        contenuFichier += temp.split('\n')[0] + '\n';
-        contenuFichier += ligne;
-        contenuFichier += temp.split('\n').slice(2).join('\n');
+        contenuFichierMesures += temp.split('\n')[0] + '\n';
+        contenuFichierMesures += ligne;
+        contenuFichierMesures += temp.split('\n').slice(2).join('\n');
 
         const canvas = document.getElementById('graphique');
         const existingChart = Chart.getChart(canvas);
-        let fichier = contenuFichier;
+        let fichier = contenuFichierMesures;
 
         if (existingChart) {
             for (let i = 0; i < existingChart.data.datasets.length; i++) {

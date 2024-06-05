@@ -62,11 +62,11 @@ let dateInjection;
  * Affiche les paramètres supplémentaires pour la visualisation des parasites sous la forme d'un popup
  */
 function afficherPopupParametresGraphiques() {
-    if (contenuFichier !== '') {
+    if (contenuFichierMesures !== '') {
         fermerPopupParametres();
 
         let estFichierDat = true;
-        if (contenuCalibrat.split('\n')[0].includes('FluoriGraphix')) {
+        if (contenuFichierCalibration.split('\n')[0].includes('FluoriGraphix')) {
             estFichierDat = false;
         }
 
@@ -88,7 +88,7 @@ function afficherPopupParametresGraphiques() {
 
         let message = '';
 
-        if (contenuCalibrat === '') {
+        if (contenuFichierCalibration === '') {
             message = '<span class="calibratAbsent"><img src="Ressources/img/attentionOrange.png" alt="Perte de connexion">Aucun fichier de calibration n\'a été importé. <input type="file" id="inputCalibrat" accept=".dat,.csv" onchange="initParasites()"></span>';
         }
 
@@ -137,7 +137,7 @@ function afficherPopupParametresGraphiques() {
                         <select onchange="remplacerDonneesFichier(this.value, 'L${traceur.lampePrincipale}')">
                         <option value="" selected disabled>Sélectionner</option>
                             `;
-                const lignes = contenuFichier.split('\n');
+                const lignes = contenuFichierMesures.split('\n');
                 const header = lignes[2].split(';').splice(2);
 
                 for (let j = 0; j < header.length; j++) {
@@ -287,7 +287,7 @@ function initParasites() {
     }
 
     reader.onload = function () {
-        contenuCalibrat = nettoyerFichierCSV(reader.result);
+        contenuFichierCalibration = nettoyerFichierCSV(reader.result);
         initFichierCalibration(estFichierDat, false);
         afficherMessageFlash("Fichier Calibrat.dat importé avec succès.", 'success');
         document.querySelector('.calibratAbsent').remove();
@@ -306,7 +306,7 @@ function initParasites() {
  * @returns {boolean} true si les labels correspondent, false sinon
  */
 function calibrationEstLieGraphiques() {
-    const lignes = contenuFichier.split('\n');
+    const lignes = contenuFichierMesures.split('\n');
     const header = lignes[2].split(';').splice(2);
 
     for (let i = 0; i < header.length; i++) {
@@ -385,7 +385,7 @@ function remplacerDonneesFichier(ancien, nouveau) {
 
     lignes[2] = header.join(';');
 
-    contenuFichier = lignes.join('\n');
+    contenuFichierMesures = lignes.join('\n');
     afficherGraphique(contenuFichier);
 
     if (calibrationEstLieGraphiques()) {
@@ -516,7 +516,7 @@ function corrigerTurbidite(idLampe, TS = niveauCorrection) {
         data.data.push({x: timestamp, y: colonneFinale[i]});
     }
 
-    contenuFichier = lignes.join('\n');
+    contenuFichierMesures = lignes.join('\n');
 
     const canvas = document.getElementById('graphique');
     const existingChart = Chart.getChart(canvas);
@@ -632,7 +632,7 @@ function ajouterCourbeConcentrationTraceur(traceur) {
         };
 
         const contenu = [];
-        const lignes = contenuFichier.split('\n');
+        const lignes = contenuFichierMesures.split('\n');
         let colonnes = lignes[2].split(';');
         let indexLampe = -1;
 
@@ -713,7 +713,7 @@ function ajouterCourbeConcentrationTraceur(traceur) {
             }
         }
 
-        contenuFichier = lignes.join('\n');
+        contenuFichierMesures = lignes.join('\n');
 
         existingChart.data.datasets.forEach((dataset, index) => {
             if (dataset.label !== `L${traceur.lampePrincipale}` && dataset.label !== `L${traceur.lampePrincipale}Corr` && dataset.label !== `${traceur.nom}`) {
@@ -847,7 +847,7 @@ function fermerPopupTelecharger() {
 function telechargerTRAC(dateInjection, traceur) {
     let contenuCSVTRAC = 'j;ppb';
 
-    const lignes = contenuFichier.split('\n');
+    const lignes = contenuFichierMesures.split('\n');
     const header = lignes[2].split(';');
     let indexTraceur = -1;
 
@@ -898,11 +898,15 @@ function telechargerTRAC(dateInjection, traceur) {
 }
 
 
+
+
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * GESTION DES INTERFERENCES SUR UN OU PLUSIEURS TRACEURS
  * ---------------------------------------------------------------------------------------------------------------------
  */
+
+
 
 
 /**
@@ -1046,7 +1050,7 @@ function calculerInterferences(listeTraceur) {
             };
 
             const contenu = [];
-            const lignes = contenuFichier.split('\n');
+            const lignes = contenuFichierMesures.split('\n');
             let colonnes = lignes[2].split(';');
             let indexLampeATraiter = -1;
             let indexLampePrincipale = -1;
@@ -1115,7 +1119,7 @@ function calculerInterferences(listeTraceur) {
                 }
             }
 
-            contenuFichier = lignes.join('\n');
+            contenuFichierMesures = lignes.join('\n');
 
             existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${tableauLampesATraiter[i]}Corr`);
 

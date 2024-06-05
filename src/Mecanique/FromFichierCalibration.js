@@ -50,7 +50,7 @@ let traceurs = [];
  */
 function initFichierCalibration(estFichierDat = true, estDepuisCalibration = true) {
 
-    if (contenuCalibrat !== '') {
+    if (contenuFichierCalibration !== '') {
 
         if (document.querySelector('.boutonDlData')) {
             document.querySelector('.boutonDlData').remove();
@@ -73,15 +73,15 @@ function initFichierCalibration(estFichierDat = true, estDepuisCalibration = tru
         }
 
         if (estFichierDat) {
-            lignesCalibrat = contenuCalibrat.split('\n');
+            lignesCalibrat = contenuFichierCalibration.split('\n');
             sectionsCalibrat = getSectionsCalibrat();
             nomsTraceur = getNomsTraceursCalibrat();
             numeroFluorimetre = getNumeroFluorimetreCalibrat();
             creerTraceurs();
             creerTurbidity();
-            contenuCalibrat = convertirEnTexte();
+            contenuFichierCalibration = convertirEnTexte();
         } else {
-            lignesCalibrat = contenuCalibrat.split('\n');
+            lignesCalibrat = contenuFichierCalibration.split('\n');
             sectionsCalibrat = getSectionsCalibratCSV();
             nomsTraceur = getNomsTraceursCSV();
             numeroFluorimetre = getNumeroFluorimetreCSV();
@@ -136,7 +136,7 @@ function testerTousTraceurs() {
  * @returns {string} le numéro du fluorimètre
  */
 function getNumeroFluorimetreCalibrat() {
-    const lignes = contenuCalibrat.split('\n');
+    const lignes = contenuFichierCalibration.split('\n');
     const premiereLigne = lignes[0];
     const index = premiereLigne.indexOf('#');
     return premiereLigne.substring(index + 1).trim();
@@ -612,10 +612,10 @@ function convertirEnTexte() {
  * Télécharge un fichier CSV contenant les données de contenuCalibrat, donc du fichier originel
  */
 function telechargerFichierCSV() {
-    if (contenuCalibrat !== '') {
+    if (contenuFichierCalibration !== '') {
         const element = document.createElement('a');
         const universalBOM = "\uFEFF";
-        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(universalBOM + contenuCalibrat));
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(universalBOM + contenuFichierCalibration));
         element.setAttribute('download', 'ExportCalibration-' + new Date().toLocaleString().replace(/\/|:|,|\s/g, '-') + '.csv');
         element.style.display = 'none';
         document.body.appendChild(element);
@@ -643,7 +643,7 @@ function telechargerFichierCSV() {
  * @return {string}
  */
 function getNumeroFluorimetreCSV() {
-    const lignes = contenuCalibrat.split('\n');
+    const lignes = contenuFichierCalibration.split('\n');
     const premiereLigne = lignes[0];
     const index = premiereLigne.indexOf('Appareil');
     return supprimerPointVirgule(premiereLigne.substring(index + 9).trim());
@@ -655,7 +655,7 @@ function getNumeroFluorimetreCSV() {
  * @return {string[]} les sections du fichier txt
  */
 function getSectionsCalibratCSV() {
-    return contenuCalibrat.split('----------------------------------------------------------------------------------------');
+    return contenuFichierCalibration.split('----------------------------------------------------------------------------------------');
 }
 
 

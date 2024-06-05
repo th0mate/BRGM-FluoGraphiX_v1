@@ -3,7 +3,7 @@ function vueConcentrations() {
     
     <script>
         window.onload = function() {
-            if (contenuCalibrat !== '') {
+            if (contenuFichierCalibration !== '') {
                 traiterCalibrat();
             }
         }
