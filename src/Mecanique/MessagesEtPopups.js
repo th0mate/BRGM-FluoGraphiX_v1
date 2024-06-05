@@ -115,7 +115,6 @@ function afficherPopup(imageHTML, titre, contenu, boutonsHTML) {
  * Ferme le popup
  */
 function fermerPopup() {
-    console.log('oh');
     if (document.querySelector('.popup') !== null) {
         document.querySelector('.popup').remove();
     }
