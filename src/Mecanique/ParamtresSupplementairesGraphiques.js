@@ -1094,23 +1094,19 @@ function calculerInterferences(listeTraceur) {
 
                         if (resultat.length === 3) {
                             const log2Value = logValue ** 2;
-                            const valeur = Math.exp(parseFloat(resultat[0]) + parseFloat(resultat[1]) * logValue + parseFloat(resultat[2]) * log2Value);
+                            const valeur = mVValueLampeATraiter - (Math.exp(parseFloat(resultat[0]) + parseFloat(resultat[1]) * logValue + parseFloat(resultat[2]) * log2Value));
                             data.data.push({x: timestamp, y: valeur});
                             lignes[k + 3] = lignes[k + 3].replace(/[\n\r]/g, '');
                             lignes[k + 3] += `;${arrondirA2Decimales(valeur)}`;
 
                         } else if (resultat.length === 2) {
-                            const valeur = Math.exp(parseFloat(resultat[0]) + parseFloat(resultat[1]) * logValue);
+                            const valeur = mVValueLampeATraiter - (Math.exp(parseFloat(resultat[1]) + parseFloat(resultat[0]) * logValue));
                             data.data.push({x: timestamp, y: valeur});
                             lignes[k + 3] = lignes[k + 3].replace(/[\n\r]/g, '');
                             lignes[k + 3] += `;${arrondirA2Decimales(valeur)}`;
 
                         } else if (resultat.length === 1) {
-                            //TODO Marche pas
                             const valeur = mVValueLampeATraiter - (parseFloat(resultat[0]) * (mVValueLampeTraceur1 - eauValue));
-                            if (k === 0) {
-                                console.log(`${mVValueLampeATraiter} - (${resultat[0]} * (${mVValueLampeTraceur1} - ${eauValue})) = ${valeur}`);
-                            }
                             data.data.push({x: timestamp, y: valeur});
                             lignes[k + 3] = lignes[k + 3].replace(/[\n\r]/g, '');
                             lignes[k + 3] += `;${arrondirA2Decimales(valeur)}`;
