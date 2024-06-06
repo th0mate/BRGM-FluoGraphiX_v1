@@ -1415,8 +1415,8 @@ function calculerEtAfficherCorrectionBruitFond() {
         }
 
         let dates = [];
-        const Y = [];
-        const X = [];
+        let Y = [];
+        let X = [];
 
         for (let i = 3; i < lignes.length - 1; i++) {
             const colonnes = lignes[i].split(';');
@@ -1430,7 +1430,7 @@ function calculerEtAfficherCorrectionBruitFond() {
             if (colonnes[indexLampePrincipale] !== '' && colonnes[indexLa] !== '' && colonnes[indexLb] !== '' && colonnes[indexLc] !== '') {
                 const ligne = [];
                 dates.push(colonnes[0] + '-' + colonnes[1]);
-                Y.push(colonnes[indexLampePrincipale].replace(/[\n\r]/g, ''));
+                Y.push([colonnes[indexLampePrincipale].replace(/[\n\r]/g, '')]);
                 ligne.push(colonnes[indexLa].replace(/[\n\r]/g, ''));
                 ligne.push(colonnes[indexLb].replace(/[\n\r]/g, ''));
                 ligne.push(colonnes[indexLc].replace(/[\n\r]/g, ''));
@@ -1439,10 +1439,14 @@ function calculerEtAfficherCorrectionBruitFond() {
             }
         }
 
-        console.log(X);
+        let XTX = multiply(inverse(multiply(transpose(X), X)), transpose(X));
+        let XTXY = multiply(XTX, Y);
         console.log(Y);
+        console.log(XTXY);
+
+
 
         let coefficients = multiply(multiply(inverse(multiply(transpose(X), X)), transpose(X)), Y);
-        console.log(coefficients);
+        //console.log(coefficients);
     }
 }
