@@ -74,6 +74,9 @@ function afficherPopupParametresGraphiques() {
             initFichierCalibration(estFichierDat, false);
         }
 
+        const canvas = document.getElementById('graphique');
+        const existingChart = Chart.getChart(canvas);
+
         let overlay = document.createElement('div');
         overlay.style.position = 'fixed';
         overlay.style.top = '0';
@@ -231,16 +234,48 @@ function afficherPopupParametresGraphiques() {
             </div>
             
             <div class="boutonFonce bouton boutonOrange" onclick="fermerPopupParametres()">TERMINER</div>
-        </div>
+        </div>`;
+
+        let selectTraceurBruitFond = '<select class="selectOrange" onchange="metAJourTraceurBruitFond(this.value)"><option selected disabled value="">Sélectionnez un traceur...</option>';
+        for (let i = 0; i < traceurs.length; i++) {
+            const traceur = traceurs[i];
+            if (traceur.lampePrincipale !== '' && !isNaN(traceur.lampePrincipale)) {
+                selectTraceurBruitFond += `<option value="${traceur.nom}">${traceur.nom}</option>`;
+            }
+        }
+        selectTraceurBruitFond += '</select>';
+
+        let checkBoxCourbesBruitFond = '';
+        //on coche par défaut les courbes s'appelant LxCorr. Si il n'y a pas de LxCorr trouvé, on coche alors Lx
+        let courbesString = [];
+        courbesString = existingChart.data.datasets.map(dataset => dataset.label);
+        for (let i = 0; i < existingChart.data.datasets.length; i++) {
+            if (existingChart.data.datasets[i].label.includes('Corr')) {
+                checkBoxCourbesBruitFond += `<label><input type="checkbox" checked value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
+            } else {
+                if (courbesString.includes(`${existingChart.data.datasets[i].label}Corr`)){
+                    checkBoxCourbesBruitFond += `<label><input type="checkbox" value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
+                } else {
+                    checkBoxCourbesBruitFond += `<label><input type="checkbox" checked value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
+                }
+            }
+        }
+
         
-        
-        <div class="ongletParam" id="5">
+        popupHTML += `<div class="ongletParam" id="5">
             <br>
             <h2>Correction du bruit de fond</h2>
             <br>
-            <h4 class="texteZoneSelection"></h4>
+            <h4>Sélectionnez un traceur :</h4>
+            ${selectTraceurBruitFond}
             <br>
+            <h4>Facultatif - sélectionnez la zone du graphique à éviter :</h4>
             <div class="boutonFonce bouton boutonOrange" onclick="selectionnerZoneGraphique()">SELECTIONNER</div>
+            <br>
+            <h4>Sélectionnez les courbes à corriger :</h4>
+            <div class="checkBoxLampes">
+                ${checkBoxCourbesBruitFond}
+            </div>
         </div>
     
         
@@ -429,7 +464,7 @@ function corrigerTurbidite(idLampe, TS = niveauCorrection) {
     };
 
     let contenu = [];
-    const lignes = contenuFichier.split('\n');
+    const lignes = contenuFichierMesures.split('\n');
     let colonnes = lignes[2].split(';');
     let indexLampe = 0;
     let indexTurb = 0;
@@ -1252,3 +1287,17 @@ function selectionnerZoneGraphique() {
         }
     });
 }
+
+
+
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * CORRECTION BRUIT DE FOND
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+
+
+
+//
