@@ -1356,7 +1356,7 @@ function modifierListeLampesBruitDeFond(valeurCheckBox) {
  */
 function calculerEtAfficherCorrectionBruitFond() {
     let traceursBruitDeFond = [];
-    //TODO temporaire - utiliser zoneSelectionnee directement sans le set à la main !
+    //TODO temporaire - utiliser zoneSelectionnee directement sans le set à la main ! Penser à convertir de millisecondes à dd/mm/yyyy-hh:mm:ss
     zoneSelectionnee = ['18/01/2014-00:00:00', '19/01/2014-23:59:00'];
 
     const calculsInterferences = listeCalculs.filter(calcul => calcul.nom.includes('interférences'));
@@ -1440,13 +1440,7 @@ function calculerEtAfficherCorrectionBruitFond() {
         }
 
         let XTX = multiply(inverse(multiply(transpose(X), X)), transpose(X));
-        let XTXY = multiply(XTX, Y);
-        console.log(Y);
-        console.log(XTXY);
+        let coefficients = multiply(XTX, Y);
 
-
-
-        let coefficients = multiply(multiply(inverse(multiply(transpose(X), X)), transpose(X)), Y);
-        //console.log(coefficients);
     }
 }
