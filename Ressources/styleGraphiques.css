@@ -348,12 +348,13 @@ input[type="checkbox"]:checked {
     transition: color 0.3s ease;
     font-weight: bold;
     color: white;
-    cursor: pointer;
     margin: 0;
+    cursor: initial;
 }
 
 .grandPopup > .ongletsParam > .bouton:not(.disabled):hover {
     box-shadow: 0 0 0 1px white, inset 0 0 0 1px white;
+    cursor: pointer;
 }
 
 .grandPopup > .ongletsParam > .active {
