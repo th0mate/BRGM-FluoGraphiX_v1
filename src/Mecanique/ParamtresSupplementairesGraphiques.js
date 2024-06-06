@@ -235,7 +235,7 @@ function afficherPopupParametresGraphiques() {
             }
         }
 
-        popupHTML += `</select><div class="boutonFonce bouton boutonOrange" onclick="ajouterCourbeConcentrationTraceur(traceurATraiter)">TERMINER</div></div>`;
+        popupHTML += `</select><br><br><div class="boutonFonce bouton boutonOrange" onclick="ajouterCourbeConcentrationTraceur(traceurATraiter)">TERMINER</div></div>`;
 
 
         const nbTraceurs = traceurs.length - 2;
@@ -271,7 +271,6 @@ function afficherPopupParametresGraphiques() {
 
             for (let i = 0; i < nbTraceursInterferences; i++) {
                 const traceur = traceurs.find(traceur => traceur.nom === calculsInterferences[0].getParametreParNom(`traceur${i}`));
-                console.log(calculsInterferences[0].getParametreParNom(`traceur${i}`));
                 listeLampesPrincipalesTraceurs.push(`L${traceur.lampePrincipale}`);
                 listeLampesPrincipalesTraceurs.push(`L${traceur.lampePrincipale}Corr`);
             }
@@ -310,7 +309,7 @@ function afficherPopupParametresGraphiques() {
             <div class="checkBoxLampes">
                 ${checkBoxCourbesBruitFond}
             </div>
-            <div class="boutonFonce bouton boutonOrange" onclick="fermerPopupParametres()">CALCULER</div>
+            <div class="boutonFonce bouton boutonOrange" onclick="calculerEtAfficherCorrectionBruitFond()">CALCULER</div>
         </div>`;
 
         }
@@ -1353,9 +1352,97 @@ function modifierListeLampesBruitDeFond(valeurCheckBox) {
 
 
 /**
- * Permet de mettre à jour le traceur sélectionné
- * @param nomTraceur Nom du traceur sélectionné
+ *
  */
-function metAJourTraceurBruitDeFond(nomTraceur) {
-    traceurBruitFond = traceurs.find(traceur => traceur.nom === nomTraceur);
+function calculerEtAfficherCorrectionBruitFond() {
+    let traceursBruitDeFond = [];
+    //TODO temporaire - utiliser zoneSelectionnee directement sans le set à la main !
+    zoneSelectionnee = ['18/01/2014-00:00:00', '19/01/2014-23:59:00'];
+
+    const calculsInterferences = listeCalculs.filter(calcul => calcul.nom.includes('interférences'));
+    let nbTraceursInterferences = 0;
+    if (calculsInterferences.length > 0) {
+        nbTraceursInterferences = calculsInterferences[0].getParametreParNom('nombreTraceurs');
+    }
+
+    for (let i = 0; i < nbTraceursInterferences; i++) {
+        const traceur = traceurs.find(traceur => traceur.nom === calculsInterferences[0].getParametreParNom(`traceur${i}`));
+        traceursBruitDeFond.push(traceur);
+    }
+
+    for (let i = 0; i < traceursBruitDeFond.length; i ++) {
+        const traceur = traceursBruitDeFond[i];
+
+        const lignes = contenuFichierMesures.split('\n');
+        let colonnes = lignes[2].split(';');
+        let indexLampePrincipale = -1;
+        let indexLa = -1;
+        let indexLb = -1;
+        let indexLc = -1;
+
+        colonnes = colonnes.map(colonne => colonne.replace(/[\n\r]/g, ''));
+        const canvas = document.getElementById('graphique');
+        const existingChart = Chart.getChart(canvas);
+
+        listeLampeBruitDeFond.sort((a, b) => {
+            if (a.includes('Corr') && b.includes('Corr')) {
+                return parseInt(a.replace('L', '').replace('Corr', '')) - parseInt(b.replace('L', '').replace('Corr', ''));
+            } else if (a.includes('Corr')) {
+                return parseInt(a.replace('L', '').replace('Corr', '')) - parseInt(b.replace('L', ''));
+            } else if (b.includes('Corr')) {
+                return parseInt(a.replace('L', '')) - parseInt(b.replace('L', '').replace('Corr', ''));
+            } else {
+                return parseInt(a.replace('L', '')) - parseInt(b.replace('L', ''));
+            }
+        });
+
+        for (let j = 0; j < colonnes.length; j++) {
+            if (colonnes[j] === `L${traceur.lampePrincipale}`) {
+                indexLampePrincipale = j;
+            } else if (colonnes[j] === `${listeLampeBruitDeFond[0]}`) {
+                indexLa = j;
+            } else if (colonnes[j] === `${listeLampeBruitDeFond[1]}`) {
+                indexLb = j;
+            } else if (colonnes[j] === `${listeLampeBruitDeFond[2]}`) {
+                indexLc = j;
+            }
+        }
+
+        for (let j = 0; j < colonnes.length; j++) {
+            if (colonnes[j] === `L${traceur.lampePrincipale}Corr`) {
+                indexLampePrincipale = j;
+            }
+        }
+
+        let dates = [];
+        const Y = [];
+        const X = [];
+
+        for (let i = 3; i < lignes.length - 1; i++) {
+            const colonnes = lignes[i].split(';');
+            const timeDate = DateTime.fromFormat(colonnes[0] + '-' + colonnes[1], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
+            const timestamp = timeDate.toMillis();
+
+            if (timestamp > DateTime.fromFormat(zoneSelectionnee[0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toMillis() && timestamp < DateTime.fromFormat(zoneSelectionnee[1], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toMillis()) {
+                continue;
+            }
+
+            if (colonnes[indexLampePrincipale] !== '' && colonnes[indexLa] !== '' && colonnes[indexLb] !== '' && colonnes[indexLc] !== '') {
+                const ligne = [];
+                dates.push(colonnes[0] + '-' + colonnes[1]);
+                Y.push(colonnes[indexLampePrincipale].replace(/[\n\r]/g, ''));
+                ligne.push(colonnes[indexLa].replace(/[\n\r]/g, ''));
+                ligne.push(colonnes[indexLb].replace(/[\n\r]/g, ''));
+                ligne.push(colonnes[indexLc].replace(/[\n\r]/g, ''));
+                ligne.push(1);
+                X.push(ligne);
+            }
+        }
+
+        console.log(X);
+        console.log(Y);
+
+        let coefficients = multiply(multiply(inverse(multiply(transpose(X), X)), transpose(X)), Y);
+        console.log(coefficients);
+    }
 }
