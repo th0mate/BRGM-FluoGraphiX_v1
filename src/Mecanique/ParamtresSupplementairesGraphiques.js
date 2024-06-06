@@ -50,12 +50,35 @@ let traceurAExporter;
  */
 let dateInjection;
 
+/**
+ * La liste des lampes à utiliser pour la correction du bruit de fond
+ * @type {*[]} un tableau contenant les labels des lampes (L1, L1Corr...)
+ */
+let listeLampeBruitDeFond;
+
+/**
+ * Le traceur sélectionné pour la correction du bruit de fond
+ * @type {Traceur} l'objet Traceur sélectionné
+ */
+let traceurBruitFond;
+
+/**
+ * Tableau contenant la date de début et la date de fin de la sélection de la zone à éviter pour la correction du bruit de fond
+ * @type {number[]} un tableau contenant les timestamps de début et de fin
+ */
+let zoneSelectionnee = [];
+
+
+
 
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * GESTION DE L'AFFICHAGE DU POPUP DE PARAMETRES ET FONCTIONS UTILES
  * ---------------------------------------------------------------------------------------------------------------------
  */
+
+
+
 
 
 /**
@@ -95,6 +118,17 @@ function afficherPopupParametresGraphiques() {
             message = '<span class="calibratAbsent"><img src="Ressources/img/attentionOrange.png" alt="Perte de connexion">Aucun fichier de calibration n\'a été importé. <input type="file" id="inputCalibrat" accept=".dat,.csv" onchange="initParasites()"></span>';
         }
 
+        const calculsInterferences = listeCalculs.filter(calcul => calcul.nom.includes('interférences'));
+        let nbTraceursInterferences = 0;
+        let ongletCorrectionBruitDeFond = '';
+        if (calculsInterferences.length > 0) {
+            console.log(calculsInterferences);
+            nbTraceursInterferences = calculsInterferences[0].getParametreParNom('nombreTraceurs');
+            ongletCorrectionBruitDeFond = '<div class="bouton boutonFonce" onclick="afficherOngletParametre(5)">Corriger le bruit de fond</div>';
+        } else {
+            ongletCorrectionBruitDeFond = '<div class="bouton boutonFonce disabled">Corriger le bruit de fond</div>';
+        }
+
         let popupHTML = "";
         popupHTML += `
         <div class='grandPopup'>
@@ -109,7 +143,7 @@ function afficherPopupParametresGraphiques() {
             <div class="bouton boutonFonce" onclick="afficherOngletParametre(2)">Corriger la turbidité</div>
             <div class="bouton boutonFonce" onclick="afficherOngletParametre(3)">Convertir en concentrations</div>
             <div class="bouton boutonFonce" onclick="afficherOngletParametre(4)">Corriger les interférences</div>
-            <div class="bouton boutonFonce" onclick="afficherOngletParametre(5)">Corriger le bruit de fond</div>
+            ${ongletCorrectionBruitDeFond}
         </div>
         
         <div class="ongletParam onglet1" id="1"><br><h2>Renommer les labels des courbes</h2>`;
@@ -236,7 +270,10 @@ function afficherPopupParametresGraphiques() {
             <div class="boutonFonce bouton boutonOrange" onclick="fermerPopupParametres()">TERMINER</div>
         </div>`;
 
-        let selectTraceurBruitFond = '<select class="selectOrange" onchange="metAJourTraceurBruitFond(this.value)"><option selected disabled value="">Sélectionnez un traceur...</option>';
+        if (nbTraceursInterferences > 0 && nbTraceursInterferences < 3) {
+
+
+        let selectTraceurBruitFond = '<select class="selectOrange" onchange="metAJourTraceurBruitDeFond(this.value)"><option selected disabled value="">Sélectionnez un traceur...</option>';
         for (let i = 0; i < traceurs.length; i++) {
             const traceur = traceurs[i];
             if (traceur.lampePrincipale !== '' && !isNaN(traceur.lampePrincipale)) {
@@ -245,42 +282,44 @@ function afficherPopupParametresGraphiques() {
         }
         selectTraceurBruitFond += '</select>';
 
+        listeLampeBruitDeFond = [];
         let checkBoxCourbesBruitFond = '';
-        //on coche par défaut les courbes s'appelant LxCorr. Si il n'y a pas de LxCorr trouvé, on coche alors Lx
         let courbesString = [];
         courbesString = existingChart.data.datasets.map(dataset => dataset.label);
         for (let i = 0; i < existingChart.data.datasets.length; i++) {
             if (existingChart.data.datasets[i].label.includes('Corr')) {
-                checkBoxCourbesBruitFond += `<label><input type="checkbox" checked value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
+                checkBoxCourbesBruitFond += `<label><input type="checkbox" onchange="modifierListeLampesBruitDeFond(this.value)" checked value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
+                listeLampeBruitDeFond.push(existingChart.data.datasets[i].label);
             } else {
-                if (courbesString.includes(`${existingChart.data.datasets[i].label}Corr`)){
-                    checkBoxCourbesBruitFond += `<label><input type="checkbox" value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
+                if (courbesString.includes(`${existingChart.data.datasets[i].label}Corr`)) {
+                    checkBoxCourbesBruitFond += `<label><input type="checkbox" onchange="modifierListeLampesBruitDeFond(this.value)" value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
                 } else {
-                    checkBoxCourbesBruitFond += `<label><input type="checkbox" checked value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
+                    checkBoxCourbesBruitFond += `<label><input type="checkbox" checked onchange="modifierListeLampesBruitDeFond(this.value)" value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
+                    listeLampeBruitDeFond.push(existingChart.data.datasets[i].label);
                 }
             }
         }
 
-        
+
         popupHTML += `<div class="ongletParam" id="5">
             <br>
             <h2>Correction du bruit de fond</h2>
-            <br>
+            <h4>Facultatif (à faire en premier lieu) - Sélectionnez la période influencée par le traceur :</h4>
+            <div class="boutonFonce bouton boutonOrange" onclick="selectionnerZoneGraphique()">SELECTIONNER</div>
             <h4>Sélectionnez un traceur :</h4>
             ${selectTraceurBruitFond}
-            <br>
-            <h4>Facultatif - sélectionnez la zone du graphique à éviter :</h4>
-            <div class="boutonFonce bouton boutonOrange" onclick="selectionnerZoneGraphique()">SELECTIONNER</div>
-            <br>
-            <h4>Sélectionnez les courbes à corriger :</h4>
+            <h4>Sélectionnez les variables explicatives :</h4>
             <div class="checkBoxLampes">
                 ${checkBoxCourbesBruitFond}
             </div>
-        </div>
+            <div class="boutonFonce bouton boutonOrange" onclick="fermerPopupParametres()">CALCULER</div>
+        </div>`;
+
+        }
     
         
         
-    </div>
+     popupHTML +=  `</div>
 
     
 
@@ -933,15 +972,11 @@ function telechargerTRAC(dateInjection, traceur) {
 }
 
 
-
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * GESTION DES INTERFERENCES SUR UN OU PLUSIEURS TRACEURS
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
-
 
 
 /**
@@ -1050,6 +1085,21 @@ function initCalculsInterferences(nbTraceurs, valeurSelect, idSelect) {
  * @param listeTraceur
  */
 function calculerInterferences(listeTraceur) {
+
+    /**
+     * Ajout des calculs dans la liste des calculs
+     */
+    const calcul = new Calculs(`Correction d'interférences`, 'oui');
+    calcul.ajouterParametreCalcul('nombreTraceurs', listeTraceur.length);
+    for (let i = 0; i < listeTraceur.length; i++) {
+        calcul.ajouterParametreCalcul(`traceur${i}`, listeTraceur[i].nom);
+        const resultat = effectuerCalculsCourbes(listeTraceur[i].lampePrincipale, listeTraceur[i]);
+        for (let j = 0; j < resultat[0].length; j++) {
+            calcul.ajouterParametreCalcul(`a${i}${j}`, resultat[0][j]);
+        }
+    }
+    listeCalculs = listeCalculs.filter(c => c.nom !== 'Correction d\'interférences');
+    listeCalculs.push(calcul);
 
 
     /**
@@ -1186,15 +1236,11 @@ function calculerInterferences(listeTraceur) {
 }
 
 
-
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * GESTION DE LA SELECTION D'UNE ZONE SUR LE GRAPHIQUE
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
-
 
 
 /**
@@ -1291,6 +1337,7 @@ function selectionnerZoneGraphique() {
 
 
 
+
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * CORRECTION BRUIT DE FOND
@@ -1300,4 +1347,25 @@ function selectionnerZoneGraphique() {
 
 
 
-//
+
+
+/**
+ * Permet de mettre à jour les colonnes à traiter pour la correction du bruit de fond
+ * @param valeurCheckBox Valeur de la checkbox sélectionnée
+ */
+function modifierListeLampesBruitDeFond(valeurCheckBox) {
+    if (listeLampeBruitDeFond.includes(valeurCheckBox)) {
+        listeLampeBruitDeFond = listeLampeBruitDeFond.filter(lampe => lampe !== valeurCheckBox);
+    } else {
+        listeLampeBruitDeFond.push(valeurCheckBox);
+    }
+}
+
+
+/**
+ * Permet de mettre à jour le traceur sélectionné
+ * @param nomTraceur Nom du traceur sélectionné
+ */
+function metAJourTraceurBruitDeFond(nomTraceur) {
+    traceurBruitFond = traceurs.find(traceur => traceur.nom === nomTraceur);
+}

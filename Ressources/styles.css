@@ -146,6 +146,11 @@ h4, h5, h6, p {
     user-select: none;
 }
 
+.bouton .disabled {
+    opacity: 0.5;
+    cursor: initial;
+}
+
 .boutonClair {
     color: black;
 }

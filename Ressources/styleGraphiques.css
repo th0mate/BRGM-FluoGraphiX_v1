@@ -352,7 +352,7 @@ input[type="checkbox"]:checked {
     margin: 0;
 }
 
-.grandPopup > .ongletsParam > .bouton:hover {
+.grandPopup > .ongletsParam > .bouton:not(.disabled):hover {
     box-shadow: 0 0 0 1px white, inset 0 0 0 1px white;
 }
 

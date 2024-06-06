@@ -28,6 +28,16 @@ class Calculs {
         this.parametres.set(nom, valeur);
     }
 
+
+    /**
+     * Récupère un paramètre par son nom
+     * @param nom le nom du paramètre
+     * @return {string} la valeur du paramètre
+     */
+    getParametreParNom(nom) {
+        return this.parametres.get(nom);
+    }
+
     toString() {
         let string = this.nom + ' : (' + this.estFait + ') => ';
 
