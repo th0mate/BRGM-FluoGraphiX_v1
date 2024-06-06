@@ -69,16 +69,11 @@ let traceurBruitFond;
 let zoneSelectionnee = [];
 
 
-
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * GESTION DE L'AFFICHAGE DU POPUP DE PARAMETRES ET FONCTIONS UTILES
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
-
-
 
 
 /**
@@ -272,42 +267,45 @@ function afficherPopupParametresGraphiques() {
 
         if (nbTraceursInterferences > 0 && nbTraceursInterferences < 3) {
 
+            let listeLampesPrincipalesTraceurs = [];
 
-        let selectTraceurBruitFond = '<select class="selectOrange" onchange="metAJourTraceurBruitDeFond(this.value)"><option selected disabled value="">Sélectionnez un traceur...</option>';
-        for (let i = 0; i < traceurs.length; i++) {
-            const traceur = traceurs[i];
-            if (traceur.lampePrincipale !== '' && !isNaN(traceur.lampePrincipale)) {
-                selectTraceurBruitFond += `<option value="${traceur.nom}">${traceur.nom}</option>`;
+            for (let i = 0; i < nbTraceursInterferences; i++) {
+                const traceur = traceurs.find(traceur => traceur.nom === calculsInterferences[0].getParametreParNom(`traceur${i}`));
+                console.log(calculsInterferences[0].getParametreParNom(`traceur${i}`));
+                listeLampesPrincipalesTraceurs.push(`L${traceur.lampePrincipale}`);
+                listeLampesPrincipalesTraceurs.push(`L${traceur.lampePrincipale}Corr`);
             }
-        }
-        selectTraceurBruitFond += '</select>';
 
-        listeLampeBruitDeFond = [];
-        let checkBoxCourbesBruitFond = '';
-        let courbesString = [];
-        courbesString = existingChart.data.datasets.map(dataset => dataset.label);
-        for (let i = 0; i < existingChart.data.datasets.length; i++) {
-            if (existingChart.data.datasets[i].label.includes('Corr')) {
-                checkBoxCourbesBruitFond += `<label><input type="checkbox" onchange="modifierListeLampesBruitDeFond(this.value)" checked value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
-                listeLampeBruitDeFond.push(existingChart.data.datasets[i].label);
-            } else {
-                if (courbesString.includes(`${existingChart.data.datasets[i].label}Corr`)) {
-                    checkBoxCourbesBruitFond += `<label><input type="checkbox" onchange="modifierListeLampesBruitDeFond(this.value)" value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
-                } else {
-                    checkBoxCourbesBruitFond += `<label><input type="checkbox" checked onchange="modifierListeLampesBruitDeFond(this.value)" value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
+            listeLampeBruitDeFond = [];
+            let checkBoxCourbesBruitFond = '';
+            let courbesString = [];
+            courbesString = existingChart.data.datasets.map(dataset => dataset.label);
+            for (let i = 0; i < existingChart.data.datasets.length; i++) {
+
+                if (listeLampesPrincipalesTraceurs.includes(existingChart.data.datasets[i].label)) {
+                    continue;
+                }
+
+                if (existingChart.data.datasets[i].label.includes('Corr')) {
+                    checkBoxCourbesBruitFond += `<label><input type="checkbox" onchange="modifierListeLampesBruitDeFond(this.value)" checked value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
                     listeLampeBruitDeFond.push(existingChart.data.datasets[i].label);
+                } else {
+                    if (courbesString.includes(`${existingChart.data.datasets[i].label}Corr`)) {
+                        checkBoxCourbesBruitFond += `<label><input type="checkbox" onchange="modifierListeLampesBruitDeFond(this.value)" value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
+                    } else {
+                        checkBoxCourbesBruitFond += `<label><input type="checkbox" checked onchange="modifierListeLampesBruitDeFond(this.value)" value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
+                        listeLampeBruitDeFond.push(existingChart.data.datasets[i].label);
+                    }
                 }
             }
-        }
 
 
-        popupHTML += `<div class="ongletParam" id="5">
+            popupHTML += `<div class="ongletParam" id="5">
             <br>
             <h2>Correction du bruit de fond</h2>
             <h4>Facultatif (à faire en premier lieu) - Sélectionnez la période influencée par le traceur :</h4>
             <div class="boutonFonce bouton boutonOrange" onclick="selectionnerZoneGraphique()">SELECTIONNER</div>
-            <h4>Sélectionnez un traceur :</h4>
-            ${selectTraceurBruitFond}
+            <br>
             <h4>Sélectionnez les variables explicatives :</h4>
             <div class="checkBoxLampes">
                 ${checkBoxCourbesBruitFond}
@@ -316,10 +314,9 @@ function afficherPopupParametresGraphiques() {
         </div>`;
 
         }
-    
-        
-        
-     popupHTML +=  `</div>
+
+
+        popupHTML += `</div>
 
     
 
@@ -1335,18 +1332,11 @@ function selectionnerZoneGraphique() {
 }
 
 
-
-
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * CORRECTION BRUIT DE FOND
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
-
-
-
 
 
 /**
