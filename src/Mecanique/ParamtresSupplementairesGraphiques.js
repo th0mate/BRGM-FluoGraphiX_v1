@@ -570,7 +570,15 @@ function corrigerTurbidite(idLampe, TS = niveauCorrection) {
     }
 
 
-    const header = lignes[2].replace(/[\n\r]/g, '').split(';');
+    let header = lignes[2].replace(/[\n\r]/g, '').split(';');
+    if (header.includes(`L${idLampe}`)) {
+        for (let k = 3; k < lignes.length - 1; k++) {
+            const colonnes = lignes[k].split(';');
+            colonnes.splice(header.indexOf(`L${idLampe}Corr`), 1);
+            lignes[k] = colonnes.join(';');
+        }
+        header = header.filter(colonne => colonne !== `L${idLampe}Corr`);
+    }
     header.push(`L${idLampe}Corr`);
     lignes[2] = header.join(';');
 
@@ -745,7 +753,15 @@ function ajouterCourbeConcentrationTraceur(traceur) {
             }
         }
 
-        const header = lignes[2].replace(/[\n\r]/g, '').split(';');
+        let header = lignes[2].replace(/[\n\r]/g, '').split(';');
+        if (header.includes(`${traceur.nom}`)) {
+            for (let k = 3; k < lignes.length - 1; k++) {
+                const colonnes = lignes[k].split(';');
+                colonnes.splice(header.indexOf(`${traceur.nom}`), 1);
+                lignes[k] = colonnes.join(';');
+            }
+            header = header.filter(colonne => colonne !== `${traceur.nom}`);
+        }
         header.push(`${traceur.nom}`);
         lignes[2] = header.join(';');
 
@@ -783,6 +799,8 @@ function ajouterCourbeConcentrationTraceur(traceur) {
         }
 
         contenuFichierMesures = lignes.join('\n');
+
+        existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `${traceur.nom}`);
 
         existingChart.data.datasets.forEach((dataset, index) => {
             if (dataset.label !== `L${traceur.lampePrincipale}` && dataset.label !== `L${traceur.lampePrincipale}Corr` && dataset.label !== `${traceur.nom}`) {
@@ -1159,7 +1177,15 @@ function calculerInterferences(listeTraceur) {
                 }
             }
 
-            const header = lignes[2].replace(/[\n\r]/g, '').split(';');
+            let header = lignes[2].replace(/[\n\r]/g, '').split(';');
+            if (header.includes(`L${tableauLampesATraiter[i]}Corr`)) {
+                for (let k = 3; k < lignes.length - 1; k++) {
+                    const colonnes = lignes[k].split(';');
+                    colonnes.splice(header.indexOf(`L${tableauLampesATraiter[i]}Corr`), 1);
+                    lignes[k] = colonnes.join(';');
+                }
+                header = header.filter(colonne => colonne !== `L${tableauLampesATraiter[i]}Corr`);
+            }
             header.push(`L${tableauLampesATraiter[i]}Corr`);
             lignes[2] = header.join(';');
 
