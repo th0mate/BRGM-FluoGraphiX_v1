@@ -1377,6 +1377,7 @@ function modifierListeLampesBruitDeFond(valeurCheckBox) {
  *
  */
 function calculerEtAfficherCorrectionBruitFond() {
+
     let traceursBruitDeFond = [];
     const eau = traceurs.find(traceur => traceur.unite === '');
 
@@ -1444,8 +1445,10 @@ function calculerEtAfficherCorrectionBruitFond() {
             const timeDate = DateTime.fromFormat(colonnes[0] + '-' + colonnes[1], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
             const timestamp = timeDate.toMillis();
 
-            if (timestamp > DateTime.fromFormat(zoneSelectionnee[0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toMillis() && timestamp < DateTime.fromFormat(zoneSelectionnee[1], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toMillis()) {
-                continue;
+            if (zoneSelectionnee.length > 0) {
+                if (timestamp > DateTime.fromFormat(zoneSelectionnee[0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toMillis() && timestamp < DateTime.fromFormat(zoneSelectionnee[1], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toMillis()) {
+                    continue;
+                }
             }
 
             if (colonnes[indexLampePrincipale] !== '' && colonnes[indexLa] !== '' && colonnes[indexLb] !== '' && colonnes[indexLc] !== '') {
@@ -1530,8 +1533,10 @@ function calculerEtAfficherCorrectionBruitFond() {
 
         existingChart.data.datasets.push(data);
         existingChart.update();
-        afficherAnnotationEnDehorsZoneSelectionnee();
 
+    }
+    if (zoneSelectionnee.length > 0) {
+        afficherAnnotationEnDehorsZoneSelectionnee();
     }
     fermerPopupParametres();
 }
