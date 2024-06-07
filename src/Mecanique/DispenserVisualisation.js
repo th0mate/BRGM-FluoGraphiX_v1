@@ -361,10 +361,6 @@ function telechargerFichier() {
                 const isHidden = !existingChart.isDatasetVisible(i);
 
                 if (isHidden) {
-                    console.log(existingChart.data.datasets[i].label, ' hidden');
-                }
-
-                if (isHidden) {
                     let nomCourbe = existingChart.data.datasets[i].label;
                     const lignes = fichier.split('\n');
                     const header = lignes[2].replace(/[\n\r]/g, '').split(';');

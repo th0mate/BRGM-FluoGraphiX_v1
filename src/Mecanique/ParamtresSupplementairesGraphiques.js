@@ -117,7 +117,6 @@ function afficherPopupParametresGraphiques() {
         let nbTraceursInterferences = 0;
         let ongletCorrectionBruitDeFond = '';
         if (calculsInterferences.length > 0) {
-            console.log(calculsInterferences);
             nbTraceursInterferences = calculsInterferences[0].getParametreParNom('nombreTraceurs');
             ongletCorrectionBruitDeFond = '<div class="bouton boutonFonce" onclick="afficherOngletParametre(5)">Corriger le bruit de fond</div>';
         } else {
@@ -289,7 +288,7 @@ function afficherPopupParametresGraphiques() {
                     checkBoxCourbesBruitFond += `<label><input type="checkbox" onchange="modifierListeLampesBruitDeFond(this.value)" checked value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
                     listeLampeBruitDeFond.push(existingChart.data.datasets[i].label);
                 } else {
-                    if (courbesString.includes(`${existingChart.data.datasets[i].label}Corr`)) {
+                    if (courbesString.includes(`${existingChart.data.datasets[i].label}Corr`) || !existingChart.data.datasets[i].label.charAt(0) === 'L') {
                         checkBoxCourbesBruitFond += `<label><input type="checkbox" onchange="modifierListeLampesBruitDeFond(this.value)" value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
                     } else {
                         checkBoxCourbesBruitFond += `<label><input type="checkbox" checked onchange="modifierListeLampesBruitDeFond(this.value)" value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
@@ -935,7 +934,6 @@ function telechargerTRAC(dateInjection, traceur) {
         }
 
         const timeDate = DateTime.fromFormat(colonnes[0] + '-' + colonnes[1], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
-        console.log(timeDate);
 
         if (!timeDate.isValid) {
             console.error('Date invalide à la ligne:', i + 1);
@@ -1322,10 +1320,8 @@ function selectionnerZoneGraphique() {
 
             afficherPopupParametresGraphiques();
             afficherOngletParametre(5);
-            document.querySelector('.texteZoneSelection').innerText = `Zone sélectionnée: ${startDate} - ${endDate}`;
 
-
-            return [startDate, endDate];
+            zoneSelectionnee = [startDate, endDate];
         }
     });
 }
@@ -1442,5 +1438,57 @@ function calculerEtAfficherCorrectionBruitFond() {
         let XTX = multiply(inverse(multiply(transpose(X), X)), transpose(X));
         let coefficients = multiply(XTX, Y);
 
+        const data = {
+            label: `L${traceur.lampePrincipale}Corr`,
+            data: [],
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            borderColor: getRandomColor(),
+            borderWidth: 2,
+            pointRadius: 0
+        };
+
+        let header = lignes[2].replace(/[\n\r]/g, '').split(';');
+        if (header.includes(`L${traceur.lampePrincipale}Corr`)) {
+            for (let k = 3; k < lignes.length - 1; k++) {
+                const colonnes = lignes[k].split(';');
+                colonnes.splice(header.indexOf(`L${traceur.lampePrincipale}Corr`), 1);
+                lignes[k] = colonnes.join(';');
+            }
+            header = header.filter(colonne => colonne !== `L${traceur.lampePrincipale}Corr`);
+        }
+        header.push(`L${traceur.lampePrincipale}Corr`);
+        lignes[2] = header.join(';');
+
+        for (let j = 0; j < X.length; j++) {
+            const timeDate = DateTime.fromFormat(dates[j], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
+            const timestamp = timeDate.toMillis();
+            const LxNat = coefficients[0][0] * X[j][0] + coefficients[1][0] * X[j][1] + coefficients[2][0] * X[j][2] + coefficients[3][0];
+            const valeur = Y[j][0] - LxNat;
+            lignes[j + 3] = lignes[j + 3].replace(/[\n\r]/g, '');
+            lignes[j + 3] += `;${arrondirA2Decimales(valeur)}`;
+            data.data.push({x: timestamp, y: valeur});
+        }
+
+        contenuFichierMesures = lignes.join('\n');
+        existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur.lampePrincipale}Corr`);
+
+        existingChart.data.datasets.forEach((dataset, index) => {
+            if (dataset.label !== `L${traceur.lampePrincipale}` && dataset.label !== `L${traceur.lampePrincipale}Corr`) {
+                dataset.hidden = true;
+                if (existingChart.isDatasetVisible(index)) {
+                    existingChart.toggleDataVisibility(index);
+                }
+            } else {
+                dataset.hidden = false;
+                if (!existingChart.isDatasetVisible(index)) {
+                    existingChart.toggleDataVisibility(index);
+                }
+            }
+        });
+
+        existingChart.data.datasets.push(data);
+        existingChart.update();
+
     }
+    fermerPopupParametres();
 }
