@@ -1352,6 +1352,7 @@ function modifierListeLampesBruitDeFond(valeurCheckBox) {
  */
 function calculerEtAfficherCorrectionBruitFond() {
     let traceursBruitDeFond = [];
+    const eau = traceurs.find(traceur => traceur.unite === '');
     //TODO temporaire - utiliser zoneSelectionnee directement sans le set à la main ! Penser à convertir de millisecondes à dd/mm/yyyy-hh:mm:ss
     zoneSelectionnee = ['18/01/2014-00:00:00', '19/01/2014-23:59:00'];
 
@@ -1459,11 +1460,28 @@ function calculerEtAfficherCorrectionBruitFond() {
         header.push(`L${traceur.lampePrincipale}Corr`);
         lignes[2] = header.join(';');
 
-        for (let j = 0; j < X.length; j++) {
-            const timeDate = DateTime.fromFormat(dates[j], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
+        const contenu = [];
+
+        for (let j = 3; j < lignes.length - 1; j++) {
+            const colonnes = lignes[j].split(';');
+            if (colonnes[indexLampePrincipale] !== '' && colonnes[indexLa] !== '' && colonnes[indexLb] !== '' && colonnes[indexLc] !== '') {
+                const timeDate = DateTime.fromFormat(colonnes[0] + '-' + colonnes[1], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
+                const timestamp = timeDate.toMillis();
+                const ligneContenu = [];
+                ligneContenu.push(colonnes[0] + '-' + colonnes[1]);
+                ligneContenu.push(colonnes[indexLampePrincipale].replace(/[\n\r]/g, ''));
+                ligneContenu.push(colonnes[indexLa].replace(/[\n\r]/g, ''));
+                ligneContenu.push(colonnes[indexLb].replace(/[\n\r]/g, ''));
+                ligneContenu.push(colonnes[indexLc].replace(/[\n\r]/g, ''));
+                contenu.push(ligneContenu);
+            }
+        }
+
+        for (let j = 0; j < contenu.length; j++) {
+            const timeDate = DateTime.fromFormat(contenu[j][0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
             const timestamp = timeDate.toMillis();
-            const LxNat = coefficients[0][0] * X[j][0] + coefficients[1][0] * X[j][1] + coefficients[2][0] * X[j][2] + coefficients[3][0];
-            const valeur = Y[j][0] - LxNat;
+            const LxNat = coefficients[0][0] * contenu[j][2] + coefficients[1][0] * contenu[j][3] + coefficients[2][0] * contenu[j][4] + coefficients[3][0];
+            const valeur = (contenu[j][1] - LxNat) + eau.getDataParNom(`L${traceur.lampePrincipale}-1`);
             lignes[j + 3] = lignes[j + 3].replace(/[\n\r]/g, '');
             lignes[j + 3] += `;${arrondirA2Decimales(valeur)}`;
             data.data.push({x: timestamp, y: valeur});
