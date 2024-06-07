@@ -1278,7 +1278,7 @@ function selectionnerZoneGraphique() {
     myChart.options.plugins.zoom.pan.enabled = false;
     myChart.options.plugins.zoom.zoom.wheel.enabled = false;
     fermerPopupParametres();
-    afficherPopup('<img alt="" src="Ressources/img/select.png">', 'Sélectionnez une zone sur le graphique', 'Commencez par sélectionner la zone à étudier en cliquant et en maintenant le clic gauche sur le graphique, puis en relâchant le clic à la fin de la zone à sélectionner.', '<div class="bouton boutonFonce" onclick="fermerPopup()">COMMENCER</div>')
+    afficherPopup('<img alt="" src="Ressources/img/select.png">', 'Sélectionnez une zone sur le graphique', 'Commencez par sélectionner la période influencée par le traceur en cliquant et en maintenant le clic gauche sur le graphique, puis en relâchant le clic à la fin de la zone à sélectionner.', '<div class="bouton boutonFonce" onclick="fermerPopup()">COMMENCER</div>')
 
     let isSelecting = false;
     let startX = null;
@@ -1379,8 +1379,6 @@ function modifierListeLampesBruitDeFond(valeurCheckBox) {
 function calculerEtAfficherCorrectionBruitFond() {
     let traceursBruitDeFond = [];
     const eau = traceurs.find(traceur => traceur.unite === '');
-    //TODO temporaire - utiliser zoneSelectionnee directement sans le set à la main ! Penser à convertir de millisecondes à dd/mm/yyyy-hh:mm:ss
-    zoneSelectionnee = ['18/01/2014-00:00:00', '19/01/2014-23:59:00'];
 
     const calculsInterferences = listeCalculs.filter(calcul => calcul.nom.includes('interférences'));
     let nbTraceursInterferences = 0;
