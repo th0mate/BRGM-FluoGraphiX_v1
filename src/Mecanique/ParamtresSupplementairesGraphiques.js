@@ -1506,7 +1506,45 @@ function calculerEtAfficherCorrectionBruitFond() {
 
         existingChart.data.datasets.push(data);
         existingChart.update();
+        afficherAnnotationEnDehorsZoneSelectionnee();
 
     }
     fermerPopupParametres();
+}
+
+
+
+function afficherAnnotationEnDehorsZoneSelectionnee() {
+    const zoneStart = DateTime.fromFormat(zoneSelectionnee[0], 'dd/MM/yyyy-HH:mm:ss', {zone: 'UTC'}).toMillis();
+    const zoneEnd = DateTime.fromFormat(zoneSelectionnee[1], 'dd/MM/yyyy-HH:mm:ss', {zone: 'UTC'}).toMillis();
+    const canvas = document.getElementById('graphique');
+    const existingChart = Chart.getChart(canvas);
+    const maxGraphique = existingChart.scales['x'].max;
+    const minGraphique = existingChart.scales['x'].min;
+    console.log(minGraphique);
+    console.log(maxGraphique);
+    const annotation1 = {
+        type: 'box',
+        xMin: minGraphique + 100,
+        xMax: zoneStart,
+        yMin: -Infinity,
+        yMax: Infinity,
+        backgroundColor: 'rgba(255,99,104,0.10)',
+        borderColor: 'rgb(255,24,75, 0.50)',
+        borderWidth: 2
+    };
+
+    const annotation2 = {
+        type: 'box',
+        xMin: zoneEnd,
+        xMax: maxGraphique - 100,
+        yMin: -Infinity,
+        yMax: Infinity,
+        backgroundColor: 'rgba(255,99,104,0.10)',
+        borderColor: 'rgb(255,24,75, 0.50)',
+        borderWidth: 2
+    };
+
+    existingChart.options.plugins.annotation.annotations = [annotation1, annotation2];
+
 }
