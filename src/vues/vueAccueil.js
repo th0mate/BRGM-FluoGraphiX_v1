@@ -15,13 +15,13 @@ function vueAccueil() {
             <div class="actionsRapides">
                 <div id="actionsRapides" class="action" onclick="afficherVue('vueGraphique')">
                     <img src="Ressources/img/grandGraphique.png" alt="icone">
-                    <h3>Visualisez les données de vos fichiers sous la forme de graphiques</h3>
+                    <h3>Visualisez, corrigez et convertissez vos données de mesures</h3>
                     <span></span>
                 </div>
             
                 <div class="action" onclick="afficherVue('vueConcentrations')">
                     <img src="Ressources/img/grandsCalculs.png" alt="icone">
-                    <h3>Calculez des données de concentrations à partir d'un fichier Calibrat.dat</h3>
+                    <h3>Consultez vos données de calibration et vérifiez leur conformité</h3>
                     <span></span>
                 </div>
             
