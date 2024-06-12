@@ -34,7 +34,9 @@ function getStringDepuisFichierMV(fichier, callback) {
             let ligne = `${getDateHeure(getTimeFromMV(timeValue))[0]};${getDateHeure(getTimeFromMV(timeValue))[1]}`;
 
             for (let i = 4; i < colonnesLigne.length; i++) {
-                ligne += `;${around(colonnesLigne[i])}`;
+                if (around(around(colonnesLigne[i]) !== '')) {
+                    ligne += `;${around(colonnesLigne[i])}`;
+                }
             }
             ligne += '\n';
             texteFinal += ligne;

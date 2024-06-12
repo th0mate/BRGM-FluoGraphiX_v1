@@ -151,6 +151,7 @@ async function traiterFichier() {
         } else {
             try {
                 inputFichier.value = "";
+                contenuFichierMesures = nettoyerFichierCSV(contenuFichierMesures);
                 afficherGraphique(contenuFichierMesures);
                 afficherMessageFlash("Données traitées avec succès.", 'success');
                 document.querySelector('.downloadFile').style.display = 'block';

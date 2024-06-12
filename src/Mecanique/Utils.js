@@ -61,6 +61,11 @@ function getTimeFromMV(string) {
  * @returns {number|string} le nombre avec 2 décimales après la virgule
  */
 function around(double) {
+
+    if (double === '') {
+        return '';
+    }
+
     if (double === 0.001) {
         return double;
     }
@@ -128,3 +133,6 @@ function nettoyerFichierCSV(contenuFichier) {
 function arrondirA2Decimales(chiffre) {
     return Math.round(chiffre * 100) / 100;
 }
+
+
+

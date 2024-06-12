@@ -1463,6 +1463,8 @@ function calculerEtAfficherCorrectionBruitFond() {
             }
         }
 
+        console.log(X);
+        console.log(Y);
         let XTX = multiply(inverse(multiply(transpose(X), X)), transpose(X));
         let coefficients = multiply(XTX, Y);
 
@@ -1577,3 +1579,5 @@ function afficherAnnotationEnDehorsZoneSelectionnee() {
     existingChart.options.plugins.annotation.annotations = [annotation1, annotation2];
 
 }
+
+

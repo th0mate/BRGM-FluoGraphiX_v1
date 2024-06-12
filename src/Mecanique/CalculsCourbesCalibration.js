@@ -918,6 +918,7 @@ function inverse(matrix) {
 
         if (augmentedMatrix[maxElementIndex][i] === 0) {
             afficherMessageFlash('La matrice est singulière et ne peut pas être inversée', 'danger');
+            console.error(matrix);
         }
 
         [augmentedMatrix[i], augmentedMatrix[maxElementIndex]] = [augmentedMatrix[maxElementIndex], augmentedMatrix[i]];
