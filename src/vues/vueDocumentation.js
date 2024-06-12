@@ -57,13 +57,13 @@ function vueDocumentation() {
                 <div class="sommaire" data-content="Importation" onclick="redirectTo('importGraphiqueDoc')"><span></span>Importation<img src="Ressources/img/droite.png" alt=""></div>
                 <div class="sommaire" data-content="Exportation" onclick="redirectTo('expGraphiqueDoc')"><span></span>Exportation<img src="Ressources/img/droite.png" alt=""></div>
                 <div class="sommaire" data-content="Graphique" onclick="redirectTo('GraphiqueDoc')"><span></span>Graphique<img src="Ressources/img/droite.png" alt=""></div>
-                <div class="sommaire" data-content="Graphique" onclick="redirectTo('CalculsDoc')"><span></span>Calculs<img src="Ressources/img/droite.png" alt=""></div>
+                <div class="sommaire" data-content="Calculs" onclick="redirectTo('CalculsDoc')"><span></span>Calculs<img src="Ressources/img/droite.png" alt=""></div>
             </div>
             
             <div>
                 <h3>Calibration</h3>
                 <div class="sommaire" data-content="Calibration : Présentation et importation" onclick="redirectTo('calibrationDoc')"><span></span>Présentation et Importation de données<img src="Ressources/img/droite.png" alt=""></div>
-                <div class="sommaire" data-content="Fichiers txt (Calibration)" onclick="redirectTo('paramCalibrationDoc')"><span></span>Présentation des Fichiers CSV<img src="Ressources/img/droite.png" alt=""></div>
+                <div class="sommaire" data-content="Fichiers CSV (Calibration)" onclick="redirectTo('paramCalibrationDoc')"><span></span>Présentation des Fichiers CSV<img src="Ressources/img/droite.png" alt=""></div>
             </div>
             
         </div>
@@ -388,7 +388,29 @@ function vueDocumentation() {
                     </div>
                     <img src="Ressources/img/screen86.png" alt="">
                 </div>
+                <div class="etape">
+                    <div>
+                        <h3 class="findable"><span>8</span>Correction des interférences entre traceurs</h3>
+                        <p>Vous pouvez corriger les interférences générées par un, deux, ou trois traceurs sur vos courbes.</p>
+                        <p>Séléctionnez le nombre de traceurs à choisir, puis sélectionnez vos traceurs.</p>
+                        <p>Cliquez sur "terminer" pour afficher dans votre graphique la/les courbe(s) corrigée(s).</p>
+                    </div>
+                    <img src="Ressources/img/screen87.png" alt="">
+                </div>
+                
+                <div class="etape">
+                    <div>
+                        <h3 class="findable"><span>9</span>Correction du bruit de fond naturel</h3>
+                        <p>Vous pouvez également corriger le bruit de fond sur l'une de vos courbes, représentant un traceur.</p>
+                        <p>Pour accéder à cette option, vous devez avoir corrigé les interférences de un ou deux traceurs.</p>
+                        <p>Sélectionnez la période du graphique influencée par le traceur. ATTENTION : cette étape doit être réalisée en premier lieu, elle reste toutefois facultative.</p>
+                        <p>Sélectionnez ensuite les variables explicatives (courbes) à utiliser pour le calcul (2 courbes sélectionnées minimum, 3 maximum). Les courbes sélectionnées par défaut sont celles ayant été corrigées ("Corr").</p>
+                        <p>Cliquez sur "calculer" pour afficher la nouvelle courbe calculée ("LxCorr") sur le graphique. Dans l'image ci-contre, la courbe bleu marine corrige la courbe cyan.</p>
+                    </div>
+                    <img src="Ressources/img/screen88.png" alt="">
+                </div>
             </div>
+           
             
             
             <div class="section">
@@ -500,7 +522,7 @@ function vueDocumentation() {
                         <h3 class="findable"><span>7</span>Exportation des données de Calibration</h3>
                         <p>Quelque-soit le fichier importé, vous pouvez télécharger un fichier CSV en cliquant sur le bouton "Télécharger les données".</p>
                     </div>
-                    <img src="Ressources/img/screen25.png" alt="">
+                    <img src="Ressources/img/screen15.png" alt="">
                 </div>
             </div>
             
