@@ -439,7 +439,7 @@ function afficherOngletParametre(idOnglet) {
  * @param nouveau Nouveau label à ajouter
  */
 function remplacerDonneesFichier(ancien, nouveau) {
-    let lignes = contenuFichier.split('\n');
+    let lignes = contenuFichierMesures.split('\n');
     let header = lignes[2].split(';');
 
     for (let i = 0; i < header.length; i++) {
@@ -455,7 +455,7 @@ function remplacerDonneesFichier(ancien, nouveau) {
     lignes[2] = header.join(';');
 
     contenuFichierMesures = lignes.join('\n');
-    afficherGraphique(contenuFichier);
+    afficherGraphique(contenuFichierMesures);
 
     if (calibrationEstLieGraphiques()) {
         document.querySelector('.onglet1').innerHTML = `<img src="Ressources/img/goodNew.png" alt="Succès"> <h4>Les courbes ont été liées aux labels du fichier de calibration avec succès.</h4>`;
