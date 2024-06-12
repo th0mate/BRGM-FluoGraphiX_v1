@@ -291,8 +291,12 @@ function afficherPopupParametresGraphiques() {
                     if (courbesString.includes(`${existingChart.data.datasets[i].label}Corr`) || !existingChart.data.datasets[i].label.charAt(0) === 'L') {
                         checkBoxCourbesBruitFond += `<label><input type="checkbox" onchange="modifierListeLampesBruitDeFond(this.value)" value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
                     } else {
-                        checkBoxCourbesBruitFond += `<label><input type="checkbox" checked onchange="modifierListeLampesBruitDeFond(this.value)" value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
-                        listeLampeBruitDeFond.push(existingChart.data.datasets[i].label);
+                        if (existingChart.data.datasets[i].label.includes(`L`)) {
+                            checkBoxCourbesBruitFond += `<label><input type="checkbox" checked onchange="modifierListeLampesBruitDeFond(this.value)" value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
+                            listeLampeBruitDeFond.push(existingChart.data.datasets[i].label);
+                        } else {
+                            checkBoxCourbesBruitFond += `<label><input type="checkbox" onchange="modifierListeLampesBruitDeFond(this.value)" value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
+                        }
                     }
                 }
             }
@@ -1405,7 +1409,7 @@ function calculerEtAfficherCorrectionBruitFond() {
         traceursBruitDeFond.push(traceur);
     }
 
-    for (let i = 0; i < traceursBruitDeFond.length; i ++) {
+    for (let i = 0; i < traceursBruitDeFond.length; i++) {
         const traceur = traceursBruitDeFond[i];
 
         const lignes = contenuFichierMesures.split('\n');
@@ -1555,7 +1559,6 @@ function calculerEtAfficherCorrectionBruitFond() {
     }
     fermerPopupParametres();
 }
-
 
 
 function afficherAnnotationEnDehorsZoneSelectionnee() {
