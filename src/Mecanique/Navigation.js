@@ -18,7 +18,6 @@ if (window.location.protocol === "file:" && navigator.onLine) {
  * Affiche une popup d'information
  */
 if (window.location.protocol !== "file:" && navigator.onLine) {
-    //TODO : downloadSite
     const random = Math.floor(Math.random() * 15);
     if (random === 1) {
         setTimeout(() => {
