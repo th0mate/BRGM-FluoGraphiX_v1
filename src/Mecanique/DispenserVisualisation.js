@@ -11,6 +11,12 @@
 let contenuFichierMesures = "";
 
 /**
+ * Le contenu du ou des fichiers de mesure initial
+ * @type {string} le contenu du fichier
+ */
+let contenuMesuresInitial = "";
+
+/**
  * Le nombre de lignes total du fichier importé par l'utilisateur
  * @type {number} le nombre de lignes
  */
@@ -152,6 +158,7 @@ async function traiterFichier() {
             try {
                 inputFichier.value = "";
                 contenuFichierMesures = nettoyerFichierCSV(contenuFichierMesures);
+                contenuMesuresInitial = contenuFichierMesures;
                 afficherGraphique(contenuFichierMesures);
                 afficherMessageFlash("Données traitées avec succès.", 'success');
                 document.querySelector('.downloadFile').style.display = 'block';

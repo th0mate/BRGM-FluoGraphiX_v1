@@ -133,7 +133,7 @@ function afficherPopupParametresGraphiques() {
             ${message}
             
         <div class="ongletsParam">
-            <div class="bouton boutonFonce" onclick="afficherOngletParametre(1)">Renommer les courbes</div>
+            <div class="bouton boutonFonce" onclick="afficherOngletParametre(1)">Paramètres</div>
             <div class="bouton boutonFonce" onclick="afficherOngletParametre(2)">Corriger la turbidité</div>
             <div class="bouton boutonFonce" onclick="afficherOngletParametre(3)">Convertir en concentrations</div>
             <div class="bouton boutonFonce" onclick="afficherOngletParametre(4)">Corriger les interférences</div>
@@ -194,7 +194,7 @@ function afficherPopupParametresGraphiques() {
             }
         }
 
-        popupHTML += `</div>
+        popupHTML += `<div class="boutonFonce bouton boutonOrange" style="width: 70%" onclick="reinitialiserGraphique()">RÉINITIALISER LE GRAPHIQUE</div></div>
         <div class="ongletParam" id="2">
             <br>
             <h2>Correction de la turbidité</h2>
@@ -322,6 +322,9 @@ function afficherPopupParametresGraphiques() {
     `;
         overlay.innerHTML += popupHTML;
         afficherOngletParametre(1);
+    } else {
+        afficherMessageFlash("Veuillez importer un fichier de données d'abord", 'info');
+        fermerPopupParametres();
     }
 }
 
@@ -337,6 +340,16 @@ function fermerPopupParametres() {
     if (document.querySelector('div[style*="z-index: 1000"]') !== null) {
         document.querySelector('div[style*="z-index: 1000"]').remove();
     }
+}
+
+
+/**
+ * Réinitialise le graphique à partir des données initiales
+ */
+function reinitialiserGraphique() {
+    afficherGraphique(contenuMesuresInitial);
+    fermerPopupParametres();
+    afficherMessageFlash('Graphique réinitialisé avec succès', 'success');
 }
 
 
