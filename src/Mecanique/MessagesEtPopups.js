@@ -101,6 +101,7 @@ function afficherPopup(imageHTML, titre, contenu, boutonsHTML) {
     overlay.style.height = '100%';
     overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
     overlay.style.zIndex = '1000';
+    overlay.classList.add('overlayPetit');
     document.body.appendChild(overlay);
 
     document.body.style.overflowY = 'hidden';
@@ -118,8 +119,8 @@ function fermerPopup() {
     if (document.querySelector('.popup') !== null) {
         document.querySelector('.popup').remove();
     }
-    if (document.querySelector('div[style*="z-index: 1000"]') !== null) {
-        document.querySelector('div[style*="z-index: 1000"]').remove();
+    if (document.querySelector('.overlayPetit') !== null) {
+        document.querySelector('.overlayPetit').remove();
     }
 
     document.body.style.overflow = 'auto';
