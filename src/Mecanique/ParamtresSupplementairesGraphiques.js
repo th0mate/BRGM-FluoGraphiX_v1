@@ -865,7 +865,6 @@ function afficherPopupTelecharger() {
 
     const canvas = document.getElementById('graphique');
     const existingChart = Chart.getChart(canvas);
-    const dateMin = 'min=' + DateTime.fromMillis(existingChart.data.datasets[0].data[0].x, {zone: 'UTC'}).toFormat('yyyy-MM-dd');
     const dateMax = 'max=' + DateTime.fromMillis(existingChart.data.datasets[0].data[existingChart.data.datasets[0].data.length - 1].x, {zone: 'UTC'}).toFormat('yyyy-MM-dd');
 
     const listeTraceursConcentration = [];
@@ -909,7 +908,7 @@ function afficherPopupTelecharger() {
     <div class="separateur">
     <span ${border}>
     <h4>Choisissez la date d'injection</h4>
-    <input type="date" id="dateInjection" ${dateMin} ${dateMax} onchange="dateInjection = this.value;">
+    <input type="date" id="dateInjection" ${dateMax} onchange="dateInjection = this.value;">
     </span>
     <br>
     <span>
@@ -1494,6 +1493,15 @@ function calculerEtAfficherCorrectionBruitFond() {
             pointRadius: 0
         };
 
+        const data1 = {
+            label: `L${traceur.lampePrincipale}Nat`,
+            data: [],
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            borderColor: getRandomColor(),
+            borderWidth: 2,
+            pointRadius: 0
+        }
+
         let header = lignes[2].replace(/[\n\r]/g, '').split(';');
         if (header.includes(`L${traceur.lampePrincipale}Corr`)) {
             for (let k = 3; k < lignes.length - 1; k++) {
@@ -1523,21 +1531,32 @@ function calculerEtAfficherCorrectionBruitFond() {
             }
         }
 
+        const colonneLxNat = [];
+
         for (let j = 0; j < contenu.length; j++) {
             const timeDate = DateTime.fromFormat(contenu[j][0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
             const timestamp = timeDate.toMillis();
             const LxNat = coefficients[0][0] * contenu[j][2] + coefficients[1][0] * contenu[j][3] + coefficients[2][0] * contenu[j][4] + coefficients[3][0];
+            colonneLxNat.push(LxNat);
             const valeur = (contenu[j][1] - LxNat) + eau.getDataParNom(`L${traceur.lampePrincipale}-1`);
             lignes[j + 3] = lignes[j + 3].replace(/[\n\r]/g, '');
             lignes[j + 3] += `;${arrondirA2Decimales(valeur)}`;
             data.data.push({x: timestamp, y: valeur});
         }
 
+
+        for (let j = 0; j < colonneLxNat.length; j++) {
+            const timedate = dates[j];
+            const timestamp = DateTime.fromFormat(timedate, 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toMillis();
+            data1.data.push({x: timestamp, y: colonneLxNat[j]});
+        }
+
         contenuFichierMesures = lignes.join('\n');
         existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur.lampePrincipale}Corr`);
+        existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur.lampePrincipale}Nat`);
 
         existingChart.data.datasets.forEach((dataset, index) => {
-            if (dataset.label !== `L${traceur.lampePrincipale}` && dataset.label !== `L${traceur.lampePrincipale}Corr`) {
+            if (dataset.label !== `L${traceur.lampePrincipale}` && dataset.label !== `L${traceur.lampePrincipale}Corr` && dataset.label !== `L${traceur.lampePrincipale}Nat`) {
                 dataset.hidden = true;
                 if (existingChart.isDatasetVisible(index)) {
                     existingChart.toggleDataVisibility(index);
@@ -1551,6 +1570,7 @@ function calculerEtAfficherCorrectionBruitFond() {
         });
 
         existingChart.data.datasets.push(data);
+        existingChart.data.datasets.push(data1);
         existingChart.update();
 
     }
