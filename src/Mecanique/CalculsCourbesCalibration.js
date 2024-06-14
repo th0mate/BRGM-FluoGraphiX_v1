@@ -53,9 +53,12 @@ function initialiserCalculsCourbes(idLampe, traceur) {
 
 
         if (donneesCorrompues) {
-            setTimeout(() => {
-                afficherPopup('<img src="Ressources/img/attention2.png" alt="">', 'Attention : données potentiellement corrompues détectées !', 'Les données calculées indiquent une potentielle erreur dans les données de calibration importées. Assurez-vous qu\'elles soient correctes.', '<div class="bouton boutonFonce" onclick="fermerPopup()">TERMINER</div>');
-            }, 500);
+            if (!document.querySelector('#graphique')) {
+                setTimeout(() => {
+                    afficherPopup('<img src="Ressources/img/attention2.png" alt="">', 'Attention : données potentiellement corrompues détectées !', 'Les données calculées indiquent une potentielle erreur dans les données de calibration importées. Assurez-vous qu\'elles soient correctes.', '<div class="bouton boutonFonce" onclick="fermerPopup()">TERMINER</div>');
+                }, 500);
+            }
+            console.log(donneesCorrompues);
         }
 
     } else {
@@ -84,7 +87,6 @@ function initialiserCalculsCourbes(idLampe, traceur) {
  * @return {*|*[]|*[][]|*[]} les résultats du calcul, contenant au maximum le degré1, le degré2, la constante et l'erreur type.
  */
 function effectuerCalculsCourbes(idLampe, traceur) {
-    donneesCorrompues = false;
     nbValeurLampe = 0;
     for (let i = 0; i < traceur.echelles.length; i++) {
         if (!isNaN(traceur.getDataParNom('L' + idLampe + '-' + (i + 1)))) {

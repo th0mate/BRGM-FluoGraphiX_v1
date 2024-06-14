@@ -297,7 +297,7 @@ input[type="checkbox"]:checked {
 
 .grandPopup > .entete > .titreBarre {
     font-size: 2em;
-    margin-bottom: 70px;
+    margin-bottom: 30px;
 }
 
 .grandPopup > .entete > img {
@@ -305,7 +305,6 @@ input[type="checkbox"]:checked {
 }
 
 .grandPopup > .entete > img:hover {
-    /* on vire le filtre */
     filter: none;
 }
 
@@ -343,7 +342,11 @@ input[type="checkbox"]:checked {
 .grandPopup > .ongletsParam {
     width: 98%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: center;
+
 }
 
 .grandPopup > .ongletsParam > .bouton {
@@ -352,12 +355,12 @@ input[type="checkbox"]:checked {
     background-color: var(--grisBRGM);
     min-width: 150px;
     max-width: 200px;
+    margin: auto;
     height: 20px;
     font-size: 0.8em;
     transition: box-shadow 0.3s ease;
     font-weight: normal;
     color: white;
-    margin: 0;
     cursor: initial;
     display: flex;
     flex-direction: row;
@@ -391,6 +394,30 @@ input[type="checkbox"]:checked {
     align-items: center;
     align-content: center;
     margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.popupExport > .separator {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    align-content: flex-start;
+    height: 250px;
+}
+
+.popupExport > .separator > .ligne {
+    height: 100%;
+    border: 1px solid black;
+}
+
+.popupExport > .separator > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+    margin: 10px;
+    width: 48%;
 }
 
 .grandPopup > .separator > .ongletParam {
@@ -427,7 +454,7 @@ input[type="checkbox"]:checked {
     color: var(--orangeBRGM);
 }
 
-.ongletParam > .alert {
+.ongletParam > .alert, .message > .alert {
     position: initial;
     cursor: initial;
     max-width: none;
@@ -437,7 +464,20 @@ input[type="checkbox"]:checked {
     text-align: left;
 }
 
-.ongletParam > .alert > img {
+.message > .alert {
+    width: auto;
+    max-width: none;
+    min-width: 0;
+    padding-right: 10px;
+}
+
+.message > .alert > span {
+    text-decoration: underline;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.ongletParam > .alert > img, .message > .alert > img {
     padding-right: 10px;
 }
 
@@ -593,7 +633,7 @@ input[type="checkbox"]:checked {
     margin: auto;
 }
 
-.grandPopup > .separateur {
+.popupExport > .separator > div > .separateur {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -603,18 +643,18 @@ input[type="checkbox"]:checked {
     width: 100%;
 }
 
-.grandPopup > .separateur > span {
+.popupExport > .separator > div > .separateur > span {
     height: 100%;
     margin-left: 10px;
 }
 
-.grandPopup > .separateur > span:not(:last-child) {
+.popupExport > .separator > div > .separateur > span:not(:last-child) {
     border-right: 2px solid black;
     padding-right: 20px;
 }
 
 
-.grandPopup > .separateur > span > input[type="date"] {
+.popupExport > .separator > div > .separateur > span > input[type="date"] {
     color: white;
     background-color: var(--orangeBRGM);
     border: 5px solid var(--orangeBRGM);
@@ -625,7 +665,7 @@ input[type="checkbox"]:checked {
 }
 
 
-.grandPopup > .separateur > span > input[type="date"]::-webkit-calendar-picker-indicator {
+.popupExport > .separator > div > .separateur > span > input[type="date"]::-webkit-calendar-picker-indicator {
     width: 30px;
     height: 30px;
     margin-left: 10px;
@@ -646,6 +686,7 @@ input[type="checkbox"]:checked {
     align-content: center;
     margin-bottom: 10px;
     min-width: 100px;
+    padding-right: 5px;
 }
 
 .ongletParam > .checkBoxLampes > label:not(:last-child) {

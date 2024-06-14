@@ -130,6 +130,7 @@ function afficherPopupParametresGraphiques() {
                 <img src="Ressources/img/close.png" class="close" onclick="fermerPopupParametres()" alt="fermer">
             </div>
             ${message}
+            <span class="message"></span>
             
         <div class="ongletsParam">
             <div class="bouton boutonFonce" onclick="afficherOngletParametre(1)">Paramètres<img src="Ressources/img/parametres.png" alt=""></div>
@@ -205,7 +206,7 @@ function afficherPopupParametresGraphiques() {
             </div>
             <br>
                         
-            <p>Sélectionner les lampes à corriger :</p>
+            <p>Sélectionnez les lampes à corriger :</p>
             
             <div class="checkBoxLampes">
                 ${checkBoxBoutons}
@@ -216,7 +217,7 @@ function afficherPopupParametresGraphiques() {
         <div class="separator" id="3">
         <div class="ongletParam" id="3">           
             <br>
-            <p>Sélectionner le traceur à afficher :</p>
+            <p>Sélectionnez le traceur à afficher :</p>
             <select class="selectOrange" onchange="metAJourTraceurAModifier(this.value)">
             <option value="" selected disabled>Sélectionner...</option>`;
 
@@ -320,6 +321,12 @@ function afficherPopupParametresGraphiques() {
     `;
         overlay.innerHTML += popupHTML;
         afficherOngletParametre(1);
+
+        console.log(donneesCorrompues);
+        if (donneesCorrompues) {
+            document.querySelector('.message').innerHTML = `<div class="alert alert-warning" id="flash"><img src="Ressources/img/warning.png" alt="">Certaines de vos données de calibration sont susceptibles d'être incorrectes, veuillez les vérifier. <span onclick="fermerAlerte()">Fermer</span></div>`;
+        }
+
     } else {
         afficherMessageFlash("Veuillez importer un fichier de données d'abord", 'info');
         fermerPopupParametres();
@@ -338,6 +345,14 @@ function fermerPopupParametres() {
     if (document.querySelector('div[style*="z-index: 1000"]') !== null) {
         document.querySelector('div[style*="z-index: 1000"]').remove();
     }
+}
+
+
+/**
+ * Ferme l'alerte affichée
+ */
+function fermerAlerte() {
+    document.querySelector('.message').innerHTML = '';
 }
 
 
@@ -878,7 +893,7 @@ function afficherPopupTelecharger() {
     let select = '';
     let border = '';
     if (listeTraceursConcentration.length > 1) {
-        select = '<h4>Choisissez le traceur à exporter</h4>';
+        select = '<p>Choisissez le traceur à exporter</p>';
         select += '<select class="selectOrange" id="selectTraceurExport">';
         select += '<option value="" selected disabled>Sélectionner...</option>';
 
@@ -893,20 +908,25 @@ function afficherPopupTelecharger() {
 
 
     let popupHTML = `
-<div class='grandPopup'>
+<div class='grandPopup popupExport'>
     <div class="entete">
-        <h2>Exporter les données</h2>
+        <h2 class="titreBarre">Exporter les données</h2>
         <img src="Ressources/img/close.png" class="close" onclick="fermerPopupTelecharger()" alt="fermer">
     </div>
-    <h2 style="color: white">Choisissez le format d'export :</h2>
-    <h3>Format Standard CSV</h3>
+    <h2 style="color: var(--orangeBRGM)">Choisissez le format d'export :</h2>
+    <div class="separator">
+    <div>
+    <h3>Format Standard CSV :</h3>
     <div class="boutonFonce bouton boutonOrange dl" onclick="telechargerFichier()">EXPORTER LES DONNÉES</div>
     <br>
     <br>
-    <h3>Format TRAC</h3>
+    </div>
+    <span class="ligne"></span>
+    <div>
+    <h3>Format TRAC :</h3>
     <div class="separateur">
     <span ${border}>
-    <h4>Choisissez la date d'injection</h4>
+    <p>Choisissez la date d'injection</p>
     <input type="date" id="dateInjection" ${dateMax} onchange="dateInjection = this.value;">
     </span>
     <br>
@@ -915,6 +935,8 @@ function afficherPopupTelecharger() {
     </span>
     </div>
     <div class="boutonFonce bouton boutonOrange dl" onclick="telechargerTRAC(dateInjection, traceurAExporter);">EXPORTER VERS TRAC</div>
+    </div>
+    </div>
 </div>
 `;
 

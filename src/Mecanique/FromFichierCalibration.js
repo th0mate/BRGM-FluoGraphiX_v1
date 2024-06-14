@@ -112,6 +112,7 @@ function initFichierCalibration(estFichierDat = true, estDepuisCalibration = tru
  * Cette fonction est utilisée dans la partie visualisation, pour alerter l'utilisateur si ses données de calibration sont suspectées incorrectes.
  */
 function testerTousTraceurs() {
+    donneesCorrompues = false;
     for (let i = 0; i < traceurs.length; i++) {
         for (let j = 1; j <= 4; j++) {
             afficherGraphiqueTraceur(traceurs[i], j);
