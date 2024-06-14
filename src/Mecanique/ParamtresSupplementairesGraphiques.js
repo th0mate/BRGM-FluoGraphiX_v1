@@ -56,11 +56,6 @@ let dateInjection;
  */
 let listeLampeBruitDeFond;
 
-/**
- * Le traceur sélectionné pour la correction du bruit de fond
- * @type {Traceur} l'objet Traceur sélectionné
- */
-let traceurBruitFond;
 
 /**
  * Tableau contenant la date de début et la date de fin de la sélection de la zone à éviter pour la correction du bruit de fond
@@ -106,6 +101,9 @@ function afficherPopupParametresGraphiques() {
         document.body.appendChild(overlay);
 
         document.body.style.overflowY = 'hidden';
+
+        listeLampeBruitDeFond = [];
+
 
         let message = '';
 
@@ -272,6 +270,7 @@ function afficherPopupParametresGraphiques() {
                 const traceur = traceurs.find(traceur => traceur.nom === calculsInterferences[0].getParametreParNom(`traceur${i}`));
                 listeLampesPrincipalesTraceurs.push(`L${traceur.lampePrincipale}`);
                 listeLampesPrincipalesTraceurs.push(`L${traceur.lampePrincipale}Corr`);
+                listeLampesPrincipalesTraceurs.push(`L${traceur.lampePrincipale}Nat`);
             }
 
             listeLampeBruitDeFond = [];
@@ -352,6 +351,7 @@ function fermerPopupParametres() {
  */
 function reinitialiserGraphique() {
     afficherGraphique(contenuMesuresInitial);
+    contenuFichierMesures = contenuMesuresInitial;
     fermerPopupParametres();
     afficherMessageFlash('Graphique réinitialisé avec succès', 'success');
 }
@@ -535,11 +535,11 @@ function corrigerTurbidite(idLampe, TS = niveauCorrection) {
         const colonnes = lignes[i].split(';');
 
         if (colonnes[indexLampe] !== '' && colonnes[indexTurb] !== '') {
-            const ligne = [];
-            ligne.push(colonnes[0] + '-' + colonnes[1]);
-            ligne.push(colonnes[indexLampe].replace(/[\n\r]/g, ''));
-            ligne.push(colonnes[indexTurb].replace(/[\n\r]/g, ''));
-            contenu.push(ligne);
+            const ligneValeursAManipuler = [];
+            ligneValeursAManipuler.push(colonnes[0] + '-' + colonnes[1]);
+            ligneValeursAManipuler.push(colonnes[indexLampe].replace(/[\n\r]/g, ''));
+            ligneValeursAManipuler.push(colonnes[indexTurb].replace(/[\n\r]/g, ''));
+            contenu.push(ligneValeursAManipuler);
         }
     }
 
@@ -588,7 +588,7 @@ function corrigerTurbidite(idLampe, TS = niveauCorrection) {
 
 
     let header = lignes[2].replace(/[\n\r]/g, '').split(';');
-    if (header.includes(`L${idLampe}`)) {
+    if (header.includes(`L${idLampe}Corr`)) {
         for (let k = 3; k < lignes.length - 1; k++) {
             const colonnes = lignes[k].split(';');
             colonnes.splice(header.indexOf(`L${idLampe}Corr`), 1);
@@ -692,11 +692,15 @@ function metAJourTraceurAModifier(nomTraceur) {
 }
 
 
+
+
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * GESTION DE LA CONVERSION D'UN TRACEUR EN CONCENTRATION
  * ---------------------------------------------------------------------------------------------------------------------
  */
+
+
 
 
 /**
@@ -840,11 +844,17 @@ function ajouterCourbeConcentrationTraceur(traceur) {
 }
 
 
+
+
+
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * GESTION DE L'EXPORT TRAC ET CSV
  * ---------------------------------------------------------------------------------------------------------------------
  */
+
+
+
 
 
 /**
@@ -1506,18 +1516,6 @@ function calculerEtAfficherCorrectionBruitFond() {
             pointRadius: 0
         }
 
-        let header = lignes[2].replace(/[\n\r]/g, '').split(';');
-        if (header.includes(`L${traceur.lampePrincipale}Corr`)) {
-            for (let k = 3; k < lignes.length - 1; k++) {
-                const colonnes = lignes[k].split(';');
-                colonnes.splice(header.indexOf(`L${traceur.lampePrincipale}Corr`), 1);
-                lignes[k] = colonnes.join(';');
-            }
-            header = header.filter(colonne => colonne !== `L${traceur.lampePrincipale}Corr`);
-        }
-        header.push(`L${traceur.lampePrincipale}Corr`);
-        lignes[2] = header.join(';');
-
         const contenu = [];
 
         for (let j = 3; j < lignes.length - 1; j++) {
@@ -1538,6 +1536,17 @@ function calculerEtAfficherCorrectionBruitFond() {
         }
 
         const colonneLxNat = [];
+        let header = lignes[2].replace(/[\n\r]/g, '').split(';');
+        if (header.includes(`L${traceur.lampePrincipale}Corr`)) {
+            for (let k = 3; k < lignes.length - 1; k++) {
+                const colonnes = lignes[k].split(';');
+                colonnes.splice(header.indexOf(`L${traceur.lampePrincipale}Corr`), 1);
+                lignes[k] = colonnes.join(';');
+            }
+            header = header.filter(colonne => colonne !== `L${traceur.lampePrincipale}Corr`);
+        }
+        header.push(`L${traceur.lampePrincipale}Corr`);
+        lignes[2] = header.join(';');
 
         for (let j = 0; j < contenu.length; j++) {
             const timeDate = DateTime.fromFormat(contenu[j][0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});

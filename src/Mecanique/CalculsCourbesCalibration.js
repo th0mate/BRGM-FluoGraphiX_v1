@@ -917,7 +917,7 @@ function inverse(matrix) {
         }
 
         if (augmentedMatrix[maxElementIndex][i] === 0) {
-            afficherMessageFlash('La matrice est singulière et ne peut pas être inversée', 'danger');
+            afficherPopup('<img src="Ressources/img/404.png" alt="">', 'Erreur générale de calcul', 'Une erreur de calcul a empêché l\'exécution d\'une partie du code. Erreur : "La matrice est singulière et ne peut pas être inversée". Vérifiez vos données et les variables explicatives sélectionnées.', '<div class="bouton boutonFonce" onclick="fermerPopup()">FERMER</div>');
             console.error(matrix);
         }
 
