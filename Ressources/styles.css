@@ -582,6 +582,20 @@ nav > .redirections > .action {
     font-family: 'Gibson-Semi-Bold', sans-serif;
 }
 
+.bannierePage > .contenu > h2 {
+    font-size: 2.5em;
+    font-family: 'Gibson-Semi-Bold', sans-serif;
+    line-height: 1.6em;
+    width: 70%;
+
+}
+
+.bannierePage > .contenu > h3 {
+    width: 70%;
+    color: var(--orangeBRGM);
+}
+
+
 .bannierePage > .contenu > p > span {
     position: relative;
     cursor: pointer;

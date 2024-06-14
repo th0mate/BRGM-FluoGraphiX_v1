@@ -10,7 +10,8 @@ function vueAccueil() {
     
     <div class="accueil">
     
-        <div class="text-container"><h1 class="titreBarre">Actions Rapides</h1></div>
+    
+            <div class="text-container"><h1 class="titreBarre">Actions Rapides</h1></div>
     
             <div class="actionsRapides">
                 <div id="actionsRapides" class="action" onclick="afficherVue('vueGraphique')">
@@ -33,16 +34,53 @@ function vueAccueil() {
            
             </div>
             
+            <div class="text-container"><h1 class="titreBarre">Présentation</h1></div>
+            <div class="bannierePage">
+                <img src="Ressources/img/traceurs.jpg.webp" alt="Sources">
+                <div class="contenu">
+                    <h2>FluoriGraphix est un outil polyvalent et innovant, vous permettant de vous concentrer sur l'essentiel de vos données, tout en évitant les erreurs d'interprétation.</h2>
+                </div>
+            </div>
             
+            
+            <div class="text-container"><h1 class="titreBarre">Fonctionnalités phares</h1></div>
+            <div class="wrapAccueil actions">
+                <div id="actionsRapides" class="action">
+                    <img src="Ressources/img/grandConvertir.png" alt="icone">
+                    <h3>Visualisez vos données de mesures avec horodatage, et convertissez-les en concentrations</h3>
+                </div>
+                <div id="actionsRapides" class="action">
+                    <img src="Ressources/img/grandGraphique.png" alt="icone">
+                    <h3>Visualisez vos données de calibration avec tableaux et graphiques</h3>
+                </div>
+                <div id="actionsRapides" class="action">
+                    <img src="Ressources/img/grandCalibration.png" alt="icone">
+                    <h3>Calculez vos courbes de calibration</h3>
+                </div>
+                <div id="actionsRapides" class="action">
+                    <img src="Ressources/img/grandCSV.png" alt="icone">
+                    <h3>Exportez toutes vos données au format CSV standard et TRAC</h3>
+                </div>
+                <div id="actionsRapides" class="action">
+                    <img src="Ressources/img/grandCourbes.png" alt="icone">
+                    <h3>Corriger vos courbes en fonction de la turbidité et des interférences entre traceurs</h3>
+                </div>
+                <div id="actionsRapides" class="action">
+                    <img src="Ressources/img/grandBruit.png" alt="icone">
+                    <h3>Corrigez vos courbes en fonction du bruit de fond naturel</h3>
+                </div>
+            </div>
             
             <div class="text-container"><h1 class="titreBarre">Visualisation de données</h1></div>
             <div class="wrapAccueil">
                 <div>
                     <h1>Facilité d'utilisation</h1>
-                    <p>Sélectionnez un ou plusieurs fichiers, puis laissez la magie opérer. En l'espace de trois secondes, vos données sont affichées, et c'est un jeu d'enfant.</p>
+                    <p>Sélectionnez un ou plusieurs fichiers, puis laissez la magie opérer. En l'espace de quelques secondes, vos données sont affichées, et c'est un jeu d'enfant.</p>
                     <h1>Personnalisation</h1>
                     <p>Personnalisez tous les paramètres dont vous avez besoin dans le bandeau dédié de la page.</p>
-                    <div class="boutonFonce bouton" onclick="afficherVue('vueGraphique')">TESTER</div>
+                    <h1>Calculs novateurs</h1>
+                    <p>Corriger des courbes et convertir des données, c'est possible grâce aux calculs récents utilisés dans FluoriGraphix.</p>
+                    <div class="boutonFonce bouton" onclick="afficherVue('vueGraphique')">DÉCOUVRIR</div>
                 </div>
                 <img class="graphic" src="Ressources/img/screenGraphique.png" alt="">
             </div>
