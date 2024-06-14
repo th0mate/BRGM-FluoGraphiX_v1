@@ -100,6 +100,7 @@ function afficherPopupParametresGraphiques() {
         overlay.style.zIndex = '1000';
         document.body.appendChild(overlay);
 
+        //on bloque le scroll sur la page
         document.body.style.overflowY = 'hidden';
 
         listeLampeBruitDeFond = [];
@@ -116,37 +117,38 @@ function afficherPopupParametresGraphiques() {
         let ongletCorrectionBruitDeFond = '';
         if (calculsInterferences.length > 0) {
             nbTraceursInterferences = calculsInterferences[0].getParametreParNom('nombreTraceurs');
-            ongletCorrectionBruitDeFond = '<div class="bouton boutonFonce" onclick="afficherOngletParametre(5)">Corriger le bruit de fond</div>';
+            ongletCorrectionBruitDeFond = '<div class="bouton boutonFonce" onclick="afficherOngletParametre(5)">Corriger le bruit de fond<img src="Ressources/img/graphique.png" alt=""></div>';
         } else {
-            ongletCorrectionBruitDeFond = '<div class="bouton boutonFonce disabled">Corriger le bruit de fond</div>';
+            ongletCorrectionBruitDeFond = '<div class="bouton boutonFonce disabled">Corriger le bruit de fond<img src="Ressources/img/graphique.png" alt=""></div>';
         }
 
         let popupHTML = "";
         popupHTML += `
         <div class='grandPopup'>
             <div class="entete">
-                <h2>Paramètres supplémentaires</h2>
+                <h1 class="titreBarre">Paramètres supplémentaires</h1>
                 <img src="Ressources/img/close.png" class="close" onclick="fermerPopupParametres()" alt="fermer">
             </div>
             ${message}
             
         <div class="ongletsParam">
-            <div class="bouton boutonFonce" onclick="afficherOngletParametre(1)">Paramètres</div>
-            <div class="bouton boutonFonce" onclick="afficherOngletParametre(2)">Corriger la turbidité</div>
-            <div class="bouton boutonFonce" onclick="afficherOngletParametre(3)">Convertir en concentrations</div>
-            <div class="bouton boutonFonce" onclick="afficherOngletParametre(4)">Corriger les interférences</div>
+            <div class="bouton boutonFonce" onclick="afficherOngletParametre(1)">Paramètres<img src="Ressources/img/parametres.png" alt=""></div>
+            <div class="bouton boutonFonce" onclick="afficherOngletParametre(2)">Corriger la turbidité<img src="Ressources/img/corriger.png" alt=""></div>
+            <div class="bouton boutonFonce" onclick="afficherOngletParametre(3)">Convertir en concentrations<img src="Ressources/img/calculatrice.png" alt=""></div>
+            <div class="bouton boutonFonce" onclick="afficherOngletParametre(4)">Corriger les interférences<img src="Ressources/img/fiole.png" alt=""></div>
             ${ongletCorrectionBruitDeFond}
         </div>
         
-        <div class="ongletParam onglet1" id="1"><br><h2>Renommer les labels des courbes</h2>`;
+        <div class="separator" id="1">
+        <div class="ongletParam onglet1" id="1"><p></p>`;
 
 
         if (calibrationEstLieGraphiques()) {
-            popupHTML += `<img src="Ressources/img/goodNew.png" alt="Succès"><h4>Les courbes ont été liées aux labels du fichier de calibration automatiquement. Aucune action n'est requise de votre part.</h4>`;
+            popupHTML += `<div class="alert alert-success" id="flash"><img src="Ressources/img/success.png" alt="">Les courbes ont été liées aux labels du fichier de calibration automatiquement. Aucune action n'est requise de votre part.</div>`;
         } else {
             popupHTML += `
            
-            <h4>Veuillez lier les labels du fichier de calibration à des courbes :</h4>
+            <div class="alert alert-warning" id="flash"><img src="Ressources/img/warning.png" alt="">Veuillez renommer les courbes de votre graphique pour les faire correspondre à votre fichier de calibration.</div>
             <table class="">
                 <tr>
                     <th>Label</th>
@@ -192,12 +194,10 @@ function afficherPopupParametresGraphiques() {
             }
         }
 
-        popupHTML += `<div class="boutonFonce bouton boutonOrange" style="width: 70%" onclick="reinitialiserGraphique()">RÉINITIALISER LE GRAPHIQUE</div></div>
-        <div class="ongletParam" id="2">
+        popupHTML += `<div class="boutonFonce bouton boutonOrange" style="width: 50%" onclick="reinitialiserGraphique()">RÉINITIALISER LE GRAPHIQUE</div></div><span class="illu"><h2>Paramètres du graphique</h2><img src="Ressources/img/optimiser.png" alt=""></span></div>
+        <div class="separator" id="2"><div class="ongletParam" id="2">          
             <br>
-            <h2>Correction de la turbidité</h2>
-            <br>
-            <h4>Choisissez le niveau de correction de la turbidité à appliquer :</h4>
+            <p>Choisissez le niveau de correction de la turbidité à appliquer :</p>
         
             <div class='range'>
                 <input id="inputRange" type="range" min='0' max='2' step='0.1' />
@@ -205,20 +205,18 @@ function afficherPopupParametresGraphiques() {
             </div>
             <br>
                         
-            <h4>Sélectionner les lampes à corriger :</h4>
+            <p>Sélectionner les lampes à corriger :</p>
             
             <div class="checkBoxLampes">
                 ${checkBoxBoutons}
             </div>
             
-            <div class="boutonFonce bouton boutonOrange" onclick="lancerCorrectionTurbidite()">TERMINER</div></div>
+            <div class="boutonFonce bouton boutonOrange" onclick="lancerCorrectionTurbidite()">TERMINER</div></div><span class="illu"><h2>Correction de la turbidité</h2><img src="Ressources/img/data.png" alt=""></span></div>
         
-        
-        <div class="ongletParam" id="3">
+        <div class="separator" id="3">
+        <div class="ongletParam" id="3">           
             <br>
-            <h2>Calcul de concentrations de traceurs</h2>
-            <br>
-            <h4>Sélectionner le traceur à afficher :</h4>
+            <p>Sélectionner le traceur à afficher :</p>
             <select class="selectOrange" onchange="metAJourTraceurAModifier(this.value)">
             <option value="" selected disabled>Sélectionner...</option>`;
 
@@ -232,7 +230,7 @@ function afficherPopupParametresGraphiques() {
             }
         }
 
-        popupHTML += `</select><br><br><div class="boutonFonce bouton boutonOrange" onclick="ajouterCourbeConcentrationTraceur(traceurATraiter)">TERMINER</div></div>`;
+        popupHTML += `</select><br><br><div class="boutonFonce bouton boutonOrange" onclick="ajouterCourbeConcentrationTraceur(traceurATraiter)">TERMINER</div></div><span class="illu"><h2>Conversion en concentration</h2><img src="Ressources/img/graphiqueIllu.png" alt=""></span></div>`;
 
 
         const nbTraceurs = traceurs.length - 2;
@@ -247,12 +245,10 @@ function afficherPopupParametresGraphiques() {
         }
         selectNbTraceurs += '</select>';
 
-        popupHTML += `<div class="ongletParam" id="4">
-            <br>
-            <h2>Correction des interférences</h2>
+        popupHTML += `<div class="separator" id="4"><div class="ongletParam" id="4">            
             <br>
             
-            <h4>Choisissez le nombre de traceurs présents :</h4>
+            <p>Choisissez le nombre de traceurs présents :</p>
        
             ${selectNbTraceurs}
             
@@ -260,7 +256,7 @@ function afficherPopupParametresGraphiques() {
             </div>
             
             <div class="boutonFonce bouton boutonOrange" onclick="fermerPopupParametres()">TERMINER</div>
-        </div>`;
+        </div><span class="illu"><h2>Correction des interférences</h2><img src="Ressources/img/personnalisation.png" alt=""></span></div>`;
 
         if (nbTraceursInterferences > 0 && nbTraceursInterferences < 3) {
 
@@ -301,18 +297,17 @@ function afficherPopupParametresGraphiques() {
             }
 
 
-            popupHTML += `<div class="ongletParam" id="5">
+            popupHTML += `<div class="separator" id="5"><div class="ongletParam" id="5">
             <br>
-            <h2>Correction du bruit de fond</h2>
-            <h4>Facultatif (à faire en premier lieu) - Sélectionnez la période influencée par le traceur :</h4>
+            <p>Facultatif (à faire en premier lieu) - Sélectionnez la période influencée par le traceur :</p>
             <div class="boutonFonce bouton boutonOrange" onclick="selectionnerZoneGraphique()">SELECTIONNER</div>
             <br>
-            <h4>Sélectionnez les variables explicatives :</h4>
+            <p>Sélectionnez les variables explicatives :</p>
             <div class="checkBoxLampes">
                 ${checkBoxCourbesBruitFond}
             </div>
             <div class="boutonFonce bouton boutonOrange" onclick="calculerEtAfficherCorrectionBruitFond()">CALCULER</div>
-        </div>`;
+        </div><span class="illu"><h2>Correction du bruit de fond</h2><img src="Ressources/img/goodNew.png" alt=""></span></div>`;
 
         }
 
@@ -372,9 +367,12 @@ function initParasites() {
         estFichierDat = true;
     }
 
+    console.log(estFichierDat);
+
     reader.onload = function () {
-        contenuFichierCalibration = nettoyerFichierCSV(reader.result);
+        contenuFichierCalibration = reader.result;
         initFichierCalibration(estFichierDat, false);
+        contenuFichierCalibration = nettoyerFichierCSV(contenuFichierCalibration);
         afficherMessageFlash("Fichier Calibrat.dat importé avec succès.", 'success');
         document.querySelector('.calibratAbsent').remove();
     };
@@ -437,7 +435,7 @@ function afficherOngletParametre(idOnglet) {
     }
     onglets1[idOnglet - 1].classList.add('active');
 
-    const onglets = document.querySelectorAll('.ongletParam');
+    const onglets = document.querySelectorAll('.separator');
 
     for (let i = 0; i < onglets.length; i++) {
         onglets[i].style.display = 'none';
@@ -475,7 +473,8 @@ function remplacerDonneesFichier(ancien, nouveau) {
     afficherGraphique(contenuFichierMesures);
 
     if (calibrationEstLieGraphiques()) {
-        document.querySelector('.onglet1').innerHTML = `<img src="Ressources/img/goodNew.png" alt="Succès"> <h4>Les courbes ont été liées aux labels du fichier de calibration avec succès.</h4>`;
+        document.querySelector('.onglet1').innerHTML = `<p></p><div class="alert alert-success" id="flash"><img src="Ressources/img/success.png" alt="">Les courbes ont été liées aux labels du fichier de calibration avec succès.</div>
+        <div class="boutonFonce bouton boutonOrange" style="width: 50%" onclick="reinitialiserGraphique()">RÉINITIALISER LE GRAPHIQUE</div>`;
     }
 }
 
@@ -692,15 +691,11 @@ function metAJourTraceurAModifier(nomTraceur) {
 }
 
 
-
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * GESTION DE LA CONVERSION D'UN TRACEUR EN CONCENTRATION
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
-
 
 
 /**
@@ -844,17 +839,11 @@ function ajouterCourbeConcentrationTraceur(traceur) {
 }
 
 
-
-
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * GESTION DE L'EXPORT TRAC ET CSV
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
-
-
 
 
 /**
@@ -1553,7 +1542,7 @@ function calculerEtAfficherCorrectionBruitFond() {
             const timestamp = timeDate.toMillis();
             let LxNat = 0;
 
-           for (let k = 0; k < tableauIndex.length; k++) {
+            for (let k = 0; k < tableauIndex.length; k++) {
                 LxNat += coefficients[k][0] * contenu[j][k + 2];
             }
 

@@ -101,7 +101,7 @@
 }
 
 .settings > .copier {
-    top : -30px;
+    top: -30px;
 }
 
 
@@ -269,22 +269,20 @@ input[type="checkbox"]:checked {
 
 .grandPopup {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 0;
+    left: 0;
+    width: 100%;
     z-index: 4;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
     align-content: flex-start;
-    background-color: var(--grisBRGM);
-    width: 700px;
-    min-height: 530px;
-    max-height: 98vh;
+    background-color: var(--blancFonce);
+    min-height: 60%;
+    max-height: 85%;
     padding: 10px;
-    color: white;
-    border: 2px solid white;
+    color: black;
     text-align: center;
 }
 
@@ -297,15 +295,25 @@ input[type="checkbox"]:checked {
     align-content: center;
 }
 
-.grandPopup > .entete > h2 {
-    color: var(--orangeBRGM);
+.grandPopup > .entete > .titreBarre {
+    font-size: 2em;
+    margin-bottom: 70px;
 }
 
+.grandPopup > .entete > img {
+    filter: invert(1);
+}
+
+.grandPopup > .entete > img:hover {
+    /* on vire le filtre */
+    filter: none;
+}
 
 .grandPopup > span {
     color: var(--orangeBRGM);
     display: flex;
     align-items: center;
+    margin-bottom: 30px;
 }
 
 .grandPopup > span > input {
@@ -341,75 +349,137 @@ input[type="checkbox"]:checked {
 .grandPopup > .ongletsParam > .bouton {
     border: 5px solid transparent;
     box-shadow: 0 0 0 1px white;
-    width: 150px;
+    background-color: var(--grisBRGM);
+    min-width: 150px;
+    max-width: 200px;
     height: 20px;
     font-size: 0.8em;
     transition: box-shadow 0.3s ease;
-    transition: color 0.3s ease;
-    font-weight: bold;
+    font-weight: normal;
     color: white;
     margin: 0;
     cursor: initial;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    user-select: none;
+}
+
+.grandPopup > .ongletsParam > .bouton > img {
+    width: 20px;
+    height: 20px;
+    padding-left: 15px;
 }
 
 .grandPopup > .ongletsParam > .bouton:not(.disabled):hover {
-    box-shadow: 0 0 0 1px white, inset 0 0 0 1px white;
+    box-shadow: 0 0 0 1px var(--orangeBRGM), inset 0 0 0 1px var(--orangeBRGM);
     cursor: pointer;
 }
 
 .grandPopup > .ongletsParam > .active {
     box-shadow: 0 0 0 1px var(--orangeBRGM);
+    background-color: var(--orangeBRGM);
+}
+
+.grandPopup > .separator {
+    width: 98%;
+    display: none;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    margin-bottom: 20px;
+}
+
+.grandPopup > .separator > .ongletParam {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    width: 60%;
+    min-height: 300px;
+    max-height: 100%;
+}
+
+.grandPopup > .separator > .ongletParam > .boutonOrange {
+    margin: auto;
+}
+
+.grandPopup > .separator > .illu {
+    width: 40%;
+    height: 100%;
     color: var(--orangeBRGM);
 }
 
-.grandPopup > .ongletParam {
-    display: none;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    align-content: center;
-    margin: auto;
-    padding-bottom: 30px;
+.grandPopup > .separator > .illu > img {
+    width: 250px;
 }
 
-.grandPopup > .ongletParam > img {
+.grandPopup > .separator > .ongletParam > img {
     width: 200px;
 }
 
-.grandPopup > .ongletParam > table {
+.grandPopup > .separator > .ongletParam > h2 {
+    color: var(--orangeBRGM);
+}
+
+.ongletParam > .alert {
+    position: initial;
+    cursor: initial;
+    max-width: none;
+    width: 500px;
+    font-weight: 350;
+    transform: none;
+    text-align: left;
+}
+
+.ongletParam > .alert > img {
+    padding-right: 10px;
+}
+
+.grandPopup > .separator > .ongletParam > table {
     text-align: center;
     color: white;
     border: 5px solid white;
-    width: 300px;
+    min-width: 300px;
+    margin-top: 10px;
 }
 
-.grandPopup > .ongletParam > table > tbody > tr:nth-child(odd) {
+.ongletParam > table > tbody {
+    border: 1px solid white;
+}
+
+.ongletParam > table > tbody > tr:nth-child(odd) {
     background-color: var(--grisClair);
     border: 1px solid white;
 }
 
-.grandPopup > .ongletParam > table > tbody > tr:nth-child(even) {
+.ongletParam > table > tbody > tr:nth-child(even) {
     background-color: var(--orangeBRGM);
     border: 1px solid white;
 }
 
-.grandPopup > .ongletParam > table > tbody > tr > td {
+.ongletParam > table > tbody > tr > td {
     padding: 5px;
 }
 
-.grandPopup > .ongletParam > table > tbody > tr > td > select {
+.ongletParam > table > tbody > tr > td > select {
     width: 130px;
     height: 30px;
     color: black;
-    background-color: var(--grisFin);
+    background-color: white;
     border-radius: 0;
 }
 
-.grandPopup > .ongletParam > table > tbody > tr > th {
+.ongletParam > table > tbody > tr > th {
     padding: 5px;
 }
 
-.grandPopup > .ongletParam > table > thead > tr {
+.ongletParam > table > thead > tr {
     background-color: var(--orangeBRGM);
     color: white;
     padding: 5px;
@@ -491,19 +561,18 @@ input[type="checkbox"]:checked {
     align-items: center;
     align-content: center;
     margin-bottom: 20px;
-    width: 500px;
     margin-top: 20px;
 }
 
 .listeSelectsTraceurs > span {
     height: 100px;
-    border: 1px solid white;
+    border: 1px solid black;
     min-height: 100%;
     margin-right: 20px;
     margin-left: 20px;
     display: flex;
     flex-direction: column;
-    background-color: white;
+    background-color: black;
 
 }
 
@@ -540,10 +609,9 @@ input[type="checkbox"]:checked {
 }
 
 .grandPopup > .separateur > span:not(:last-child) {
-    border-right: 2px solid white;
+    border-right: 2px solid black;
     padding-right: 20px;
 }
-
 
 
 .grandPopup > .separateur > span > input[type="date"] {
@@ -580,9 +648,8 @@ input[type="checkbox"]:checked {
     min-width: 100px;
 }
 
-/* bordure sur la droite sauf pour la dernière lampe */
 .ongletParam > .checkBoxLampes > label:not(:last-child) {
-    border-right: 2px solid white;
+    border-right: 2px solid black;
 }
 
 .ongletParam > label > input[type="checkbox"] {

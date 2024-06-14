@@ -123,5 +123,7 @@ function fermerPopup() {
         document.querySelector('.overlayPetit').remove();
     }
 
-    document.body.style.overflow = 'auto';
+    if (document.querySelector('.grandPopup') === null) {
+        document.body.style.overflowY = 'auto';
+    }
 }
