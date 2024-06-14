@@ -1408,19 +1408,20 @@ function calculerEtAfficherCorrectionBruitFond() {
         traceursBruitDeFond.push(traceur);
     }
 
-    for (let i = 0; i < traceursBruitDeFond.length; i++) {
-        const traceur = traceursBruitDeFond[i];
+    const canvas = document.getElementById('graphique');
+    const existingChart = Chart.getChart(canvas);
+    const lignes = contenuFichierMesures.split('\n');
+    let colonnes = lignes[2].split(';');
+    colonnes = colonnes.map(colonne => colonne.replace(/[\n\r]/g, ''));
 
-        const lignes = contenuFichierMesures.split('\n');
-        let colonnes = lignes[2].split(';');
+
+    if (traceursBruitDeFond.length === 1 && listeLampeBruitDeFond.length === 3) {
+
+        const traceur = traceursBruitDeFond[0];
         let indexLampePrincipale = -1;
         let indexLa = -1;
         let indexLb = -1;
         let indexLc = -1;
-
-        colonnes = colonnes.map(colonne => colonne.replace(/[\n\r]/g, ''));
-        const canvas = document.getElementById('graphique');
-        const existingChart = Chart.getChart(canvas);
 
         listeLampeBruitDeFond.sort((a, b) => {
             if (a.includes('Corr') && b.includes('Corr')) {
@@ -1479,8 +1480,6 @@ function calculerEtAfficherCorrectionBruitFond() {
             }
         }
 
-        console.log(X);
-        console.log(Y);
         let XTX = multiply(inverse(multiply(transpose(X), X)), transpose(X));
         let coefficients = multiply(XTX, Y);
 
@@ -1551,6 +1550,7 @@ function calculerEtAfficherCorrectionBruitFond() {
             data1.data.push({x: timestamp, y: colonneLxNat[j]});
         }
 
+
         contenuFichierMesures = lignes.join('\n');
         existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur.lampePrincipale}Corr`);
         existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur.lampePrincipale}Nat`);
@@ -1571,9 +1571,11 @@ function calculerEtAfficherCorrectionBruitFond() {
 
         existingChart.data.datasets.push(data);
         existingChart.data.datasets.push(data1);
-        existingChart.update();
 
     }
+
+    existingChart.update();
+
     if (zoneSelectionnee.length > 0) {
         afficherAnnotationEnDehorsZoneSelectionnee();
     }
@@ -1581,6 +1583,9 @@ function calculerEtAfficherCorrectionBruitFond() {
 }
 
 
+/**
+ * Affiche une annotation en dehors de la zone sélectionnée
+ */
 function afficherAnnotationEnDehorsZoneSelectionnee() {
     const zoneStart = DateTime.fromFormat(zoneSelectionnee[0], 'dd/MM/yyyy-HH:mm:ss', {zone: 'UTC'}).toMillis();
     const zoneEnd = DateTime.fromFormat(zoneSelectionnee[1], 'dd/MM/yyyy-HH:mm:ss', {zone: 'UTC'}).toMillis();
