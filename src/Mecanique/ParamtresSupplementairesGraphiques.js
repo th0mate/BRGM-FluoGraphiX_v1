@@ -1556,8 +1556,10 @@ function calculerEtAfficherCorrectionBruitFond() {
 
         for (let j = 0; j < colonneLxNat.length; j++) {
             const timedate = dates[j];
-            const timestamp = DateTime.fromFormat(timedate, 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toMillis();
-            data1.data.push({x: timestamp, y: colonneLxNat[j]});
+            if (timedate) {
+                const timestamp = DateTime.fromFormat(timedate, 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toMillis();
+                data1.data.push({x: timestamp, y: colonneLxNat[j]});
+            }
         }
 
 
