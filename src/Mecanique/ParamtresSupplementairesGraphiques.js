@@ -1394,6 +1394,11 @@ function modifierListeLampesBruitDeFond(valeurCheckBox) {
  */
 function calculerEtAfficherCorrectionBruitFond() {
 
+    if (listeLampeBruitDeFond.length < 2) {
+        afficherMessageFlash('Veuillez sélectionner au moins deux variables pour effectuer le calcul.', 'warning');
+        return;
+    }
+
     let traceursBruitDeFond = [];
     const eau = traceurs.find(traceur => traceur.unite === '');
 
@@ -1415,13 +1420,11 @@ function calculerEtAfficherCorrectionBruitFond() {
     colonnes = colonnes.map(colonne => colonne.replace(/[\n\r]/g, ''));
 
 
-    if (traceursBruitDeFond.length === 1 && listeLampeBruitDeFond.length === 3) {
+    if (traceursBruitDeFond.length === 1) {
 
         const traceur = traceursBruitDeFond[0];
-        let indexLampePrincipale = -1;
-        let indexLa = -1;
-        let indexLb = -1;
-        let indexLc = -1;
+        let indexLampePrincipale = undefined;
+        let tableauIndex = [];
 
         listeLampeBruitDeFond.sort((a, b) => {
             if (a.includes('Corr') && b.includes('Corr')) {
@@ -1438,12 +1441,12 @@ function calculerEtAfficherCorrectionBruitFond() {
         for (let j = 0; j < colonnes.length; j++) {
             if (colonnes[j] === `L${traceur.lampePrincipale}`) {
                 indexLampePrincipale = j;
-            } else if (colonnes[j] === `${listeLampeBruitDeFond[0]}`) {
-                indexLa = j;
-            } else if (colonnes[j] === `${listeLampeBruitDeFond[1]}`) {
-                indexLb = j;
-            } else if (colonnes[j] === `${listeLampeBruitDeFond[2]}`) {
-                indexLc = j;
+            }
+
+            for (let k = 0; k < listeLampeBruitDeFond.length; k++) {
+                if (colonnes[j] === listeLampeBruitDeFond[k]) {
+                    tableauIndex.push(j);
+                }
             }
         }
 
@@ -1468,13 +1471,15 @@ function calculerEtAfficherCorrectionBruitFond() {
                 }
             }
 
-            if (colonnes[indexLampePrincipale] !== '' && colonnes[indexLa] !== '' && colonnes[indexLb] !== '' && colonnes[indexLc] !== '') {
+            if (colonnes[indexLampePrincipale] !== '') {
                 const ligne = [];
                 dates.push(colonnes[0] + '-' + colonnes[1]);
                 Y.push([colonnes[indexLampePrincipale].replace(/[\n\r]/g, '')]);
-                ligne.push(colonnes[indexLa].replace(/[\n\r]/g, ''));
-                ligne.push(colonnes[indexLb].replace(/[\n\r]/g, ''));
-                ligne.push(colonnes[indexLc].replace(/[\n\r]/g, ''));
+
+                for (let k = 0; k < tableauIndex.length; k++) {
+                    ligne.push(colonnes[tableauIndex[k]].replace(/[\n\r]/g, ''));
+                }
+
                 ligne.push(1);
                 X.push(ligne);
             }
@@ -1517,15 +1522,17 @@ function calculerEtAfficherCorrectionBruitFond() {
 
         for (let j = 3; j < lignes.length - 1; j++) {
             const colonnes = lignes[j].split(';');
-            if (colonnes[indexLampePrincipale] !== '' && colonnes[indexLa] !== '' && colonnes[indexLb] !== '' && colonnes[indexLc] !== '') {
+            if (colonnes[indexLampePrincipale] !== '') {
                 const timeDate = DateTime.fromFormat(colonnes[0] + '-' + colonnes[1], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
                 const timestamp = timeDate.toMillis();
                 const ligneContenu = [];
                 ligneContenu.push(colonnes[0] + '-' + colonnes[1]);
                 ligneContenu.push(colonnes[indexLampePrincipale].replace(/[\n\r]/g, ''));
-                ligneContenu.push(colonnes[indexLa].replace(/[\n\r]/g, ''));
-                ligneContenu.push(colonnes[indexLb].replace(/[\n\r]/g, ''));
-                ligneContenu.push(colonnes[indexLc].replace(/[\n\r]/g, ''));
+
+                for (let k = 0; k < tableauIndex.length; k++) {
+                    ligneContenu.push(colonnes[tableauIndex[k]].replace(/[\n\r]/g, ''));
+                }
+
                 contenu.push(ligneContenu);
             }
         }
@@ -1535,7 +1542,12 @@ function calculerEtAfficherCorrectionBruitFond() {
         for (let j = 0; j < contenu.length; j++) {
             const timeDate = DateTime.fromFormat(contenu[j][0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
             const timestamp = timeDate.toMillis();
-            const LxNat = coefficients[0][0] * contenu[j][2] + coefficients[1][0] * contenu[j][3] + coefficients[2][0] * contenu[j][4] + coefficients[3][0];
+            let LxNat = 0;
+
+           for (let k = 0; k < tableauIndex.length; k++) {
+                LxNat += coefficients[k][0] * contenu[j][k + 2];
+            }
+
             colonneLxNat.push(LxNat);
             const valeur = (contenu[j][1] - LxNat) + eau.getDataParNom(`L${traceur.lampePrincipale}-1`);
             lignes[j + 3] = lignes[j + 3].replace(/[\n\r]/g, '');
@@ -1572,6 +1584,11 @@ function calculerEtAfficherCorrectionBruitFond() {
         existingChart.data.datasets.push(data);
         existingChart.data.datasets.push(data1);
 
+    } else if (traceursBruitDeFond.length === 2) {
+        //TODO
+    } else {
+        afficherMessageFlash("La correction de bruit de fond n'est possible qu'avec deux traceurs !", "danger");
+        return;
     }
 
     existingChart.update();
