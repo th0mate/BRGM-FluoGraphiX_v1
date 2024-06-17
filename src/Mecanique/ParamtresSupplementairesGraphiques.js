@@ -1310,6 +1310,8 @@ function calculerInterferences(listeTraceur) {
         const nbEchellesT1 = traceur1.echelles.length;
         const nbEchellesT2 = traceur2.echelles.length;
 
+        //TODO valeurs NaN
+        console.log(traceur1.echelles[nbEchellesT1 - 1]);
         const ligne1 = [(traceur1.getDataParNom('L' + traceur1.lampePrincipale + `-${nbEchellesT1}`) - eau.getDataParNom(`L${traceur1.lampePrincipale}-1`)) / traceur1.echelles[nbEchellesT1 - 1], (traceur1.getDataParNom('L' + traceur2.lampePrincipale + `-${nbEchellesT1}`) - eau.getDataParNom(`L${traceur2.lampePrincipale}-1`)) / traceur1.echelles[nbEchellesT1 - 1]];
         const ligne2 = [(traceur2.getDataParNom('L' + traceur1.lampePrincipale + '-' + nbEchellesT2) - eau.getDataParNom(`L${traceur1.lampePrincipale}-1`)) / traceur2.echelles[nbEchellesT2 - 1], (traceur2.getDataParNom('L' + traceur2.lampePrincipale + `-${nbEchellesT2}`) - eau.getDataParNom(`L${traceur2.lampePrincipale}-1`)) / traceur2.echelles[nbEchellesT1 - 1]];
 
@@ -1428,13 +1430,31 @@ function calculerInterferences(listeTraceur) {
         const coeffsFinauxT1 = totalCoeffs[0];
         const coeffsFinauxT2 = totalCoeffs[1];
         const mvParasite = [];
-
+        
         for (let i = 0; i < mvCorr.length; i++) {
             mvParasite.push((coeffsFinauxT1[0] * mvCorr[i][0] + coeffsFinauxT1[1] - eau.getDataParNom(`L${Lc}-1`)) + (coeffsFinauxT2[0] * mvCorr[i][1] + coeffsFinauxT2[1] - eau.getDataParNom(`L${Lc}-1`)));
         }
 
         const data = {
             label: `L${Lc}Corr`,
+            data: [],
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            borderColor: getRandomColor(),
+            borderWidth: 2,
+            pointRadius: 0
+        }
+
+        const data1 = {
+            label: `L${traceur1.lampePrincipale}Corr`,
+            data: [],
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            borderColor: getRandomColor(),
+            borderWidth: 2,
+            pointRadius: 0
+        }
+
+        const data2 = {
+            label: `L${traceur2.lampePrincipale}Corr`,
             data: [],
             backgroundColor: 'rgba(0, 0, 0, 0)',
             borderColor: getRandomColor(),
@@ -1488,8 +1508,9 @@ function calculerInterferences(listeTraceur) {
 
             if (!isNaN(mVValueLampeATraiter)) {
                 const valeur = mVValueLampeATraiter - mvParasite[k];
-                console.log(valeur);
                 data.data.push({x: timestamp, y: valeur});
+                data1.data.push({x: timestamp, y: mvCorr[k][0]});
+                data2.data.push({x: timestamp, y: mvCorr[k][1]});
                 lignes[k + 3] = lignes[k + 3].replace(/[\n\r]/g, '');
                 lignes[k + 3] += `;${arrondirA2Decimales(valeur)}`;
             }
@@ -1498,9 +1519,11 @@ function calculerInterferences(listeTraceur) {
         contenuFichierMesures = lignes.join('\n');
 
         existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${Lc}Corr`);
+        existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur1.lampePrincipale}Corr`);
+        existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur2.lampePrincipale}Corr`);
 
         existingChart.data.datasets.forEach((dataset, index) => {
-            if (dataset.label !== `L${Lc}Corr` && dataset.label !== `L${Lc}`) {
+            if (dataset.label !== `L${Lc}Corr` && dataset.label !== `L${Lc}` && dataset.label !== `L${traceur1.lampePrincipale}` && dataset.label !== `L${traceur2.lampePrincipale}`) {
                 dataset.hidden = true;
                 if (existingChart.isDatasetVisible(index)) {
                     existingChart.toggleDataVisibility(index);
@@ -1509,6 +1532,8 @@ function calculerInterferences(listeTraceur) {
         });
 
         existingChart.data.datasets.push(data);
+        existingChart.data.datasets.push(data1);
+        existingChart.data.datasets.push(data2);
 
 
         /**
