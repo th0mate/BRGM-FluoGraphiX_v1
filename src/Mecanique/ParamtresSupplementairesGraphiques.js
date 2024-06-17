@@ -100,7 +100,6 @@ function afficherPopupParametresGraphiques() {
         overlay.style.zIndex = '1000';
         document.body.appendChild(overlay);
 
-        //on bloque le scroll sur la page
         document.body.style.overflowY = 'hidden';
 
         listeLampeBruitDeFond = [];
@@ -141,7 +140,7 @@ function afficherPopupParametresGraphiques() {
         </div>
         
         <div class="separator" id="1">
-        <div class="ongletParam onglet1" id="1"><p></p>`;
+        <div class="ongletParam onglet1" id="1"><p></p><span class="rappel bleu"></span>`;
 
 
         if (calibrationEstLieGraphiques()) {
@@ -196,7 +195,7 @@ function afficherPopupParametresGraphiques() {
         }
 
         popupHTML += `<div class="boutonFonce bouton boutonOrange" style="width: 50%" onclick="reinitialiserGraphique()">RÉINITIALISER LE GRAPHIQUE</div></div><span class="illu"><h2>Paramètres du graphique</h2><img src="Ressources/img/optimiser.png" alt=""></span></div>
-        <div class="separator" id="2"><div class="ongletParam" id="2">          
+        <div class="separator" id="2"><div class="ongletParam" id="2"><span class="rappel rose"></span>          
             <br>
             <p>Choisissez le niveau de correction de la turbidité à appliquer :</p>
         
@@ -215,7 +214,7 @@ function afficherPopupParametresGraphiques() {
             <div class="boutonFonce bouton boutonOrange" onclick="lancerCorrectionTurbidite()">TERMINER</div></div><span class="illu"><h2>Correction de la turbidité</h2><img src="Ressources/img/data.png" alt=""></span></div>
         
         <div class="separator" id="3">
-        <div class="ongletParam" id="3">           
+        <div class="ongletParam" id="3">        <span class="rappel vert"></span>   
             <br>
             <p>Sélectionnez le traceur à afficher :</p>
             <select class="selectOrange" onchange="metAJourTraceurAModifier(this.value)">
@@ -246,7 +245,7 @@ function afficherPopupParametresGraphiques() {
         }
         selectNbTraceurs += '</select>';
 
-        popupHTML += `<div class="separator" id="4"><div class="ongletParam" id="4">            
+        popupHTML += `<div class="separator" id="4"><div class="ongletParam" id="4">  <span class="rappel jaune"></span>          
             <br>
             
             <p>Choisissez le nombre de traceurs présents :</p>
@@ -298,7 +297,7 @@ function afficherPopupParametresGraphiques() {
             }
 
 
-            popupHTML += `<div class="separator" id="5"><div class="ongletParam" id="5">
+            popupHTML += `<div class="separator" id="5"><div class="ongletParam" id="5"><span class="rappel bleuGris"></span>
             <br>
             <p>Facultatif (à faire en premier lieu) - Sélectionnez la période influencée par le traceur :</p>
             <div class="boutonFonce bouton boutonOrange" onclick="selectionnerZoneGraphique()">SELECTIONNER</div>
@@ -935,7 +934,7 @@ function afficherPopupTelecharger() {
     </span>
     </div>
     <div style="display: flex; justify-content: space-around; width: 95%">
-    <div class="boutonFonce bouton boutonOrange dl" onclick="copierTracPresserPapier(dateInjection, traceurAExporter);">Copier dans le presse-papier (TRAC)</div>
+    <div class="boutonFonce bouton boutonOrange dl" onclick="copierTracPresserPapier(dateInjection, traceurAExporter);">Copier dans le presse-papiers (TRAC)</div>
     <div class="boutonFonce bouton boutonOrange dl" onclick="telechargerTRAC(dateInjection, traceurAExporter);">Exporter un fichier CSV (TRAC)</div>
     </div>
     </div>
@@ -1014,7 +1013,7 @@ function getBlobCsvTrac(dateInjection, traceur) {
 
 
 /**
- * Copie le contenu texte CSV pour l'export TRAC dans le presse-papier, sans l'en-tête
+ * Copie le contenu texte CSV pour l'export TRAC dans le presse-papiers, sans l'en-tête
  */
 function copierTracPresserPapier(dateInjection, traceur) {
     const blob = getBlobCsvTrac(dateInjection, traceur);
@@ -1024,7 +1023,7 @@ function copierTracPresserPapier(dateInjection, traceur) {
     reader.onload = function () {
         const contenu = reader.result.split('\n').slice(1).join('\n');
         navigator.clipboard.writeText(contenu);
-        afficherMessageFlash('Contenu copié dans le presse-papier.', 'success');
+        afficherMessageFlash('Contenu copié dans le presse-papiers.', 'success');
         fermerPopupTelecharger();
     }
 }
@@ -1383,8 +1382,9 @@ function calculerInterferences(listeTraceur) {
 
         for (let i = 0; i < Y.length; i++) {
             const ligne = [];
-            ligne.push(multiply(Xinverse, Y[i])[0]);
-            ligne.push(multiply(Xinverse, Y[i])[1]);
+            ligne.push(multiply(contenu[i], Xinverse)[0]);
+            ligne.push(multiply(contenu[i], Xinverse)[1]);
+            console.log(contenu[i], Xinverse);
             A.push(ligne);
         }
 

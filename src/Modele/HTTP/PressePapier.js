@@ -1,5 +1,5 @@
 /**
- * Copie dans le presse-papier un élément HTML de la page, et affiche un message flash
+ * Copie dans le presse-papiers un élément HTML de la page, et affiche un message flash
  * @param {string} querySelectorElement Nom de la classe de l'élément à convertir en image
  */
 async function copierScreenElement(querySelectorElement) {
@@ -24,9 +24,9 @@ async function copierScreenElement(querySelectorElement) {
         const blob = await new Promise(resolve => canvas.toBlob(resolve));
         const clipboardItem = new ClipboardItem({'image/png': blob});
         await navigator.clipboard.write([clipboardItem]);
-        afficherMessageFlash('Image copiée dans le presse-papier.', 'success');
+        afficherMessageFlash('Image copiée dans le presse-papiers.', 'success');
     } catch (error) {
-        afficherMessageFlash('Impossible de copier l\'image dans le presse-papier.', 'danger');
+        afficherMessageFlash('Impossible de copier l\'image dans le presse-papiers.', 'danger');
         console.error(error);
     }
 
