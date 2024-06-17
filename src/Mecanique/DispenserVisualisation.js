@@ -130,7 +130,7 @@ async function traiterFichier() {
                 reader.readAsText(fichier);
                 await new Promise((resolve) => {
                     reader.onload = function () {
-                        if (reader.result.split('\n')[0].includes('FluoriGraphix')) {
+                        if (reader.result.split('\n')[0].includes('FluoriGraphix') || reader.result.split('\n')[0].includes('FluoGraphiX')) {
                             reader.result = reader.result.split('\n').slice(2).join('\n');
                         }
 
@@ -332,12 +332,12 @@ function telechargerFichier() {
 
         const lignes = contenuFichierMesures.split('\n');
 
-        if (lignes[0].includes('FluoriGraphix')) {
+        if (lignes[0].includes('FluoriGraphix') || lignes[0].includes('FluoGraphiX')) {
             contenuFichierMesures = lignes.slice(2).join('\n');
         }
 
         let temp = contenuFichierMesures;
-        contenuFichierMesures = `                   FluoriGraphix - Export du ${getDateAujourdhui()} - Signaux en mV\n`;
+        contenuFichierMesures = `                   FluoGraphiX - Export du ${getDateAujourdhui()} - Signaux en mV\n`;
         contenuFichierMesures += "                           -------------------------------------------\n";
 
         const nbColonnes = temp.split('\n')[0].split(';').length;
@@ -391,7 +391,7 @@ function telechargerFichier() {
         const universalBOM = "\uFEFF";
         const csv = universalBOM + fichier;
         element.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv));
-        element.download = 'FluoriGraphix-ExportDonnees-' + new Date().toLocaleString().replace(/\/|:|,|\s/g, '-') + '.csv';
+        element.download = 'FluoGraphiX-ExportDonnees-' + new Date().toLocaleString().replace(/\/|:|,|\s/g, '-') + '.csv';
         document.body.appendChild(element);
         element.click();
         afficherMessageFlash("Fichier téléchargé avec succès.", 'success');

@@ -40,7 +40,7 @@ function convertirXMLenMV(xmlString) {
     let contenuFinal = "";
 
     if (nbLignes === 0) {
-        contenuFinal = `                   FluoriGraphix - Export du ${getDateAujourdhui()} - Signaux en mV\n`;
+        contenuFinal = `                   FluoGraphiX - Export du ${getDateAujourdhui()} - Signaux en mV\n`;
         contenuFinal += "                           -------------------------------------------\n";
     }
 

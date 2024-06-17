@@ -75,14 +75,14 @@ function afficherDl() {
         document.querySelector('.actionsRapides').innerHTML += `
                 <div class="action" onclick="afficherVue('vueTelecharger')">
                     <img src="Ressources/img/dl.png" alt="icone">
-                    <h3>Téléchargez la dernière version de FluoriGraphix sur votre ordinateur</h3>
+                    <h3>Téléchargez la dernière version de FluoGraphiX sur votre ordinateur</h3>
                     <span></span>
                 </div>`;
     } else {
         document.querySelector('.actionsRapides').innerHTML += `
                 <a target="_blank" href="https://brgm.thomasloye.fr" class="action">
                     <img src="Ressources/img/dl.png" alt="icone">
-                    <h3>Se rendre sur le site en ligne pour télécharger la dernière version de FluoriGraphix</h3>
+                    <h3>Se rendre sur le site en ligne pour télécharger la dernière version de FluoGraphiX</h3>
                     <span></span>
                 </a>`;
     }
@@ -153,20 +153,20 @@ function ouvrirChoisirFichier() {
 
 
 /**
- * Télécharge le fichier Ressources/FluoriGraphix.zip
+ * Télécharge le fichier Ressources/FluoGraphiX.zip
  */
 async function downloadSite() {
-    const response = await fetch('Ressources/FluoriGraphix.zip');
+    const response = await fetch('Ressources/FluoGraphiX.zip');
     const blob = await response.blob();
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.style.display = 'none';
     a.href = url;
-    a.download = 'FluoriGraphix.zip';
+    a.download = 'FluoGraphiX.zip';
     document.body.appendChild(a);
     a.click();
     window.URL.revokeObjectURL(url);
-    afficherMessageFlash('Téléchargement de FluoriGraphix en cours...', 'success');
+    afficherMessageFlash('Téléchargement de FluoGraphiX en cours...', 'success');
 }
 
 

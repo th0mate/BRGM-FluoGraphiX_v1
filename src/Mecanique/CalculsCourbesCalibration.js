@@ -1,5 +1,5 @@
 /**
- * Ce fichier JavaScript contient les fonctions nécessaires pour afficher les données de calibration dans la partie "calibration" de FluoriGraphix
+ * Ce fichier JavaScript contient les fonctions nécessaires pour afficher les données de calibration dans la partie "calibration" de FluoGraphiX
  * Certains des calculs effectués dans ce fichier, notamment pour obtenir les coefficients de certaines courbes, sont réutilisés dans la partie "visualisation" du site
  * Utilise des fichiers externes, comme Graphiques.js, notamment.
  * /!\ ATTENTION : Pour la correction de bugs, bien faire attention à ne pas modifier les fonctions de ce fichier sans vérifier que cela n'impacte d'autres fonctions !

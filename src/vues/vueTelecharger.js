@@ -12,7 +12,7 @@ function vueTelecharger() {
             
             <div class="droite">
                 <img src="Ressources/img/rocket.png" alt="Fusée">
-                <h1>Rejoignez l'aventure FluoriGraphix !</h1>
+                <h1>Rejoignez l'aventure FluoGraphiX !</h1>
                 <div class="boutonOrange" onclick="downloadSite()">TÉLÉCHARGER MAINTENANT</div>
             </div>
             

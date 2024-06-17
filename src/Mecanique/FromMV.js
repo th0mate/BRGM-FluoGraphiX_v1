@@ -12,7 +12,7 @@ function getStringDepuisFichierMV(fichier, callback) {
 
         let texteFinal = "";
         if (nbLignes === 0) {
-            texteFinal = `                   FluoriGraphix - Export du ${getDateAujourdhui()} - Signaux en mV\n`;
+            texteFinal = `                   FluoGraphiX - Export du ${getDateAujourdhui()} - Signaux en mV\n`;
             texteFinal += "                           -------------------------------------------\n";
 
             texteFinal += getLabelsColonnes(colonnes).join(';') + "\n";

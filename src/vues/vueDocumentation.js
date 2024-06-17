@@ -22,7 +22,7 @@ function vueDocumentation() {
                 </span>
                 <img src="Ressources/img/rechercher.png" alt="">
             </span>
-            <a class="bouton boutonFonce" target="_blank" href="mailto:thomasloye1@gmail.com?subject=Signalement de bug FluoriGraphix&cc=v.bailly-comte@brgm.fr">Signaler un bug <img src="Ressources/img/bugs.png" alt=""> </a>
+            <a class="bouton boutonFonce" target="_blank" href="mailto:thomasloye1@gmail.com?subject=Signalement de bug FluoGraphiX&cc=v.bailly-comte@brgm.fr">Signaler un bug <img src="Ressources/img/bugs.png" alt=""> </a>
         </div>
     </div>
     
@@ -74,24 +74,24 @@ function vueDocumentation() {
             <div class="section">
                 <h3 class="findable">Présentation & Installation</h3>
                 <h1 id="installationDoc" class="titreBarre findable">Installation</h1>
-                <h3>FluoriGraphix vous permet de gagner du temps en proposant des solutions efficaces pour la manipulation de données issues de fluorimètres. Avec une interface soignée, et des interactions travaillées, FluoriGraphix est un outil simple d'utilisation et puissant.</h3>
+                <h3>FluoGraphiX vous permet de gagner du temps en proposant des solutions efficaces pour la manipulation de données issues de fluorimètres. Avec une interface soignée, et des interactions travaillées, FluoGraphiX est un outil simple d'utilisation et puissant.</h3>
                 <div class="etape">
                     <div>
                         <h3 class="findable"><span>1</span>Téléchargement depuis le site</h3>
-                        <p>Rendez-vous dans l'onglet "Téléchargement" du site dans la barre de navigation, ensuite, cliquer sur "Télécharger FluoriGraphix"</p>
+                        <p>Rendez-vous dans l'onglet "Téléchargement" du site dans la barre de navigation, ensuite, cliquer sur "Télécharger FluoGraphiX"</p>
                         <p>Vous pouvez également accéder à la page de téléchargement du site, depuis l'accueil, via les actions rapides, ou via la présentation du site dans la rubrique "Installation et Assistance".</p>
                     </div>
                     <img src="Ressources/img/screen1.png" alt="">
                 </div>
                 <div class="etape">
                     <div>
-                        <h3 class="findable"><span>2</span>Installation de l'outil FluoriGraphix</h3>
+                        <h3 class="findable"><span>2</span>Installation de l'outil FluoGraphiX</h3>
                         <p>Vous venez de télécharger un fichier .zip. Décompressez ce fichier où bon vous semble, et ouvrez le dossier contenant les ressources du site.</p>
-                        <p>Vous avez alors plusieurs fichiers et dossiers, dont un se nommant "FluoriGraphix-BRGM.html". C'est avec ce fichier que vous pourrez lancer le site et l'utiliser. Ce fichier est un raccourci, vous pouvez donc le copier/coller à un emplacement plus appréciable, comme votre bureau par exemple.</p>
+                        <p>Vous avez alors plusieurs fichiers et dossiers, dont un se nommant "FluoGraphiX.html". C'est avec ce fichier que vous pourrez lancer le site et l'utiliser. Ce fichier est un raccourci, vous pouvez donc le copier/coller à un emplacement plus appréciable, comme votre bureau par exemple.</p>
                     </div>
                     <img src="Ressources/img/screen3.png" alt="">
                 </div>
-                <h3>Et voilà, FluoriGraphix est installé sur votre ordinateur !</h3>
+                <h3>Et voilà, FluoGraphiX est installé sur votre ordinateur !</h3>
             </div>
             
             
@@ -101,8 +101,8 @@ function vueDocumentation() {
                 <div class="etape">
                     <div>
                         <h3 class="findable"><span>1</span>Premier Lancement</h3>
-                        <p>Double-cliquez sur le fichier "FluoriGraphix-BRGM.html". Votre navigateur par défaut s'ouvre. Vous arrivez alors Directement sur la page d'accueil. Vous êtes en local, c'est à dire que vous ne dépendez plus d'internet pour l'utilisation de ce site.</p>
-                        <p>Notez qu'il est conseillé de télécharger à nouveau FluoriGraphix depuis le site internet pour mettre à jour votre version. Sans cela, vous pourriez converser des bugs datant de versions plus anciennes. La procédure de mise à jour est la même que celle d'installation.</p>
+                        <p>Double-cliquez sur le fichier "FluoGraphiX-BRGM.html". Votre navigateur par défaut s'ouvre. Vous arrivez alors Directement sur la page d'accueil. Vous êtes en local, c'est à dire que vous ne dépendez plus d'internet pour l'utilisation de ce site.</p>
+                        <p>Notez qu'il est conseillé de télécharger à nouveau FluoGraphiX depuis le site internet pour mettre à jour votre version. Sans cela, vous pourriez converser des bugs datant de versions plus anciennes. La procédure de mise à jour est la même que celle d'installation.</p>
                     </div>
                     <img src="Ressources/img/screen4.png" alt="">
                 </div>
@@ -268,7 +268,7 @@ function vueDocumentation() {
                 <div class="etape">
                     <div>
                         <h3 class="findable"><span>1</span>Exportation en fichier CSV</h3>
-                        <p>Vous pouvez exporter vos fichiers sous la forme d'un fichier .CSV. Ce fichier contiendra toutes les données importées, et sera réutilisable par la suite dans FluoriGraphix.</p>
+                        <p>Vous pouvez exporter vos fichiers sous la forme d'un fichier .CSV. Ce fichier contiendra toutes les données importées, et sera réutilisable par la suite dans FluoGraphiX.</p>
                         <p>Les fichiers .CSV ont l'avantage d'être très lisibles et compréhensibles, contrairement au xml ou au txt.</p>
                         <p>Le téléchargement débute aussitôt le bouton "Exporter les données" cliqué.</p>
                         <p>Se référer à la partie "Calculs depuis les graphiques" pour la documentation traitant les exports TRAC.</p>
@@ -416,13 +416,13 @@ function vueDocumentation() {
             <div class="section">
                 <h3>Calibration</h3>
                 <h1 id="calibrationDoc" class="titreBarre findable">Calibration : Présentation et importation</h1>
-                <h3>La page "Calibration" vous permet de visualiser, de traiter, et de manipuler des données de calibration, issues de fichiers de calibration .dat, ou .CSV si elles ont été exportées depuis FluoriGraphix</h3>
+                <h3>La page "Calibration" vous permet de visualiser, de traiter, et de manipuler des données de calibration, issues de fichiers de calibration .dat, ou .CSV si elles ont été exportées depuis FluoGraphiX</h3>
                 
                 <div class="etape">
                     <div>
                         <h3 class="findable"><span>1</span>Importation d'un fichier de calibration .dat</h3>
                         <p>Vous pouvez importer un fichier de calibration .dat issu d'un fluorimètre. Cela vous permettra de visualiser les données de calibration de vos traceurs sous la forme d'un tableau et d'un graphique.</p>
-                        <p>Vous pouvez également importer un fichier de calibration simplifié (CSV) issu de FluoriGraphix, vous permettant de modifier facilement les données de ce fichier.</p>
+                        <p>Vous pouvez également importer un fichier de calibration simplifié (CSV) issu de FluoGraphiX, vous permettant de modifier facilement les données de ce fichier.</p>
                     </div>
                     <img src="Ressources/img/screen17.png" alt="">
                 </div>

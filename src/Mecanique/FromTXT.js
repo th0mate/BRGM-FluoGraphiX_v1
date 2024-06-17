@@ -22,7 +22,7 @@ function convertirTexteenMV(texte) {
 
     let stringFinal = "";
     if (nbLignes === 0) {
-        stringFinal = `                   FluoriGraphix - Export du ${getDateAujourdhui()} - Signaux en mV\n`;
+        stringFinal = `                   FluoGraphiX - Export du ${getDateAujourdhui()} - Signaux en mV\n`;
         stringFinal += "                           -------------------------------------------\n";
     }
 

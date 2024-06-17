@@ -3,7 +3,7 @@ function vueAccueil() {
     <div class="accueilBanniere">
         <img src="Ressources/img/accueil.jpg" alt="banniere">
         <div class="contenu">
-            <h1>FluoriGraphix : l'outil de visualisation et de traitement des données issues de fluorimètres</h1>
+            <h1>FluoGraphiX : l'outil de visualisation et de traitement des données issues de fluorimètres</h1>
             <div onclick="redirectTo('actionsRapides')" class="bouton boutonFonce">DÉCOUVRIR</div>
         </div>
     </div>
@@ -38,7 +38,7 @@ function vueAccueil() {
             <div class="bannierePage">
                 <img src="Ressources/img/traceurs.jpg.webp" alt="Sources">
                 <div class="contenu">
-                    <h2>FluoriGraphix est un outil polyvalent et innovant, vous permettant de vous concentrer sur l'essentiel de vos données, tout en évitant les erreurs d'interprétation.</h2>
+                    <h2>FluoGraphiX est un outil polyvalent et innovant, vous permettant de vous concentrer sur l'essentiel de vos données, tout en évitant les erreurs d'interprétation.</h2>
                 </div>
             </div>
             
@@ -79,7 +79,7 @@ function vueAccueil() {
                     <h1>Personnalisation</h1>
                     <p>Personnalisez tous les paramètres dont vous avez besoin dans le bandeau dédié de la page.</p>
                     <h1>Calculs novateurs</h1>
-                    <p>Corriger des courbes et convertir des données, c'est possible grâce aux calculs récents utilisés dans FluoriGraphix.</p>
+                    <p>Corriger des courbes et convertir des données, c'est possible grâce aux calculs récents utilisés dans FluoGraphiX.</p>
                     <div class="boutonFonce bouton" onclick="afficherVue('vueGraphique')">DÉCOUVRIR</div>
                 </div>
                 <img class="graphic" src="Ressources/img/screenGraphique.png" alt="">
@@ -91,7 +91,7 @@ function vueAccueil() {
                 <img src="Ressources/img/optimiser.png" alt="">
                 <div>
                     <h1>Formats de dates automatiques</h1>
-                    <p>En joignant votre fichier Calibrat.dat, FluoriGraphix en déduit automatiquement quel format de date appliquer à vos données. Vous pouvez également configurer ce paramètre manuellement.</p>
+                    <p>En joignant votre fichier Calibrat.dat, FluoGraphiX en déduit automatiquement quel format de date appliquer à vos données. Vous pouvez également configurer ce paramètre manuellement.</p>
                     <h1>Occultation automatique des données constantes</h1>
                     <p>Les données restant constantes dans les graphiques sont occultées, pour vous permettre de vous concentrer sur l'essentiel. Vous pouvez les afficher à nouveau à tout moment.</p>
                 </div>
@@ -102,7 +102,7 @@ function vueAccueil() {
             <div class="wrapAccueil">
                 <div>
                     <h1>Calculs à partir de fichier .dat</h1>
-                    <p>En joignant votre fichier Calibrat.dat, FluoriGraphix calcule en l'espace de quelques secondes les concentrations des traceurs joints.</p>
+                    <p>En joignant votre fichier Calibrat.dat, FluoGraphiX calcule en l'espace de quelques secondes les concentrations des traceurs joints.</p>
                     <h1>Personnalisation élevée</h1>
                     <p>Afficher les graphiques des concentrations selon vos besoins, et modifiez les valeurs des traceurs qui ne vous plaisent pas en quelques clics.</p>
                     <div class="boutonFonce bouton" onclick="afficherVue('vueConcentrations')">DÉCOUVRIR</div>
@@ -118,7 +118,7 @@ function vueAccueil() {
                     <h1>Documentation du site</h1>
                     <p>Une large documentation du site pour l'utilisation de ses fonctionnalités est disponible. Suivez les tutoriels et les notes de configuration pour améliorer votre expérience !</p>
                     <h1>Installation</h1>
-                    <p>Télécharger l'application dans l'onglet dédié, décompressez les fichiers et ouvrez le fichier index.html. Voilà : vous pouvez utiliser FluoriGraphix sans connexion internet et en local !</p>
+                    <p>Télécharger l'application dans l'onglet dédié, décompressez les fichiers et ouvrez le fichier index.html. Voilà : vous pouvez utiliser FluoGraphiX sans connexion internet et en local !</p>
                     <div class="boutonFonce bouton" onclick="afficherVue('vueGraphique')">TÉLÉCHARGER</div>
                     <div class="boutonClair bouton" onclick="afficherVue('vueDocumentation')">DOCUMENTATION</div>
                 </div>

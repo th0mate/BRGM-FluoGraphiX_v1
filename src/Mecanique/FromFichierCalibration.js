@@ -564,9 +564,9 @@ function afficherTableauTraceur(traceur) {
  * @return {string} le contenu du fichier texte
  */
 function convertirEnTexte() {
-    let texte = `FluoriGraphix - Export du ${getDateAujourdhui()} - Appareil ${numeroFluorimetre}\n\n`;
+    let texte = `FluoGraphiX - Export du ${getDateAujourdhui()} - Appareil ${numeroFluorimetre}\n\n`;
     texte += `/!\\ Par convention, la turbidité doit toujours se trouver en dernière position dans le fichier, et l'eau en première position.\n`;
-    texte += `Pour plus d'informations sur le fonctionnement de ce fichier, visitez la rubrique 'Documentation' du site FluoriGraphix.\n\n`;
+    texte += `Pour plus d'informations sur le fonctionnement de ce fichier, visitez la rubrique 'Documentation' du site FluoGraphiX.\n\n`;
     texte += `----------------------------------------------------------------------------------------\n`;
 
     for (let i = 0; i < traceurs.length; i++) {

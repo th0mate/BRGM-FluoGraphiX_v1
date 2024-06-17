@@ -1,5 +1,5 @@
 /**
- * Ce fichier JavaScript contient toutes les fonctions utiles pour les paramètres supplémentaires proposés dans la partie "visualisation" de FluoriGraphix
+ * Ce fichier JavaScript contient toutes les fonctions utiles pour les paramètres supplémentaires proposés dans la partie "visualisation" de FluoGraphiX
  * Se trouvent ici les fonctions d'affichage du popup, de calcul et d'interactions en lien avec les fonctionnalités de calculs de :
  * Correction de la turbidité / renommage des labels de calibration avec les noms de courbes / correction des interférences / conversion en concentrations / correction du bruit de fond
  * /!\ ATTENTION : sont utilisées des fonctions de Graphiques.js ; calculsCourbesCalibration.js; utils.js: dispenserVisualisation.js
@@ -64,11 +64,13 @@ let listeLampeBruitDeFond;
 let zoneSelectionnee = [];
 
 
+
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * GESTION DE L'AFFICHAGE DU POPUP DE PARAMETRES ET FONCTIONS UTILES
  * ---------------------------------------------------------------------------------------------------------------------
  */
+
 
 
 /**
@@ -79,7 +81,7 @@ function afficherPopupParametresGraphiques() {
         fermerPopupParametres();
 
         let estFichierDat = true;
-        if (contenuFichierCalibration.split('\n')[0].includes('FluoriGraphix')) {
+        if (contenuFichierCalibration.split('\n')[0].includes('FluoriGraphix') || contenuFichierCalibration.split('\n')[0].includes('FluoGraphiX')) {
             estFichierDat = false;
         }
 
@@ -1282,6 +1284,91 @@ function calculerInterferences(listeTraceur) {
          * Cas pour deux traceurs
          */
     } else if (listeTraceur.length === 2) {
+
+        const X = [];
+        const traceur1 = listeTraceur[0];
+        const traceur2 = listeTraceur[1];
+        const eau = traceurs.find(t => t.unite === '');
+        const nbEchellesT1 = traceur1.echelles.length;
+        const nbEchellesT2 = traceur2.echelles.length;
+
+        const ligne1 = [(traceur1.getDataParNom('L' + traceur1.lampePrincipale + `-${nbEchellesT1}`) - eau.getDataParNom(`L${traceur1.lampePrincipale}-1`))/traceur1.echelles[nbEchellesT1 - 1], (traceur1.getDataParNom('L' + traceur2.lampePrincipale + `-${nbEchellesT1}`) - eau.getDataParNom(`L${traceur2.lampePrincipale}-1`))/traceur1.echelles[nbEchellesT1 - 1]];
+        const ligne2 = [(traceur2.getDataParNom('L' + traceur1.lampePrincipale + '-' + nbEchellesT2) - eau.getDataParNom(`L${traceur1.lampePrincipale}-1`))/traceur2.echelles[nbEchellesT2 - 1], (traceur2.getDataParNom('L' + traceur2.lampePrincipale + `-${nbEchellesT2}`) - eau.getDataParNom(`L${traceur2.lampePrincipale}-1`))/traceur2.echelles[nbEchellesT1 - 1]];
+
+        X.push(ligne1);
+        X.push(ligne2);
+
+        const Xinverse = inverse(X);
+        
+        const Y = [];
+
+        const data = {
+            label: `L${traceur1.lampePrincipale}Corr`,
+            data: [],
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            borderColor: getRandomColor(),
+            borderWidth: 2,
+            pointRadius: 0
+        }
+
+        const contenu = [];
+        const dates = [];
+        const lignes = contenuFichierMesures.split('\n');
+
+        let colonnes = lignes[2].split(';');
+
+        let indexLa = -1;
+        let indexLb = -1;
+
+        colonnes = colonnes.map(colonne => colonne.replace(/[\n\r]/g, ''));
+        const canvas = document.getElementById('graphique');
+        const existingChart = Chart.getChart(canvas);
+
+        for (let j = 0; j < colonnes.length; j++) {
+            if (colonnes[j] === `L${traceur1.lampePrincipale}`) {
+                indexLa = j;
+            }
+            if (colonnes[j] === `L${traceur2.lampePrincipale}`) {
+                indexLb = j;
+            }
+        }
+
+        for (let j = 0; j < colonnes.length; j++) {
+            if (colonnes[j] === `L${traceur1.lampePrincipale}Corr`) {
+                indexLa = j;
+            }
+            if (colonnes[j] === `L${traceur2.lampePrincipale}Corr`) {
+                indexLb = j;
+            }
+        }
+
+        for (let i = 3; i < lignes.length - 1; i++) {
+            const colonnes = lignes[i].split(';');
+            if (colonnes[indexLa] !== '' && colonnes[indexLb] !== '') {
+                const ligneContenu = [];
+                const ligneY = [];
+                dates.push(colonnes[0] + '-' + colonnes[1]);
+                ligneContenu.push(colonnes[indexLa].replace(/[\n\r]/g, '') - eau.getDataParNom(`L${traceur1.lampePrincipale}-1`));
+                ligneY.push((colonnes[indexLa].replace(/[\n\r]/g, '') - eau.getDataParNom(`L${traceur1.lampePrincipale}-1`)) * X[0][0]);
+                ligneContenu.push(colonnes[indexLb].replace(/[\n\r]/g, '') - eau.getDataParNom(`L${traceur2.lampePrincipale}-1`));
+                ligneY.push((colonnes[indexLb].replace(/[\n\r]/g, '') - eau.getDataParNom(`L${traceur2.lampePrincipale}-1`)) * X[1][1]);
+
+                contenu.push(ligneContenu);
+                Y.push(ligneY);
+            }
+        }
+
+        const A = [];
+
+        for (let i = 0; i < Y.length; i ++) {
+            const ligne = [];
+            ligne.push(multiply(Xinverse, Y[i])[0]);
+            ligne.push(multiply(Xinverse, Y[i])[1]);
+            A.push(ligne);
+        }
+
+        console.log(A);
+
 
 
         /**
