@@ -321,7 +321,6 @@ function afficherPopupParametresGraphiques() {
         overlay.innerHTML += popupHTML;
         afficherOngletParametre(1);
 
-        console.log(donneesCorrompues);
         if (donneesCorrompues) {
             document.querySelector('.message').innerHTML = `<div class="alert alert-warning" id="flash"><img src="Ressources/img/warning.png" alt="">Certaines de vos données de calibration sont susceptibles d'être incorrectes, veuillez les vérifier. <span onclick="fermerAlerte()">Fermer</span></div>`;
         }
@@ -380,8 +379,6 @@ function initParasites() {
     if (inputFichier.files[0].name.split('.').pop() === "dat") {
         estFichierDat = true;
     }
-
-    console.log(estFichierDat);
 
     reader.onload = function () {
         contenuFichierCalibration = reader.result;
@@ -1321,16 +1318,6 @@ function calculerInterferences(listeTraceur) {
         const Xinverse = inverse(X);
 
         const Y = [];
-
-        const data = {
-            label: `L${traceur1.lampePrincipale}Corr`,
-            data: [],
-            backgroundColor: 'rgba(0, 0, 0, 0)',
-            borderColor: getRandomColor(),
-            borderWidth: 2,
-            pointRadius: 0
-        }
-
         const contenu = [];
         const dates = [];
         const lignes = contenuFichierMesures.split('\n');
@@ -1382,13 +1369,148 @@ function calculerInterferences(listeTraceur) {
 
         for (let i = 0; i < Y.length; i++) {
             const ligne = [];
-            ligne.push(multiply(contenu[i], Xinverse)[0]);
-            ligne.push(multiply(contenu[i], Xinverse)[1]);
-            console.log(contenu[i], Xinverse);
+            ligne.push(multiply([contenu[i]], Xinverse)[0][0]);
+            ligne.push(multiply([contenu[i]], Xinverse)[0][1]);
             A.push(ligne);
         }
 
-        console.log(A);
+        const mvCorr = [];
+
+        for (let i = 0; i < Y.length; i++) {
+            const ligne = [];
+            ligne.push(A[i][0] * X[0][0] + eau.getDataParNom(`L${traceur1.lampePrincipale}-1`));
+            ligne.push(A[i][1] * X[1][1] + eau.getDataParNom(`L${traceur2.lampePrincipale}-1`));
+            mvCorr.push(ligne);
+        }
+
+        let Lc = 0;
+
+        for (let i = 0; i < traceurs.length; i++) {
+            if (traceurs[i].lampePrincipale !== traceur1.lampePrincipale && traceurs[i].lampePrincipale !== traceur2.lampePrincipale && traceurs[i].lampePrincipale !== 4 && traceurs[i].lampePrincipale !== '') {
+                Lc = traceurs[i].lampePrincipale;
+            }
+        }
+
+        let coeffsT1 = effectuerCalculsCourbes(Lc, traceur1);
+        let coeffsT2 = effectuerCalculsCourbes(Lc, traceur2);
+        let tousCoeffs = [coeffsT1, coeffsT2];
+
+        const eauValeurLampes = eau.getDataParNom('L' + Lc + '-1');
+        const totalCoeffs = [];
+
+        for (let i = 0; i < 2; i++) {
+            const resultat = tousCoeffs[i];
+            const ligneCoeffs = [];
+
+            let countNaN = 0;
+            for (let i = 0; i < resultat[0].length; i++) {
+                if (isNaN(resultat[0][i])) {
+                    countNaN++;
+                }
+            }
+
+
+            if (countNaN === 0) {
+                ligneCoeffs.push(arrondir8Chiffres(resultat[0][0]));
+                ligneCoeffs.push(arrondir8Chiffres(resultat[0][1]));
+                ligneCoeffs.push(arrondir8Chiffres(resultat[0][2]));
+            } else if (countNaN === 1) {
+                ligneCoeffs.push(resultat[0][0]);
+                ligneCoeffs.push(resultat[0][1]);
+            } else {
+                ligneCoeffs.push(resultat[0][0]);
+                ligneCoeffs.push(eauValeurLampes - resultat[0][0] * eau.getDataParNom(`L${listeTraceur[i].lampePrincipale}-1`));
+            }
+            totalCoeffs.push(ligneCoeffs);
+        }
+
+        const coeffsFinauxT1 = totalCoeffs[0];
+        const coeffsFinauxT2 = totalCoeffs[1];
+        const mvParasite = [];
+
+        for (let i = 0; i < mvCorr.length; i++) {
+            mvParasite.push((coeffsFinauxT1[0] * mvCorr[i][0] + coeffsFinauxT1[1] - eau.getDataParNom(`L${Lc}-1`)) + (coeffsFinauxT2[0] * mvCorr[i][1] + coeffsFinauxT2[1] - eau.getDataParNom(`L${Lc}-1`)));
+        }
+        
+        const data = {
+            label: `L${Lc}Corr`,
+            data: [],
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            borderColor: getRandomColor(),
+            borderWidth: 2,
+            pointRadius: 0
+        }
+
+        let indexLampeATraiter = -1;
+
+        colonnes = colonnes.map(colonne => colonne.replace(/[\n\r]/g, ''));
+
+        for (let j = 0; j < colonnes.length; j++) {
+            if (colonnes[j] === `L${Lc}`) {
+                indexLampeATraiter = j;
+            }
+        }
+
+        for (let j = 0; j < colonnes.length; j++) {
+            if (colonnes[j] === `L${Lc}Corr`) {
+                indexLampeATraiter = j;
+            }
+        }
+
+        for (let i = 3; i < lignes.length - 1; i++) {
+            const colonnes = lignes[i].split(';');
+            if (colonnes[indexLampeATraiter] !== '') {
+                const ligne = [];
+                ligne.push(colonnes[0] + '-' + colonnes[1]);
+                ligne.push(colonnes[indexLampeATraiter].replace(/[\n\r]/g, ''));
+                contenu.push(ligne);
+            }
+        }
+
+        let header = lignes[2].replace(/[\n\r]/g, '').split(';');
+        if (header.includes(`L${Lc}Corr`)) {
+            for (let k = 3; k < lignes.length - 1; k++) {
+                const colonnes = lignes[k].split(';');
+                colonnes.splice(header.indexOf(`L${Lc}Corr`), 1);
+                lignes[k] = colonnes.join(';');
+            }
+            header = header.filter(colonne => colonne !== `L${Lc}Corr`);
+        }
+
+        header.push(`L${Lc}Corr`);
+        lignes[2] = header.join(';');
+
+        for (let k = 0; k < contenu.length; k++) {
+            const timestamp = DateTime.fromFormat(dates[k], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toMillis();
+            const mVValueLampeATraiter = contenu[k][1];
+
+            if (!isNaN(mVValueLampeATraiter)) {
+                const valeur = mVValueLampeATraiter - mvParasite[k];
+                data.data.push({x: timestamp, y: valeur});
+                lignes[k + 3] = lignes[k + 3].replace(/[\n\r]/g, '');
+                lignes[k + 3] += `;${arrondirA2Decimales(valeur)}`;
+            }
+        }
+
+        contenuFichierMesures = lignes.join('\n');
+
+        /*
+        existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${Lc}Corr`);
+
+        existingChart.data.datasets.forEach((dataset, index) => {
+            if (dataset.label !== `L${Lc}Corr`) {
+                dataset.hidden = true;
+                if (existingChart.isDatasetVisible(index)) {
+                    existingChart.toggleDataVisibility(index);
+                }
+            }
+        });
+
+        existingChart.data.datasets.push(data);
+
+         */
+
+
 
 
         /**
@@ -1675,22 +1797,15 @@ function calculerEtAfficherCorrectionBruitFond() {
                 LxNat += coefficients[k][0] * contenu[j][k + 2];
             }
 
+            LxNat += coefficients[tableauIndex.length][0];
+
             colonneLxNat.push(LxNat);
+            data1.data.push({x: timestamp, y: LxNat});
             const valeur = (contenu[j][1] - LxNat) + eau.getDataParNom(`L${traceur.lampePrincipale}-1`);
             lignes[j + 3] = lignes[j + 3].replace(/[\n\r]/g, '');
             lignes[j + 3] += `;${arrondirA2Decimales(valeur)}`;
             data.data.push({x: timestamp, y: valeur});
         }
-
-
-        for (let j = 0; j < colonneLxNat.length; j++) {
-            const timedate = dates[j];
-            if (timedate) {
-                const timestamp = DateTime.fromFormat(timedate, 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toMillis();
-                data1.data.push({x: timestamp, y: colonneLxNat[j]});
-            }
-        }
-
 
         contenuFichierMesures = lignes.join('\n');
         existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur.lampePrincipale}Corr`);
@@ -1739,8 +1854,7 @@ function afficherAnnotationEnDehorsZoneSelectionnee() {
     const existingChart = Chart.getChart(canvas);
     const maxGraphique = existingChart.scales['x'].max;
     const minGraphique = existingChart.scales['x'].min;
-    console.log(minGraphique);
-    console.log(maxGraphique);
+
     const annotation1 = {
         type: 'box',
         xMin: minGraphique + 100,

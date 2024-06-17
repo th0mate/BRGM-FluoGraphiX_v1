@@ -58,7 +58,6 @@ function initialiserCalculsCourbes(idLampe, traceur) {
                     afficherPopup('<img src="Ressources/img/attention2.png" alt="">', 'Attention : données potentiellement corrompues détectées !', 'Les données calculées indiquent une potentielle erreur dans les données de calibration importées. Assurez-vous qu\'elles soient correctes.', '<div class="bouton boutonFonce" onclick="fermerPopup()">TERMINER</div>');
                 }, 500);
             }
-            console.log(donneesCorrompues);
         }
 
     } else {
