@@ -233,7 +233,7 @@
 
 
 .wrapAccueil > img {
-    width: 500px;
+    width: 400px;
 }
 
 .wrapAccueil > img:not(.graphic) {
@@ -301,7 +301,8 @@
 
     .wrapAccueil > div {
         width: 98% !important;
-        max-width: 98%;
+        max-width: none!important;
+        min-width: 0;
     }
 
 

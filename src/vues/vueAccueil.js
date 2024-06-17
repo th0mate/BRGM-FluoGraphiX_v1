@@ -91,7 +91,7 @@ function vueAccueil() {
                 <img src="Ressources/img/optimiser.png" alt="">
                 <div>
                     <h1>Formats de dates automatiques</h1>
-                    <p>En joignant votre fichier Calibrat.dat, FluoGraphiX en déduit automatiquement quel format de date appliquer à vos données. Vous pouvez également configurer ce paramètre manuellement.</p>
+                    <p>En joignant votre fichier de calibration, FluoGraphiX en déduit automatiquement quel format de date appliquer à vos données. Vous pouvez également configurer ce paramètre manuellement.</p>
                     <h1>Occultation automatique des données constantes</h1>
                     <p>Les données restant constantes dans les graphiques sont occultées, pour vous permettre de vous concentrer sur l'essentiel. Vous pouvez les afficher à nouveau à tout moment.</p>
                 </div>
@@ -101,10 +101,10 @@ function vueAccueil() {
             <div class="text-container"><h1 class="titreBarre">Calculs de concentrations</h1></div>
             <div class="wrapAccueil">
                 <div>
-                    <h1>Calculs à partir de fichier .dat</h1>
-                    <p>En joignant votre fichier Calibrat.dat, FluoGraphiX calcule en l'espace de quelques secondes les concentrations des traceurs joints.</p>
-                    <h1>Personnalisation élevée</h1>
-                    <p>Afficher les graphiques des concentrations selon vos besoins, et modifiez les valeurs des traceurs qui ne vous plaisent pas en quelques clics.</p>
+                    <h1>Calculs à partir de fichiers de calibration</h1>
+                    <p>En joignant votre fichier de calibration, en plus de votre fichier de mesures, FluoGraphiX calcule en l'espace de quelques secondes les concentrations des traceurs joints.</p>
+                    <h1>Facilité d'export</h1>
+                    <p>Exportez vos données en quelques clics, que ce soit au format CSV standard ou au format CSV adapté au logiciel TRAC. Vous pouvez également copier ces données dans votre presse-papiers.</p>
                     <div class="boutonFonce bouton" onclick="afficherVue('vueConcentrations')">DÉCOUVRIR</div>
                 </div>
                 <img src="Ressources/img/personnalisation.png" alt="">
@@ -117,9 +117,7 @@ function vueAccueil() {
                 <div>
                     <h1>Documentation du site</h1>
                     <p>Une large documentation du site pour l'utilisation de ses fonctionnalités est disponible. Suivez les tutoriels et les notes de configuration pour améliorer votre expérience !</p>
-                    <h1>Installation</h1>
-                    <p>Télécharger l'application dans l'onglet dédié, décompressez les fichiers et ouvrez le fichier index.html. Voilà : vous pouvez utiliser FluoGraphiX sans connexion internet et en local !</p>
-                    <div class="boutonFonce bouton" onclick="afficherVue('vueGraphique')">TÉLÉCHARGER</div>
+                   
                     <div class="boutonClair bouton" onclick="afficherVue('vueDocumentation')">DOCUMENTATION</div>
                 </div>
             </div>

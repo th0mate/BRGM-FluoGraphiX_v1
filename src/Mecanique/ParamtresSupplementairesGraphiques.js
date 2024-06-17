@@ -360,6 +360,7 @@ function fermerAlerte() {
 function reinitialiserGraphique() {
     afficherGraphique(contenuMesuresInitial);
     contenuFichierMesures = contenuMesuresInitial;
+    listeCalculs = [];
     fermerPopupParametres();
     afficherMessageFlash('Graphique réinitialisé avec succès', 'success');
 }
@@ -1431,7 +1432,7 @@ function calculerInterferences(listeTraceur) {
         for (let i = 0; i < mvCorr.length; i++) {
             mvParasite.push((coeffsFinauxT1[0] * mvCorr[i][0] + coeffsFinauxT1[1] - eau.getDataParNom(`L${Lc}-1`)) + (coeffsFinauxT2[0] * mvCorr[i][1] + coeffsFinauxT2[1] - eau.getDataParNom(`L${Lc}-1`)));
         }
-        
+
         const data = {
             label: `L${Lc}Corr`,
             data: [],
@@ -1508,8 +1509,6 @@ function calculerInterferences(listeTraceur) {
         });
 
         existingChart.data.datasets.push(data);
-
-
 
 
         /**
