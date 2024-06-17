@@ -64,13 +64,11 @@ let listeLampeBruitDeFond;
 let zoneSelectionnee = [];
 
 
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * GESTION DE L'AFFICHAGE DU POPUP DE PARAMETRES ET FONCTIONS UTILES
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
 
 
 /**
@@ -919,7 +917,7 @@ function afficherPopupTelecharger() {
     <div class="separator">
     <div>
     <h3>Format Standard CSV :</h3>
-    <div class="boutonFonce bouton boutonOrange dl" onclick="telechargerFichier()">EXPORTER LES DONNÉES</div>
+    <div class="boutonFonce bouton boutonOrange dl" onclick="telechargerFichier()">Exporter un fichier CSV (standard)</div>
     <br>
     <br>
     </div>
@@ -936,7 +934,10 @@ function afficherPopupTelecharger() {
     ${select}
     </span>
     </div>
-    <div class="boutonFonce bouton boutonOrange dl" onclick="telechargerTRAC(dateInjection, traceurAExporter);">EXPORTER VERS TRAC</div>
+    <div style="display: flex; justify-content: space-around; width: 95%">
+    <div class="boutonFonce bouton boutonOrange dl" onclick="copierTracPresserPapier(dateInjection, traceurAExporter);">Copier dans le presse-papier (TRAC)</div>
+    <div class="boutonFonce bouton boutonOrange dl" onclick="telechargerTRAC(dateInjection, traceurAExporter);">Exporter un fichier CSV (TRAC)</div>
+    </div>
     </div>
     </div>
 </div>
@@ -968,9 +969,9 @@ function fermerPopupTelecharger() {
 
 
 /**
- * Télécharge les données au format TRAC
+ * Retourne le contenu blob du fichier csv pour TRAC
  */
-function telechargerTRAC(dateInjection, traceur) {
+function getBlobCsvTrac(dateInjection, traceur) {
     let contenuCSVTRAC = 'j;ppb';
 
     const lignes = contenuFichierMesures.split('\n');
@@ -1000,19 +1001,39 @@ function telechargerTRAC(dateInjection, traceur) {
         const timestamp = timeDate.toFormat('dd/MM/yy-HH:mm:ss');
         const date = DateTime.fromFormat(timestamp, 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
         const dateInjectionObj = DateTime.fromFormat(dateInjection, 'yyyy-MM-dd', {zone: 'UTC'});
+
         const diff = date.diff(dateInjectionObj, 'days').toObject();
         const diffString = diff.days + (diff.months || 0) * 30 + (diff.years || 0) * 365;
 
-        if (diffString < 0) {
-            continue;
-        }
-
-        contenuCSVTRAC += '\n' + diffString + ';' + colonnes[indexTraceur];
+        contenuCSVTRAC += '\n' + arrondirA2Decimales(diffString) + ';' + colonnes[indexTraceur];
     }
 
     const universalBOM = "\uFEFF";
-    const blob = new Blob([universalBOM + contenuCSVTRAC], {type: 'text/csv;charset=utf-8'});
-    const url = URL.createObjectURL(blob);
+    return new Blob([universalBOM + contenuCSVTRAC], {type: 'text/csv;charset=utf-8'});
+}
+
+
+/**
+ * Copie le contenu texte CSV pour l'export TRAC dans le presse-papier, sans l'en-tête
+ */
+function copierTracPresserPapier(dateInjection, traceur) {
+    const blob = getBlobCsvTrac(dateInjection, traceur);
+    const reader = new FileReader();
+    reader.readAsText(blob);
+
+    reader.onload = function () {
+        const contenu = reader.result.split('\n').slice(1).join('\n');
+        navigator.clipboard.writeText(contenu);
+        afficherMessageFlash('Contenu copié dans le presse-papier.', 'success');
+        fermerPopupTelecharger();
+    }
+}
+
+/**
+ * Télécharge les données au format TRAC
+ */
+function telechargerTRAC(dateInjection, traceur) {
+    const url = URL.createObjectURL(getBlobCsvTrac(dateInjection, traceur));
     const a = document.createElement('a');
     a.href = url;
     a.download = `exportTRAC-${traceur.nom}-${new Date().toLocaleString().replace(/\/|:|,|\s/g, '-')}.csv`;
@@ -1292,14 +1313,14 @@ function calculerInterferences(listeTraceur) {
         const nbEchellesT1 = traceur1.echelles.length;
         const nbEchellesT2 = traceur2.echelles.length;
 
-        const ligne1 = [(traceur1.getDataParNom('L' + traceur1.lampePrincipale + `-${nbEchellesT1}`) - eau.getDataParNom(`L${traceur1.lampePrincipale}-1`))/traceur1.echelles[nbEchellesT1 - 1], (traceur1.getDataParNom('L' + traceur2.lampePrincipale + `-${nbEchellesT1}`) - eau.getDataParNom(`L${traceur2.lampePrincipale}-1`))/traceur1.echelles[nbEchellesT1 - 1]];
-        const ligne2 = [(traceur2.getDataParNom('L' + traceur1.lampePrincipale + '-' + nbEchellesT2) - eau.getDataParNom(`L${traceur1.lampePrincipale}-1`))/traceur2.echelles[nbEchellesT2 - 1], (traceur2.getDataParNom('L' + traceur2.lampePrincipale + `-${nbEchellesT2}`) - eau.getDataParNom(`L${traceur2.lampePrincipale}-1`))/traceur2.echelles[nbEchellesT1 - 1]];
+        const ligne1 = [(traceur1.getDataParNom('L' + traceur1.lampePrincipale + `-${nbEchellesT1}`) - eau.getDataParNom(`L${traceur1.lampePrincipale}-1`)) / traceur1.echelles[nbEchellesT1 - 1], (traceur1.getDataParNom('L' + traceur2.lampePrincipale + `-${nbEchellesT1}`) - eau.getDataParNom(`L${traceur2.lampePrincipale}-1`)) / traceur1.echelles[nbEchellesT1 - 1]];
+        const ligne2 = [(traceur2.getDataParNom('L' + traceur1.lampePrincipale + '-' + nbEchellesT2) - eau.getDataParNom(`L${traceur1.lampePrincipale}-1`)) / traceur2.echelles[nbEchellesT2 - 1], (traceur2.getDataParNom('L' + traceur2.lampePrincipale + `-${nbEchellesT2}`) - eau.getDataParNom(`L${traceur2.lampePrincipale}-1`)) / traceur2.echelles[nbEchellesT1 - 1]];
 
         X.push(ligne1);
         X.push(ligne2);
 
         const Xinverse = inverse(X);
-        
+
         const Y = [];
 
         const data = {
@@ -1360,7 +1381,7 @@ function calculerInterferences(listeTraceur) {
 
         const A = [];
 
-        for (let i = 0; i < Y.length; i ++) {
+        for (let i = 0; i < Y.length; i++) {
             const ligne = [];
             ligne.push(multiply(Xinverse, Y[i])[0]);
             ligne.push(multiply(Xinverse, Y[i])[1]);
@@ -1368,7 +1389,6 @@ function calculerInterferences(listeTraceur) {
         }
 
         console.log(A);
-
 
 
         /**
