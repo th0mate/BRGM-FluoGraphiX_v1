@@ -1318,7 +1318,7 @@ function calculerInterferences(listeTraceur) {
         const Xinverse = inverse(X);
 
         const Y = [];
-        const contenu = [];
+        let contenu = [];
         const dates = [];
         const lignes = contenuFichierMesures.split('\n');
 
@@ -1457,11 +1457,11 @@ function calculerInterferences(listeTraceur) {
             }
         }
 
+        contenu = [];
         for (let i = 3; i < lignes.length - 1; i++) {
             const colonnes = lignes[i].split(';');
             if (colonnes[indexLampeATraiter] !== '') {
                 const ligne = [];
-                ligne.push(colonnes[0] + '-' + colonnes[1]);
                 ligne.push(colonnes[indexLampeATraiter].replace(/[\n\r]/g, ''));
                 contenu.push(ligne);
             }
@@ -1480,12 +1480,14 @@ function calculerInterferences(listeTraceur) {
         header.push(`L${Lc}Corr`);
         lignes[2] = header.join(';');
 
+
         for (let k = 0; k < contenu.length; k++) {
             const timestamp = DateTime.fromFormat(dates[k], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toMillis();
-            const mVValueLampeATraiter = contenu[k][1];
+            const mVValueLampeATraiter = contenu[k][0];
 
             if (!isNaN(mVValueLampeATraiter)) {
                 const valeur = mVValueLampeATraiter - mvParasite[k];
+                console.log(valeur);
                 data.data.push({x: timestamp, y: valeur});
                 lignes[k + 3] = lignes[k + 3].replace(/[\n\r]/g, '');
                 lignes[k + 3] += `;${arrondirA2Decimales(valeur)}`;
@@ -1494,11 +1496,10 @@ function calculerInterferences(listeTraceur) {
 
         contenuFichierMesures = lignes.join('\n');
 
-        /*
         existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${Lc}Corr`);
 
         existingChart.data.datasets.forEach((dataset, index) => {
-            if (dataset.label !== `L${Lc}Corr`) {
+            if (dataset.label !== `L${Lc}Corr` && dataset.label !== `L${Lc}`) {
                 dataset.hidden = true;
                 if (existingChart.isDatasetVisible(index)) {
                     existingChart.toggleDataVisibility(index);
@@ -1507,8 +1508,6 @@ function calculerInterferences(listeTraceur) {
         });
 
         existingChart.data.datasets.push(data);
-
-         */
 
 
 
