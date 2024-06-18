@@ -1949,7 +1949,6 @@ function calculerEtAfficherCorrectionBruitFond() {
                     X.push(ligne);
                 }
 
-
             }
 
             let XTX = multiply(inverse(multiply(transpose(X), X)), transpose(X));
