@@ -1573,18 +1573,11 @@ function getEchelleCommune() {
 }
 
 
-
-
-
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * GESTION DE LA SELECTION D'UNE ZONE SUR LE GRAPHIQUE
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
-
-
 
 
 /**
@@ -1887,9 +1880,180 @@ function calculerEtAfficherCorrectionBruitFond() {
         existingChart.data.datasets.push(data1);
 
     } else if (traceursBruitDeFond.length === 2) {
-        //TODO
+        //même principe, mais il faut faire deux LxNat et deux LxCorr, en utilisant une variable en moins et une lampe principale en plus
+
+        for (let i = 0; i < traceursBruitDeFond.length; i++) {
+            const traceur = traceursBruitDeFond[i];
+            let indexLampePrincipale = undefined;
+            let tableauIndex = [];
+
+            listeLampeBruitDeFond.sort((a, b) => {
+                if (a.includes('Corr') && b.includes('Corr')) {
+                    return parseInt(a.replace('L', '').replace('Corr', '')) - parseInt(b.replace('L', '').replace('Corr', ''));
+                } else if (a.includes('Corr')) {
+                    return parseInt(a.replace('L', '').replace('Corr', '')) - parseInt(b.replace('L', ''));
+                } else if (b.includes('Corr')) {
+                    return parseInt(a.replace('L', '')) - parseInt(b.replace('L', '').replace('Corr', ''));
+                } else {
+                    return parseInt(a.replace('L', '')) - parseInt(b.replace('L', ''));
+                }
+            });
+
+            for (let j = 0; j < colonnes.length; j++) {
+                if (colonnes[j] === `L${traceur.lampePrincipale}`) {
+                    indexLampePrincipale = j;
+                }
+
+                for (let k = 0; k < listeLampeBruitDeFond.length; k++) {
+                    if (colonnes[j] === listeLampeBruitDeFond[k]) {
+                        tableauIndex.push(j);
+                    }
+                }
+            }
+
+            for (let j = 0; j < colonnes.length; j++) {
+                if (colonnes[j] === `L${traceur.lampePrincipale}Corr`) {
+                    indexLampePrincipale = j;
+                }
+            }
+
+            let dates = [];
+            let Y = [];
+            let X = [];
+
+            for (let i = 3; i < lignes.length - 1; i++) {
+                const colonnes = lignes[i].split(';');
+                const timeDate = DateTime.fromFormat(colonnes[0] + '-' + colonnes[1], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
+                const timestamp = timeDate.toMillis();
+
+                if (zoneSelectionnee.length > 0) {
+                    if (timestamp > DateTime
+                        .fromFormat(zoneSelectionnee[0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'})
+                        .toMillis() && timestamp < DateTime
+                        .fromFormat(zoneSelectionnee[1], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'})
+                        .toMillis()) {
+                        continue;
+                    }
+                }
+
+                if (colonnes[indexLampePrincipale] !== '') {
+                    const ligne = [];
+                    dates.push(colonnes[0] + '-' + colonnes[1]);
+                    Y.push([colonnes[indexLampePrincipale].replace(/[\n\r]/g, '')]);
+
+                    for (let k = 0; k < tableauIndex.length; k++) {
+                        ligne.push(colonnes[tableauIndex[k]].replace(/[\n\r]/g, ''));
+                    }
+
+                    ligne.push(1);
+                    X.push(ligne);
+                }
+
+
+            }
+
+            let XTX = multiply(inverse(multiply(transpose(X), X)), transpose(X));
+            let coefficients = multiply(XTX, Y);
+
+            const data = {
+                label: `L${traceur.lampePrincipale}Corr`,
+                data: [],
+                backgroundColor: 'rgba(0, 0, 0, 0)',
+                borderColor: getRandomColor(),
+                borderWidth: 2,
+                pointRadius: 0
+            }
+
+            const data1 = {
+                label: `L${traceur.lampePrincipale}Nat`,
+                data: [],
+                backgroundColor: 'rgba(0, 0, 0, 0)',
+                borderColor: getRandomColor(),
+                borderWidth: 2,
+                pointRadius: 0
+            }
+
+            const contenu = [];
+
+            for (let j = 3; j < lignes.length - 1; j++) {
+                const colonnes = lignes[j].split(';');
+                if (colonnes[indexLampePrincipale] !== '') {
+                    const timeDate = DateTime.fromFormat(colonnes[0] + '-' + colonnes[1], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
+                    const timestamp = timeDate.toMillis();
+                    const ligneContenu = [];
+                    ligneContenu.push(colonnes[0] + '-' + colonnes[1]);
+                    ligneContenu.push(colonnes[indexLampePrincipale].replace(/[\n\r]/g, ''));
+
+                    for (let k = 0; k < tableauIndex.length; k++) {
+                        ligneContenu.push(colonnes[tableauIndex[k]].replace(/[\n\r]/g, ''));
+                    }
+
+                    contenu.push(ligneContenu);
+                }
+            }
+
+            const colonneLxNat = [];
+
+            let header = lignes[2].replace(/[\n\r]/g, '').split(';');
+
+            if (header.includes(`L${traceur.lampePrincipale}Corr`)) {
+                for (let k = 3; k < lignes.length - 1; k++) {
+                    const colonnes = lignes[k].split(';');
+                    colonnes.splice(header.indexOf(`L${traceur.lampePrincipale}Corr`), 1);
+                    lignes[k] = colonnes.join(';');
+                }
+                header = header.filter(colonne => colonne !== `L${traceur.lampePrincipale}Corr`);
+            }
+
+            header.push(`L${traceur.lampePrincipale}Corr`);
+
+            lignes[2] = header.join(';');
+
+            for (let j = 0; j < contenu.length; j++) {
+                const timeDate = DateTime.fromFormat(contenu[j][0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
+                const timestamp = timeDate.toMillis();
+                let LxNat = 0;
+
+                for (let k = 0; k < tableauIndex.length; k++) {
+                    LxNat += coefficients[k][0] * contenu[j][k + 2];
+                }
+
+                LxNat += coefficients[tableauIndex.length][0];
+
+                colonneLxNat.push(LxNat);
+                data1.data.push({x: timestamp, y: LxNat});
+                const valeur = (contenu[j][1] - LxNat) + eau.getDataParNom(`L${traceur.lampePrincipale}-1`);
+                lignes[j + 3] = lignes[j + 3].replace(/[\n\r]/g, '');
+                lignes[j + 3] += `;${arrondirA2Decimales(valeur)}`;
+                data.data.push({x: timestamp, y: valeur});
+            }
+
+            contenuFichierMesures = lignes.join('\n');
+
+            existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur.lampePrincipale}Corr`);
+            existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur.lampePrincipale}Nat`);
+
+            existingChart.data.datasets.forEach((dataset, index) => {
+                if (dataset.label !== `L${traceur.lampePrincipale}` && dataset.label !== `L${traceur.lampePrincipale}Corr` && dataset.label !== `L${traceur.lampePrincipale}Nat`) {
+                    dataset.hidden = true;
+                    if (existingChart.isDatasetVisible(index)) {
+                        existingChart.toggleDataVisibility(index);
+                    }
+                } else {
+                    dataset.hidden = false;
+                    if (!existingChart.isDatasetVisible(index)) {
+                        existingChart.toggleDataVisibility(index);
+                    }
+                }
+            });
+
+            existingChart.data.datasets.push(data);
+            existingChart.data.datasets.push(data1);
+        }
+
+
     } else {
-        afficherMessageFlash("La correction de bruit de fond n'est possible qu'avec deux traceurs !", "danger");
+        afficherMessageFlash("La correction de bruit de fond n'est possible qu'avec un ou deux traceurs !", "danger");
         return;
     }
 

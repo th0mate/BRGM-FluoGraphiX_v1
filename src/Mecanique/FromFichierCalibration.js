@@ -533,7 +533,9 @@ function afficherTableauTraceur(traceur) {
             } else {
                 let echelle = echellesTableau[j - 1];
                 let data = dataMap.get(echelle);
-                td.textContent = data[i];
+                if (data[i]) {
+                    td.textContent = data[i];
+                }
             }
             tr.appendChild(td);
         }
