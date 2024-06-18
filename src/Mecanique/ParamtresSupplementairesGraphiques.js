@@ -1307,13 +1307,14 @@ function calculerInterferences(listeTraceur) {
         const traceur1 = listeTraceur[0];
         const traceur2 = listeTraceur[1];
         const eau = traceurs.find(t => t.unite === '');
-        const nbEchellesT1 = traceur1.echelles.length;
-        const nbEchellesT2 = traceur2.echelles.length;
 
-        //TODO valeurs NaN
-        console.log(traceur1.echelles[nbEchellesT1 - 1]);
-        const ligne1 = [(traceur1.getDataParNom('L' + traceur1.lampePrincipale + `-${nbEchellesT1}`) - eau.getDataParNom(`L${traceur1.lampePrincipale}-1`)) / traceur1.echelles[nbEchellesT1 - 1], (traceur1.getDataParNom('L' + traceur2.lampePrincipale + `-${nbEchellesT1}`) - eau.getDataParNom(`L${traceur2.lampePrincipale}-1`)) / traceur1.echelles[nbEchellesT1 - 1]];
-        const ligne2 = [(traceur2.getDataParNom('L' + traceur1.lampePrincipale + '-' + nbEchellesT2) - eau.getDataParNom(`L${traceur1.lampePrincipale}-1`)) / traceur2.echelles[nbEchellesT2 - 1], (traceur2.getDataParNom('L' + traceur2.lampePrincipale + `-${nbEchellesT2}`) - eau.getDataParNom(`L${traceur2.lampePrincipale}-1`)) / traceur2.echelles[nbEchellesT1 - 1]];
+        const echelleCommune = getEchelleCommune();
+        let echellesT2indexOf = traceur2.echelles.indexOf(echelleCommune) + 1;
+        let echellesT1indexOf = traceur1.echelles.indexOf(echelleCommune) + 1;
+
+
+        const ligne1 = [(traceur1.getDataParNom('L' + traceur1.lampePrincipale + `-${echellesT1indexOf}`) - eau.getDataParNom(`L${traceur1.lampePrincipale}-1`)) / echelleCommune, (traceur1.getDataParNom('L' + traceur2.lampePrincipale + `-${echellesT1indexOf}`) - eau.getDataParNom(`L${traceur2.lampePrincipale}-1`)) / echelleCommune];
+        const ligne2 = [(traceur2.getDataParNom('L' + traceur1.lampePrincipale + '-' + (echellesT2indexOf)) - eau.getDataParNom(`L${traceur1.lampePrincipale}-1`)) / echelleCommune, (traceur2.getDataParNom('L' + traceur2.lampePrincipale + `-${echellesT2indexOf}`) - eau.getDataParNom(`L${traceur2.lampePrincipale}-1`)) / echelleCommune];
 
         X.push(ligne1);
         X.push(ligne2);
@@ -1430,7 +1431,7 @@ function calculerInterferences(listeTraceur) {
         const coeffsFinauxT1 = totalCoeffs[0];
         const coeffsFinauxT2 = totalCoeffs[1];
         const mvParasite = [];
-        
+
         for (let i = 0; i < mvCorr.length; i++) {
             mvParasite.push((coeffsFinauxT1[0] * mvCorr[i][0] + coeffsFinauxT1[1] - eau.getDataParNom(`L${Lc}-1`)) + (coeffsFinauxT2[0] * mvCorr[i][1] + coeffsFinauxT2[1] - eau.getDataParNom(`L${Lc}-1`)));
         }
@@ -1546,10 +1547,44 @@ function calculerInterferences(listeTraceur) {
 
 
 /**
+ * Retourne l'échelle commune à tous les traceurs (sauf l'eau) à utiliser pour les calculs
+ * Pour qu'une échelle soit commune, il faut que traceurs[i].getDataParNom(LJ-traceurs[i].echelles.indexOf(echelleCommune)) ne soit pas NaN
+ */
+function getEchelleCommune() {
+    let echelleCommune = 0;
+
+    for (let i = 0; i < traceurs.length; i++) {
+        const traceur = traceurs[i];
+        let echellesTraceurTriees = [...traceur.echelles];
+        echellesTraceurTriees.sort((a, b) => a - b);
+        if (traceur.unite !== '' && traceur.unite.toLowerCase() !== 'ntu') {
+            for (let j = 0; j < echellesTraceurTriees.length; j++) {
+                const echelle = echellesTraceurTriees[j];
+                const data = traceur.getDataParNom('L' + traceur.lampePrincipale + '-' + (j));
+                if (!isNaN(data)) {
+                    echelleCommune = echelle;
+                    break;
+                }
+            }
+        }
+    }
+
+    return echelleCommune;
+}
+
+
+
+
+
+
+/**
  * ---------------------------------------------------------------------------------------------------------------------
  * GESTION DE LA SELECTION D'UNE ZONE SUR LE GRAPHIQUE
  * ---------------------------------------------------------------------------------------------------------------------
  */
+
+
+
 
 
 /**
