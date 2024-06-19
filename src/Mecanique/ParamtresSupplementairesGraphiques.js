@@ -237,11 +237,11 @@ function afficherPopupParametresGraphiques() {
 
         let selectNbTraceurs = '<select class="selectOrange" onchange="mettreAJourNbTraceurs(this.value)"><option selected disabled value="">Sélectionnez une valeur...</option>';
         for (let i = 0; i < nbTraceurs; i++) {
-            let s = '';
-            if (i + 1 > 1) {
-                s = 's';
+            if (i < 2) {
+                selectNbTraceurs += `<option value="${i + 1}">${i + 1}</option>`;
+            } else {
+                selectNbTraceurs += `<option disabled value="${i + 1}">${i + 1}</option>`;
             }
-            selectNbTraceurs += `<option value="${i + 1}">${i + 1} Traceur${s}</option>`;
         }
         selectNbTraceurs += '</select>';
 
