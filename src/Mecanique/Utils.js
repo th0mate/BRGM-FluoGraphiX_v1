@@ -135,4 +135,24 @@ function arrondirA2Decimales(chiffre) {
 }
 
 
+/**
+ * Supprime les colonnes et l'en-tête du fichier CSV correspondant à un label d'en-tête donné
+ * @param labelEnTete le label de l'en-tête à supprimer
+ * @param lignes les lignes du fichier CSV
+ */
+function supprimerColonneParEnTete(labelEnTete, lignes) {
+    let header = lignes[2].replace(/[\n\r]/g, '').split(';');
+    if (header.includes(labelEnTete)) {
+        for (let k = 3; k < lignes.length - 1; k++) {
+            const colonnes = lignes[k].split(';');
+            colonnes.splice(header.indexOf(labelEnTete), 1);
+            lignes[k] = colonnes.join(';');
+        }
+    }
+
+    return lignes;
+
+}
+
+
 

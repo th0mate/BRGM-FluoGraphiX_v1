@@ -526,7 +526,7 @@ function corrigerTurbidite(idLampe, TS = niveauCorrection) {
     };
 
     let contenu = [];
-    const lignes = contenuFichierMesures.split('\n');
+    let lignes = contenuFichierMesures.split('\n');
     let colonnes = lignes[2].split(';');
     let indexLampe = 0;
     let indexTurb = 0;
@@ -599,14 +599,10 @@ function corrigerTurbidite(idLampe, TS = niveauCorrection) {
 
 
     let header = lignes[2].replace(/[\n\r]/g, '').split(';');
-    if (header.includes(`L${idLampe}Corr`)) {
-        for (let k = 3; k < lignes.length - 1; k++) {
-            const colonnes = lignes[k].split(';');
-            colonnes.splice(header.indexOf(`L${idLampe}Corr`), 1);
-            lignes[k] = colonnes.join(';');
-        }
-        header = header.filter(colonne => colonne !== `L${idLampe}Corr`);
-    }
+
+    lignes = supprimerColonneParEnTete(`L${idLampe}Corr`, lignes);
+    header = header.filter(colonne => colonne !== `L${idLampe}Corr`);
+
     header.push(`L${idLampe}Corr`);
     lignes[2] = header.join(';');
 
@@ -737,7 +733,7 @@ function ajouterCourbeConcentrationTraceur(traceur) {
         };
 
         const contenu = [];
-        const lignes = contenuFichierMesures.split('\n');
+        let lignes = contenuFichierMesures.split('\n');
         let colonnes = lignes[2].split(';');
         let indexLampe = -1;
 
@@ -782,14 +778,10 @@ function ajouterCourbeConcentrationTraceur(traceur) {
         }
 
         let header = lignes[2].replace(/[\n\r]/g, '').split(';');
-        if (header.includes(`${traceur.nom}`)) {
-            for (let k = 3; k < lignes.length - 1; k++) {
-                const colonnes = lignes[k].split(';');
-                colonnes.splice(header.indexOf(`${traceur.nom}`), 1);
-                lignes[k] = colonnes.join(';');
-            }
-            header = header.filter(colonne => colonne !== `${traceur.nom}`);
-        }
+
+        lignes = supprimerColonneParEnTete(`${traceur.nom}`, lignes);
+        header = header.filter(colonne => colonne !== `${traceur.nom}`);
+
         header.push(`${traceur.nom}`);
         lignes[2] = header.join(';');
 
@@ -1204,7 +1196,7 @@ function calculerInterferences(listeTraceur) {
             };
 
             const contenu = [];
-            const lignes = contenuFichierMesures.split('\n');
+            let lignes = contenuFichierMesures.split('\n');
             let colonnes = lignes[2].split(';');
             let indexLampeATraiter = -1;
             let indexLampePrincipale = -1;
@@ -1235,14 +1227,10 @@ function calculerInterferences(listeTraceur) {
             }
 
             let header = lignes[2].replace(/[\n\r]/g, '').split(';');
-            if (header.includes(`L${tableauLampesATraiter[i]}Corr`)) {
-                for (let k = 3; k < lignes.length - 1; k++) {
-                    const colonnes = lignes[k].split(';');
-                    colonnes.splice(header.indexOf(`L${tableauLampesATraiter[i]}Corr`), 1);
-                    lignes[k] = colonnes.join(';');
-                }
-                header = header.filter(colonne => colonne !== `L${tableauLampesATraiter[i]}Corr`);
-            }
+
+            lignes = supprimerColonneParEnTete(`L${tableauLampesATraiter[i]}Corr`, lignes);
+            header = header.filter(colonne => colonne !== `L${tableauLampesATraiter[i]}Corr`);
+
             header.push(`L${tableauLampesATraiter[i]}Corr`);
             lignes[2] = header.join(';');
 
@@ -1324,7 +1312,7 @@ function calculerInterferences(listeTraceur) {
         const Y = [];
         let contenu = [];
         const dates = [];
-        const lignes = contenuFichierMesures.split('\n');
+        let lignes = contenuFichierMesures.split('\n');
 
         let colonnes = lignes[2].split(';');
 
@@ -1490,30 +1478,15 @@ function calculerInterferences(listeTraceur) {
         }
 
         let header = lignes[2].replace(/[\n\r]/g, '').split(';');
-        if (header.includes(`L${Lc}Corr`)) {
-            for (let k = 3; k < lignes.length - 1; k++) {
-                const colonnes = lignes[k].split(';');
-                colonnes.splice(header.indexOf(`L${Lc}Corr`), 1);
-                lignes[k] = colonnes.join(';');
-            }
-            header = header.filter(colonne => colonne !== `L${Lc}Corr`);
-        }
-        if (header.includes(`L${traceur1.lampePrincipale}Corr`)) {
-            for (let k = 3; k < lignes.length - 1; k++) {
-                const colonnes = lignes[k].split(';');
-                colonnes.splice(header.indexOf(`L${traceur1.lampePrincipale}Corr`), 1);
-                lignes[k] = colonnes.join(';');
-            }
-            header = header.filter(colonne => colonne !== `L${traceur1.lampePrincipale}Corr`);
-        }
-        if (header.includes(`L${traceur2.lampePrincipale}Corr`)) {
-            for (let k = 3; k < lignes.length - 1; k++) {
-                const colonnes = lignes[k].split(';');
-                colonnes.splice(header.indexOf(`L${traceur2.lampePrincipale}Corr`), 1);
-                lignes[k] = colonnes.join(';');
-            }
-            header = header.filter(colonne => colonne !== `L${traceur2.lampePrincipale}Corr`);
-        }
+
+        lignes = supprimerColonneParEnTete(`L${Lc}Corr`, lignes);
+        header = header.filter(colonne => colonne !== `L${Lc}Corr`);
+
+        lignes = supprimerColonneParEnTete(`L${traceur1.lampePrincipale}Corr`, lignes);
+        header = header.filter(colonne => colonne !== `L${traceur1.lampePrincipale}Corr`);
+
+        lignes = supprimerColonneParEnTete(`L${traceur2.lampePrincipale}Corr`, lignes);
+        header = header.filter(colonne => colonne !== `L${traceur2.lampePrincipale}Corr`);
 
         header.push(`L${traceur1.lampePrincipale}Corr`);
         header.push(`L${traceur2.lampePrincipale}Corr`);
@@ -1743,7 +1716,7 @@ function calculerEtAfficherCorrectionBruitFond() {
      */
     if (traceursBruitDeFond.length === 1) {
 
-        const lignes = contenuFichierMesures.split('\n');
+        let lignes = contenuFichierMesures.split('\n');
         let colonnes = lignes[2].split(';');
         colonnes = colonnes.map(colonne => colonne.replace(/[\n\r]/g, ''));
 
@@ -1852,14 +1825,10 @@ function calculerEtAfficherCorrectionBruitFond() {
 
         const colonneLxNat = [];
         let header = lignes[2].replace(/[\n\r]/g, '').split(';');
-        if (header.includes(`L${traceur.lampePrincipale}Corr`)) {
-            for (let k = 3; k < lignes.length - 1; k++) {
-                const colonnes = lignes[k].split(';');
-                colonnes.splice(header.indexOf(`L${traceur.lampePrincipale}Corr`), 1);
-                lignes[k] = colonnes.join(';');
-            }
-            header = header.filter(colonne => colonne !== `L${traceur.lampePrincipale}Corr`);
-        }
+
+        lignes = supprimerColonneParEnTete(`L${traceur.lampePrincipale}Corr`, lignes);
+        header = header.filter(colonne => colonne !== `L${traceur.lampePrincipale}Corr`);
+
         header.push(`L${traceur.lampePrincipale}Corr`);
         lignes[2] = header.join(';');
 
@@ -1911,7 +1880,7 @@ function calculerEtAfficherCorrectionBruitFond() {
 
         for (let i = 0; i < traceursBruitDeFond.length; i++) {
 
-            const lignes = contenuFichierMesures.split('\n');
+            let lignes = contenuFichierMesures.split('\n');
             let colonnes = lignes[2].split(';');
             colonnes = colonnes.map(colonne => colonne.replace(/[\n\r]/g, ''));
 
@@ -2029,21 +1998,15 @@ function calculerEtAfficherCorrectionBruitFond() {
                     contenu.push(ligneContenu);
                 }
             }
-            
+
             console.log(contenu);
 
             const colonneLxNat = [];
 
             let header = lignes[2].replace(/[\n\r]/g, '').split(';');
 
-            if (header.includes(`L${traceur.lampePrincipale}Corr`)) {
-                for (let k = 3; k < lignes.length - 1; k++) {
-                    const colonnes = lignes[k].split(';');
-                    colonnes.splice(header.indexOf(`L${traceur.lampePrincipale}Corr`), 1);
-                    lignes[k] = colonnes.join(';');
-                }
-                header = header.filter(colonne => colonne !== `L${traceur.lampePrincipale}Corr`);
-            }
+            lignes = supprimerColonneParEnTete(`L${traceur.lampePrincipale}Corr`, lignes);
+            header = header.filter(colonne => colonne !== `L${traceur.lampePrincipale}Corr`);
 
             header.push(`L${traceur.lampePrincipale}Corr`);
 
