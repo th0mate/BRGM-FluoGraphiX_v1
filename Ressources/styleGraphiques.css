@@ -682,18 +682,18 @@ input[type="checkbox"]:checked {
 }
 
 
-.popupExport > .separator > div > .separateur > span > input[type="date"] {
+.popupExport > .separator > div > .separateur > span > input[type="datetime-local"] {
     color: white;
     background-color: var(--orangeBRGM);
     border: 5px solid var(--orangeBRGM);
     box-shadow: none;
-    width: 150px;
+    width: 250px;
     height: 30px;
     border-radius: 0;
 }
 
 
-.popupExport > .separator > div > .separateur > span > input[type="date"]::-webkit-calendar-picker-indicator {
+.popupExport > .separator > div > .separateur > span > input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     width: 30px;
     height: 30px;
     margin-left: 10px;

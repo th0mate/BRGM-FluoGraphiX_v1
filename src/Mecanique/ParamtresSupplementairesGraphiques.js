@@ -868,7 +868,7 @@ function afficherPopupTelecharger() {
 
     const canvas = document.getElementById('graphique');
     const existingChart = Chart.getChart(canvas);
-    const dateMax = 'max=' + DateTime.fromMillis(existingChart.data.datasets[0].data[existingChart.data.datasets[0].data.length - 1].x, {zone: 'UTC'}).toFormat('yyyy-MM-dd');
+    const dateMax = 'max=' + DateTime.fromMillis(existingChart.data.datasets[0].data[existingChart.data.datasets[0].data.length - 1].x, {zone: 'UTC'}).toFormat('yyyy-MM-dd') + 'T' + DateTime.fromMillis(existingChart.data.datasets[0].data[existingChart.data.datasets[0].data.length - 1].x, {zone: 'UTC'}).toFormat('HH:mm');
 
     const listeTraceursConcentration = [];
     for (let i = 0; i < existingChart.data.datasets.length; i++) {
@@ -916,7 +916,7 @@ function afficherPopupTelecharger() {
     <div class="separateur">
     <span ${border}>
     <p>Choisissez la date d'injection</p>
-    <input type="date" id="dateInjection" ${dateMax} onchange="dateInjection = this.value;">
+    <input type="datetime-local" step="1" id="dateInjection" ${dateMax} onchange="dateInjection = this.value;">
     </span>
     <br>
     <span>
@@ -961,7 +961,8 @@ function fermerPopupTelecharger() {
  * Retourne le contenu blob du fichier csv pour TRAC
  */
 function getBlobCsvTrac(dateInjection, traceur) {
-    let contenuCSVTRAC = 'j;ppb';
+    console.log(dateInjection); //format 2014-01-09T14:52:40
+    let contenuCSVTRAC = `j;${traceur.unite}`;
 
     const lignes = contenuFichierMesures.split('\n');
     const header = lignes[2].split(';');
@@ -989,10 +990,25 @@ function getBlobCsvTrac(dateInjection, traceur) {
 
         const timestamp = timeDate.toFormat('dd/MM/yy-HH:mm:ss');
         const date = DateTime.fromFormat(timestamp, 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
-        const dateInjectionObj = DateTime.fromFormat(dateInjection, 'yyyy-MM-dd', {zone: 'UTC'});
+        // dateInjection au format 2014-01-09T14:52:40
+        const dateInjectionObj = DateTime.fromFormat(dateInjection, 'yyyy-MM-dd\'T\'HH:mm:ss', {zone: 'UTC'});
 
-        const diff = date.diff(dateInjectionObj, 'days').toObject();
-        const diffString = diff.days + (diff.months || 0) * 30 + (diff.years || 0) * 365;
+        console.log(date);
+        console.log(dateInjectionObj);
+
+        if (!date.isValid || !dateInjectionObj.isValid) {
+            console.error('Date ou dateInjectionObj invalide');
+            continue;
+        }
+
+        if (date < dateInjectionObj) {
+            continue;
+        }
+
+        const diff = date.diff(dateInjectionObj, 'seconds').seconds;
+        console.log(diff);
+
+        const diffString = diff / 86400;
 
         contenuCSVTRAC += '\n' + arrondirA2Decimales(diffString) + ';' + colonnes[indexTraceur];
     }
