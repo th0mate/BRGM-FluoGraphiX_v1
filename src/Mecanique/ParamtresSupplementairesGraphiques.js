@@ -165,14 +165,14 @@ function afficherPopupParametresGraphiques() {
                 <tr>
                     <td>L${traceur.lampePrincipale}</td>
                     <td>
-                        <select onchange="remplacerDonneesFichier(this.value, 'L${traceur.lampePrincipale}')">
+                        <select id='rename${i}' onchange="remplacerDonneesFichier(this.value, 'L${traceur.lampePrincipale}')">
                         <option value="" selected disabled>Sélectionner</option>
                             `;
                 const lignes = contenuFichierMesures.split('\n');
                 const header = lignes[2].split(';').splice(2);
 
                 for (let j = 0; j < header.length; j++) {
-                    popupHTML += `<option value="${header[j]}">${header[j]}</option>`;
+                    popupHTML += `<option id="option${header[j]}" value="${header[j]}">${header[j]}</option>`;
                 }
 
                 popupHTML += `
@@ -483,6 +483,19 @@ function remplacerDonneesFichier(ancien, nouveau) {
 
     contenuFichierMesures = lignes.join('\n');
     afficherGraphique(contenuFichierMesures);
+
+    const selects = document.querySelectorAll('select');
+    for (let i = 0; i < selects.length; i++) {
+        if (selects[i].value === '') {
+            const options = selects[i].querySelectorAll('option');
+            for (let j = 0; j < options.length; j++) {
+                if (options[j].value === ancien) {
+                    options[j].remove();
+                }
+            }
+        }
+    }
+
 
     if (calibrationEstLieGraphiques()) {
         document.querySelector('.onglet1').innerHTML = `<p></p><div class="alert alert-success" id="flash"><img src="Ressources/img/success.png" alt="">Les courbes ont été liées aux labels du fichier de calibration avec succès.</div>
