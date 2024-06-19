@@ -1,19 +1,11 @@
 function vueGraphique() {
     return `
     
-    <div class="bannierePage">
-        <img src="Ressources/img/image4.jpg.webp" alt="Sources">
-        <div class="contenu">
-            <p><span onclick="afficherVue('vueAccueil')"><span></span>Accueil</span> <strong> / Graphiques</strong></p>
-            <h1>Graphiques</h1>
-            <span class="auteur"><img src="Ressources/img/auteur.png" alt=""> <h3>© ZeiderQualityPicture - Fotolia, Allemagne, 2010.</h3></span>
-        </div>
-    </div>
-    
     <div class="graphiques">
         <canvas class="graphique" id="graphique"></canvas>
         <div class="infos">
             <img src="Ressources/img/graphiqueIllu.png" alt="Graphique">
+            <h1 class="titreBarre" style="margin-bottom: 30px">Graphiques</h1>
             <h2>Importez un fichier et prenez le contrôle de vos données.</h2>
             <p>Types de fichiers pris en charge : .mv, .txt, .xml, .csv, .dat (fichiers de calibration).</p>
             <p>Possibilité de sélectionner plusieurs fichiers.</p>
@@ -28,8 +20,8 @@ function vueGraphique() {
             <div class="entete">
                 <h2>Affichage</h2>
                 <div class="bouton boutonFonce" onclick="afficherPopupParametresGraphiques()">
-                    AUTRES
-                    <img src="Ressources/img/parametres.png" alt="Réduire">
+                    CALCULS
+                    <img src="Ressources/img/calculatrice.png" alt="Réduire">
                 </div>
             </div>
         
