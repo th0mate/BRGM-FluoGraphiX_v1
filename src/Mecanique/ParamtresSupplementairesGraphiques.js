@@ -1498,7 +1498,25 @@ function calculerInterferences(listeTraceur) {
             }
             header = header.filter(colonne => colonne !== `L${Lc}Corr`);
         }
+        if (header.includes(`L${traceur1.lampePrincipale}Corr`)) {
+            for (let k = 3; k < lignes.length - 1; k++) {
+                const colonnes = lignes[k].split(';');
+                colonnes.splice(header.indexOf(`L${traceur1.lampePrincipale}Corr`), 1);
+                lignes[k] = colonnes.join(';');
+            }
+            header = header.filter(colonne => colonne !== `L${traceur1.lampePrincipale}Corr`);
+        }
+        if (header.includes(`L${traceur2.lampePrincipale}Corr`)) {
+            for (let k = 3; k < lignes.length - 1; k++) {
+                const colonnes = lignes[k].split(';');
+                colonnes.splice(header.indexOf(`L${traceur2.lampePrincipale}Corr`), 1);
+                lignes[k] = colonnes.join(';');
+            }
+            header = header.filter(colonne => colonne !== `L${traceur2.lampePrincipale}Corr`);
+        }
 
+        header.push(`L${traceur1.lampePrincipale}Corr`);
+        header.push(`L${traceur2.lampePrincipale}Corr`);
         header.push(`L${Lc}Corr`);
         lignes[2] = header.join(';');
 
@@ -1513,6 +1531,8 @@ function calculerInterferences(listeTraceur) {
                 data1.data.push({x: timestamp, y: mvCorr[k][0]});
                 data2.data.push({x: timestamp, y: mvCorr[k][1]});
                 lignes[k + 3] = lignes[k + 3].replace(/[\n\r]/g, '');
+                lignes[k + 3] += `;${arrondirA2Decimales(mvCorr[k][0])}`;
+                lignes[k + 3] += `;${arrondirA2Decimales(mvCorr[k][1])}`;
                 lignes[k + 3] += `;${arrondirA2Decimales(valeur)}`;
             }
         }
@@ -1524,7 +1544,7 @@ function calculerInterferences(listeTraceur) {
         existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur2.lampePrincipale}Corr`);
 
         existingChart.data.datasets.forEach((dataset, index) => {
-            if (dataset.label !== `L${Lc}Corr` && dataset.label !== `L${Lc}` && dataset.label !== `L${traceur1.lampePrincipale}` && dataset.label !== `L${traceur2.lampePrincipale}`) {
+            if (dataset.label !== `L${Lc}Corr` && dataset.label !== `L${traceur1.lampePrincipale}Corr` && dataset.label !== `L${traceur2.lampePrincipale}Corr`) {
                 dataset.hidden = true;
                 if (existingChart.isDatasetVisible(index)) {
                     existingChart.toggleDataVisibility(index);
@@ -1541,7 +1561,7 @@ function calculerInterferences(listeTraceur) {
          * Cas pour trois traceurs
          */
     } else {
-
+        afficherMessageFlash('Fonctionnalité non encore implémentée.', 'danger');
     }
 }
 
@@ -1716,12 +1736,16 @@ function calculerEtAfficherCorrectionBruitFond() {
 
     const canvas = document.getElementById('graphique');
     const existingChart = Chart.getChart(canvas);
-    const lignes = contenuFichierMesures.split('\n');
-    let colonnes = lignes[2].split(';');
-    colonnes = colonnes.map(colonne => colonne.replace(/[\n\r]/g, ''));
 
 
+    /**
+     * Dans le cas où une correction des interférences sur un seul traceur a été réalisée :
+     */
     if (traceursBruitDeFond.length === 1) {
+
+        const lignes = contenuFichierMesures.split('\n');
+        let colonnes = lignes[2].split(';');
+        colonnes = colonnes.map(colonne => colonne.replace(/[\n\r]/g, ''));
 
         const traceur = traceursBruitDeFond[0];
         let indexLampePrincipale = undefined;
@@ -1879,10 +1903,18 @@ function calculerEtAfficherCorrectionBruitFond() {
         existingChart.data.datasets.push(data);
         existingChart.data.datasets.push(data1);
 
+
+        /**
+         * Dans le cas où une correction des interférences entre deux traceurs a été réalisée :
+         */
     } else if (traceursBruitDeFond.length === 2) {
-        //même principe, mais il faut faire deux LxNat et deux LxCorr, en utilisant une variable en moins et une lampe principale en plus
 
         for (let i = 0; i < traceursBruitDeFond.length; i++) {
+
+            const lignes = contenuFichierMesures.split('\n');
+            let colonnes = lignes[2].split(';');
+            colonnes = colonnes.map(colonne => colonne.replace(/[\n\r]/g, ''));
+
             const traceur = traceursBruitDeFond[i];
             let indexLampePrincipale = undefined;
             let tableauIndex = [];
@@ -1899,6 +1931,7 @@ function calculerEtAfficherCorrectionBruitFond() {
                 }
             });
 
+            console.log(colonnes);
             for (let j = 0; j < colonnes.length; j++) {
                 if (colonnes[j] === `L${traceur.lampePrincipale}`) {
                     indexLampePrincipale = j;
@@ -1921,8 +1954,8 @@ function calculerEtAfficherCorrectionBruitFond() {
             let Y = [];
             let X = [];
 
-            for (let i = 3; i < lignes.length - 1; i++) {
-                const colonnes = lignes[i].split(';');
+            for (let j = 3; j < lignes.length - 1; j++) {
+                const colonnes = lignes[j].split(';');
                 const timeDate = DateTime.fromFormat(colonnes[0] + '-' + colonnes[1], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
                 const timestamp = timeDate.toMillis();
 
@@ -1973,9 +2006,15 @@ function calculerEtAfficherCorrectionBruitFond() {
             }
 
             const contenu = [];
+            console.log(traceur);
+            console.log(indexLampePrincipale);
+            console.log(tableauIndex);
 
             for (let j = 3; j < lignes.length - 1; j++) {
                 const colonnes = lignes[j].split(';');
+                if (j === 3) {
+                    console.log(colonnes);
+                }
                 if (colonnes[indexLampePrincipale] !== '') {
                     const timeDate = DateTime.fromFormat(colonnes[0] + '-' + colonnes[1], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
                     const timestamp = timeDate.toMillis();
@@ -1990,6 +2029,8 @@ function calculerEtAfficherCorrectionBruitFond() {
                     contenu.push(ligneContenu);
                 }
             }
+            
+            console.log(contenu);
 
             const colonneLxNat = [];
 
