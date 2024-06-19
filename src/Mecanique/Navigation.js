@@ -9,7 +9,7 @@
  */
 if (window.location.protocol === "file:" && navigator.onLine) {
     setTimeout(() => {
-        afficherPopup('<img src="Ressources/img/attention.png" alt="Attention">', 'Vous êtes connecté à internet et utilisez ce site en local', 'Pour obtenir de meilleures performances et une meilleure expérience utilisateur, il est recommandé d\'utiliser ce site via internet.', '<div class="bouton boutonFonce" onclick="ouvrirInternet()">Aller sur le site</div><div class="bouton boutonFonce" onclick="fermerPopup()">Continuer en local</div>\n');
+        afficherPopup('<img src="Ressources/img/attention.png" alt="Attention">', 'Vous êtes connecté à internet et utilisez ce site en local', 'Pour obtenir de meilleures performances et une meilleure expérience utilisateur, il est recommandé d\'utiliser ce site via internet.', '<div class="bouton boutonFonce" onclick="fermerPopup()">FERMER</div>');
     }, 3000);
 }
 
@@ -18,7 +18,7 @@ if (window.location.protocol === "file:" && navigator.onLine) {
  * Affiche une popup d'information
  */
 if (window.location.protocol !== "file:" && navigator.onLine) {
-    const random = Math.floor(Math.random() * 15);
+    const random = Math.floor(Math.random() * 25);
     if (random === 1) {
         setTimeout(() => {
             afficherPopup('<img src="Ressources/img/information.png" alt="info">', 'Le saviez vous ? Vous pouvez utiliser ce site hors-ligne !', 'Vous pouvez télécharger ce site et l\'utiliser normalement en local sur votre machine, et sans internet.', '<div class="bouton boutonFonce" onclick="fermerPopup()">Fermer</div>\n' +
@@ -78,22 +78,7 @@ function afficherDl() {
                     <h3>Téléchargez la dernière version de FluoGraphiX sur votre ordinateur</h3>
                     <span></span>
                 </div>`;
-    } else {
-        document.querySelector('.actionsRapides').innerHTML += `
-                <a target="_blank" href="https://brgm.thomasloye.fr" class="action">
-                    <img src="Ressources/img/dl.png" alt="icone">
-                    <h3>Se rendre sur le site en ligne pour télécharger la dernière version de FluoGraphiX</h3>
-                    <span></span>
-                </a>`;
     }
-}
-
-
-/**
- * Redirige l'utilisateur vers le site en ligne
- */
-function ouvrirInternet() {
-    window.open('https://brgm.thomasloye.fr', '_blank');
 }
 
 

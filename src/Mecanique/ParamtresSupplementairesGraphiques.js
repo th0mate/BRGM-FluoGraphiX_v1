@@ -954,10 +954,18 @@ function fermerPopupTelecharger() {
 
 /**
  * Retourne le contenu blob du fichier csv pour TRAC
+ * @param dateInjection Date d'injection des traceurs
+ * @param traceur Traceur à exporter
+ * @param estPourPressePapier true si l'export est pour le presse-papier, false sinon
  */
-function getBlobCsvTrac(dateInjection, traceur) {
-    console.log(dateInjection); //format 2014-01-09T14:52:40
-    let contenuCSVTRAC = `j;${traceur.unite}`;
+function getBlobCsvTrac(dateInjection, traceur, estPourPressePapier = false) {
+    let separateur = ';';
+
+    if (estPourPressePapier) {
+        separateur = '\t';
+    }
+
+    let contenuCSVTRAC = `j${separateur}${traceur.unite}`;
 
     const lignes = contenuFichierMesures.split('\n');
     const header = lignes[2].split(';');
@@ -1005,7 +1013,7 @@ function getBlobCsvTrac(dateInjection, traceur) {
 
         const diffString = diff / 86400;
 
-        contenuCSVTRAC += '\n' + arrondirA2Decimales(diffString) + ';' + colonnes[indexTraceur];
+        contenuCSVTRAC += '\n' + setEspaces(arrondirA2Decimales(diffString), 6) + separateur + setEspaces(colonnes[indexTraceur], 6);
     }
 
     const universalBOM = "\uFEFF";
@@ -1017,7 +1025,7 @@ function getBlobCsvTrac(dateInjection, traceur) {
  * Copie le contenu texte CSV pour l'export TRAC dans le presse-papiers, sans l'en-tête
  */
 function copierTracPresserPapier(dateInjection, traceur) {
-    const blob = getBlobCsvTrac(dateInjection, traceur);
+    const blob = getBlobCsvTrac(dateInjection, traceur, true);
     const reader = new FileReader();
     reader.readAsText(blob);
 
@@ -1502,6 +1510,12 @@ function calculerInterferences(listeTraceur) {
 
             if (!isNaN(mVValueLampeATraiter)) {
                 const valeur = mVValueLampeATraiter - mvParasite[k];
+
+                if  (k=== 0) {
+                    console.log(valeur);
+                    console.log(mVValueLampeATraiter, mvParasite[k], valeur);
+                }
+
                 data.data.push({x: timestamp, y: valeur});
                 data1.data.push({x: timestamp, y: mvCorr[k][0]});
                 data2.data.push({x: timestamp, y: mvCorr[k][1]});
