@@ -745,8 +745,20 @@ function ajouterCourbeConcentrationTraceur(traceur) {
         const canvas = document.getElementById('graphique');
         const existingChart = Chart.getChart(canvas);
 
-        if (existingChart.data.datasets.find(dataset => dataset.label === `L${traceur.lampePrincipale}Corr`)) {
-            afficherMessageFlash('Courbe de correction de la turbidité associée détectée', 'info');
+        if (existingChart.data.datasets.find(dataset => dataset.label === `L${traceur.lampePrincipale}Corr_nat`)) {
+
+            for (let i = 0; i < existingChart.data.datasets.length; i++) {
+                if (existingChart.data.datasets[i].label === `L${traceur.lampePrincipale}Corr_nat`) {
+                    const dataset = existingChart.data.datasets[i];
+                    for (let j = 0; j < dataset.data.length; j++) {
+                        const timeDate = DateTime.fromMillis(dataset.data[j].x, {zone: 'UTC'});
+                        const timestamp = timeDate.toFormat('dd/MM/yy-HH:mm:ss');
+                        contenu.push([timestamp, dataset.data[j].y]);
+                    }
+                }
+            }
+
+        } else if (existingChart.data.datasets.find(dataset => dataset.label === `L${traceur.lampePrincipale}Corr`)) {
 
             for (let i = 0; i < existingChart.data.datasets.length; i++) {
                 if (existingChart.data.datasets[i].label === `L${traceur.lampePrincipale}Corr`) {
@@ -1794,7 +1806,7 @@ function calculerEtAfficherCorrectionBruitFond() {
         let coefficients = multiply(XTX, Y);
 
         const data = {
-            label: `L${traceur.lampePrincipale}Corr`,
+            label: `L${traceur.lampePrincipale}Corr_nat`,
             data: [],
             backgroundColor: 'rgba(0, 0, 0, 0)',
             borderColor: getRandomColor(),
@@ -1833,10 +1845,10 @@ function calculerEtAfficherCorrectionBruitFond() {
         const colonneLxNat = [];
         let header = lignes[2].replace(/[\n\r]/g, '').split(';');
 
-        lignes = supprimerColonneParEnTete(`L${traceur.lampePrincipale}Corr`, lignes);
-        header = header.filter(colonne => colonne !== `L${traceur.lampePrincipale}Corr`);
+        lignes = supprimerColonneParEnTete(`L${traceur.lampePrincipale}Corr_nat`, lignes);
+        header = header.filter(colonne => colonne !== `L${traceur.lampePrincipale}Corr_nat`);
 
-        header.push(`L${traceur.lampePrincipale}Corr`);
+        header.push(`L${traceur.lampePrincipale}Corr_nat`);
         lignes[2] = header.join(';');
 
         for (let j = 0; j < contenu.length; j++) {
@@ -1859,7 +1871,7 @@ function calculerEtAfficherCorrectionBruitFond() {
         }
 
         contenuFichierMesures = lignes.join('\n');
-        existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur.lampePrincipale}Corr`);
+        existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur.lampePrincipale}Corr_nat`);
         existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur.lampePrincipale}Nat`);
 
         existingChart.data.datasets.push(data);
@@ -1950,7 +1962,7 @@ function calculerEtAfficherCorrectionBruitFond() {
             let coefficients = multiply(XTX, Y);
 
             const data = {
-                label: `L${traceur.lampePrincipale}Corr`,
+                label: `L${traceur.lampePrincipale}Corr_nat`,
                 data: [],
                 backgroundColor: 'rgba(0, 0, 0, 0)',
                 borderColor: getRandomColor(),
@@ -1998,10 +2010,10 @@ function calculerEtAfficherCorrectionBruitFond() {
 
             let header = lignes[2].replace(/[\n\r]/g, '').split(';');
 
-            lignes = supprimerColonneParEnTete(`L${traceur.lampePrincipale}Corr`, lignes);
-            header = header.filter(colonne => colonne !== `L${traceur.lampePrincipale}Corr`);
+            lignes = supprimerColonneParEnTete(`L${traceur.lampePrincipale}Corr_nat`, lignes);
+            header = header.filter(colonne => colonne !== `L${traceur.lampePrincipale}Corr_nat`);
 
-            header.push(`L${traceur.lampePrincipale}Corr`);
+            header.push(`L${traceur.lampePrincipale}Corr_nat`);
 
             lignes[2] = header.join(';');
 
@@ -2026,7 +2038,7 @@ function calculerEtAfficherCorrectionBruitFond() {
 
             contenuFichierMesures = lignes.join('\n');
 
-            existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur.lampePrincipale}Corr`);
+            existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur.lampePrincipale}Corr_nat`);
             existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur.lampePrincipale}Nat`);
 
             existingChart.data.datasets.push(data);
