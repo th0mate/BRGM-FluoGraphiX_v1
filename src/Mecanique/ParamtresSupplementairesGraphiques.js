@@ -1839,7 +1839,11 @@ function calculerEtAfficherCorrectionBruitFond() {
         lignes = supprimerColonneParEnTete(`L${traceur.lampePrincipale}Corr_nat`, lignes);
         header = header.filter(colonne => colonne !== `L${traceur.lampePrincipale}Corr_nat`);
 
+        lignes = supprimerColonneParEnTete(`L${traceur.lampePrincipale}Nat`, lignes);
+        header = header.filter(colonne => colonne !== `L${traceur.lampePrincipale}Nat`);
+
         header.push(`L${traceur.lampePrincipale}Corr_nat`);
+        header.push(`L${traceur.lampePrincipale}Nat`);
         lignes[2] = header.join(';');
 
         for (let j = 0; j < contenu.length; j++) {
@@ -1857,7 +1861,7 @@ function calculerEtAfficherCorrectionBruitFond() {
             data1.data.push({x: timestamp, y: LxNat});
             const valeur = (contenu[j][1] - LxNat) + eau.getDataParNom(`L${traceur.lampePrincipale}-1`);
             lignes[j + 3] = lignes[j + 3].replace(/[\n\r]/g, '');
-            lignes[j + 3] += `;${arrondirA2Decimales(valeur)}`;
+            lignes[j + 3] += `;${arrondirA2Decimales(valeur)};${arrondirA2Decimales(LxNat)}`;
             data.data.push({x: timestamp, y: valeur});
         }
 
@@ -1996,7 +2000,11 @@ function calculerEtAfficherCorrectionBruitFond() {
             lignes = supprimerColonneParEnTete(`L${traceur.lampePrincipale}Corr_nat`, lignes);
             header = header.filter(colonne => colonne !== `L${traceur.lampePrincipale}Corr_nat`);
 
+            lignes = supprimerColonneParEnTete(`L${traceur.lampePrincipale}Nat`, lignes);
+            header = header.filter(colonne => colonne !== `L${traceur.lampePrincipale}Nat`);
+
             header.push(`L${traceur.lampePrincipale}Corr_nat`);
+            header.push(`L${traceur.lampePrincipale}Nat`);
 
             lignes[2] = header.join(';');
 
@@ -2015,7 +2023,7 @@ function calculerEtAfficherCorrectionBruitFond() {
                 data1.data.push({x: timestamp, y: LxNat});
                 const valeur = (contenu[j][1] - LxNat) + eau.getDataParNom(`L${traceur.lampePrincipale}-1`);
                 lignes[j + 3] = lignes[j + 3].replace(/[\n\r]/g, '');
-                lignes[j + 3] += `;${arrondirA2Decimales(valeur)}`;
+                lignes[j + 3] += `;${arrondirA2Decimales(valeur)};${arrondirA2Decimales(LxNat)}`;
                 data.data.push({x: timestamp, y: valeur});
             }
 
