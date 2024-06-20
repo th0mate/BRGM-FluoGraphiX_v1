@@ -1005,11 +1005,7 @@ function getBlobCsvTrac(dateInjection, traceur, estPourPressePapier = false) {
 
         const timestamp = timeDate.toFormat('dd/MM/yy-HH:mm:ss');
         const date = DateTime.fromFormat(timestamp, 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
-        // dateInjection au format 2014-01-09T14:52:40
         const dateInjectionObj = DateTime.fromFormat(dateInjection, 'yyyy-MM-dd\'T\'HH:mm:ss', {zone: 'UTC'});
-
-        console.log(date);
-        console.log(dateInjectionObj);
 
         if (!date.isValid || !dateInjectionObj.isValid) {
             console.error('Date ou dateInjectionObj invalide');
@@ -1021,7 +1017,6 @@ function getBlobCsvTrac(dateInjection, traceur, estPourPressePapier = false) {
         }
 
         const diff = date.diff(dateInjectionObj, 'seconds').seconds;
-        console.log(diff);
 
         const diffString = diff / 86400;
 
@@ -1523,11 +1518,6 @@ function calculerInterferences(listeTraceur) {
             if (!isNaN(mVValueLampeATraiter)) {
                 const valeur = mVValueLampeATraiter - mvParasite[k];
 
-                if  (k=== 0) {
-                    console.log(valeur);
-                    console.log(mVValueLampeATraiter, mvParasite[k], valeur);
-                }
-
                 data.data.push({x: timestamp, y: valeur});
                 data1.data.push({x: timestamp, y: mvCorr[k][0]});
                 data2.data.push({x: timestamp, y: mvCorr[k][1]});
@@ -1905,7 +1895,6 @@ function calculerEtAfficherCorrectionBruitFond() {
                 }
             });
 
-            console.log(colonnes);
             for (let j = 0; j < colonnes.length; j++) {
                 if (colonnes[j] === `L${traceur.lampePrincipale}`) {
                     indexLampePrincipale = j;
@@ -1980,15 +1969,10 @@ function calculerEtAfficherCorrectionBruitFond() {
             }
 
             const contenu = [];
-            console.log(traceur);
-            console.log(indexLampePrincipale);
-            console.log(tableauIndex);
 
             for (let j = 3; j < lignes.length - 1; j++) {
                 const colonnes = lignes[j].split(';');
-                if (j === 3) {
-                    console.log(colonnes);
-                }
+
                 if (colonnes[indexLampePrincipale] !== '') {
                     const timeDate = DateTime.fromFormat(colonnes[0] + '-' + colonnes[1], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
                     const timestamp = timeDate.toMillis();
@@ -2003,8 +1987,6 @@ function calculerEtAfficherCorrectionBruitFond() {
                     contenu.push(ligneContenu);
                 }
             }
-
-            console.log(contenu);
 
             const colonneLxNat = [];
 
