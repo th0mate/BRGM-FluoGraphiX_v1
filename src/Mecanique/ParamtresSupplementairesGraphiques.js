@@ -867,6 +867,7 @@ function afficherPopupTelecharger() {
     overlay.style.left = '0';
     overlay.style.width = '100%';
     overlay.style.height = '100%';
+    overlay.classList.add('overlayExport');
     overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
     overlay.style.zIndex = '1000';
     document.body.appendChild(overlay);
@@ -958,8 +959,8 @@ function fermerPopupTelecharger() {
         document.querySelector('.grandPopup').remove();
         document.body.style.overflow = 'auto';
     }
-    if (document.querySelector('div[style*="z-index: 1000"]') !== null) {
-        document.querySelector('div[style*="z-index: 1000"]').remove();
+    if (document.querySelector('.overlayExport') !== null) {
+        document.querySelector('.overlayExport').remove();
     }
 }
 
