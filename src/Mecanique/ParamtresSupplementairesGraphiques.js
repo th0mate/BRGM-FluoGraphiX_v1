@@ -1263,6 +1263,7 @@ function calculerInterferences(listeTraceur) {
 
             for (let k = 0; k < contenu.length; k++) {
                 const timestamp = DateTime.fromFormat(contenu[k][0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toMillis();
+
                 const mVValueLampeTraceur1 = contenu[k][1];
                 const mVValueLampeATraiter = contenu[k][2];
 
@@ -1292,6 +1293,11 @@ function calculerInterferences(listeTraceur) {
                             lignes[k + 3] = lignes[k + 3].replace(/[\n\r]/g, '');
                             lignes[k + 3] += `;${arrondirA2Decimales(valeur)}`;
                         }
+                    } else {
+                        data.data.push({x: timestamp, y: 0.01});
+                        lignes[k + 3] = lignes[k + 3].replace(/[\n\r]/g, '');
+                        lignes[k + 3] += `;0.01`;
+
                     }
                 }
             }
@@ -1727,6 +1733,7 @@ function calculerEtAfficherCorrectionBruitFond() {
     if (traceursBruitDeFond.length === 1) {
 
         let lignes = contenuFichierMesures.split('\n');
+        lignes = lignes.filter(ligne => ligne !== '');
         let colonnes = lignes[2].split(';');
         colonnes = colonnes.map(colonne => colonne.replace(/[\n\r]/g, ''));
 
@@ -1816,6 +1823,7 @@ function calculerEtAfficherCorrectionBruitFond() {
 
         const contenu = [];
 
+
         for (let j = 3; j < lignes.length - 1; j++) {
             const colonnes = lignes[j].split(';');
             if (colonnes[indexLampePrincipale] !== '') {
@@ -1881,6 +1889,7 @@ function calculerEtAfficherCorrectionBruitFond() {
         for (let i = 0; i < traceursBruitDeFond.length; i++) {
 
             let lignes = contenuFichierMesures.split('\n');
+            lignes = lignes.filter(ligne => ligne !== '');
             let colonnes = lignes[2].split(';');
             colonnes = colonnes.map(colonne => colonne.replace(/[\n\r]/g, ''));
 
