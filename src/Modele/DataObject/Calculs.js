@@ -39,11 +39,16 @@ class Calculs {
     }
 
     toString() {
-        let string = this.nom + ' : (' + this.estFait + ') => ';
+        let string = this.nom + ' : (' + this.estFait + ')\nParamètres : \n';
 
         for (let [nom, valeur] of this.parametres) {
-            string += nom + ' : ' + valeur + '| ';
+            string += '------------------------------\n';
+            string += nom + ' : ' + valeur + '\n';
         }
+
+        string += '------------------------------\n';
+
+        string += '\n-------------------------------------------------------------------\n\n';
 
         return string;
     }

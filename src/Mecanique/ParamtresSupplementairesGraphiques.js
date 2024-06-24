@@ -914,7 +914,7 @@ function afficherPopupTelecharger() {
     <div class="separator">
     <div>
     <h3>Format Standard CSV :</h3>
-    <div class="boutonFonce bouton boutonOrange dl" onclick="telechargerFichier()">Exporter un fichier CSV (standard)</div>
+    <div class="boutonFonce bouton boutonOrange dl" onclick="preparerTelechargement()">Exporter un fichier CSV (standard)</div>
     <br>
     <br>
     </div>

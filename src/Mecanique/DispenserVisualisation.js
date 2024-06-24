@@ -35,14 +35,11 @@ let premiereDate = "";
 let contenuFichierCalibration = "";
 
 
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * DISTRIBUTION DES DONNEES VERS LES FONCTIONS APPROPRIEES
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
-
 
 
 /**
@@ -185,14 +182,11 @@ async function traiterFichier() {
 }
 
 
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * TRAITEMENT DES FICHIERS DE CALIBRATION
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
-
 
 
 /**
@@ -229,14 +223,11 @@ function traiterCalibrat() {
 }
 
 
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * FONCTIONS UTILITAIRES
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
-
 
 
 /**
@@ -313,8 +304,6 @@ function estPlusDeUnJour(date1, date2) {
 }
 
 
-
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * TELECHARGEMENT DU FICHIER CSV POUR EXPORT
@@ -322,6 +311,50 @@ function estPlusDeUnJour(date1, date2) {
  */
 
 
+/**
+ * En fonction des éventuels calculs effectués par l'utilisateur, affiche un pop-up permettant à l'utilisateur de choisir les données à exporter
+ */
+function preparerTelechargement() {
+    if (listeCalculs.length > 0) {
+        afficherPopup('<img src="Ressources/img/select.png" alt="Attention">', 'Choisissez les données à exporter', 'Vous avez effectué des calculs sur FluoGraphiX. Pour avoir la liste de ces calculs, ainsi que de leurs paramètres, sélectionnez l\'option correspondante. ', '<div class="bouton boutonFonce" onclick="telechargerFichier()">CSV uniquement</div><div class="bouton boutonFonce" onclick="telechargerFichierEtCalculs()">CSV + calculs</div>');
+
+    } else {
+        telechargerFichier();
+        fermerPopup();
+    }
+}
+
+
+/**
+ * Lance le téléchargement du fichier CSV et du fichier TXT contenant les calculs en même temps
+ */
+function telechargerFichierEtCalculs() {
+    setTimeout(() => {
+        telechargerFichier();
+    }, 500);
+    telechargerCalculs();
+    fermerPopup();
+}
+
+
+/**
+ * Télécharge un fichier txt contenant la liste de tous les calculs et de leurs paramètres
+ */
+function telechargerCalculs() {
+    let contenuCalculs = `FluoGraphiX - Données des calculs effectuées le ${getDateAujourdhui()} \n`;
+    contenuCalculs += "-------------------------------------------------------------------\n\n";
+    listeCalculs.forEach(calcul => {
+        contenuCalculs += calcul.toString();
+    });
+
+    const element = document.createElement('a');
+    const universalBOM = "\uFEFF";
+    const txt = universalBOM + contenuCalculs;
+    element.setAttribute('href', 'data:text/txt;charset=utf-8,' + encodeURIComponent(txt));
+    element.download = 'FluoGraphiX-ExportCalculs-' + new Date().toLocaleString().replace(/\/|:|,|\s/g, '-') + '.txt';
+    document.body.appendChild(element);
+    element.click();
+}
 
 
 /**
@@ -329,6 +362,7 @@ function estPlusDeUnJour(date1, date2) {
  */
 function telechargerFichier() {
     if (contenuFichierMesures !== "") {
+        fermerPopup();
 
         const lignes = contenuFichierMesures.split('\n');
 
@@ -346,14 +380,7 @@ function telechargerFichier() {
         const colonnes = ligne.split(';');
         colonnes.splice(nbColonnes, colonnes.length - nbColonnes);
         ligne = colonnes.join(';');
-        ligne += '; ;'
-
-        for (let i = 0; i < listeCalculs.length; i++) {
-            ligne += listeCalculs[i].toString() + '//';
-
-        }
         ligne += '\n';
-
 
         contenuFichierMesures += temp.split('\n')[0] + '\n';
         contenuFichierMesures += ligne;
