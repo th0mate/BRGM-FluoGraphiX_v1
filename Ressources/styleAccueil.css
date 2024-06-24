@@ -299,7 +299,7 @@
         width: 60%;
     }
 
-    .wrapAccueil > div {
+    .wrapAccueil > div:not(#actionsRapides) {
         width: 98% !important;
         max-width: none!important;
         min-width: 0;
