@@ -2,16 +2,106 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 80vh;
+    min-height: 80vh;
     padding-top: 50px;
+
 }
 
-.vueTelecharger > .partOne, .vueTelecharger > .partTwo {
+.vueTelecharger > .partOne {
     width: 50%;
     height: 100%;
     padding: 10px;
     display: flex;
     flex-direction: column;
     justify-content:flex-start;
+}
+
+.partOne > div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+}
+
+.partOne > div > img {
+    width: 250px;
+}
+
+.partOne > div > .boutonOrange {
+    margin-top: 50px;
+    height: 40px;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.vueTelecharger > .partTwo {
+    display: flex;
+    flex-direction: row;
+    justify-content:space-around;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+    padding: 10px;
+    flex-wrap: wrap;
+}
+
+.partTwo > img {
+    height: 300px;
+}
+
+
+@media (max-width: 1350px) {
+    .partOne > div > .boutonOrange {
+        width: 70%;
+    }
+}
+
+@media (max-width: 1000px) {
+
+    .vueTelecharger {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .vueTelecharger > .partOne {
+        margin-bottom: 100px;
+    }
+
+    .vueTelecharger > .partOne, .vueTelecharger > .partTwo {
+        width: 90%;
+        height: auto;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content:flex-start;
+    }
+
+    .vueTelecharger > .partTwo {
+        align-content: center;
+        align-items: center;
+    }
+
+    .vueTelecharger > .partTwo > img {
+        max-width: 99%;
+        height: auto;
+        margin-bottom: 30px;
+    }
+
+    .partOne > div > .boutonOrange {
+        width: 90%;
+        font-size: 1.2em;
+    }
+
+    .partOne > div > img {
+        width: 200px;
+    }
 
 }
