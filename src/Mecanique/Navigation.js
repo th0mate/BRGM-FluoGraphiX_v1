@@ -70,7 +70,7 @@ if (cookieExists()) {
  * Ajoute des éléments spécifiques dans la page d'accueil
  */
 function afficherDl() {
-    if (navigator.onLine) {
+    if (navigator.onLine && window.location.protocol !== "file:") {
 
         document.querySelector('.actionsRapides').innerHTML += `
                 <div class="action" onclick="afficherVue('vueTelecharger')">
