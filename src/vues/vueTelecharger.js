@@ -1,8 +1,8 @@
 function vueTelecharger() {
     return `
     <div class="vueTelecharger">
-        <img src="Ressources/img/banniereDL.webp" alt="Télécharger" class="fond">
-        
+    
+    <!--
         <div class="contenu">
         
             <div class="gauche">
@@ -17,6 +17,18 @@ function vueTelecharger() {
             </div>
             
         </div>
+        
+    -->
+    
+    <div class="partOne">
+        <h1 class="titreBarre">Téléchargez FluoGraphiX</h1>
+        <h3>Profitez d'un outil complet et polyvalent, proposant de nouvelles fonctionnalités</h3>
+    </div>
+    
+    <div class="partTwo">
+    
+    </div>
+    
         
     </div>
     `;

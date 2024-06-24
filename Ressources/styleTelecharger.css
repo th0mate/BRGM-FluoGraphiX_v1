@@ -1,76 +1,17 @@
 .vueTelecharger {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    height: 100vh;
-    position: relative;
-}
-
-.vueTelecharger > .fond {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.vueTelecharger > .contenu {
-    display: flex;
-    flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    color: white;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.3);
-    z-index: 1;
-    flex-wrap: wrap;
+    height: 80vh;
+    padding-top: 50px;
 }
 
-.vueTelecharger > .contenu > .gauche {
+.vueTelecharger > .partOne, .vueTelecharger > .partTwo {
+    width: 50%;
+    height: 100%;
+    padding: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    width: 55%;
-    height: 100%;
-    margin-left: 30px;
-    text-align: left;
-}
+    justify-content:flex-start;
 
-.gauche > h1 {
-    font-size: 4em;
-    margin-top: 100px;
-}
-
-.vueTelecharger > .contenu > .droite {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    width: 40%;
-    height: 100%;
-    background-color: white;
-}
-
-.droite > h1 {
-    color: black;
-}
-
-.droite > .boutonOrange {
-    height: 50px;
-    width: 80%;
-    font-size: 1.5em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.droite > img {
-    width: 300px;
 }
