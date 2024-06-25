@@ -1824,7 +1824,7 @@ function calculerEtAfficherCorrectionBruitFond() {
         const contenu = [];
 
 
-        for (let j = 3; j < lignes.length - 1; j++) {
+        for (let j = 3; j < lignes.length; j++) {
             const colonnes = lignes[j].split(';');
             if (colonnes[indexLampePrincipale] !== '') {
                 const timeDate = DateTime.fromFormat(colonnes[0] + '-' + colonnes[1], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
@@ -1984,7 +1984,7 @@ function calculerEtAfficherCorrectionBruitFond() {
 
             const contenu = [];
 
-            for (let j = 3; j < lignes.length - 1; j++) {
+            for (let j = 3; j < lignes.length; j++) {
                 const colonnes = lignes[j].split(';');
 
                 if (colonnes[indexLampePrincipale] !== '') {
@@ -2037,6 +2037,8 @@ function calculerEtAfficherCorrectionBruitFond() {
             }
 
             contenuFichierMesures = lignes.join('\n');
+
+            console.log(contenuFichierMesures);
 
             existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur.lampePrincipale}Corr_nat`);
             existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur.lampePrincipale}Nat`);
