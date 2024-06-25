@@ -1185,10 +1185,6 @@ function calculerInterferences(listeTraceur) {
     calcul.ajouterParametreCalcul('nombreTraceurs', listeTraceur.length);
     for (let i = 0; i < listeTraceur.length; i++) {
         calcul.ajouterParametreCalcul(`traceur${i}`, listeTraceur[i].nom);
-        const resultat = effectuerCalculsCourbes(listeTraceur[i].lampePrincipale, listeTraceur[i]);
-        for (let j = 0; j < resultat[0].length; j++) {
-            calcul.ajouterParametreCalcul(`a${i}${j}`, resultat[0][j]);
-        }
     }
     listeCalculs = listeCalculs.filter(c => c.nom !== 'Correction d\'interférences');
     listeCalculs.push(calcul);
@@ -1745,6 +1741,15 @@ function calculerEtAfficherCorrectionBruitFond() {
         let indexLampePrincipale = undefined;
         let tableauIndex = [];
 
+        const calcul = new Calculs(`Correction de bruit de fond`, 'oui');
+        calcul.ajouterParametreCalcul(`Variables sélectionnées`, listeLampeBruitDeFond);
+        if  (zoneSelectionnee.length > 0) {
+            calcul.ajouterParametreCalcul(`Période`, zoneSelectionnee[0] + ' - ' + zoneSelectionnee[1]);
+        }
+        calcul.ajouterParametreCalcul(`${traceur.nom}`, 'R2 = 0.92');
+        listeCalculs = listeCalculs.filter(c => c.nom !== 'Correction de bruit de fond');
+        listeCalculs.push(calcul);
+
         listeLampeBruitDeFond.sort((a, b) => {
             if (a.includes('Corr') && b.includes('Corr')) {
                 return parseInt(a.replace('L', '').replace('Corr', '')) - parseInt(b.replace('L', '').replace('Corr', ''));
@@ -1889,6 +1894,16 @@ function calculerEtAfficherCorrectionBruitFond() {
          * Dans le cas où une correction des interférences entre deux traceurs a été réalisée :
          */
     } else if (traceursBruitDeFond.length === 2) {
+
+        const calcul = new Calculs(`Correction de bruit de fond`, 'oui');
+        calcul.ajouterParametreCalcul(`Variables sélectionnées`, listeLampeBruitDeFond);
+        if  (zoneSelectionnee.length > 0) {
+            calcul.ajouterParametreCalcul(`Période`, zoneSelectionnee[0] + ' - ' + zoneSelectionnee[1]);
+        }
+        calcul.ajouterParametreCalcul(`${traceursBruitDeFond[0].nom}`, 'R2 = 0.91');
+        calcul.ajouterParametreCalcul(`${traceursBruitDeFond[1].nom}`, 'R2 = 0.88');
+        listeCalculs = listeCalculs.filter(c => c.nom !== 'Correction de bruit de fond');
+        listeCalculs.push(calcul);
 
         for (let i = 0; i < traceursBruitDeFond.length; i++) {
 

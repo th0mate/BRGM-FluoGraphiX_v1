@@ -341,7 +341,7 @@ function telechargerFichierEtCalculs() {
  * Télécharge un fichier txt contenant la liste de tous les calculs et de leurs paramètres
  */
 function telechargerCalculs() {
-    let contenuCalculs = `FluoGraphiX - Données des calculs effectuées le ${getDateAujourdhui()} \n`;
+    let contenuCalculs = `FluoGraphiX - Données des calculs effectués le ${getDateAujourdhui()} \n`;
     contenuCalculs += "-------------------------------------------------------------------\n\n";
     listeCalculs.forEach(calcul => {
         contenuCalculs += calcul.toString();
