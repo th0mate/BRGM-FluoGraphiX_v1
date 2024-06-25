@@ -881,7 +881,7 @@ function afficherPopupTelecharger() {
     const listeTraceursConcentration = [];
     for (let i = 0; i < existingChart.data.datasets.length; i++) {
         for (let j = 0; j < traceurs.length; j++) {
-            if (existingChart.data.datasets[i].label === traceurs[j].nom) {
+            if (existingChart.data.datasets[i].label === `${traceurs[j].nom}_${traceurs[j].unite}`) {
                 listeTraceursConcentration.push(traceurs[j]);
             }
         }
@@ -989,7 +989,7 @@ function getBlobCsvTrac(dateInjection, traceur, estPourPressePapier = false) {
     let indexTraceur = -1;
 
     for (let i = 0; i < header.length; i++) {
-        if (header[i] === traceur.nom) {
+        if (header[i] === traceur.nom + '_' +  traceur.unite) {
             indexTraceur = i;
         }
     }
