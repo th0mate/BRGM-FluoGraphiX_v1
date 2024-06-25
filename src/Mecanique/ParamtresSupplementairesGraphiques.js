@@ -2157,8 +2157,6 @@ function calculerEtAfficherCorrectionBruitFond() {
  * @return {number} Coefficient de corrélation de Pearson
  */
 function correlationPearson(x, y) {
-    console.log(x);
-    console.log(y);
 
     let moyenneX = 0;
     let moyenneY = 0;
