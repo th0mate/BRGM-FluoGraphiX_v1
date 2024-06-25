@@ -1743,12 +1743,10 @@ function calculerEtAfficherCorrectionBruitFond() {
 
         const calcul = new Calculs(`Correction de bruit de fond`, 'oui');
         calcul.ajouterParametreCalcul(`Variables sélectionnées`, listeLampeBruitDeFond);
-        if  (zoneSelectionnee.length > 0) {
+        if (zoneSelectionnee.length > 0) {
             calcul.ajouterParametreCalcul(`Période`, zoneSelectionnee[0] + ' - ' + zoneSelectionnee[1]);
         }
-        calcul.ajouterParametreCalcul(`${traceur.nom}`, 'R2 = 0.92');
         listeCalculs = listeCalculs.filter(c => c.nom !== 'Correction de bruit de fond');
-        listeCalculs.push(calcul);
 
         listeLampeBruitDeFond.sort((a, b) => {
             if (a.includes('Corr') && b.includes('Corr')) {
@@ -1811,6 +1809,42 @@ function calculerEtAfficherCorrectionBruitFond() {
 
         let XTX = multiply(inverse(multiply(transpose(X), X)), transpose(X));
         let coefficients = multiply(XTX, Y);
+
+        const LxNatPourCoeff = [];
+        const yPourCoeff = [];
+
+        for (let j = 3; j < lignes.length - 1; j++) {
+
+            const colonnes = lignes[j].split(';');
+            const timeDate = DateTime.fromFormat(colonnes[0] + '-' + colonnes[1], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
+            const timestamp = timeDate.toMillis();
+
+            if (zoneSelectionnee.length > 0) {
+                if (timestamp > DateTime
+                    .fromFormat(zoneSelectionnee[0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'})
+                    .toMillis() && timestamp < DateTime
+                    .fromFormat(zoneSelectionnee[1], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'})
+                    .toMillis()) {
+                    continue;
+                }
+            }
+            let LxNat = 0;
+
+            for (let k = 0; k < tableauIndex.length; k++) {
+                LxNat += coefficients[k][0] * colonnes[tableauIndex[k]].replace(/[\n\r]/g, '');
+            }
+
+            LxNat += coefficients[tableauIndex.length][0];
+
+            LxNatPourCoeff.push(LxNat);
+            yPourCoeff.push(parseFloat(colonnes[indexLampePrincipale].replace(/[\n\r]/g, '')));
+        }
+
+
+        const coeffCorrelation = arrondirA2Decimales(correlationPearson(LxNatPourCoeff, yPourCoeff));
+        afficherMessageFlash(`Le coefficient de corrélation de Pearson pour "${traceur.nom}" est de ${coeffCorrelation}.`, 'info');
+        calcul.ajouterParametreCalcul(`${traceur.nom}`, `R2 = ${coeffCorrelation}`);
+
 
         const data = {
             label: `L${traceur.lampePrincipale}Corr_nat`,
@@ -1886,6 +1920,7 @@ function calculerEtAfficherCorrectionBruitFond() {
         existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur.lampePrincipale}Corr_nat`);
         existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur.lampePrincipale}Nat`);
 
+        listeCalculs.push(calcul);
         existingChart.data.datasets.push(data);
         existingChart.data.datasets.push(data1);
 
@@ -1897,13 +1932,11 @@ function calculerEtAfficherCorrectionBruitFond() {
 
         const calcul = new Calculs(`Correction de bruit de fond`, 'oui');
         calcul.ajouterParametreCalcul(`Variables sélectionnées`, listeLampeBruitDeFond);
-        if  (zoneSelectionnee.length > 0) {
+        if (zoneSelectionnee.length > 0) {
             calcul.ajouterParametreCalcul(`Période`, zoneSelectionnee[0] + ' - ' + zoneSelectionnee[1]);
         }
-        calcul.ajouterParametreCalcul(`${traceursBruitDeFond[0].nom}`, 'R2 = 0.91');
-        calcul.ajouterParametreCalcul(`${traceursBruitDeFond[1].nom}`, 'R2 = 0.88');
         listeCalculs = listeCalculs.filter(c => c.nom !== 'Correction de bruit de fond');
-        listeCalculs.push(calcul);
+
 
         for (let i = 0; i < traceursBruitDeFond.length; i++) {
 
@@ -1983,6 +2016,42 @@ function calculerEtAfficherCorrectionBruitFond() {
             let XTX = multiply(inverse(multiply(transpose(X), X)), transpose(X));
             let coefficients = multiply(XTX, Y);
 
+            const LxNatPourCoeff = [];
+            const yPourCoeff = [];
+
+            for (let j = 3; j < lignes.length - 1; j++) {
+
+                const colonnes = lignes[j].split(';');
+                const timeDate = DateTime.fromFormat(colonnes[0] + '-' + colonnes[1], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
+                const timestamp = timeDate.toMillis();
+
+                if (zoneSelectionnee.length > 0) {
+                    if (timestamp > DateTime
+                        .fromFormat(zoneSelectionnee[0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'})
+                        .toMillis() && timestamp < DateTime
+                        .fromFormat(zoneSelectionnee[1], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'})
+                        .toMillis()) {
+                        continue;
+                    }
+                }
+                let LxNat = 0;
+
+                for (let k = 0; k < tableauIndex.length; k++) {
+                    LxNat += coefficients[k][0] * colonnes[tableauIndex[k]].replace(/[\n\r]/g, '');
+                }
+
+                LxNat += coefficients[tableauIndex.length][0];
+
+                LxNatPourCoeff.push(LxNat);
+                yPourCoeff.push(parseFloat(colonnes[indexLampePrincipale].replace(/[\n\r]/g, '')));
+            }
+
+
+            const coeffCorrelation = arrondirA2Decimales(correlationPearson(LxNatPourCoeff, yPourCoeff));
+            calcul.ajouterParametreCalcul(`${traceur.nom}`, `R2 = ${coeffCorrelation}`);
+            afficherMessageFlash(`Le coefficient de corrélation de Pearson pour "${traceur.nom}" est de ${coeffCorrelation}.`, 'info');
+
+
             const data = {
                 label: `L${traceur.lampePrincipale}Corr_nat`,
                 data: [],
@@ -2057,14 +2126,14 @@ function calculerEtAfficherCorrectionBruitFond() {
 
             contenuFichierMesures = lignes.join('\n');
 
-            console.log(contenuFichierMesures);
-
             existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur.lampePrincipale}Corr_nat`);
             existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur.lampePrincipale}Nat`);
 
             existingChart.data.datasets.push(data);
             existingChart.data.datasets.push(data1);
         }
+
+        listeCalculs.push(calcul);
 
 
     } else {
@@ -2078,6 +2147,40 @@ function calculerEtAfficherCorrectionBruitFond() {
         afficherAnnotationEnDehorsZoneSelectionnee();
     }
     fermerPopupParametres();
+}
+
+
+/**
+ * Permet de calculer le coefficient de corrélation de Pearson entre deux variables
+ * @param x Variable x
+ * @param y Variable y
+ * @return {number} Coefficient de corrélation de Pearson
+ */
+function correlationPearson(x, y) {
+    console.log(x);
+    console.log(y);
+
+    let moyenneX = 0;
+    let moyenneY = 0;
+    for (let i = 0; i < x.length; i++) {
+        moyenneX += x[i];
+        moyenneY += y[i];
+    }
+
+    moyenneX /= x.length;
+    moyenneY /= y.length;
+
+    let sommeNumerateur = 0;
+    let sommeDenominateurX = 0;
+    let sommeDenominateurY = 0;
+
+    for (let i = 0; i < x.length; i++) {
+        sommeNumerateur += (x[i] - moyenneX) * (y[i] - moyenneY);
+        sommeDenominateurX += Math.pow(x[i] - moyenneX, 2);
+        sommeDenominateurY += Math.pow(y[i] - moyenneY, 2);
+    }
+
+    return sommeNumerateur / (Math.sqrt(sommeDenominateurX) * Math.sqrt(sommeDenominateurY));
 }
 
 
