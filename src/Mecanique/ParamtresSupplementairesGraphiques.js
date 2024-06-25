@@ -974,6 +974,10 @@ function fermerPopupTelecharger() {
 function getBlobCsvTrac(dateInjection, traceur, estPourPressePapier = false) {
     let separateur = ';';
 
+    if (dateInjection.length === 16) {
+        dateInjection += ':00';
+    }
+
     if (estPourPressePapier) {
         separateur = '\t';
     }
