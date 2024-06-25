@@ -728,7 +728,7 @@ function ajouterCourbeConcentrationTraceur(traceur) {
         }
 
         const data = {
-            label: `${traceur.nom}`,
+            label: `${traceur.nom}_${traceur.unite}`,
             data: [],
             backgroundColor: 'rgba(0, 0, 0, 0)',
             borderColor: getRandomColor(),
@@ -798,7 +798,7 @@ function ajouterCourbeConcentrationTraceur(traceur) {
         lignes = supprimerColonneParEnTete(`${traceur.nom}`, lignes);
         header = header.filter(colonne => colonne !== `${traceur.nom}`);
 
-        header.push(`${traceur.nom}`);
+        header.push(`${traceur.nom}_${traceur.unite}`);
         lignes[2] = header.join(';');
 
         for (let i = 0; i < contenu.length; i++) {

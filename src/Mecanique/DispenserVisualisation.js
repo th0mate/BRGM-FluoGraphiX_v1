@@ -371,7 +371,7 @@ function telechargerFichier() {
         }
 
         let temp = contenuFichierMesures;
-        contenuFichierMesures = `                   FluoGraphiX - Export du ${getDateAujourdhui()} - Signaux en mV\n`;
+        contenuFichierMesures = `                   FluoGraphiX - Export du ${getDateAujourdhui()}\n`;
         contenuFichierMesures += "                           -------------------------------------------\n";
 
         const nbColonnes = temp.split('\n')[0].split(';').length;
