@@ -720,9 +720,11 @@ function ajouterCourbeConcentrationTraceur(traceur) {
         const resultat = effectuerCalculsCourbes(traceur.lampePrincipale, traceur);
         const calcul = new Calculs(`${traceur.nom}: Coefficients mV->${traceur.unite}`, 'oui');
 
+        console.log(resultat);
+
         if (!listeCalculs.includes(calcul)) {
             for (let i = 0; i < resultat.length; i++) {
-                calcul.ajouterParametreCalcul(`a${i}`, resultat[0][i]);
+                calcul.ajouterParametreCalcul(`a${i}`, resultat[i]);
             }
             listeCalculs.push(calcul);
         }
