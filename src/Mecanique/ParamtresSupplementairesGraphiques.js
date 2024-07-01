@@ -63,6 +63,16 @@ let listeLampeBruitDeFond;
  */
 let zoneSelectionnee = [];
 
+/**
+ * L'échelle de données à utiliser pour le traceur 1 pour la correction des interférences
+ */
+let echelleTraceur1 = 0;
+
+/**
+ * L'échelle de données à utiliser pour le traceur 2 pour la correction des interférences
+ */
+let echelleTraceur2 = 0;
+
 
 /**
  * ---------------------------------------------------------------------------------------------------------------------
@@ -255,7 +265,7 @@ function afficherPopupParametresGraphiques() {
             <div class="listeSelectsTraceurs">
             </div>
             
-            <div class="boutonFonce bouton boutonOrange" onclick="fermerPopupParametres()">TERMINER</div>
+            <div class="boutonFonce bouton boutonOrange boutonCorrectionInterferences">TERMINER</div>
         </div><span class="illu"><h2>Correction des interférences</h2><img src="Ressources/img/personnalisation.png" alt=""></span></div>`;
 
         if (nbTraceursInterferences > 0 && nbTraceursInterferences < 3) {
@@ -720,12 +730,8 @@ function ajouterCourbeConcentrationTraceur(traceur) {
         const resultat = effectuerCalculsCourbes(traceur.lampePrincipale, traceur);
         const calcul = new Calculs(`${traceur.nom}: Coefficients mV->${traceur.unite}`, 'oui');
 
-        console.log(resultat);
-
         if (!listeCalculs.includes(calcul)) {
-            for (let i = 0; i < resultat.length; i++) {
-                calcul.ajouterParametreCalcul(`a${i}`, resultat[i]);
-            }
+            calcul.ajouterParametreCalcul(`Coefficients`, resultat);
             listeCalculs.push(calcul);
         }
 
@@ -991,7 +997,7 @@ function getBlobCsvTrac(dateInjection, traceur, estPourPressePapier = false) {
     let indexTraceur = -1;
 
     for (let i = 0; i < header.length; i++) {
-        if (header[i] === traceur.nom + '_' +  traceur.unite) {
+        if (header[i] === traceur.nom + '_' + traceur.unite) {
             indexTraceur = i;
         }
     }
@@ -1085,7 +1091,7 @@ function mettreAJourNbTraceurs(nb) {
         if (i !== nb - 1) {
             span = '<span></span>';
         }
-        txt += `<div class="separateurSelect">
+        txt += `<div class="separateurSelect separateurTraceur${i + 1}">
                 <h4>Traceur ${i + 1}</h4>
                 <select class="selectOrange" id="selectTraceur${i + 1}" onchange="initCalculsInterferences(${nb}, this.value, ${i + 1})">
                 <option value="" selected disabled>Sélectionner...</option>
@@ -1109,7 +1115,10 @@ function mettreAJourNbTraceurs(nb) {
  */
 function initCalculsInterferences(nbTraceurs, valeurSelect, idSelect) {
     if (nbTraceurs === 1) {
-        calculerInterferences([traceurs.find(traceur => traceur.nom === valeurSelect)]);
+
+        document.querySelector('.boutonCorrectionInterferences').addEventListener('click', function () {
+            calculerInterferences([traceurs.find(traceur => traceur.nom === valeurSelect)]);
+        });
 
     } else if (nbTraceurs === 2) {
         let traceur1 = null;
@@ -1125,49 +1134,59 @@ function initCalculsInterferences(nbTraceurs, valeurSelect, idSelect) {
                     selectTraceur2.innerHTML += `<option value="${traceurs[i].nom}">${traceurs[i].nom}</option>`;
                 }
             }
+
+            echelleTraceur1 = getEchelleCommune();
+
+            if (document.querySelector('.divSelectionDonnesT1')) {
+                document.querySelector('.divSelectionDonnesT1').remove();
+            }
+
+            let html = '';
+            html += `<div class="divSelectionDonnesT1"> <p>Sélectionnez les données à utiliser (${traceur1.nom}) :</p><select style="max-width: 100px" class="selectOrange" id="selectDonnees${idSelect}"><option selected value="${echelleTraceur1}">${echelleTraceur1}${traceur1.unite}</option>`;
+
+            for (let i = 0; i < traceur1.echelles.length; i++) {
+                if (traceur1.echelles[i] !== echelleTraceur1) {
+                    html += `<option value="${traceur1.echelles[i]}">${traceur1.echelles[i]}${traceur1.unite}</option>`;
+                }
+            }
+
+            html += `</select></div>`;
+            document.querySelector(`.separateurTraceur${idSelect}`).innerHTML += html;
+            document.getElementById('selectTraceur1').value = valeurSelect;
+
+
+
         } else {
             traceur1 = traceurs.find(traceur => traceur.nom === document.getElementById('selectTraceur1').value);
             traceur2 = traceurs.find(traceur => traceur.nom === valeurSelect);
+
+            echelleTraceur2 = getEchelleCommune();
+
+            if (document.querySelector('.divSelectionDonnesT2')) {
+                document.querySelector('.divSelectionDonnesT2').remove();
+            }
+
+            let html = '';
+
+            html += `<div class="divSelectionDonnesT2"> <p>Sélectionnez les données à utiliser (${traceur2.nom}) :</p><select style="max-width: 100px" class="selectOrange" id="selectDonnees${idSelect}"><option selected value="${echelleTraceur2}">${echelleTraceur2}${traceur2.unite}</option>`;
+
+            for (let i = 0; i < traceur2.echelles.length; i++) {
+                if (traceur2.echelles[i] !== echelleTraceur2) {
+                    html += `<option value="${traceur2.echelles[i]}">${traceur2.echelles[i]}${traceur2.unite}</option>`;
+                }
+            }
+
+            html += `</select></div>`;
+            document.querySelector(`.separateurTraceur${idSelect}`).innerHTML += html;
+            document.getElementById('selectTraceur2').value = valeurSelect;
+
         }
+
 
         if (traceur1 && traceur2) {
-            calculerInterferences([traceur1, traceur2]);
-        }
-    } else {
-        if (idSelect === 1) {
-            const selectTraceur2 = document.getElementById('selectTraceur2');
-            const selectTraceur3 = document.getElementById('selectTraceur3');
-            const traceur1 = traceurs.find(traceur => traceur.nom === valeurSelect);
-            selectTraceur2.innerHTML = '<option value="" selected disabled>Sélectionner...</option>';
-            selectTraceur3.innerHTML = '<option value="" selected disabled>Sélectionner...</option>';
-
-            for (let i = 0; i < traceurs.length; i++) {
-                if (traceurs[i].lampePrincipale !== traceur1.lampePrincipale && traceurs[i].unite !== '' && traceurs[i].unite.toLowerCase() !== 'ntu') {
-                    selectTraceur2.innerHTML += `<option value="${traceurs[i].nom}">${traceurs[i].nom}</option>`;
-                }
-            }
-
-        } else if (idSelect === 2) {
-
-            const selectTraceur3 = document.getElementById('selectTraceur3');
-            const traceur1 = traceurs.find(traceur => traceur.nom === document.getElementById('selectTraceur1').value);
-            const traceur2 = traceurs.find(traceur => traceur.nom === valeurSelect);
-            selectTraceur3.innerHTML = '<option value="" selected disabled>Sélectionner...</option>';
-
-            for (let i = 0; i < traceurs.length; i++) {
-                if (traceurs[i].lampePrincipale !== traceur1.lampePrincipale && traceurs[i].lampePrincipale !== traceur2.lampePrincipale && traceurs[i].unite !== '' && traceurs[i].unite.toLowerCase() !== 'ntu') {
-                    selectTraceur3.innerHTML += `<option value="${traceurs[i].nom}">${traceurs[i].nom}</option>`;
-                }
-            }
-
-        } else {
-            let traceur1 = traceurs.find(traceur => traceur.nom === document.getElementById('selectTraceur1').value);
-            let traceur2 = traceurs.find(traceur => traceur.nom === document.getElementById('selectTraceur2').value);
-            let traceur3 = traceurs.find(traceur => traceur.nom === valeurSelect);
-
-            if (traceur1 && traceur2 && traceur3) {
-                calculerInterferences([traceur1, traceur2, traceur3]);
-            }
+            document.querySelector('.boutonCorrectionInterferences').addEventListener('click', function () {
+                calculerInterferences([traceur1, traceur2]);
+            });
         }
     }
 }
@@ -1322,13 +1341,11 @@ function calculerInterferences(listeTraceur) {
         const traceur2 = listeTraceur[1];
         const eau = traceurs.find(t => t.unite === '');
 
-        const echelleCommune = getEchelleCommune();
-        let echellesT2indexOf = traceur2.echelles.indexOf(echelleCommune) + 1;
-        let echellesT1indexOf = traceur1.echelles.indexOf(echelleCommune) + 1;
+        let echellesT2indexOf = traceur2.echelles.indexOf(echelleTraceur1) + 1;
+        let echellesT1indexOf = traceur1.echelles.indexOf(echelleTraceur2) + 1;
 
-
-        const ligne1 = [(traceur1.getDataParNom('L' + traceur1.lampePrincipale + `-${echellesT1indexOf}`) - eau.getDataParNom(`L${traceur1.lampePrincipale}-1`)) / echelleCommune, (traceur1.getDataParNom('L' + traceur2.lampePrincipale + `-${echellesT1indexOf}`) - eau.getDataParNom(`L${traceur2.lampePrincipale}-1`)) / echelleCommune];
-        const ligne2 = [(traceur2.getDataParNom('L' + traceur1.lampePrincipale + '-' + (echellesT2indexOf)) - eau.getDataParNom(`L${traceur1.lampePrincipale}-1`)) / echelleCommune, (traceur2.getDataParNom('L' + traceur2.lampePrincipale + `-${echellesT2indexOf}`) - eau.getDataParNom(`L${traceur2.lampePrincipale}-1`)) / echelleCommune];
+        const ligne1 = [(traceur1.getDataParNom('L' + traceur1.lampePrincipale + `-${echellesT1indexOf}`) - eau.getDataParNom(`L${traceur1.lampePrincipale}-1`)) / echelleTraceur1, (traceur1.getDataParNom('L' + traceur2.lampePrincipale + `-${echellesT1indexOf}`) - eau.getDataParNom(`L${traceur2.lampePrincipale}-1`)) / echelleTraceur1];
+        const ligne2 = [(traceur2.getDataParNom('L' + traceur1.lampePrincipale + '-' + (echellesT2indexOf)) - eau.getDataParNom(`L${traceur1.lampePrincipale}-1`)) / echelleTraceur2, (traceur2.getDataParNom('L' + traceur2.lampePrincipale + `-${echellesT2indexOf}`) - eau.getDataParNom(`L${traceur2.lampePrincipale}-1`)) / echelleTraceur2];
 
         X.push(ligne1);
         X.push(ligne2);
@@ -1554,6 +1571,7 @@ function calculerInterferences(listeTraceur) {
     } else {
         afficherMessageFlash('Fonctionnalité non encore implémentée.', 'danger');
     }
+    fermerPopupParametres();
 }
 
 
