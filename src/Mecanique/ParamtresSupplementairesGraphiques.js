@@ -1135,18 +1135,21 @@ function initCalculsInterferences(nbTraceurs, valeurSelect, idSelect) {
                 }
             }
 
-            echelleTraceur1 = getEchelleCommune();
+            echelleTraceur1 = Math.max(...getEchelleStandardTraceur(traceur1));
+
 
             if (document.querySelector('.divSelectionDonnesT1')) {
                 document.querySelector('.divSelectionDonnesT1').remove();
             }
 
             let html = '';
-            html += `<div class="divSelectionDonnesT1"> <p>Sélectionnez les données à utiliser (${traceur1.nom}) :</p><select style="max-width: 100px" class="selectOrange" id="selectDonnees${idSelect}"><option selected value="${echelleTraceur1}">${echelleTraceur1}${traceur1.unite}</option>`;
+            html += `<div class="divSelectionDonnesT1"> <p>Sélectionnez les données à utiliser (${traceur1.nom}) :</p><select style="max-width: 100px" class="selectOrange" onchange="echelleTraceur1 = parseInt(this.value)" id="selectDonnees${idSelect}"><option selected value="${echelleTraceur1}">${echelleTraceur1}${traceur1.unite}</option>`;
 
-            for (let i = 0; i < traceur1.echelles.length; i++) {
-                if (traceur1.echelles[i] !== echelleTraceur1) {
-                    html += `<option value="${traceur1.echelles[i]}">${traceur1.echelles[i]}${traceur1.unite}</option>`;
+            const listeT1 = getEchelleStandardTraceur(traceur1);
+
+            for (let i = 0; i < listeT1.length; i++) {
+                if (listeT1[i] !== echelleTraceur1) {
+                    html += `<option value="${listeT1[i]}">${listeT1[i]}${traceur1.unite}</option>`;
                 }
             }
 
@@ -1155,12 +1158,11 @@ function initCalculsInterferences(nbTraceurs, valeurSelect, idSelect) {
             document.getElementById('selectTraceur1').value = valeurSelect;
 
 
-
         } else {
             traceur1 = traceurs.find(traceur => traceur.nom === document.getElementById('selectTraceur1').value);
             traceur2 = traceurs.find(traceur => traceur.nom === valeurSelect);
 
-            echelleTraceur2 = getEchelleCommune();
+            echelleTraceur2 = Math.max(...getEchelleStandardTraceur(traceur2));
 
             if (document.querySelector('.divSelectionDonnesT2')) {
                 document.querySelector('.divSelectionDonnesT2').remove();
@@ -1168,11 +1170,12 @@ function initCalculsInterferences(nbTraceurs, valeurSelect, idSelect) {
 
             let html = '';
 
-            html += `<div class="divSelectionDonnesT2"> <p>Sélectionnez les données à utiliser (${traceur2.nom}) :</p><select style="max-width: 100px" class="selectOrange" id="selectDonnees${idSelect}"><option selected value="${echelleTraceur2}">${echelleTraceur2}${traceur2.unite}</option>`;
+            html += `<div class="divSelectionDonnesT2"> <p>Sélectionnez les données à utiliser (${traceur2.nom}) :</p><select style="max-width: 100px" onchange="echelleTraceur2 = parseInt(this.value)" class="selectOrange" id="selectDonnees${idSelect}"><option selected value="${echelleTraceur2}">${echelleTraceur2}${traceur2.unite}</option>`;
+            const listeT2 = getEchelleStandardTraceur(traceur2);
 
-            for (let i = 0; i < traceur2.echelles.length; i++) {
-                if (traceur2.echelles[i] !== echelleTraceur2) {
-                    html += `<option value="${traceur2.echelles[i]}">${traceur2.echelles[i]}${traceur2.unite}</option>`;
+            for (let i = 0; i < listeT2.length; i++) {
+                if (listeT2[i] !== echelleTraceur2) {
+                    html += `<option value="${listeT2[i]}">${listeT2[i]}${traceur2.unite}</option>`;
                 }
             }
 
@@ -1341,8 +1344,8 @@ function calculerInterferences(listeTraceur) {
         const traceur2 = listeTraceur[1];
         const eau = traceurs.find(t => t.unite === '');
 
-        let echellesT2indexOf = traceur2.echelles.indexOf(echelleTraceur1) + 1;
-        let echellesT1indexOf = traceur1.echelles.indexOf(echelleTraceur2) + 1;
+        let echellesT2indexOf = traceur2.echelles.indexOf(echelleTraceur2) + 1;
+        let echellesT1indexOf = traceur1.echelles.indexOf(echelleTraceur1) + 1;
 
         const ligne1 = [(traceur1.getDataParNom('L' + traceur1.lampePrincipale + `-${echellesT1indexOf}`) - eau.getDataParNom(`L${traceur1.lampePrincipale}-1`)) / echelleTraceur1, (traceur1.getDataParNom('L' + traceur2.lampePrincipale + `-${echellesT1indexOf}`) - eau.getDataParNom(`L${traceur2.lampePrincipale}-1`)) / echelleTraceur1];
         const ligne2 = [(traceur2.getDataParNom('L' + traceur1.lampePrincipale + '-' + (echellesT2indexOf)) - eau.getDataParNom(`L${traceur1.lampePrincipale}-1`)) / echelleTraceur2, (traceur2.getDataParNom('L' + traceur2.lampePrincipale + `-${echellesT2indexOf}`) - eau.getDataParNom(`L${traceur2.lampePrincipale}-1`)) / echelleTraceur2];
@@ -1576,29 +1579,25 @@ function calculerInterferences(listeTraceur) {
 
 
 /**
- * Retourne l'échelle commune à tous les traceurs (sauf l'eau) à utiliser pour les calculs
- * Pour qu'une échelle soit commune, il faut que traceurs[i].getDataParNom(LJ-traceurs[i].echelles.indexOf(echelleCommune)) ne soit pas NaN
+ * Retourne les échelles pour lesquelles il n'y a aucune donnée NaN pour un traceur donné.
+ * @param traceur Traceur pour lequel on veut obtenir l'échelle commune
+ * @returns {Array} Tableau contenant les échelles pour lesquelles il n'y a aucune donnée NaN
  */
-function getEchelleCommune() {
-    let echelleCommune = 0;
+function getEchelleStandardTraceur(traceur) {
+    let echellesTraceur = [...traceur.echelles];
 
-    for (let i = 0; i < traceurs.length; i++) {
-        const traceur = traceurs[i];
-        let echellesTraceurTriees = [...traceur.echelles];
-        echellesTraceurTriees.sort((a, b) => a - b);
-        if (traceur.unite !== '' && traceur.unite.toLowerCase() !== 'ntu') {
-            for (let j = 0; j < echellesTraceurTriees.length; j++) {
-                const echelle = echellesTraceurTriees[j];
-                const data = traceur.getDataParNom('L' + traceur.lampePrincipale + '-' + (j));
-                if (!isNaN(data)) {
-                    echelleCommune = echelle;
-                    break;
-                }
+    for (let i = 0; i < echellesTraceur.length; i++) {
+
+        for (let j = 0; j < 4; j++) {
+            const data = traceur.getDataParNom('L' + (j + 1)+ '-' + (i + 1));
+            if (isNaN(data)) {
+                echellesTraceur[i] = NaN;
             }
         }
+
     }
 
-    return echelleCommune;
+    return echellesTraceur.filter(echelle => !isNaN(echelle));
 }
 
 
