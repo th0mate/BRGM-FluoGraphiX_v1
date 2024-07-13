@@ -2017,6 +2017,9 @@ function calculerEtAfficherCorrectionBruitFond() {
                     }
                 }
 
+                //TODO au secours !
+                console.log(indexLampePrincipale);
+
                 if (colonnes[indexLampePrincipale] !== '') {
                     const ligne = [];
                     dates.push(colonnes[0] + '-' + colonnes[1]);
