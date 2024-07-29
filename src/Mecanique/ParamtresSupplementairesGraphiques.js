@@ -1430,8 +1430,14 @@ function calculerInterferences(listeTraceur) {
         }
 
         let coeffsT1 = effectuerCalculsCourbes(Lc, traceur1);
+        console.log(Lc);
         let coeffsT2 = effectuerCalculsCourbes(Lc, traceur2);
+        coeffsT2 = [1.23, -4.32, NaN];
         let tousCoeffs = [coeffsT1, coeffsT2];
+
+        
+        console.log(coeffsT1);
+        console.log(coeffsT2);
 
         const eauValeurLampes = eau.getDataParNom('L' + Lc + '-1');
         const totalCoeffs = [];
@@ -1446,8 +1452,7 @@ function calculerInterferences(listeTraceur) {
                     countNaN++;
                 }
             }
-
-
+            
             if (countNaN === 0) {
                 ligneCoeffs.push(arrondir8Chiffres(resultat[0][0]));
                 ligneCoeffs.push(arrondir8Chiffres(resultat[0][1]));
@@ -2016,9 +2021,6 @@ function calculerEtAfficherCorrectionBruitFond() {
                         continue;
                     }
                 }
-
-                //TODO au secours !
-                console.log(indexLampePrincipale);
 
                 if (colonnes[indexLampePrincipale] !== '') {
                     const ligne = [];
