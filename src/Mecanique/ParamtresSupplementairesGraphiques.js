@@ -1125,6 +1125,7 @@ function initCalculsInterferences(nbTraceurs, valeurSelect, idSelect) {
         let traceur2 = null;
 
         if (idSelect === 1) {
+            //TODO : refaire cette logique à la con
             const selectTraceur2 = document.getElementById('selectTraceur2');
             const traceur1 = traceurs.find(traceur => traceur.nom === valeurSelect);
             selectTraceur2.innerHTML = '<option value="" selected disabled>Sélectionner...</option>';
@@ -1430,17 +1431,13 @@ function calculerInterferences(listeTraceur) {
         }
 
         let coeffsT1 = effectuerCalculsCourbes(Lc, traceur1);
-        console.log(Lc);
         let coeffsT2 = effectuerCalculsCourbes(Lc, traceur2);
-        coeffsT2 = [1.23, -4.32, NaN];
         let tousCoeffs = [coeffsT1, coeffsT2];
-
-        
-        console.log(coeffsT1);
-        console.log(coeffsT2);
 
         const eauValeurLampes = eau.getDataParNom('L' + Lc + '-1');
         const totalCoeffs = [];
+        const totalNaN = [];
+        let est2std = false;
 
         for (let i = 0; i < 2; i++) {
             const resultat = tousCoeffs[i];
@@ -1452,7 +1449,13 @@ function calculerInterferences(listeTraceur) {
                     countNaN++;
                 }
             }
-            
+
+            if (countNaN < 2) {
+                est2std = true;
+            }
+
+            totalNaN.push(countNaN);
+
             if (countNaN === 0) {
                 ligneCoeffs.push(arrondir8Chiffres(resultat[0][0]));
                 ligneCoeffs.push(arrondir8Chiffres(resultat[0][1]));
@@ -1466,6 +1469,7 @@ function calculerInterferences(listeTraceur) {
             }
             totalCoeffs.push(ligneCoeffs);
         }
+
 
         const coeffsFinauxT1 = totalCoeffs[0];
         const coeffsFinauxT2 = totalCoeffs[1];
@@ -1544,7 +1548,6 @@ function calculerInterferences(listeTraceur) {
         header.push(`L${Lc}Corr`);
         lignes[2] = header.join(';');
 
-
         for (let k = 0; k < contenu.length; k++) {
             const timestamp = DateTime.fromFormat(dates[k], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toMillis();
             const mVValueLampeATraiter = contenu[k][0];
@@ -1552,9 +1555,22 @@ function calculerInterferences(listeTraceur) {
             if (!isNaN(mVValueLampeATraiter)) {
                 const valeur = mVValueLampeATraiter - mvParasite[k];
 
-                data.data.push({x: timestamp, y: valeur});
                 data1.data.push({x: timestamp, y: mvCorr[k][0]});
                 data2.data.push({x: timestamp, y: mvCorr[k][1]});
+
+                if (est2std) {
+                    let valeurT1 = 0;
+                    let valeurT2 = 0;
+
+                    valeurT1 = Math.exp(coeffsFinauxT1[1] + coeffsFinauxT1[0] * Math.log(mvCorr[k][0] - eau.getDataParNom(`L${traceur1.lampePrincipale}-1`)));
+                    valeurT2 = Math.exp(coeffsFinauxT2[1] + coeffsFinauxT2[0] * Math.log(mvCorr[k][1] - eau.getDataParNom(`L${traceur2.lampePrincipale}-1`)));
+
+                    let newValeur = mVValueLampeATraiter - (valeurT1 + valeurT2);
+                    data.data.push({x: timestamp, y: newValeur});
+                } else {
+                    data.data.push({x: timestamp, y: valeur});
+                }
+
                 lignes[k + 3] = lignes[k + 3].replace(/[\n\r]/g, '');
                 lignes[k + 3] += `;${arrondirA2Decimales(mvCorr[k][0])}`;
                 lignes[k + 3] += `;${arrondirA2Decimales(mvCorr[k][1])}`;
@@ -1594,7 +1610,7 @@ function getEchelleStandardTraceur(traceur) {
     for (let i = 0; i < echellesTraceur.length; i++) {
 
         for (let j = 0; j < 4; j++) {
-            const data = traceur.getDataParNom('L' + (j + 1)+ '-' + (i + 1));
+            const data = traceur.getDataParNom('L' + (j + 1) + '-' + (i + 1));
             if (isNaN(data)) {
                 echellesTraceur[i] = NaN;
             }
