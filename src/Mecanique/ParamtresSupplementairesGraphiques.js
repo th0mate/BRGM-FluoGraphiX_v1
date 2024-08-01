@@ -1136,52 +1136,53 @@ function initCalculsInterferences(nbTraceurs, valeurSelect, idSelect) {
                 }
             }
 
-            echelleTraceur1 = Math.max(...getEchelleStandardTraceur(traceur1));
-
-
-            if (document.querySelector('.divSelectionDonnesT1')) {
-                document.querySelector('.divSelectionDonnesT1').remove();
-            }
-
-            let html = '';
-            html += `<div class="divSelectionDonnesT1"> <p>Sélectionnez les données à utiliser (${traceur1.nom}) :</p><select style="max-width: 100px" class="selectOrange" onchange="echelleTraceur1 = parseInt(this.value)" id="selectDonnees${idSelect}"><option selected value="${echelleTraceur1}">${echelleTraceur1}${traceur1.unite}</option>`;
-
-            const listeT1 = getEchelleStandardTraceur(traceur1);
-
-            for (let i = 0; i < listeT1.length; i++) {
-                if (listeT1[i] !== echelleTraceur1) {
-                    html += `<option value="${listeT1[i]}">${listeT1[i]}${traceur1.unite}</option>`;
-                }
-            }
-
-            html += `</select></div>`;
-            document.querySelector(`.separateurTraceur${idSelect}`).innerHTML += html;
-            document.getElementById('selectTraceur1').value = valeurSelect;
 
 
         } else {
             traceur1 = traceurs.find(traceur => traceur.nom === document.getElementById('selectTraceur1').value);
             traceur2 = traceurs.find(traceur => traceur.nom === valeurSelect);
 
-            echelleTraceur2 = Math.max(...getEchelleStandardTraceur(traceur2));
+            echelleTraceur2 = Math.max(...getEchelleStandardTraceur(traceur2, traceur1));
 
             if (document.querySelector('.divSelectionDonnesT2')) {
                 document.querySelector('.divSelectionDonnesT2').remove();
             }
 
-            let html = '';
+            echelleTraceur1 = Math.max(...getEchelleStandardTraceur(traceur1, traceur2));
 
-            html += `<div class="divSelectionDonnesT2"> <p>Sélectionnez les données à utiliser (${traceur2.nom}) :</p><select style="max-width: 100px" onchange="echelleTraceur2 = parseInt(this.value)" class="selectOrange" id="selectDonnees${idSelect}"><option selected value="${echelleTraceur2}">${echelleTraceur2}${traceur2.unite}</option>`;
-            const listeT2 = getEchelleStandardTraceur(traceur2);
 
-            for (let i = 0; i < listeT2.length; i++) {
-                if (listeT2[i] !== echelleTraceur2) {
-                    html += `<option value="${listeT2[i]}">${listeT2[i]}${traceur2.unite}</option>`;
+            if (document.querySelector('.divSelectionDonnesT1')) {
+                document.querySelector('.divSelectionDonnesT1').remove();
+            }
+
+            let htmlTraceur1 = '';
+            htmlTraceur1 += `<div class="divSelectionDonnesT1"> <p>Sélectionnez les données à utiliser (${traceur1.nom}) :</p><select style="max-width: 100px" class="selectOrange" onchange="echelleTraceur1 = parseInt(this.value)" id="selectDonnees${idSelect}"><option selected value="${echelleTraceur1}">${echelleTraceur1}${traceur1.unite}</option>`;
+
+            const listeT1 = getEchelleStandardTraceur(traceur1, traceur2);
+
+            for (let i = 0; i < listeT1.length; i++) {
+                if (listeT1[i] !== echelleTraceur1) {
+                    htmlTraceur1 += `<option value="${listeT1[i]}">${listeT1[i]}${traceur1.unite}</option>`;
                 }
             }
 
-            html += `</select></div>`;
-            document.querySelector(`.separateurTraceur${idSelect}`).innerHTML += html;
+            htmlTraceur1 += `</select></div>`;
+            document.querySelector(`.separateurTraceur1`).innerHTML += htmlTraceur1;
+            document.getElementById('selectTraceur1').value = valeurSelect;
+
+            let htmlTraceur2 = '';
+
+            htmlTraceur2 += `<div class="divSelectionDonnesT2"> <p>Sélectionnez les données à utiliser (${traceur2.nom}) :</p><select style="max-width: 100px" onchange="echelleTraceur2 = parseInt(this.value)" class="selectOrange" id="selectDonnees${idSelect}"><option selected value="${echelleTraceur2}">${echelleTraceur2}${traceur2.unite}</option>`;
+            const listeT2 = getEchelleStandardTraceur(traceur2, traceur1);
+
+            for (let i = 0; i < listeT2.length; i++) {
+                if (listeT2[i] !== echelleTraceur2) {
+                    htmlTraceur2 += `<option value="${listeT2[i]}">${listeT2[i]}${traceur2.unite}</option>`;
+                }
+            }
+
+            htmlTraceur2 += `</select></div>`;
+            document.querySelector(`.separateurTraceur2`).innerHTML += htmlTraceur2;
             document.getElementById('selectTraceur2').value = valeurSelect;
 
         }
@@ -1600,17 +1601,25 @@ function calculerInterferences(listeTraceur) {
 
 
 /**
- * Retourne les échelles pour lesquelles il n'y a aucune donnée NaN pour un traceur donné.
- * @param traceur Traceur pour lequel on veut obtenir l'échelle commune
+ * Retourne les échelles pour lesquelles il n'y a aucune donnée NaN pour les valeurs demandées dans une certaines échelle
+ * @param traceurPrincipal Traceur pour lequel on veut obtenir l'échelle commune
  * @returns {Array} Tableau contenant les échelles pour lesquelles il n'y a aucune donnée NaN
  */
-function getEchelleStandardTraceur(traceur) {
-    let echellesTraceur = [...traceur.echelles];
+function getEchelleStandardTraceur(traceurPrincipal, traceurSecondaire) {
+    let echellesTraceur = [...traceurPrincipal.echelles];
+
+    const lampesAParcourir = [traceurPrincipal.lampePrincipale, traceurSecondaire.lampePrincipale];
+
+    for (let i = 1; i <= 4; i++) {
+        if (!lampesAParcourir.includes(i) && i !== 4) {
+            lampesAParcourir.push(i);
+        }
+    }
 
     for (let i = 0; i < echellesTraceur.length; i++) {
 
-        for (let j = 0; j < 4; j++) {
-            const data = traceur.getDataParNom('L' + (j + 1) + '-' + (i + 1));
+        for (let j = 0; j < lampesAParcourir.length; j++) {
+            const data = traceurPrincipal.getDataParNom('L' + (lampesAParcourir[j]) + '-' + (i + 1));
             if (isNaN(data)) {
                 echellesTraceur[i] = NaN;
             }
