@@ -1387,7 +1387,7 @@ function calculerInterferences(listeTraceur) {
             }
         }
 
-        for (let i = 3; i < lignes.length; i++) {
+        for (let i = 3; i < lignes.length - 1; i++) {
             //TODO : il manque la dernière lignes de données, même sur le graphique, même avec L1 L2 L3 L4.
             const colonnes = lignes[i].split(';');
             if (colonnes[indexLa] !== '' && colonnes[indexLb] !== '') {
