@@ -1137,7 +1137,6 @@ function initCalculsInterferences(nbTraceurs, valeurSelect, idSelect) {
             }
 
 
-
         } else {
             traceur1 = traceurs.find(traceur => traceur.nom === document.getElementById('selectTraceur1').value);
             traceur2 = traceurs.find(traceur => traceur.nom === valeurSelect);
@@ -1215,6 +1214,8 @@ function calculerInterferences(listeTraceur) {
     listeCalculs = listeCalculs.filter(c => c.nom !== 'Correction d\'interférences');
     listeCalculs.push(calcul);
 
+    let lignes = contenuFichierMesures.split('\n');
+
 
     /**
      * Cas pour un seul traceur
@@ -1249,7 +1250,6 @@ function calculerInterferences(listeTraceur) {
             };
 
             const contenu = [];
-            let lignes = contenuFichierMesures.split('\n');
             let colonnes = lignes[2].split(';');
             let indexLampeATraiter = -1;
             let indexLampePrincipale = -1;
@@ -1360,8 +1360,6 @@ function calculerInterferences(listeTraceur) {
         const Y = [];
         let contenu = [];
         const dates = [];
-        let lignes = contenuFichierMesures.split('\n');
-
         let colonnes = lignes[2].split(';');
 
         let indexLa = -1;
@@ -1389,7 +1387,8 @@ function calculerInterferences(listeTraceur) {
             }
         }
 
-        for (let i = 3; i < lignes.length - 1; i++) {
+        for (let i = 3; i < lignes.length; i++) {
+            //TODO : il manque la dernière lignes de données, même sur le graphique, même avec L1 L2 L3 L4.
             const colonnes = lignes[i].split(';');
             if (colonnes[indexLa] !== '' && colonnes[indexLb] !== '') {
                 const ligneContenu = [];
@@ -1400,10 +1399,14 @@ function calculerInterferences(listeTraceur) {
                 ligneContenu.push(colonnes[indexLb].replace(/[\n\r]/g, '') - eau.getDataParNom(`L${traceur2.lampePrincipale}-1`));
                 ligneY.push((colonnes[indexLb].replace(/[\n\r]/g, '') - eau.getDataParNom(`L${traceur2.lampePrincipale}-1`)) * X[1][1]);
 
+                console.log(ligneContenu);
                 contenu.push(ligneContenu);
                 Y.push(ligneY);
             }
         }
+
+        console.log(lignes[lignes.length - 1]);
+
 
         const A = [];
 
@@ -1556,6 +1559,12 @@ function calculerInterferences(listeTraceur) {
             if (!isNaN(mVValueLampeATraiter)) {
                 const valeur = mVValueLampeATraiter - mvParasite[k];
 
+                console.log(lignes[9]);
+
+                lignes[k + 3] = lignes[k + 3].replace(/[\n\r]/g, '');
+                lignes[k + 3] += `;${arrondirA2Decimales(mvCorr[k][0])}`;
+                lignes[k + 3] += `;${arrondirA2Decimales(mvCorr[k][1])}`;
+
                 data1.data.push({x: timestamp, y: mvCorr[k][0]});
                 data2.data.push({x: timestamp, y: mvCorr[k][1]});
 
@@ -1568,17 +1577,16 @@ function calculerInterferences(listeTraceur) {
 
                     let newValeur = mVValueLampeATraiter - (valeurT1 + valeurT2);
                     data.data.push({x: timestamp, y: newValeur});
+                    lignes[k + 3] += `;${arrondirA2Decimales(newValeur)}`;
                 } else {
                     data.data.push({x: timestamp, y: valeur});
+                    lignes[k + 3] += `;${arrondirA2Decimales(valeur)}`;
                 }
-
-                lignes[k + 3] = lignes[k + 3].replace(/[\n\r]/g, '');
-                lignes[k + 3] += `;${arrondirA2Decimales(mvCorr[k][0])}`;
-                lignes[k + 3] += `;${arrondirA2Decimales(mvCorr[k][1])}`;
-                lignes[k + 3] += `;${arrondirA2Decimales(valeur)}`;
             }
         }
 
+        console.log(lignes[2]);
+        console.log(lignes[lignes.length - 1]);
         contenuFichierMesures = lignes.join('\n');
 
         existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${Lc}Corr`);
