@@ -25,6 +25,11 @@ function getStringDepuisFichierMV(fichier, callback) {
             }
 
             const colonnesLigne = lignes[i].split(/\s+/);
+
+            if (colonnesLigne[0] !== '') {
+                colonnesLigne.splice(0, 0, '');
+            }
+
             const timeValue = colonnesLigne[2];
 
             if (i === 1) {
