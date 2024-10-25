@@ -1135,7 +1135,6 @@ function initCalculsInterferences(nbTraceurs, valeurSelect, idSelect) {
         let traceur2 = null;
 
         if (idSelect === 1) {
-            //TODO : refaire cette logique à la con
             const selectTraceur2 = document.getElementById('selectTraceur2');
             const traceur1 = traceurs.find(traceur => traceur.nom === valeurSelect);
             selectTraceur2.innerHTML = '<option value="" selected disabled>Sélectionner...</option>';
@@ -1177,7 +1176,7 @@ function initCalculsInterferences(nbTraceurs, valeurSelect, idSelect) {
 
             htmlTraceur1 += `</select></div>`;
             document.querySelector(`.separateurTraceur1`).innerHTML += htmlTraceur1;
-            document.getElementById('selectTraceur1').value = valeurSelect;
+            document.getElementById('selectTraceur1').value = traceur1.nom;
 
             let htmlTraceur2 = '';
 
@@ -1192,7 +1191,7 @@ function initCalculsInterferences(nbTraceurs, valeurSelect, idSelect) {
 
             htmlTraceur2 += `</select></div>`;
             document.querySelector(`.separateurTraceur2`).innerHTML += htmlTraceur2;
-            document.getElementById('selectTraceur2').value = valeurSelect;
+            document.getElementById('selectTraceur2').value = traceur2.nom;
 
         }
 
