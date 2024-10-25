@@ -469,7 +469,6 @@ function lancerCorrectionTurbidite() {
  */
 function metAJourTraceurAModifier(nomTraceur) {
     traceurATraiter = traceurs.find(traceur => traceur.nom === nomTraceur);
-    console.log(traceurATraiter);
 }
 
 
@@ -545,7 +544,7 @@ function ajouterCourbeConcentrationTraceur(traceur) {
 
             if (!isNaN(mVValue)) {
                 const eauValue = parseFloat(eau.getDataParNom('L' + traceur.lampePrincipale + '-1'));
-                console.log(eauValue);
+
                 if (!isNaN(eauValue) && mVValue > eauValue) {
                     const logValue = Math.log(mVValue - eauValue);
 

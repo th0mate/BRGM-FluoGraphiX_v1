@@ -828,6 +828,7 @@ function ajouterCourbeConcentrationTraceur(traceur) {
 
                     } else if (resultat[0].length === 2) {
                         const concentration = Math.exp(parseFloat(resultat[0][0]) + parseFloat(resultat[0][1]) * logValue);
+                        const heure = DateTime.fromMillis(timestamp, {zone: 'UTC'}).toFormat('HH:mm');
                         data.data.push({x: timestamp, y: concentration});
                         lignes[i + 3] = lignes[i + 3].replace(/[\n\r]/g, '');
                         lignes[i + 3] += `;${arrondirA2Decimales(concentration)}`;
@@ -838,6 +839,10 @@ function ajouterCourbeConcentrationTraceur(traceur) {
                         lignes[i + 3] = lignes[i + 3].replace(/[\n\r]/g, '');
                         lignes[i + 3] += `;${arrondirA2Decimales(concentration)}`;
                     }
+                } else {
+                    data.data.push({x: timestamp, y: NaN});
+                    lignes[i + 3] = lignes[i + 3].replace(/[\n\r]/g, '');
+                    lignes[i + 3] += `;NaN`;
                 }
             }
         }
@@ -1033,7 +1038,12 @@ function getBlobCsvTrac(dateInjection, traceur, estPourPressePapier = false) {
 
         const diffString = diff / 86400;
 
-        contenuCSVTRAC += '\n' + setEspaces(arrondirA2Decimales(diffString), 6) + separateur + setEspaces(colonnes[indexTraceur], 6);
+        if (colonnes[indexTraceur] === '') {
+            contenuCSVTRAC += '\n' + setEspaces(arrondirA2Decimales(diffString), 6) + separateur + setEspaces("NaN", 6);
+            console.warn('donnée vide remplacée');
+        } else {
+            contenuCSVTRAC += '\n' + setEspaces(arrondirA2Decimales(diffString), 6) + separateur + setEspaces(colonnes[indexTraceur], 6);
+        }
     }
 
     const universalBOM = "\uFEFF";
@@ -1399,14 +1409,10 @@ function calculerInterferences(listeTraceur) {
                 ligneContenu.push(colonnes[indexLb].replace(/[\n\r]/g, '') - eau.getDataParNom(`L${traceur2.lampePrincipale}-1`));
                 ligneY.push((colonnes[indexLb].replace(/[\n\r]/g, '') - eau.getDataParNom(`L${traceur2.lampePrincipale}-1`)) * X[1][1]);
 
-                console.log(ligneContenu);
                 contenu.push(ligneContenu);
                 Y.push(ligneY);
             }
         }
-
-        console.log(lignes[lignes.length - 1]);
-
 
         const A = [];
 
@@ -1559,8 +1565,6 @@ function calculerInterferences(listeTraceur) {
             if (!isNaN(mVValueLampeATraiter)) {
                 const valeur = mVValueLampeATraiter - mvParasite[k];
 
-                console.log(lignes[9]);
-
                 lignes[k + 3] = lignes[k + 3].replace(/[\n\r]/g, '');
                 lignes[k + 3] += `;${arrondirA2Decimales(mvCorr[k][0])}`;
                 lignes[k + 3] += `;${arrondirA2Decimales(mvCorr[k][1])}`;
@@ -1585,8 +1589,6 @@ function calculerInterferences(listeTraceur) {
             }
         }
 
-        console.log(lignes[2]);
-        console.log(lignes[lignes.length - 1]);
         contenuFichierMesures = lignes.join('\n');
 
         existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${Lc}Corr`);

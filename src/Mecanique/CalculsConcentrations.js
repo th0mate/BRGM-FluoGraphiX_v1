@@ -131,7 +131,6 @@ function afficherCourbeDepuis3Valeurs(resultat, idLampe, traceur) {
     if (resultat[0].length === 3) {
         final.set('Degré 2', arrondir8Chiffres(resultat[0][2]));
     }
-    console.log(final);
 
     const constante = arrondir8Chiffres(resultat[0][0]);
     const degre1 = arrondir8Chiffres(resultat[0][1]);
@@ -258,7 +257,6 @@ function afficherCourbeParasites3Valeurs(resultat, idLampe, traceur) {
             colonne2.push(eau.getDataParNom('L1-1') + Math.exp(constante + degre1 * Math.log(colonne1[i] - eau.getDataParNom('L4-1')) ** 1 + degre2 * Math.log(colonne1[i] - eau.getDataParNom('L4-1')) ** 2));
         }
     }
-    console.log(colonne2);
 
     for (let i = 0; i < colonne1.length; i++) {
         data.data.push({x: colonne1[i], y: colonne2[i]});
