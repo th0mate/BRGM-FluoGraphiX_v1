@@ -122,7 +122,11 @@ Object.defineProperty(window, 'pageActuelle', {
         if (value === 'vueDocumentation') {
             setTimeout(() => {
                 scrollDocumentation();
-            }, 2000);
+            }, 1000);
+        } else if (value === 'vueGraphique') {
+            setTimeout(() => {
+                setEventListeneresBandeau();
+            }, 1000);
         }
     }
 });

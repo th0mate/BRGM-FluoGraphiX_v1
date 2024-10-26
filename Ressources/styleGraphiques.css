@@ -13,6 +13,7 @@
     width: 100%;
     min-height: 90vh;
     margin-top: 70px;
+    position: relative;
 }
 
 .graphique {
@@ -74,6 +75,90 @@
 }
 
 
+
+
+/*
+------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------- NOUVEAU BANDEAU DE PARAMETRES  -------------------------------------------
+ */
+
+#tooltip {
+    /* background orange mais un peu transparent */
+    background-color: var(--grisClair);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 0.6em;
+    pointer-events: none;
+    z-index: 1000;
+    position: absolute;
+}
+
+.bandeauGraphiques {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    width: 55px;
+    height: 85vh;
+    background-color: var(--grisBRGM);
+    color: white;
+    margin-top: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+
+    .extend {
+        position: absolute;
+        top: 20px;
+        left: 10px;
+    }
+
+    img {
+        width: 25px;
+        height: 25px;
+        padding: 5px;
+        cursor: pointer;
+        transition: all 0.5s ease;
+
+        &:hover {
+            background-color: var(--orangeBRGM);
+        }
+    }
+
+    .separator {
+
+        height: 1px;
+        width: 45px;
+        background-color: white;
+
+        .text {
+            display: none;
+        }
+
+        span:not(.text):first-child {
+            height: 1.5px;
+            width: 45px;
+            background-color: white;
+        }
+    }
+
+    .elementBandeau {
+
+        margin-top: 4px;
+
+        span {
+            display: none;
+        }
+    }
+
+}
+
+
+
+
 /*
 ------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------  BANDEAU DE PARAMETRES  ----------------------------------------------
@@ -85,7 +170,7 @@
 
 
 .settings {
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;

@@ -15,14 +15,11 @@
 const DateTime = luxon.DateTime;
 
 
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * PARTIE VISUALISATION
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
-
 
 
 /**
@@ -131,9 +128,8 @@ function afficherGraphique(mvContent) {
                         mode: `${zoom}`,
                     }
                 },
-                annotation : {
-                    annotation: {
-                    }
+                annotation: {
+                    annotation: {}
                 },
                 tooltip: {
                     callbacks: {
@@ -158,13 +154,11 @@ function afficherGraphique(mvContent) {
 }
 
 
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * FONCTIONS UTILITAIRES
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
 
 
 /**
@@ -252,15 +246,11 @@ function hexToRgb(hex) {
 }
 
 
-
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * PARTIE CALIBRATION
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
-
 
 
 /**
@@ -365,7 +355,7 @@ function afficherGraphiqueTraceur(traceur, idData) {
         }
 
         for (let j = 0; j < labels.length; j++) {
-            const value = traceur.getDataParNom('L' + traceur.lampePrincipale +'-' + (j + 1));
+            const value = traceur.getDataParNom('L' + traceur.lampePrincipale + '-' + (j + 1));
             if (value !== null && value !== 'NaN') {
                 data.push({x: value, y: tableauY[j]});
             }
@@ -381,7 +371,10 @@ function afficherGraphiqueTraceur(traceur, idData) {
 
         const eau = recupererTraceurEau();
         let dataEau = [];
-         dataEau.push({x: eau.getDataParNom('L' + traceur.lampePrincipale + '-1'), y: eau.getDataParNom('L' + idData + '-1')});
+        dataEau.push({
+            x: eau.getDataParNom('L' + traceur.lampePrincipale + '-1'),
+            y: eau.getDataParNom('L' + idData + '-1')
+        });
 
         datasets.push({
             label: eau.nom,
@@ -489,6 +482,32 @@ function afficherGraphiqueTraceur(traceur, idData) {
                 }
             }
         }
+    });
+}
+
+
+/**
+ * Affiche les détails d'un élément du bandeau lorsque l'utilisateur le survole
+ */
+function setEventListeneresBandeau() {
+    const tooltip = document.getElementById('tooltip');
+
+    document.querySelectorAll('.elementBandeau').forEach(element => {
+        element.addEventListener('mouseover', (event) => {
+            tooltip.textContent = element.querySelector('span').textContent;
+            tooltip.style.display = 'block';
+        });
+
+        element.addEventListener('mousemove', (event) => {
+            if (event && event.pageX !== undefined && event.pageY !== undefined) {
+                tooltip.style.left = `${event.pageX + 10}px`;
+                tooltip.style.top = `${event.pageY + 10}px`;
+            }
+        });
+
+        element.addEventListener('mouseout', () => {
+            tooltip.style.display = 'none';
+        });
     });
 }
 

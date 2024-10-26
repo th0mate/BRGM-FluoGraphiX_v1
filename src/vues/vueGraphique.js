@@ -1,7 +1,79 @@
 function vueGraphique() {
     return `
-    
+    <div id="tooltip" style="display: none; position: absolute;"></div>
+   
     <div class="graphiques">
+    
+        <div class="bandeauGraphiques">
+        
+            <img class="extend" src="Ressources/img/extend.png" alt="etendre" onclick="etendreBandeau()">
+            
+            <div class="separator"><span></span><span class="text">CALCULS SUPPLÉMENTAIRES</span><span></span></div>
+
+            <div class="elementBandeau" onclick="afficherPopupParametresGraphiques()">
+                <span>OUVRIR LE PANNEAU DE CALCULS</span>
+                <img src="Ressources/img/grandCalibration.png" alt="Ajouter">
+            </div>
+            
+            <div class="separator"><span></span><span class="text">IMPORTATION DE FICHIERS</span><span></span></div>
+            
+            <div class="elementBandeau" onclick="ouvrirChoisirFichier()">
+                <span>IMPORTER DES NOUVEAUX FICHIERS</span>
+                <img src="Ressources/img/importer.png" alt="Ajouter">
+            </div>
+            
+            <div class="separator"><span></span><span class="text">GESTION ZOOM/DEPLACEMENTS</span><span></span></div>
+            
+            <div class="elementBandeau" onclick="modifierZoom('x')">
+                <span>INTERACTIONS ET ZOOM SUR AXE X</span>
+                <img src="Ressources/img/x_axis.png" alt="Ajouter">
+            </div>
+            
+            <div class="elementBandeau" onclick="modifierZoom('y')">
+                <span>INTERACTIONS ET ZOOM SUR AXE Y</span>
+                <img src="Ressources/img/y_axis.png" alt="Ajouter">
+            </div>
+            
+            <div class="elementBandeau" onclick="resetZoom()">
+                <span>RÉINITIALISER ZOOM ET POSITION</span>
+                <img src="Ressources/img/circulaire.png" alt="Ajouter">
+            </div>
+            
+            <div class="separator"><span></span><span class="text">FORMATS DE DATES</span><span></span></div>
+
+            <div class="elementBandeau" onclick="modifierFormat('jj/mm/aa')">
+                <span>FORMAT JOUR/MOIS/ANNÉE</span>
+                <img src="Ressources/img/format_jma.png" alt="Ajouter">
+            </div>
+            
+            <div class="elementBandeau" onclick="modifierFormat('aa/mm/jj')">
+                <span>FORMAT ANNÉE/MOIS/JOUR</span>
+                <img src="Ressources/img/format_amj.png" alt="Ajouter">
+            </div>
+            
+            <div class="elementBandeau" onclick="modifierFormat('auto')">
+                <span>DÉTECTION AUTOMATIQUE</span>
+                <img src="Ressources/img/automatique.png" alt="Ajouter">
+            </div>
+            
+            <div class="separator"><span></span><span class="text">EXPORT DES DONNÉES</span><span></span></div>
+            
+            <div class="elementBandeau" onclick="preparerTelechargement()">
+                <span>EXPORTER LES DONNÉES</span>
+                <img src="Ressources/img/dl.png" alt="Ajouter">
+            </div>
+            
+            <div class="separator"><span></span><span class="text">EXPORT D'IMAGES</span><span></span></div>
+            
+            <div class="elementBandeau" onclick="copierScreenElement('.graphique')">
+                <span>CAPTURE D'ÉCRAN</span>
+                <img src="Ressources/img/copier.png" alt="Ajouter">
+            </div>
+            
+        </div>
+    
+    
+    
         <canvas class="graphique" id="graphique"></canvas>
         <div class="infos">
             <img src="Ressources/img/graphiqueIllu.png" alt="Graphique">
@@ -16,62 +88,17 @@ function vueGraphique() {
         
         
         <div class="settings">
-        <div class="copier" onclick="copierScreenElement('.graphique')"><img src="Ressources/img/copier.png" alt=""> Copier une image</div>
-            <div class="entete">
-                <h2>Affichage</h2>
-                <div class="bouton boutonFonce" onclick="afficherPopupParametresGraphiques()">
-                    CALCULS
-                    <img src="Ressources/img/calculatrice.png" alt="Réduire">
-                </div>
-            </div>
-        
-       
-        <div class="details">
-        <div class="wrap">
-            <h3>Charger d'autres fichiers</h3>
-            <div>
                 <input type="file" id="fileInput" accept=".mv,.dat,.txt,.xml,.csv" multiple onchange="traiterFichier()">
-            </div>
-            </div>
-            
-            <div class="wrap">
-            <h3>Gestion du Zoom/déplacement</h3>
-            <div>
-                <label>Interactions sur axe X
-                <input type="checkbox" checked id="xZoom" onclick="modifierZoom('x')">
-                </label>
-                <label>Interactions sur axe Y
-                <input type="checkbox" checked id="yZoom" onclick="modifierZoom('y')">
-                </label>
-                <div class="bouton boutonFonce resetZoom" onclick="resetZoom()">Réinitialiser le zoom</div>
-            </div>
-            </div>
-            
-            <div class="wrap">
-            <h3>Format de dates</h3>
-            <div class="dates">
-                <label>Format :<select onchange="modifierFormat(this.value)" id="selectFormatDate">
-                    <option value="1">jj/mm/aa</option>
-                    <option value="2">aa/mm/jj</option>
-                    <option disabled value="0">Automatique</option>
-                </select>
-                </label>
-            </div>
-            </div>
-            
-            <div class="boutonsGraphique">          
-                <div class="bouton boutonFonce downloadFile" onclick="preparerTelechargement()">EXPORTER LES DONNÉES</div>
-            </div>        
         </div>
+        
+        <div class="annonce">
+            <img src="Ressources/img/perteConnexion.png" alt="Perte de connexion">
+            <h2>Votre appareil n'est pas pris en charge</h2>
+            <h4>L'appareil avec lequel vous utilisez ce site n'a pas un écran suffisamment large pour afficher les données de façon lisible</h4>
+            <h4>Si vous êtes sur ordinateur et que votre fenêtre de votre navigateur est réduite, agrandissez-la au maximum.</h4>
+        </div>
+        <div class="donnees" style="display: none;"></div>
     </div>
-    <div class="annonce">
-        <img src="Ressources/img/perteConnexion.png" alt="Perte de connexion">
-        <h2>Votre appareil n'est pas pris en charge</h2>
-        <h4>L'appareil avec lequel vous utilisez ce site n'a pas un écran suffisamment large pour afficher les données de façon lisible</h4>
-        <h4>Si vous êtes sur ordinateur et que votre fenêtre de votre navigateur est réduite, agrandissez-la au maximum.</h4>
-    </div>
-    <div class="donnees" style="display: none;"></div>
-</div>
 </div>
 
 `;
