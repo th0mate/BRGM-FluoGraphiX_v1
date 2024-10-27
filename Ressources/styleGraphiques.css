@@ -109,23 +109,24 @@
     top: 0;
     left: 0;
     z-index: 3;
+    transition: all 0.5s ease;
 
     .extend {
         position: absolute;
-        top: 20px;
-        left: 10px;
-    }
-
-    img {
-        width: 25px;
-        height: 25px;
-        padding: 5px;
+        top: 10px;
+        right: 10px;
         cursor: pointer;
         transition: all 0.5s ease;
 
         &:hover {
             background-color: var(--orangeBRGM);
         }
+    }
+
+    img {
+        width: 25px;
+        height: 25px;
+        padding: 5px;
     }
 
     .separator {
@@ -136,6 +137,9 @@
 
         .text {
             display: none;
+            padding-left: 5px;
+            padding-right: 5px;
+            font-size: 0.5em;
         }
 
         span:not(.text):first-child {
@@ -147,10 +151,24 @@
 
     .elementBandeau {
 
-        margin-top: 4px;
+        width: auto;
+        height: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        align-content: center;
+        margin: 2px;
+        cursor: pointer;
+        transition: all 0.5s ease;
 
         span {
             display: none;
+            padding-left: 3px;
+            font-size: 0.8em;
+        }
+
+        &:hover {
+            background-color: var(--orangeBRGM);
         }
     }
 

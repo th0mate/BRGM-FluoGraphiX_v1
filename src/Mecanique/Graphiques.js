@@ -512,4 +512,66 @@ function setEventListeneresBandeau() {
 }
 
 
+/**
+ * Permet d'étendre le menu des paramètres du graphique de la page de visualisation
+ */
+function toogleMenuGraphique() {
+    const menu = document.querySelector('.bandeauGraphiques');
+    const extendButton = document.querySelector('.extend');
+
+    if (menu.style.width !== '55px') {
+        menu.style.width = '55px';
+        extendButton.style.transform = 'rotate(0deg)';
+
+        setTimeout(() => {
+            // Remove all inline styles added in the else block
+            menu.querySelectorAll('.elementBandeau').forEach(elementBandeau => {
+                elementBandeau.removeAttribute('style');
+                elementBandeau.querySelector('span').removeAttribute('style');
+            });
+
+            menu.querySelectorAll('.separator').forEach(separator => {
+                separator.removeAttribute('style');
+                separator.querySelector('.text').removeAttribute('style');
+                separator.querySelectorAll('span:not(.text)').forEach(span => {
+                    span.removeAttribute('style');
+                });
+            });
+        }, 200);
+
+    } else {
+        menu.style.width = '350px';
+        extendButton.style.transform = 'rotate(180deg)';
+
+        menu.querySelectorAll('.elementBandeau').forEach(elementBandeau => {
+            elementBandeau.style.width = '300px';
+            elementBandeau.querySelector('span').style.display = 'block';
+            elementBandeau.style.margin = '5px';
+        });
+
+        menu.querySelectorAll('.separator').forEach(separator => {
+
+            //si c'est le premier separator
+            if (separator.querySelector('.text').textContent === 'CALCULS SUPPLÉMENTAIRES') {
+                separator.style.paddingTop = '50px';
+            }
+
+            separator.style.width = '280px';
+            separator.style.height = 'auto';
+            separator.style.display = 'flex';
+            separator.style.alignItems = 'center';
+            separator.style.justifyContent = 'space-between';
+            separator.style.backgroundColor = 'transparent';
+            separator.querySelector('.text').style.display = 'block';
+            separator.querySelectorAll('span:not(.text)').forEach(span => {
+                span.style.display = 'block';
+                span.style.height = '1px';
+                span.style.width = '70px';
+                span.style.backgroundColor = 'white';
+            });
+        });
+
+    }
+}
+
 

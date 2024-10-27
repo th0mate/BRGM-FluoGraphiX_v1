@@ -1,12 +1,12 @@
 function vueGraphique() {
     return `
     <div id="tooltip" style="display: none; position: absolute;"></div>
-   
+       
     <div class="graphiques">
     
-        <div class="bandeauGraphiques">
+        <div class="bandeauGraphiques" style="width: 55px">
         
-            <img class="extend" src="Ressources/img/extend.png" alt="etendre" onclick="etendreBandeau()">
+            <img class="extend" src="Ressources/img/extend.png" alt="etendre" onclick="toogleMenuGraphique()">
             
             <div class="separator"><span></span><span class="text">CALCULS SUPPLÉMENTAIRES</span><span></span></div>
 
