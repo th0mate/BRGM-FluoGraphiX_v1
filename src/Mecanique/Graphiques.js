@@ -529,7 +529,7 @@ function toogleMenuGraphique() {
                 elementBandeau.querySelector('span').removeAttribute('style');
             });
 
-            menu.querySelectorAll('.separator').forEach(separator => {
+            menu.querySelectorAll('.separatorGraphique').forEach(separator => {
                 separator.removeAttribute('style');
                 separator.querySelector('.text').removeAttribute('style');
                 separator.querySelectorAll('span:not(.text)').forEach(span => {
@@ -548,7 +548,7 @@ function toogleMenuGraphique() {
                 elementBandeau.style.margin = '5px';
             });
 
-            menu.querySelectorAll('.separator').forEach(separator => {
+            menu.querySelectorAll('.separatorGraphique').forEach(separator => {
                 separator.style.width = '280px';
                 separator.style.height = 'auto';
                 separator.style.display = 'flex';

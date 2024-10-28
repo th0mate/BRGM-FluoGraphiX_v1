@@ -254,6 +254,8 @@ function resetZoom() {
  */
 function modifierFormat(cle) {
 
+    format = cle;
+
     if (cle === '0' && document.querySelector('#auto').classList.contains('disabled')) {
         return;
     }
@@ -282,8 +284,6 @@ function modifierFormat(cle) {
         document.querySelector('#auto').classList.add('active');
 
     }
-
-    format = cle;
 }
 
 

@@ -8,21 +8,21 @@ function vueGraphique() {
         
             <img class="extend" src="Ressources/img/extend.png" alt="etendre" onclick="toogleMenuGraphique()">
             
-            <div class="separator first"><span></span><span class="text">CALCULS SUPPLÉMENTAIRES</span><span></span></div>
+            <div class="separatorGraphique first"><span></span><span class="text">CALCULS SUPPLÉMENTAIRES</span><span></span></div>
 
             <div class="elementBandeau" onclick="afficherPopupParametresGraphiques()">
                 <span>OUVRIR LE PANNEAU DE CALCULS</span>
                 <img src="Ressources/img/grandCalibration.png" alt="Ajouter">
             </div>
             
-            <div class="separator"><span></span><span class="text">IMPORTATION DE FICHIERS</span><span></span></div>
+            <div class="separatorGraphique"><span></span><span class="text">IMPORTATION DE FICHIERS</span><span></span></div>
             
             <div class="elementBandeau" onclick="ouvrirChoisirFichier()">
                 <span>IMPORTER DES NOUVEAUX FICHIERS</span>
                 <img src="Ressources/img/importer.png" alt="Ajouter">
             </div>
             
-            <div class="separator"><span></span><span class="text">GESTION ZOOM/DEPLACEMENTS</span><span></span></div>
+            <div class="separatorGraphique"><span></span><span class="text">GESTION ZOOM/DEPLACEMENTS</span><span></span></div>
             
             <div class="elementBandeau" id="axeX" onclick="modifierZoom('x')">
                 <span>INTERACTIONS ET ZOOM SUR AXE X</span>
@@ -39,7 +39,7 @@ function vueGraphique() {
                 <img src="Ressources/img/circulaire.png" alt="Ajouter">
             </div>
             
-            <div class="separator"><span></span><span class="text">FORMATS DE DATES</span><span></span></div>
+            <div class="separatorGraphique"><span></span><span class="text">FORMATS DE DATES</span><span></span></div>
 
             <div class="elementBandeau" id="amj" onclick="modifierFormat('2')">
                 <span>FORMAT JOUR/MOIS/ANNÉE</span>
@@ -56,14 +56,14 @@ function vueGraphique() {
                 <img src="Ressources/img/automatique.png" alt="Ajouter">
             </div>
             
-            <div class="separator"><span></span><span class="text">EXPORT DES DONNÉES</span><span></span></div>
+            <div class="separatorGraphique"><span></span><span class="text">EXPORT DES DONNÉES</span><span></span></div>
             
             <div class="elementBandeau" onclick="preparerTelechargement()">
                 <span>EXPORTER LES DONNÉES</span>
                 <img src="Ressources/img/dl.png" alt="Ajouter">
             </div>
             
-            <div class="separator"><span></span><span class="text">EXPORT D'IMAGES</span><span></span></div>
+            <div class="separatorGraphique"><span></span><span class="text">EXPORT D'IMAGES</span><span></span></div>
             
             <div class="elementBandeau" onclick="copierScreenElement('.graphique')">
                 <span>CAPTURE D'ÉCRAN</span>
@@ -76,20 +76,26 @@ function vueGraphique() {
     
         <canvas class="graphique" id="graphique"></canvas>
         <div class="infos">
-            <img src="Ressources/img/graphiqueIllu.png" alt="Graphique">
+            <div>
+            <img src="Ressources/img/117shots_so.png" alt="Graphique">
             <h1 class="titreBarre" style="margin-bottom: 30px">Graphiques</h1>
             <h2>Importez un fichier et prenez le contrôle de vos données.</h2>
             <p>Types de fichiers pris en charge : .mv, .txt, .xml, .csv, .dat (fichiers de calibration).</p>
-            <p>Possibilité de sélectionner plusieurs fichiers.</p>
-            <h4>Paramétrez ensuite vos données selon vos besoins avec le bandeau dédié.</h4>
+            <h4>Possibilité de sélectionner plusieurs fichiers.</h4>          
+            </div>
+            <div>
+            <h1 class="orange">Affichez vos données</h1>
+            <h3>Sélectionnez le format de date :</h3>
             <div class="dates">
-                <label>Format :<select onchange="modifierFormat(this.value)" id="selectFormatDate">
+                <label><select onchange="modifierFormat(this.value)" id="selectFormatDate">
                     <option value="1">jj/mm/aa</option>
                     <option value="2">aa/mm/jj</option>
                 </select>
                 </label>
             </div>
+            <br>
             <div id="start" class="bouton boutonFonce" onclick="ouvrirChoisirFichier()">COMMENCER</div>
+            </div>
         </div>
         
         
