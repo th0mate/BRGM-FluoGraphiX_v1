@@ -148,8 +148,7 @@ function afficherGraphique(mvContent) {
     new Chart(ctx, chartOptions);
 
     cacherDoublons();
-    document.querySelector('.resetZoom').style.display = 'flex';
-    document.querySelector('.copier').style.display = 'flex';
+    document.querySelector('.bandeauGraphiques').style.display = 'flex';
     document.querySelector('.infos').style.display = 'none';
 }
 
@@ -494,12 +493,14 @@ function setEventListeneresBandeau() {
 
     document.querySelectorAll('.elementBandeau').forEach(element => {
         element.addEventListener('mouseover', (event) => {
-            tooltip.textContent = element.querySelector('span').textContent;
-            tooltip.style.display = 'block';
+            if (document.querySelector('.bandeauGraphiques').style.width === '55px') {
+                tooltip.textContent = element.querySelector('span').textContent;
+                tooltip.style.display = 'block';
+            }
         });
 
         element.addEventListener('mousemove', (event) => {
-            if (event && event.pageX !== undefined && event.pageY !== undefined) {
+            if (event && event.pageX !== undefined && event.pageY !== undefined && document.querySelector('.bandeauGraphiques').style.width === '55px') {
                 tooltip.style.left = `${event.pageX + 10}px`;
                 tooltip.style.top = `${event.pageY + 10}px`;
             }
@@ -523,8 +524,6 @@ function toogleMenuGraphique() {
         menu.style.width = '55px';
         extendButton.style.transform = 'rotate(0deg)';
 
-        setTimeout(() => {
-            // Remove all inline styles added in the else block
             menu.querySelectorAll('.elementBandeau').forEach(elementBandeau => {
                 elementBandeau.removeAttribute('style');
                 elementBandeau.querySelector('span').removeAttribute('style');
@@ -537,41 +536,44 @@ function toogleMenuGraphique() {
                     span.removeAttribute('style');
                 });
             });
-        }, 200);
 
     } else {
         menu.style.width = '350px';
         extendButton.style.transform = 'rotate(180deg)';
 
-        menu.querySelectorAll('.elementBandeau').forEach(elementBandeau => {
-            elementBandeau.style.width = '300px';
-            elementBandeau.querySelector('span').style.display = 'block';
-            elementBandeau.style.margin = '5px';
-        });
-
-        menu.querySelectorAll('.separator').forEach(separator => {
-
-            //si c'est le premier separator
-            if (separator.querySelector('.text').textContent === 'CALCULS SUPPLÉMENTAIRES') {
-                separator.style.paddingTop = '50px';
-            }
-
-            separator.style.width = '280px';
-            separator.style.height = 'auto';
-            separator.style.display = 'flex';
-            separator.style.alignItems = 'center';
-            separator.style.justifyContent = 'space-between';
-            separator.style.backgroundColor = 'transparent';
-            separator.querySelector('.text').style.display = 'block';
-            separator.querySelectorAll('span:not(.text)').forEach(span => {
-                span.style.display = 'block';
-                span.style.height = '1px';
-                span.style.width = '70px';
-                span.style.backgroundColor = 'white';
+        setTimeout(() => {
+            menu.querySelectorAll('.elementBandeau').forEach(elementBandeau => {
+                elementBandeau.style.width = '300px';
+                elementBandeau.querySelector('span').style.display = 'block';
+                elementBandeau.style.margin = '5px';
             });
-        });
+
+            menu.querySelectorAll('.separator').forEach(separator => {
+                separator.style.width = '280px';
+                separator.style.height = 'auto';
+                separator.style.display = 'flex';
+                separator.style.alignItems = 'center';
+                separator.style.justifyContent = 'space-between';
+                separator.style.backgroundColor = 'transparent';
+                separator.querySelector('.text').style.display = 'block';
+                separator.querySelectorAll('span:not(.text)').forEach(span => {
+                    span.style.display = 'block';
+                    span.style.height = '1px';
+                    span.style.width = '70px';
+                    span.style.backgroundColor = 'white';
+                });
+            });
+
+        }, 300);
 
     }
 }
+
+window.addEventListener('DOMContentLoaded', (event) => {
+    setEventListeneresBandeau();
+    modifierFormat('1');
+    document.getElementById('axeY').classList.add('active');
+    document.getElementById('axeX').classList.add('active');
+});
 
 

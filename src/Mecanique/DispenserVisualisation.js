@@ -67,7 +67,6 @@ async function traiterFichier() {
     contenuFichierMesures = "";
     contenuFichierCalibration = "";
     nbLignes = 0;
-    document.querySelector('#selectFormatDate').disabled = false;
     let derniereDate;
 
     let fichierCalibrationFormatDat = true;
@@ -158,14 +157,15 @@ async function traiterFichier() {
                 contenuMesuresInitial = contenuFichierMesures;
                 afficherGraphique(contenuFichierMesures);
                 afficherMessageFlash("Données traitées avec succès.", 'success');
-                document.querySelector('.downloadFile').style.display = 'block';
             } catch (e) {
                 setTimeout(() => {
                     document.querySelector('.graphique').style.display = 'none';
+                    document.querySelector('.bandeauGraphiques').style.display = 'none';
                     contenuFichierMesures = "";
                     inputFichier.value = "";
                     fichiers = [];
                     afficherPopup('<img src="Ressources/img/perteConnexion.png" alt="">', "Erreur lors de l'affichage des données", "Une erreur est survenue lors de l'affichage des données. Peut-être avez-vous mal configuré le format de date dans les paramètres ?", "<div class='bouton boutonFonce' onclick='fermerPopup()'>FERMER</div>");
+                    console.error(e);
 
                 }, 500);
             }
@@ -253,6 +253,36 @@ function resetZoom() {
  * @param cle la clé du format
  */
 function modifierFormat(cle) {
+
+    if (cle === '0' && document.querySelector('#auto').classList.contains('disabled')) {
+        return;
+    }
+
+    if (!document.querySelector('#auto')) {
+        return;
+    }
+
+    if (document.querySelector('#amj').classList.contains('active')) {
+        document.querySelector('#amj').classList.remove('active');
+    }
+
+    if (document.querySelector('#jma').classList.contains('active')) {
+        document.querySelector('#jma').classList.remove('active');
+    }
+
+    if (document.querySelector('#auto').classList.contains('active')) {
+        document.querySelector('#auto').classList.remove('active');
+    }
+
+    if (cle === '1') {
+        document.querySelector('#jma').classList.add('active');
+    } else if (cle === '2') {
+        document.querySelector('#amj').classList.add('active');
+    } else {
+        document.querySelector('#auto').classList.add('active');
+
+    }
+
     format = cle;
 }
 

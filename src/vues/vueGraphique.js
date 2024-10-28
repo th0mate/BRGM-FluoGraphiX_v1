@@ -8,7 +8,7 @@ function vueGraphique() {
         
             <img class="extend" src="Ressources/img/extend.png" alt="etendre" onclick="toogleMenuGraphique()">
             
-            <div class="separator"><span></span><span class="text">CALCULS SUPPLÉMENTAIRES</span><span></span></div>
+            <div class="separator first"><span></span><span class="text">CALCULS SUPPLÉMENTAIRES</span><span></span></div>
 
             <div class="elementBandeau" onclick="afficherPopupParametresGraphiques()">
                 <span>OUVRIR LE PANNEAU DE CALCULS</span>
@@ -24,12 +24,12 @@ function vueGraphique() {
             
             <div class="separator"><span></span><span class="text">GESTION ZOOM/DEPLACEMENTS</span><span></span></div>
             
-            <div class="elementBandeau" onclick="modifierZoom('x')">
+            <div class="elementBandeau" id="axeX" onclick="modifierZoom('x')">
                 <span>INTERACTIONS ET ZOOM SUR AXE X</span>
                 <img src="Ressources/img/x_axis.png" alt="Ajouter">
             </div>
             
-            <div class="elementBandeau" onclick="modifierZoom('y')">
+            <div class="elementBandeau" id="axeY" onclick="modifierZoom('y')">
                 <span>INTERACTIONS ET ZOOM SUR AXE Y</span>
                 <img src="Ressources/img/y_axis.png" alt="Ajouter">
             </div>
@@ -41,17 +41,17 @@ function vueGraphique() {
             
             <div class="separator"><span></span><span class="text">FORMATS DE DATES</span><span></span></div>
 
-            <div class="elementBandeau" onclick="modifierFormat('jj/mm/aa')">
+            <div class="elementBandeau" id="amj" onclick="modifierFormat('2')">
                 <span>FORMAT JOUR/MOIS/ANNÉE</span>
                 <img src="Ressources/img/format_jma.png" alt="Ajouter">
             </div>
             
-            <div class="elementBandeau" onclick="modifierFormat('aa/mm/jj')">
+            <div class="elementBandeau" id="jma" onclick="modifierFormat('1')">
                 <span>FORMAT ANNÉE/MOIS/JOUR</span>
                 <img src="Ressources/img/format_amj.png" alt="Ajouter">
             </div>
             
-            <div class="elementBandeau" onclick="modifierFormat('auto')">
+            <div class="elementBandeau disabled" id="auto" onclick="modifierFormat('0')">
                 <span>DÉTECTION AUTOMATIQUE</span>
                 <img src="Ressources/img/automatique.png" alt="Ajouter">
             </div>
@@ -82,6 +82,13 @@ function vueGraphique() {
             <p>Types de fichiers pris en charge : .mv, .txt, .xml, .csv, .dat (fichiers de calibration).</p>
             <p>Possibilité de sélectionner plusieurs fichiers.</p>
             <h4>Paramétrez ensuite vos données selon vos besoins avec le bandeau dédié.</h4>
+            <div class="dates">
+                <label>Format :<select onchange="modifierFormat(this.value)" id="selectFormatDate">
+                    <option value="1">jj/mm/aa</option>
+                    <option value="2">aa/mm/jj</option>
+                </select>
+                </label>
+            </div>
             <div id="start" class="bouton boutonFonce" onclick="ouvrirChoisirFichier()">COMMENCER</div>
         </div>
         
@@ -94,8 +101,8 @@ function vueGraphique() {
         <div class="annonce">
             <img src="Ressources/img/perteConnexion.png" alt="Perte de connexion">
             <h2>Votre appareil n'est pas pris en charge</h2>
-            <h4>L'appareil avec lequel vous utilisez ce site n'a pas un écran suffisamment large pour afficher les données de façon lisible</h4>
-            <h4>Si vous êtes sur ordinateur et que votre fenêtre de votre navigateur est réduite, agrandissez-la au maximum.</h4>
+            <h4>L'appareil avec lequel vous utilisez ce site n'a pas un écran suffisamment grand pour afficher les données de façon lisible</h4>
+            <h4>Si vous êtes sur ordinateur et que votre fenêtre de votre navigateur est réduite, agrandissez-la davantage.</h4>
         </div>
         <div class="donnees" style="display: none;"></div>
     </div>

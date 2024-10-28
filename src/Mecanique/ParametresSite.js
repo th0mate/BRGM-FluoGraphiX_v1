@@ -7,7 +7,16 @@ function parametrerSiteDepuisCalibrat(string) {
     const derniereLigne = lignes[lignes.length - 2];
     const caractere = derniereLigne.charAt(0);
 
-    document.querySelector('#selectFormatDate').value = '0';
+    document.querySelector('#auto').classList.add('active');
+
+    if (document.querySelector('#amj').classList.contains('active')) {
+        document.querySelector('#amj').classList.remove('active');
+    }
+
+    if (document.querySelector('#jma').classList.contains('active')) {
+        document.querySelector('#jma').classList.remove('active');
+    }
+
     let formatTexte = '';
 
     if (caractere === '2') {
@@ -36,6 +45,14 @@ function parametrerSiteDepuisCalibrat(string) {
 function modifierZoom(letter) {
     const canvas = document.getElementById('graphique');
     const existingChart = Chart.getChart(canvas);
+
+    const bouton = document.getElementById('axe' + letter.toUpperCase());
+
+    if (bouton.classList.contains('active')) {
+        bouton.classList.remove('active');
+    } else {
+        bouton.classList.add('active');
+    }
 
     if (zoom.includes(letter)) {
         zoom = zoom.replace(letter, '');

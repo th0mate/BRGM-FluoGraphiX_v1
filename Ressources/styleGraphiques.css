@@ -19,10 +19,11 @@
 .graphique {
     min-width: 0;
     min-height: 0;
-    max-width: 70%;
+    max-width: calc(99% - 55px);
     max-height: 85vh;
     display: none;
     position: relative;
+    padding-left: 70px;
 }
 
 
@@ -44,6 +45,32 @@
     padding: 10px;
     text-align: center;
     margin: auto;
+
+
+    .dates > label {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        align-content: center;
+        margin-bottom: 10px;
+    }
+
+    .dates > label > select {
+        width: 180px;
+        height: 30px;
+        color: white;
+        background-color: var(--orangeBRGM);
+        margin-right: 10px;
+        margin-left: 15px;
+        border-radius: 0;
+    }
+
+
+    .dates > label > select > option:hover {
+        background-color: var(--grisBRGM);
+    }
+
 }
 
 .infos > img {
@@ -95,9 +122,9 @@
 }
 
 .bandeauGraphiques {
-    display: flex;
+    display: none;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     align-content: center;
     width: 55px;
@@ -110,6 +137,10 @@
     left: 0;
     z-index: 3;
     transition: all 0.5s ease;
+
+    .active {
+        background-color: var(--orangeBRGM);
+    }
 
     .extend {
         position: absolute;
@@ -149,6 +180,10 @@
         }
     }
 
+    .first{
+        margin-top: 50px!important;
+    }
+
     .elementBandeau {
 
         width: auto;
@@ -172,6 +207,15 @@
         }
     }
 
+    .disabled {
+        cursor: default;
+        opacity: 0.5;
+
+        &:hover {
+            background-color: var(--grisBRGM);
+        }
+    }
+
 }
 
 
@@ -188,179 +232,6 @@
 
 
 .settings {
-    display: none;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    align-content: center;
-    width: 300px;
-    min-height: 550px;
-    background-color: var(--grisBRGM);
-    color: white;
-    padding: 10px;
-    margin-top: 10px;
-    text-align: left;
-    position: relative;
-}
-
-.settings > .copier {
-    top: -30px;
-}
-
-
-.settings > .entete {
-    width: 98%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    align-content: center;
-}
-
-.settings > .entete > h2 {
-    margin: 0;
-    color: var(--orangeBRGM);
-}
-
-.settings > .entete > .bouton {
-    font-size: 0.8em;
-    color: white;
-    background-color: var(--orangeBRGM);
-    border: 5px solid var(--orangeBRGM);
-    box-shadow: none;
-    transition: box-shadow 0.3s ease;
-    height: 30px;
-    min-height: auto;
-    max-height: 20px;
-}
-
-.settings > .entete > .bouton:hover {
-    box-shadow: inset 0 0 0 1px white;
-}
-
-.settings > .entete > .bouton > img {
-    width: 25px;
-    height: 25px;
-    cursor: pointer;
-    padding: 5px;
-    margin-left: 10px;
-}
-
-.settings > .details {
-    width: 98%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    align-content: flex-start;
-    margin-top: 20px;
-}
-
-.settings > .details > .wrap {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-
-
-}
-
-.settings > .details > .wrap > div, .settings > .details > div:not(.wrap) {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    align-content: center;
-    margin-bottom: 10px;
-}
-
-.settings > .details > .wrap > div > input[type="file"] {
-    color: transparent;
-    max-width: 100%;
-}
-
-.settings > .details > .wrap > div > input::file-selector-button {
-    border: 5px solid var(--orangeBRGM);
-    background-color: var(--orangeBRGM);
-    box-shadow: none;
-    width: 100%;
-    margin-bottom: 20px;
-    transition: box-shadow 0.3s ease;
-    font-weight: bold;
-    color: white;
-    cursor: pointer;
-    user-select: none;
-    margin-right: 10px;
-}
-
-
-.settings > .details > .wrap > div > input::file-selector-button:hover {
-    box-shadow: inset 0 0 0 1px white;
-}
-
-.settings > .details > .wrap > div > label {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    align-content: center;
-    margin-bottom: 10px;
-}
-
-.settings > .details > .wrap > div > label > select {
-    width: 180px;
-    height: 30px;
-    color: white;
-    background-color: var(--orangeBRGM);
-    margin-right: 10px;
-    margin-left: 15px;
-    border-radius: 0;
-}
-
-
-.settings > .details > .wrap > div > label > select > option:hover {
-    background-color: var(--grisBRGM);
-}
-
-input[type="checkbox"] {
-    width: 25px;
-    height: 25px;
-    cursor: pointer;
-    margin-left: 15px;
-}
-
-input[type="checkbox"]:checked {
-    background-color: var(--orangeBRGM);
-}
-
-.settings > .details > .wrap > div > .bouton {
-    border: 5px solid transparent;
-    box-shadow: 0 0 0 1px white;
-    width: 220px;
-    margin-bottom: 20px;
-}
-
-.settings > .details > .wrap > div > .bouton:hover {
-    box-shadow: 0 0 0 1px white, inset 0 0 0 1px white;
-}
-
-.settings > .details > div > .downloadFile {
-    display: none;
-    border: 5px solid var(--orangeBRGM);
-    background-color: var(--orangeBRGM);
-    box-shadow: none;
-    margin-top: 15px;
-}
-
-.settings > .details > div > .downloadFile:hover {
-    box-shadow: inset 0 0 0 1px white;
-}
-
-.settings > .details > .wrap > div:last-child {
-    margin-bottom: 0;
-}
-
-.resetZoom {
     display: none;
 }
 
@@ -912,13 +783,13 @@ input[type="checkbox"]:checked {
 
 }
 
-@media (max-width: 790px) {
+@media (max-width: 790px), (max-height: 662px) {
 
     .graphique {
         display: none !important;
     }
 
-    .settings {
+    .bandeauGraphiques {
         display: none;
     }
 

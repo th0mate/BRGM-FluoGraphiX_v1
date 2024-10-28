@@ -126,6 +126,9 @@ Object.defineProperty(window, 'pageActuelle', {
         } else if (value === 'vueGraphique') {
             setTimeout(() => {
                 setEventListeneresBandeau();
+                modifierFormat('1');
+                document.getElementById('axeY').classList.add('active');
+                document.getElementById('axeX').classList.add('active');
             }, 1000);
         }
     }
