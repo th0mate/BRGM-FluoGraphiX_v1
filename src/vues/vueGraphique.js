@@ -76,6 +76,60 @@ function vueGraphique() {
     
         <canvas class="graphique" id="graphique"></canvas>
         <div class="infos">
+        
+            <div class="cotesInfos">
+                <img src="Ressources/img/illuGraphique1.png" alt="Graphique">
+                
+                <div class="bulles bl1">
+                    <span>Se concentrer sur l'essentiel</span>
+                    <p>Les courbes redondantes sont automatiquement occultées pour ne vous laisser que l'essentiel.</p>
+                </div>
+            </div>
+            
+            <div class="mainInfos">
+                <h1 class="titreBarre">Graphiques</h1>
+                <h2 class="orange">Importez un fichier et prenez le contrôle de vos données</h2>
+                <br>
+                <p>Types de fichiers pris en charge : .mv, .txt, .xml, .csv, .dat (fichiers de calibration).</p>
+                <p>Export possible au format .csv ou .csv adapté pour le logiciel TRAC.</p>
+                <p>Possibilité de sélectionner plusieurs fichiers pour l'importation.</p>
+                
+                <br>
+                <br>
+                <p>Choisissez le format de dates :</p>
+                <br>
+                <div class="elementCentre">
+                    <div class="dates">
+                        <label>
+                            <select onchange="modifierFormat(this.value)" id="selectFormatDate">
+                                <option value="1">jj/mm/aa</option>
+                                <option value="2">aa/mm/jj</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+                
+                <br>
+                <p>Sélectionnez un ou plusieurs fichiers :</p>
+                <br>
+                
+                <div class="elementCentre">
+                    <div id="start" class="bouton boutonFonce" onclick="ouvrirChoisirFichier()">COMMENCER</div>
+                </div>
+            </div>
+            
+            <div class="cotesInfos">
+                <img src="Ressources/img/illuGraphique2.png" alt="Graphique">
+                
+                <div class="bulles bl2">
+                    <span>Nombreux calculs possibles</span>
+                    <p>Effectuez des calculs de correction, de conversion et plus encore sur vos valeurs.</p>
+                </div>
+                
+            </div>
+        
+        
+            <!--
             <div>
             <img src="Ressources/img/117shots_so.png" alt="Graphique">
             <h1 class="titreBarre" style="margin-bottom: 30px">Graphiques</h1>
@@ -96,6 +150,7 @@ function vueGraphique() {
             <br>
             <div id="start" class="bouton boutonFonce" onclick="ouvrirChoisirFichier()">COMMENCER</div>
             </div>
+            -->
         </div>
         
         
