@@ -127,30 +127,6 @@ function vueGraphique() {
                 </div>
                 
             </div>
-        
-        
-            <!--
-            <div>
-            <img src="Ressources/img/117shots_so.png" alt="Graphique">
-            <h1 class="titreBarre" style="margin-bottom: 30px">Graphiques</h1>
-            <h2>Importez un fichier et prenez le contrôle de vos données.</h2>
-            <p>Types de fichiers pris en charge : .mv, .txt, .xml, .csv, .dat (fichiers de calibration).</p>
-            <h4>Possibilité de sélectionner plusieurs fichiers.</h4>          
-            </div>
-            <div>
-            <h1 class="orange">Affichez vos données</h1>
-            <h3>Sélectionnez le format de date :</h3>
-            <div class="dates">
-                <label><select onchange="modifierFormat(this.value)" id="selectFormatDate">
-                    <option value="1">jj/mm/aa</option>
-                    <option value="2">aa/mm/jj</option>
-                </select>
-                </label>
-            </div>
-            <br>
-            <div id="start" class="bouton boutonFonce" onclick="ouvrirChoisirFichier()">COMMENCER</div>
-            </div>
-            -->
         </div>
         
         

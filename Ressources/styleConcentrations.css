@@ -5,112 +5,110 @@
     justify-content: flex-start;
     align-items: center;
     align-content: center;
-    padding-bottom: 100px;
 }
 
 .concentrations > .bandeau {
+    display: none;
+}
+
+
+/*
+------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------  BANDEAU  ------------------------------------------------------
+ */
+
+.wrapBandeauCalibration {
+    width: 98%;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    align-content: flex-start;
     margin-top: 20px;
-    width: 95%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    align-content: flex-start;
-    padding: 10px;
-    background-color: var(--grisBRGM);
-    color: white;
-    position: relative;
-}
 
-.concentrations > .bandeau > h2 {
-    color: var(--orangeBRGM);
-}
+    .bandeauCalibration {
+        width: 95%;
+        margin-left: 2.5%;
+        height: 50px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        align-content: center;
+        background-color: var(--grisBRGM);
+        color: white;
 
-.concentrations > .bandeau > .wrap {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-start;
-    align-content: flex-start;
-    margin: auto;
-}
+        .separatorCalibration {
+            width: 1px;
+            height: 70%;
+            background-color: white;
+        }
 
-.concentrations > .bandeau > .wrap > div {
-    min-height: 120px;
-    width: 30%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    align-content: center;
-}
+        div:not(.boutonOrange) {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+            border: none;
 
+            span {
+                margin-right: 15px;
+                margin-left: 15px;
+                transition: all 0.5s ease;
+                cursor: pointer;
 
-.concentrations > .bandeau > .wrap > div:not(:last-child) {
-    padding-right: 5px;
-    border-right: 2px solid white;
-}
+                &:hover {
+                    color: var(--orangeBRGM);
+                }
+            }
 
+            .traceurActive, .lampeActive {
+                color: var(--orangeBRGM);
+                text-decoration: underline;
+            }
 
-.concentrations > .bandeau > .wrap > div > input[type="file"] {
-    color: transparent;
-    width: 200px;
-}
+            .boutonOrange {
+                width: auto;
+                font-size: 0.9em;
+                font-weight: normal;
+                margin: 0 5px;
+                padding: 5px;
+                height: 16px;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
 
-.concentrations > .bandeau > .wrap > div > input::file-selector-button {
-    background-color: var(--orangeBRGM);
-    color: white;
-    border: 5px solid var(--orangeBRGM);
-    width: 100%;
-    height: 40px;
-    cursor: pointer;
-    user-select: none;
-    transition: box-shadow 0.3s ease-in-out;
-}
+                img {
+                    height: 16px;
+                }
 
-.concentrations > .bandeau > .wrap > div > input::file-selector-button:hover {
-    box-shadow: inset 0 0 0 2px white;
-}
+                span {
+                    display: none;
+                }
+            }
 
-.concentrations > .bandeau > .wrap > div > select {
-    width: 180px;
-    height: 30px;
-    color: white;
-    background-color: var(--orangeBRGM);
-    margin-right: 10px;
-    margin-left: 15px;
-    border-radius: 0;
-}
+            .boutonOrange:nth-child(1), .boutonOrange:nth-child(2) {
+                img {
+                    padding-left: 5px;
+                }
+            }
 
-.concentrations > .bandeau > .wrap > div > select > option:hover {
-    background-color: var(--grisBRGM);
-}
+            .boutonOrange:nth-child(3) {
+                margin-right: 15px;
+            }
+        }
 
-.concentrations > .bandeau > .wrap > div > .bouton {
-    border: 5px solid var(--orangeBRGM);
-    background-color: var(--orangeBRGM);
-    color: white;
-    width: 190px;
-    margin-top: 10px;
-    transition: box-shadow 0.3s ease-in-out;
-    padding: 2px!important;
+    }
 }
 
 
-.concentrations > .bandeau > .wrap > div > .bouton:not(.disabled):hover {
-    box-shadow: inset 0 0 0 1px white;
-    cursor: pointer;
-    user-select: none;
-}
 
-.disabled {
-    opacity: 0.5;
-}
-
-.concentrations > .bandeau > .wrap > div > label {
-    width: 90%;
-}
+/*
+------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------  DESCRIPTION  --------------------------------------------------
+ */
 
 .descriptionConcentration {
     width: 98%;
@@ -126,6 +124,11 @@
 .descriptionConcentration > h2 > span {
     color: var(--orangeBRGM);
 }
+
+/*
+------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------  INFOS  --------------------------------------------------------
+ */
 
 .donnees {
     width: 95%;
@@ -219,15 +222,129 @@
 }
 
 .infosConcentration {
-    width: 60%;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    margin: auto;
-    padding-top: 30px;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-content: flex-start;
+    width: 100%;
+    height: 100vh;
+    color: black;
     text-align: center;
+
+    .cotesInfos {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+        position: relative;
+        width: 30%;
+        height: 100% !important;
+
+        img {
+            width: 95%;
+        }
+
+        .bulles {
+            background-color: var(--grisBRGM);
+            position: absolute;
+            text-align: left;
+            color: white;
+            max-width: 270px;
+            padding: 10px;
+            font-size: 1em;
+
+            span {
+                color: var(--orangeBRGM);
+            }
+        }
+
+        .bl1 {
+            left: 30px;
+            top: 120px;
+        }
+
+        .bl2 {
+            top: 250px;
+            right: 40px;
+        }
+    }
+
+    .mainInfos {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        text-align: left;
+        position: relative;
+        width: 36%;
+        height: 100% !important;
+        background-color: #D9D9D9;
+        padding-left: 25px;
+        padding-right: 25px;
+
+
+        h3 {
+            font-weight: 300;
+        }
+
+        p {
+            font-size: 0.9em;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .elementCentre {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+
+            .dates > label {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: flex-start;
+                align-content: flex-start;
+                margin-bottom: 10px;
+                font-size: 0.9em;
+            }
+
+            .dates > label > select {
+                width: 240px;
+                height: 30px;
+                color: white;
+                background-color: var(--orangeBRGM);
+                border-radius: 0;
+            }
+
+
+            .dates > label > select > option:hover {
+                background-color: var(--grisBRGM);
+            }
+        }
+
+        h4 {
+            color: var(--orangeBRGM);
+        }
+
+        .bouton {
+            border: 5px solid var(--orangeBRGM);
+            width: 220px;
+            background-color: var(--orangeBRGM);
+            box-shadow: none;
+            transition: box-shadow 0.3s ease;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .bouton:hover {
+            box-shadow: inset 0 0 0 1px white;
+        }
+
+    }
 }
 
 .infosConcentration > img {
