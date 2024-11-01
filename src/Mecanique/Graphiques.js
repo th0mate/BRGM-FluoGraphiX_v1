@@ -524,18 +524,18 @@ function toogleMenuGraphique() {
         menu.style.width = '55px';
         extendButton.style.transform = 'rotate(0deg)';
 
-            menu.querySelectorAll('.elementBandeau').forEach(elementBandeau => {
-                elementBandeau.removeAttribute('style');
-                elementBandeau.querySelector('span').removeAttribute('style');
-            });
+        menu.querySelectorAll('.elementBandeau').forEach(elementBandeau => {
+            elementBandeau.removeAttribute('style');
+            elementBandeau.querySelector('span').removeAttribute('style');
+        });
 
-            menu.querySelectorAll('.separatorGraphique').forEach(separator => {
-                separator.removeAttribute('style');
-                separator.querySelector('.text').removeAttribute('style');
-                separator.querySelectorAll('span:not(.text)').forEach(span => {
-                    span.removeAttribute('style');
-                });
+        menu.querySelectorAll('.separatorGraphique').forEach(separator => {
+            separator.removeAttribute('style');
+            separator.querySelector('.text').removeAttribute('style');
+            separator.querySelectorAll('span:not(.text)').forEach(span => {
+                span.removeAttribute('style');
             });
+        });
 
     } else {
         menu.style.width = '350px';
@@ -570,10 +570,15 @@ function toogleMenuGraphique() {
 }
 
 window.addEventListener('DOMContentLoaded', (event) => {
-    setEventListeneresBandeau();
-    modifierFormat('1');
-    document.getElementById('axeY').classList.add('active');
-    document.getElementById('axeX').classList.add('active');
+
+    if (getCookie() === 'vueGraphique') {
+
+        setEventListeneresBandeau();
+        modifierFormat('1');
+        document.getElementById('axeY').classList.add('active');
+        document.getElementById('axeX').classList.add('active');
+    }
+
 });
 
 

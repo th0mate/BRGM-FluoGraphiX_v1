@@ -29,7 +29,6 @@
     .bandeauCalibration {
         width: 95%;
         margin-left: 2.5%;
-        height: 50px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -37,10 +36,11 @@
         align-content: center;
         background-color: var(--grisBRGM);
         color: white;
+        padding: 5px;
 
         .separatorCalibration {
             width: 1px;
-            height: 70%;
+            height: 16px;
             background-color: white;
         }
 
@@ -57,6 +57,7 @@
                 margin-left: 15px;
                 transition: all 0.5s ease;
                 cursor: pointer;
+                margin-bottom: 3px;
 
                 &:hover {
                     color: var(--orangeBRGM);
@@ -89,13 +90,13 @@
                 }
             }
 
-            .boutonOrange:nth-child(1), .boutonOrange:nth-child(2) {
+            .boutonOrange:nth-child(1), .boutonOrange:nth-child(2), .boutonOrange:nth-child(3) {
                 img {
                     padding-left: 5px;
                 }
             }
 
-            .boutonOrange:nth-child(3) {
+            .boutonOrange:nth-child(4) {
                 margin-right: 15px;
             }
         }
@@ -363,27 +364,6 @@
  */
 
 @media (max-width: 930px) {
-
-    .bandeau {
-        width: auto!important;
-        min-width: 90%!important;
-    }
-
-    .bandeau > .wrap {
-        flex-direction: column!important;
-        align-items: center!important;
-    }
-
-    .bandeau > .wrap > div {
-        width: 98%!important;
-    }
-
-    .bandeau > .wrap > div:not(:last-child) {
-        border-right: none!important;
-        padding-right: 0!important;
-        border-bottom: 2px solid white;
-        padding-bottom: 10px;
-    }
 
     .donnees > table {
         max-width: 98%;

@@ -34,7 +34,6 @@ let numeroFluorimetre = '';
 let traceurs = [];
 
 
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * INITIALISATION
@@ -64,14 +63,6 @@ function initFichierCalibration(estFichierDat = true, estDepuisCalibration = tru
             document.querySelector('.tableauTraceur').remove();
         }
 
-        if (document.querySelector('.selectTraceur')) {
-            document.querySelector('.selectTraceur').remove();
-        }
-
-        if (document.querySelector('.selectLigne')) {
-            document.querySelector('.selectLigne').remove();
-        }
-
         if (estFichierDat) {
             lignesCalibrat = contenuFichierCalibration.split('\n');
             sectionsCalibrat = getSectionsCalibrat();
@@ -96,7 +87,7 @@ function initFichierCalibration(estFichierDat = true, estDepuisCalibration = tru
         console.log(traceurs);
 
         if (estDepuisCalibration) {
-            afficherSelectTraceurs();
+            ajouterTraceurDansListe();
         } else {
             testerTousTraceurs();
         }
@@ -122,14 +113,11 @@ function testerTousTraceurs() {
 }
 
 
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * FONCTIONS POUR LES FICHIERS .DAT
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
-
 
 
 /**
@@ -330,13 +318,11 @@ function creerTurbidity() {
 }
 
 
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * FONCTIONS UTILITAIRES
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
 
 
 /**
@@ -360,48 +346,43 @@ function recupererTraceurEau() {
 /**
  * Affiche dans un div un select permettant de choisir un traceur
  */
-function afficherSelectTraceurs() {
+function ajouterTraceurDansListe() {
 
-    const select = document.createElement('select');
-    select.id = 'selectTraceur';
-    select.classList.add('selectTraceur');
-    select.addEventListener('change', () => {
-        const nom = select.value;
-        const traceur = recupererTraceurParNom(nom);
-
-        if (document.querySelector('.boutonDlData')) {
-            document.querySelector('.boutonDlData').remove();
-        }
-        afficherTableauTraceur(traceur);
-        afficherSelectLigne(traceur.lampePrincipale, traceur);
-        afficherGraphiqueTraceur(traceur, traceur.lampePrincipale);
-        setBoutonCalculer(traceur.lampePrincipale, traceur);
-    });
-
+    const divTraceurs = document.querySelector('.wrapTraceursCalibration');
 
     for (let i = 0; i < traceurs.length; i++) {
+
+        if (document.querySelector('#traceur' + traceurs[i].nom)) {
+            document.querySelector('#traceur' + traceurs[i].nom).remove();
+        }
+
+
         if (traceurs[i].unite !== '') {
-            const option = document.createElement('option');
-            option.value = traceurs[i].nom;
-            option.textContent = traceurs[i].nom;
+            const span = document.createElement('span');
+            span.textContent = traceurs[i].nom;
+            span.id = 'traceur' + traceurs[i].nom;
 
             if (i === 1) {
-                option.selected = true;
-                const nom = traceurs[i].nom;
+                span.classList.add('traceurActive');
                 const traceur = traceurs[i];
 
-                let labels = traceur.echelles;
-
                 afficherTableauTraceur(traceur);
-                afficherSelectLigne(traceur.lampePrincipale, traceur);
+                ajouterLigneTraceurDansListe(traceur.lampePrincipale, traceur);
                 afficherGraphiqueTraceur(traceur, traceur.lampePrincipale);
-                setBoutonCalculer(traceur.lampePrincipale, traceur);
+                setBandeauCalibration(traceur.lampePrincipale, traceur);
             }
-            select.appendChild(option);
+
+            span.addEventListener('click', () => {
+                const traceur = recupererTraceurParNom(span.textContent);
+                afficherTableauTraceur(traceur);
+                ajouterLigneTraceurDansListe(traceur.lampePrincipale, traceur);
+                afficherGraphiqueTraceur(traceur, traceur.lampePrincipale);
+                setBandeauCalibration(traceur.lampePrincipale, traceur);
+            });
+
+            divTraceurs.appendChild(span);
         }
     }
-
-    document.querySelector('#selectTraceur').appendChild(select);
 }
 
 
@@ -410,31 +391,31 @@ function afficherSelectTraceurs() {
  * @param idData la valeur par défaut
  * @param traceur le traceur
  */
-function afficherSelectLigne(idData, traceur) {
-    if (document.querySelector('.selectLigne')) {
-        document.querySelector('.selectLigne').remove();
-    }
+function ajouterLigneTraceurDansListe(idData, traceur) {
 
-    const select = document.createElement('select');
-    select.id = 'selectLigne';
-    select.classList.add('selectLigne');
-    select.addEventListener('change', () => {
-        const idData = parseInt(select.value);
-        afficherGraphiqueTraceur(traceur, idData);
-        setBoutonCalculer(idData, traceur);
-    });
+    const div = document.querySelector('.wrapLampesCalibration');
+
 
     for (let i = 1; i <= 4; i++) {
-        const option = document.createElement('option');
-        option.value = i;
-        option.textContent = 'L' + i;
-        if (i === idData) {
-            option.selected = true;
-        }
-        select.appendChild(option);
-    }
 
-    document.querySelector('#selectLigne').appendChild(select);
+        if (document.querySelector('#lampe' + i)) {
+            document.querySelector('#lampe' + i).remove();
+        }
+
+        const span = document.createElement('span');
+        span.textContent = 'L' + i;
+        span.id = 'lampe' + i;
+
+        if (i === idData) {
+            span.classList.add('lampeActive');
+        }
+
+        span.addEventListener('click', () => {
+            afficherGraphiqueTraceur(traceur, i);
+            setBandeauCalibration(i, traceur);
+        });
+        div.appendChild(span);
+    }
 }
 
 
@@ -443,23 +424,31 @@ function afficherSelectLigne(idData, traceur) {
  * @param idLampe l'id de la lampe à traiter
  * @param Traceur le traceur à traiter
  */
-function setBoutonCalculer(idLampe, Traceur) {
-    let boutonCalculer = document.querySelector('#boutonCalculer');
-    document.querySelector('#boutonResetZoom').classList.remove('disabled');
-    document.querySelector('.copier').style.display = 'flex';
+function setBandeauCalibration(idLampe, Traceur) {
+    document.querySelector('.wrapBandeauCalibration').style.display = 'flex';
 
-    let boutonCalculerClone = boutonCalculer.cloneNode(true);
-    boutonCalculer.parentNode.replaceChild(boutonCalculerClone, boutonCalculer);
-
-    boutonCalculer = boutonCalculerClone;
-
-    boutonCalculer.addEventListener('click', () => {
-        initialiserCalculsCourbes(idLampe, Traceur)
+    const spans = document.querySelectorAll('.wrapLampesCalibration span');
+    spans.forEach(span => {
+        span.classList.remove('lampeActive');
     });
 
-    boutonCalculer.classList.remove('disabled');
-}
+    if (document.querySelector('#lampe' + idLampe)) {
+        document.querySelector('#lampe' + idLampe).classList.add('lampeActive');
+    }
 
+    //on fait pareil pour les traceurs
+    const spansTraceurs = document.querySelectorAll('.wrapTraceursCalibration span');
+
+    spansTraceurs.forEach(span => {
+        span.classList.remove('traceurActive');
+    });
+
+    if (document.querySelector('#traceur' + Traceur.nom)) {
+        document.querySelector('#traceur' + Traceur.nom).classList.add('traceurActive');
+    }
+
+    initialiserCalculsCourbes(idLampe, Traceur);
+}
 
 
 /**
@@ -467,8 +456,6 @@ function setBoutonCalculer(idLampe, Traceur) {
  * AFFICHAGE DES DONNEES (TABLEAU)
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
-
 
 
 /**
@@ -547,10 +534,7 @@ function afficherTableauTraceur(traceur) {
     tableau.appendChild(tbody);
     tableau.insertAdjacentHTML('afterbegin', `<caption>Signaux en mV du traceur ${traceur.nom}</caption>`);
     document.querySelector('.donnees').appendChild(tableau);
-    document.querySelector('.lesBoutons').insertAdjacentHTML('beforeend', '<div class="bouton boutonClair boutonDlData" onclick="telechargerFichierCSV()">EXPORTER LES DONNÉES</div>');
 }
-
-
 
 
 /**
@@ -558,7 +542,6 @@ function afficherTableauTraceur(traceur) {
  * PARTIE EXPORT
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
 
 
 /**
@@ -610,7 +593,6 @@ function convertirEnTexte() {
 }
 
 
-
 /**
  * Télécharge un fichier CSV contenant les données de contenuCalibrat, donc du fichier originel
  */
@@ -631,14 +613,11 @@ function telechargerFichierCSV() {
 }
 
 
-
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
  * PARTIE FICHIERS CSV
  * ---------------------------------------------------------------------------------------------------------------------
  */
-
 
 
 /**
@@ -758,3 +737,45 @@ function creerTurbidityCSV() {
 function supprimerPointVirgule(texte) {
     return texte.replace(/;/g, '');
 }
+
+
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * GESTION DE L'AFFICHAGE DU BANDEAU
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+
+/**
+ * Affiche les détails d'un élément du bandeau lorsque l'utilisateur le survole
+ */
+function setEventListeneresBandeauCalibration() {
+    const tooltip = document.getElementById('tooltip');
+
+    document.querySelectorAll('.boutonBandeauCalibration').forEach(element => {
+        element.addEventListener('mouseover', (event) => {
+            tooltip.textContent = element.querySelector('span').textContent;
+            tooltip.style.display = 'block';
+        });
+
+        element.addEventListener('mousemove', (event) => {
+            if (event && event.pageX !== undefined && event.pageY !== undefined) {
+                tooltip.style.left = `${event.pageX + 10}px`;
+                tooltip.style.top = `${event.pageY + 10}px`;
+            }
+        });
+
+        element.addEventListener('mouseout', () => {
+            tooltip.style.display = 'none';
+        });
+    });
+}
+
+
+window.addEventListener('DOMContentLoaded', (event) => {
+
+    if (getCookie() === 'vueConcentrations') {
+        setEventListeneresBandeauCalibration();
+    }
+
+});

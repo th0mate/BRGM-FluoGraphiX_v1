@@ -1,13 +1,7 @@
 function vueConcentrations() {
     return `    
     
-    <script>
-        window.onload = function() {
-            if (contenuFichierCalibration !== '') {
-                traiterCalibrat();
-            }
-        }
-    </script>
+    <div id="tooltip" style="display: none; position: absolute;"></div>
     
     <div class="concentrations">
     
@@ -25,27 +19,22 @@ function vueConcentrations() {
             
             <div class="bandeauCalibration">
                 <div class="wrapTraceursCalibration">
-                    <span class="traceurActive">Uranine</span>
-                    <span>Sulforodamine</span>
-                    <span>AminoGacid</span>
-                    <span>Turbidité</span>
+                    
                 </div>
             
                 <span class="separatorCalibration"></span>
             
                 <div class="wrapLampesCalibration">
-                    <span class="lampeActive">L1</span>
-                    <span>L2</span>
-                    <span>L3</span>
-                    <span>L4</span>
+                    
                 </div>
             
                 <span class="separatorCalibration"></span>
             
                 <div>
-                    <div class="boutonOrange boutonFonce">IMPORTER FICHIER<img src="Ressources/img/importer.png"><span>IMPORTER UN AUTRE FICHIER</span></div>
-                    <div class="boutonOrange boutonFonce">ZOOM<img src="Ressources/img/circulaire.png"><span>RÉINITIALISER LE ZOOM</span></div>
-                    <div class="boutonOrange boutonFonce"><img src="Ressources/img/copier.png"><span>CAPTURE D'ÉCRAN</span></div>
+                    <div class="boutonOrange boutonFonce boutonBandeauCalibration" onclick="ouvrirChoisirFichierCalibration()">IMPORTER FICHIER<img src="Ressources/img/importer.png"><span>IMPORTER UN AUTRE FICHIER</span></div>
+                    <div class="boutonOrange boutonFonce boutonBandeauCalibration" onclick="reinitialiserZoomGraphiqueConcentrations()">ZOOM<img src="Ressources/img/circulaire.png"><span>RÉINITIALISER LE ZOOM</span></div>
+                    <div class="boutonOrange boutonFonce boutonBandeauCalibration" onclick="telechargerFichierCSV()">EXPORTER<img src="Ressources/img/dl.png"><span>EXPORTER EN CSV</span></div>
+                    <div class="boutonOrange boutonFonce boutonBandeauCalibration" onclick="copierScreenElement('.donnees')"><img src="Ressources/img/copier.png"><span>CAPTURE D'ÉCRAN</span></div>
                 </div>
             
             </div>
@@ -54,7 +43,6 @@ function vueConcentrations() {
         
         <div class="bandeau">
             <input type="file" accept=".dat, .csv" id="calibratInput" onchange="traiterCalibrat()">
-            <div onclick="reinitialiserZoomGraphiqueConcentrations()" id="boutonResetZoom" class="bouton boutonClair disabled">RÉINITIALISER LE ZOOM</div>
         </div>
         
         <div class="descriptionConcentration"></div>
@@ -88,7 +76,7 @@ function vueConcentrations() {
                 <br>
                 
                 <div class="elementCentre">
-                    <div id="start" class="bouton boutonFonce" onclick="ouvrirChoisirFichier()">COMMENCER</div>
+                    <div id="start" class="bouton boutonFonce" onclick="ouvrirChoisirFichierCalibration()">COMMENCER</div>
                 </div>
             </div>
             

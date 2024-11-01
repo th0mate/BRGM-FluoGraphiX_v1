@@ -1,5 +1,6 @@
 function vueGraphique() {
     return `
+
     <div id="tooltip" style="display: none; position: absolute;"></div>
        
     <div class="graphiques">

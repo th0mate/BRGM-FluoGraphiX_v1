@@ -130,6 +130,10 @@ Object.defineProperty(window, 'pageActuelle', {
                 document.getElementById('axeY').classList.add('active');
                 document.getElementById('axeX').classList.add('active');
             }, 1000);
+        } else if (value === 'vueConcentrations') {
+            setTimeout(() => {
+                setEventListeneresBandeauCalibration();
+            }, 1000);
         }
     }
 });
@@ -143,6 +147,14 @@ function ouvrirChoisirFichier() {
     inputFichier.click();
 }
 
+
+/**
+ * Affiche l'explorateur de fichier pour choisir un fichier à traiter (calibration)
+ */
+function ouvrirChoisirFichierCalibration() {
+    const inputFichier = document.querySelector('#calibratInput');
+    inputFichier.click();
+}
 
 /**
  * Télécharge le fichier Ressources/FluoGraphiX.zip

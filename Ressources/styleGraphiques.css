@@ -166,7 +166,6 @@
  */
 
 #tooltip {
-    /* background orange mais un peu transparent */
     background-color: var(--grisClair);
     color: #fff;
     padding: 5px 10px;
