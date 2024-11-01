@@ -4,15 +4,6 @@ function vueConcentrations() {
     <div id="tooltip" style="display: none; position: absolute;"></div>
     
     <div class="concentrations">
-    
-        <div class="bannierePage">
-            <img src="Ressources/img/traceurs.jpg.webp" alt="Sources">
-            <div class="contenu">
-                <p><span onclick="afficherVue('vueAccueil')"><span></span>Accueil</span> <strong> / Calibration</strong></p>
-                <h1>Calibration</h1>
-                <span class="auteur"><img src="Ressources/img/auteur.png" alt=""> <h3>© BRGM - Bertrand Aunay, La Réunion, 2010.</h3></span>
-            </div>
-        </div>
         
         <div class="wrapBandeauCalibration">
             <h2 class="orange">Données à afficher</h2>
@@ -67,7 +58,7 @@ function vueConcentrations() {
                 <br>
                 <p>Types de fichiers pris en charge : .dat, .csv.</p>
                 <p>Vos fichiers sont automatiquement convertis au format .csv, pour faciliter ensuite leur lecture et leur modification.</p>
-                <p>Vous pouvez également importer ces fichiers dans la partie "graphiques" de FLuoGraphiX.</p>
+                <p>Vous pouvez également importer ces fichiers dans la partie "graphiques" de FluoGraphiX.</p>
                 <p>Un seul fichier sélectionné au maximum.</p>
                 
                 <br>               
