@@ -271,6 +271,46 @@
     box-shadow: 0 0 0 2px black, inset 0 0 0 1px black;
 }
 
+.contenuWithIcon {
+    img {
+        width: 50px!important;
+    }
+}
+
+.base {
+    align-items: flex-start;
+
+    h1 {
+        font-size: 2.5em;
+    }
+
+    img:not(.icon) {
+        width: 60%!important;
+    }
+
+    div {
+        min-width: 0!important;
+        width: 38%;
+    }
+}
+
+.classic {
+    align-items: flex-start;
+
+    h1 {
+        font-size: 2.2em;
+    }
+
+    img:not(.icon) {
+        width: 45%!important;
+    }
+
+    div {
+        min-width: 0!important;
+        width: 45%;
+    }
+}
+
 
 /*
 ------------------------------------------------------------------------------------------------------------------------
