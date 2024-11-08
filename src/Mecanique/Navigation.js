@@ -15,20 +15,6 @@ if (window.location.protocol === "file:" && navigator.onLine) {
 
 
 /**
- * Affiche une popup d'information
- */
-if (window.location.protocol !== "file:" && navigator.onLine) {
-    const random = Math.floor(Math.random() * 25);
-    if (random === 1) {
-        setTimeout(() => {
-            afficherPopup('<img src="Ressources/img/information.png" alt="info">', 'Le saviez vous ? Vous pouvez utiliser ce site hors-ligne !', 'Vous pouvez télécharger ce site et l\'utiliser normalement en local sur votre machine, et sans internet.', '<div class="bouton boutonFonce" onclick="fermerPopup()">Fermer</div>\n' +
-                '<div class="bouton boutonFonce" onclick="afficherVue(`vueTelecharger`)">En Savoir Plus</div>');
-        }, 3000);
-    }
-}
-
-
-/**
  * Affiche la catégorie 'télécharger' si l'utilisateur est connecté à internet
  */
 if (window.location.protocol !== "file:") {

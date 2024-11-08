@@ -45,12 +45,70 @@ function vueAccueil() {
             <div class="wrapAccueil classic">
                 <img src="Ressources/img/586_1x_shots_so.png" alt="Accueil">
                 <div class="contenuWithIcon">
-                    <h1 class="orange"><img class="icon" src="Ressources/img/salut.png" alt="Accueil"><br>Accessible partout, tout le temps</h1>
+                    <h1 class="orange"><img class="icon" src="Ressources/img/accessible.png" alt="Accueil"><br>Accessible partout, tout le temps</h1>
                     <h2 class="light">Que ce soit sur le terrain, sans connexion internet, sur téléphone portable ou sur ordinateur, FluoGraphiX vous accompagne toujours au plus près de vos données.</h2>
                 </div>
             </div>
             
+            <span class="titreAccueil"><h2 class="orange">Des fonctionnalités innovantes</h2></span>
             
+            <div class="rowPresentation">
+                <div class="elementPresentation">
+                    <img src="Ressources/img/accessible.png" alt="Accueil">
+                    <h3>Mobile, comme vous</h3>
+                    <p>Utilisable sur PC, tablette et smartphone, même sans connexion</p>
+                </div>
+                
+                <div class="elementPresentation">
+                    <img src="Ressources/img/polyvalence.png" alt="Accueil">
+                    <h3>Polyvalent</h3>
+                    <p>Gestion des données de calibration et des données de mesure</p>
+                </div>
+                
+                <div class="elementPresentation">
+                    <img src="Ressources/img/outils.png" alt="Accueil">
+                    <h3>Pensé pour vos outils</h3>
+                    <p>Exports compatibles avec le logiciel TRAC</p>
+                </div>
+                
+                <div class="elementPresentation">
+                    <img src="Ressources/img/compteur-de-vitesse.png" alt="Accueil">
+                    <h3>Hautes performances</h3>
+                    <p>Des performances optimales, même avec des fichiers volumineux</p>
+                </div>
+            </div>
+            
+            <div class="wrapAccueil reduce">
+                <img src="Ressources/img/iphone.png" alt="Accueil">
+                <div class="contenuWithIcon">
+                    <h1 class="orange"><img class="icon" src="Ressources/img/installer.png" alt="Accueil"><br>Installation rapide et facile</h1>
+                    <img src="Ressources/img/guideInstallation.png" class="illu" alt="Accueil">
+                </div>
+            </div>
+            
+            <div class="wrapAccueil classic reverted bigPicture">
+                <img src="Ressources/img/shots_yuirhdkjf.png" alt="Accueil">
+                <div class="contenuWithIcon">
+                    <h1 class="orange"><img class="icon" src="Ressources/img/charts.png" alt="Accueil"><br>Graphique de données de mesure</h1>
+                    <h2 class="light">Consultez vos données mesurées dans des graphiques réactifs. Profitez du zoom et du déplacement pour analyser vos données dans les moindres détails.</h2>
+                </div>
+            </div>
+            
+            <div class="wrapAccueil classic">
+                <img src="Ressources/img/907shots_so.png" alt="Accueil">
+                <div class="contenuWithIcon">
+                    <h1 class="orange"><img class="icon" src="Ressources/img/calculates.png" alt="Accueil"><br>Nombreux calculs possibles</h1>
+                    <h2 class="light">Avec FluoGraphiX, vous pouvez corriger l'influence de la turbidité sur vos traceurs, corriger le bruit de fond naturel, convertir vos traceurs en concentration, et corriger les interférences entre vos traceurs, le tout en quelques clics.</h2>
+                </div>
+            </div>
+            
+            <div class="wrapAccueil classic reverted">
+                <img src="Ressources/img/calibrationPicture.png" alt="Accueil">
+                <div class="contenuWithIcon">
+                    <h1 class="orange"><img class="icon" src="Ressources/img/outils.png" alt="Accueil"><br>Données de calibration</h1>
+                    <h2 class="light">Parcourez les valeurs de calibration de vos différents traceurs, soyez avertis des valeurs aberrantes, dessinez vos courbes de calibration, et convertissez vos fichiers au format CSV.</h2>
+                </div>
+            </div>
             
         
     </div>
