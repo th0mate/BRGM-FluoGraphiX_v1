@@ -202,7 +202,7 @@ function vueDocumentation() {
                 <div class="etape">
                     <div>
                         <h3 class="findable"><span>3</span>Zoom et déplacement</h3>
-                        <p>Vous avez la possibilité de zoomer dans un graphique. Pour ce faire, utiliser la molette de votre souris en ciblant la zone à zoomer. Pour vous déplacer dans un graphique, maintenez le clic.</p>
+                        <p>Vous avez la possibilité de zoomer dans un graphique. Pour se faire, utiliser la molette de votre souris en ciblant la zone à zoomer. Pour vous déplacer dans un graphique, maintenez le clic.</p>
                         <p>Vous pouvez désactiver/activer le zoom et le déplacer sur les axes en cochant ou décochant les cases de la catégorie "Gestion du Zoom/déplacement.</p>
                     </div>
                     <img src="Ressources/img/screen12.png" alt="">
@@ -380,7 +380,7 @@ function vueDocumentation() {
                     <div>
                         <h3 class="findable"><span>7</span>Exporter vers TRAC</h3>
                         <p>Après avoir converti un ou plusieurs traceurs en concentration, vous pouvez exporter vos données en un format CSV adapté pour le logiciel TRAC.</p>
-                        <p>Pour ce faire, vous pouvez cliquer sur le bouton "exporter les données". Un nouveau popup s'ouvre.</p>
+                        <p>Pour se faire, vous pouvez cliquer sur le bouton "exporter les données". Un nouveau popup s'ouvre.</p>
                         <p>Vous pouvez alors choisir en un export standard CSV, ou un export CSV dédié à TRAC.</p>
                         <p>Sélectionnez alors la date d'injection, en utilisant votre clavier ou en cliquant sur le calendrier. Vous pouvez sélectionner une date comprise entre la première et la dernière date du graphique affiché.</p>
                         <p>Si plusieurs traceurs ont été convertis en concentration, il vous est demandé d'en sélectionner un.</p>

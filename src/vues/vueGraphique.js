@@ -141,6 +141,7 @@ function vueGraphique() {
             <h2>Votre appareil n'est pas pris en charge</h2>
             <h4>L'appareil avec lequel vous utilisez ce site n'a pas un écran suffisamment grand pour afficher les données de façon lisible</h4>
             <h4>Si vous êtes sur ordinateur et que votre fenêtre de votre navigateur est réduite, agrandissez-la davantage.</h4>
+            <p>Note : une prochaine version de l'outil FluoGraphiX vous permettra d'utiliser l'entièreté du site sur smartphone.</p>
         </div>
         <div class="donnees" style="display: none;"></div>
     </div>

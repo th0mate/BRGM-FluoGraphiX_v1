@@ -132,7 +132,7 @@
     margin-bottom: 50px;
 }
 
-.actionsRapides > .action > img, .wrapAccueil > .action > img{
+.actionsRapides > .action > img, .wrapAccueil > .action > img {
     width: 120px;
     z-index: 2;
 }
@@ -231,7 +231,6 @@
 }
 
 
-
 .wrapAccueil > img {
     width: 400px;
 }
@@ -273,7 +272,7 @@
 
 .contenuWithIcon {
     img {
-        width: 50px!important;
+        width: 50px !important;
     }
 }
 
@@ -285,11 +284,11 @@
     }
 
     img:not(.icon) {
-        width: 60%!important;
+        width: 60% !important;
     }
 
     div {
-        min-width: 0!important;
+        min-width: 0 !important;
         width: 38%;
     }
 }
@@ -307,11 +306,11 @@
     }
 
     img:not(.icon) {
-        width: 45%!important;
+        width: 45% !important;
     }
 
     div {
-        min-width: 0!important;
+        min-width: 0 !important;
         width: 45%;
     }
 }
@@ -325,7 +324,7 @@
 .rowPresentation {
     width: 98%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     align-content: center;
     flex-wrap: wrap;
@@ -339,7 +338,7 @@
         align-content: center;
         width: 250px;
         text-align: center;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
 
         img {
             width: 50px;
@@ -359,13 +358,14 @@
 
 .reduce {
     width: 70%;
+
     img {
         width: 450px;
     }
 
     div {
         .illu {
-            width: 350px!important;
+            width: 350px !important;
         }
     }
 }
@@ -376,7 +376,7 @@
 
 .bigPicture {
     img:not(.icon) {
-        width: 50%!important;
+        width: 50% !important;
     }
 }
 
@@ -386,6 +386,14 @@
 -----------------------------------------------------  RESPONSIVE  -----------------------------------------------------
  */
 
+@media (max-width: 1020px) {
+
+    .reduce {
+        width: 98%;
+    }
+
+}
+
 @media (max-width: 900px) {
     .accueilBanniere > .contenu > h1 {
         font-size: 3em;
@@ -393,24 +401,49 @@
 
     .accueil > .bannierePage > .contenu > h2 {
         width: 90%;
-        font-size: 1.7em!important;
+        font-size: 1.7em !important;
     }
 
     .wrapAccueil {
         flex-direction: column;
+        align-items: center;
     }
 
     .wrapAccueil > * {
         margin-bottom: 30px;
     }
 
+    .classic {
+        img:not(.icon) {
+            width: 80% !important;
+        }
+    }
+
+    .base {
+        img:not(.icon) {
+            width: 98% !important;
+        }
+    }
+
     .wrapAccueil > img {
-        width: 60%;
+        width: 80% !important;
+    }
+
+    .reduce {
+        width: 98%;
+
+        img:not(.icon, .illu) {
+            width: 40% !important;
+        }
+
+        .illu {
+            width: 90% !important;
+        }
     }
 
     .wrapAccueil > div:not(#actionsRapides) {
         width: 98% !important;
-        max-width: none!important;
+        max-width: none !important;
         min-width: 0;
     }
 
@@ -422,7 +455,7 @@
 
     .accueil > .bannierePage > .contenu > h2 {
         width: 90%;
-        font-size: 1.5em!important;
+        font-size: 1.5em !important;
     }
 
     .accueilBanniere > .contenu {
@@ -431,6 +464,10 @@
 
     .accueilBanniere > .contenu > h1 {
         font-size: 2.5em;
+    }
+
+    .contenuWithIcon {
+        width: 100%;
     }
 
     .wrapAccueil > img {
