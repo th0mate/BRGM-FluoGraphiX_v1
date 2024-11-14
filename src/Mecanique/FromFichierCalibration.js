@@ -361,6 +361,7 @@ function ajouterTraceurDansListe() {
             const span = document.createElement('span');
             span.textContent = traceurs[i].nom;
             span.id = 'traceur' + traceurs[i].nom;
+            span.classList.add('traceurElement');
 
             if (i === 1) {
                 span.classList.add('traceurActive');
@@ -405,6 +406,7 @@ function ajouterLigneTraceurDansListe(idData, traceur) {
         const span = document.createElement('span');
         span.textContent = 'L' + i;
         span.id = 'lampe' + i;
+        span.classList.add('ligneElement');
 
         if (i === idData) {
             span.classList.add('lampeActive');
@@ -530,6 +532,7 @@ function afficherTableauTraceur(traceur) {
         tbody.appendChild(tr);
     }
 
+    document.querySelector('.descriptionConcentration').style.display = 'block';
     document.querySelector('.descriptionConcentration').innerHTML = `<h2>Données de l'appareil <span>${numeroFluorimetre}</span> du <span>${traceur.dateMesure}</span> :</h2>`;
     tableau.appendChild(tbody);
     tableau.insertAdjacentHTML('afterbegin', `<caption>Signaux en mV du traceur ${traceur.nom}</caption>`);
