@@ -342,11 +342,11 @@ function effectuerCalculsParasites3Valeurs(traceur, idLampe) {
     let ligneLampeATraiter = [];
 
     for (let i = 1; i <= traceur.echelles.length; i++) {
-        
+
         if (!isNaN(traceur.getDataParNom('L' + traceur.lampePrincipale + '-' + i))) {
             ligneLampePrincipale.push([traceur.getDataParNom('L' + traceur.lampePrincipale + '-' + i) - eau.getDataParNom('L' + traceur.lampePrincipale + '-1')]);
         }
-        
+
         if (!isNaN(traceur.getDataParNom('L' + idLampe + '-' + i))) {
             ligneLampeATraiter.push([traceur.getDataParNom('L' + idLampe + '-' + i) - eau.getDataParNom('L' + idLampe + '-1')]);
         }

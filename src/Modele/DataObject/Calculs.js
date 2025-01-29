@@ -71,8 +71,7 @@ class Calculs {
         let string = '';
 
         for (let [nom, valeur] of this.parametres) {
-            string += '<span'> + nom + ' = ' + valeur + '</span>';
-            console.log('<span'> + nom + ' = ' + valeur + '</span>');
+            string += '<span>' + nom + ' = ' + valeur + '</span>';
         }
 
         return string;
