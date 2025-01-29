@@ -17,6 +17,11 @@ let nbValeurLampe = 0;
  */
 let donneesCorrompues = false;
 
+/**
+ * Contient un objet calcul, représentant l'équation de la courbe de calibration
+ */
+let equationCourbeCalibration;
+
 
 /**
  * ---------------------------------------------------------------------------------------------------------------------
@@ -92,6 +97,8 @@ function initialiserCalculsCourbes(idLampe, traceur) {
  */
 function effectuerCalculsCourbes(idLampe, traceur) {
     nbValeurLampe = 0;
+    equationCourbeCalibration = null;
+
     for (let i = 0; i < traceur.echelles.length; i++) {
         if (!isNaN(traceur.getDataParNom('L' + idLampe + '-' + (i + 1)))) {
             nbValeurLampe++;
@@ -121,7 +128,14 @@ function effectuerCalculsCourbes(idLampe, traceur) {
             const pointX = traceur.getDataParNom('L' + traceur.lampePrincipale + '-' + index);
             const pointY = traceur.getDataParNom('L' + idLampe + '-' + index);
 
+            equationCourbeCalibration = new Calculs('Ln(C)=a0+a1*ln(dmV)');
+            equationCourbeCalibration.ajouterParametreCalcul('a0', (pointY - eauValeurLampe) / (pointX - eauValeurLampePrincipale));
+            equationCourbeCalibration.ajouterParametreCalcul('a1', NaN);
+            equationCourbeCalibration.ajouterParametreCalcul('a2', NaN);
+            afficherEquationDroite();
+
             return [[(pointY - eauValeurLampe) / (pointX - eauValeurLampePrincipale), NaN, NaN]];
+
         } else if (nbValeurLampe === 2) {
             return effectuerCalculsParasites3Valeurs(traceur, idLampe);
         } else {
@@ -152,6 +166,13 @@ function effectuerCalculsCourbes(idLampe, traceur) {
             }
             dmv.push(temp - eau.getDataParNom('L' + idLampe + '-1'));
             resultat.push(arrondir8Chiffres((y[1] - y[0]) / (dmv[1] - dmv[0])));
+
+            equationCourbeCalibration = new Calculs('Ln(C)=a0+a1*ln(dmV)');
+            equationCourbeCalibration.ajouterParametreCalcul('a0', NaN);
+            equationCourbeCalibration.ajouterParametreCalcul('a1', resultat[0][0]);
+            equationCourbeCalibration.ajouterParametreCalcul('a2', NaN);
+            afficherEquationDroite();
+
             return resultat;
 
         } else {
@@ -189,11 +210,25 @@ function effectuerCalculsCourbes(idLampe, traceur) {
             }
 
             const erreurType = 1.96 * (Math.sqrt(derniereColonne / (colonne1.length - 3)));
+
+            equationCourbeCalibration = new Calculs('Ln(C)=a0+a1*ln(dmV)+a2*ln(dmV)^2');
+            equationCourbeCalibration.ajouterParametreCalcul('a0', resultat[0][0]);
+            equationCourbeCalibration.ajouterParametreCalcul('a1', resultat[0][1]);
+            equationCourbeCalibration.ajouterParametreCalcul('a2', resultat[0][2]);
+
             resultat.push(erreurType);
+
+            afficherEquationDroite();
             return resultat;
 
         }
     }
+
+}
+
+function afficherEquationDroite() {
+    document.querySelector('.equation').innerHTML = `<span>${equationCourbeCalibration.toStringEquation()}</span>`;
+    document.querySelector('.equation').innerHTML += `${equationCourbeCalibration.toStringValeursParametres()}`;
 }
 
 

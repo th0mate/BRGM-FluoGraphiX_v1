@@ -98,9 +98,9 @@ function vueConcentrations() {
         
             <div class="equation">
                 <span>Ln(C)=a0+a1*ln(dmV)+a2*ln(dmV)^2</span>
-                <span>a0 = 0.8569</span>
-                <span>a1 = 0.9568</span>
-                <span>a2 = 1.2365</span>
+                <span>a0 = NaN</span>
+                <span>a1 = NaN</span>
+                <span>a2 = NaN</span>
             </div>
         
             <div class="boutonOrange boutonFonce boutonBandeauCalibration">

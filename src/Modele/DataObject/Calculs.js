@@ -57,19 +57,7 @@ class Calculs {
      * Retourne une équation sous la forme Ln(C)=a0+a1*ln(dmV)+a2*ln(dmV)^2
      */
     toStringEquation() {
-        let string = 'Ln(C)=';
-        let i = 0;
-
-        for (let [nom, valeur] of this.parametres) {
-            if (i === 0) {
-                string += valeur;
-            } else {
-                string += '+' + valeur + '*ln(dmV)^' + i;
-            }
-            i++;
-        }
-
-        return string;
+        return this.nom;
     }
 
 
@@ -83,7 +71,8 @@ class Calculs {
         let string = '';
 
         for (let [nom, valeur] of this.parametres) {
-            string += nom + ' = ' + valeur + '\n';
+            string += '<span'> + nom + ' = ' + valeur + '</span>';
+            console.log('<span'> + nom + ' = ' + valeur + '</span>');
         }
 
         return string;
