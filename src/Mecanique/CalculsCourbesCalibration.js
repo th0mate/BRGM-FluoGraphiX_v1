@@ -31,6 +31,11 @@ let donneesCorrompues = false;
  * @param traceur le traceur
  */
 function initialiserCalculsCourbes(idLampe, traceur) {
+
+    if (!document.querySelector('#graphique')) {
+        donneesCorrompues = false;
+    }
+
     const resultat = effectuerCalculsCourbes(idLampe, traceur);
 
     if (traceur.lampePrincipale !== idLampe) {
