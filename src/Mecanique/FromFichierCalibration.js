@@ -88,6 +88,7 @@ function initFichierCalibration(estFichierDat = true, estDepuisCalibration = tru
 
         if (estDepuisCalibration) {
             ajouterTraceurDansListe();
+            document.querySelector('.equationPannel').style.display = 'flex';
         } else {
             testerTousTraceurs();
         }
@@ -782,3 +783,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
 
 });
+
+
+
+
+function afficherEquation() {
+    document.querySelector('.equationPannel').style.right = '0';
+}
+
+function fermerEquation() {
+    document.querySelector('.equationPannel').style.right = '-350px';
+}

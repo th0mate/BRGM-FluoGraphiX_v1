@@ -84,6 +84,31 @@ function vueConcentrations() {
             </div>
         </div>
         
+        
+        
+        
+        
+        <div class="equationPannel">
+            <div class="gomette" onclick="afficherEquation()">
+                <img src="Ressources/img/equation.png" alt="">
+            </div>
+        
+            <img class="cross" src="Ressources/img/close.png" alt="Fermer" onclick="fermerEquation()">
+            <h2>Équation de la droite de calibration</h2>
+        
+            <div class="equation">
+                <span>Ln(C)=a0+a1*ln(dmV)+a2*ln(dmV)^2</span>
+                <span>a0 = 0.8569</span>
+                <span>a1 = 0.9568</span>
+                <span>a2 = 1.2365</span>
+            </div>
+        
+            <div class="boutonOrange boutonFonce boutonBandeauCalibration">
+                <span>Copier</span>
+                <img src="Ressources/img/copier.png" alt="Copier">
+            </div>
+        </div>
+        
     
      
         

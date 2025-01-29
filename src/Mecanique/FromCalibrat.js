@@ -684,3 +684,4 @@ function creerTurbidityCSV() {
 function supprimerPointVirgule(texte) {
     return texte.replace(/;/g, '');
 }
+
