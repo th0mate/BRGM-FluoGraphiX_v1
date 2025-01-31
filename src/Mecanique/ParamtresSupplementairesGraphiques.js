@@ -126,7 +126,7 @@ function afficherPopupParametresGraphiques() {
         let ongletCorrectionBruitDeFond = '';
         if (calculsInterferences.length > 0) {
             nbTraceursInterferences = calculsInterferences[0].getParametreParNom('nombreTraceurs');
-            ongletCorrectionBruitDeFond = '<div class="bouton boutonFonce" onclick="afficherOngletParametre(5)">Corriger le bruit de fond<img src="Ressources/img/graphique.png" alt=""></div>';
+            ongletCorrectionBruitDeFond = '<div class="bouton boutonFonce" onclick="afficherOngletParametre(4)">Corriger le bruit de fond<img src="Ressources/img/graphique.png" alt=""></div>';
         } else {
             ongletCorrectionBruitDeFond = '<div class="bouton boutonFonce disabled">Corriger le bruit de fond<img src="Ressources/img/graphique.png" alt=""></div>';
         }
@@ -144,9 +144,9 @@ function afficherPopupParametresGraphiques() {
         <div class="ongletsParam">
             <div class="bouton boutonFonce" onclick="afficherOngletParametre(1)">Paramètres<img src="Ressources/img/parametres.png" alt=""></div>
             <div class="bouton boutonFonce" onclick="afficherOngletParametre(2)">Corriger la turbidité<img src="Ressources/img/corriger.png" alt=""></div>
-            <div class="bouton boutonFonce" onclick="afficherOngletParametre(3)">Convertir en concentrations<img src="Ressources/img/calculatrice.png" alt=""></div>
-            <div class="bouton boutonFonce" onclick="afficherOngletParametre(4)">Corriger les interférences<img src="Ressources/img/fiole.png" alt=""></div>
+            <div class="bouton boutonFonce" onclick="afficherOngletParametre(3)">Corriger les interférences<img src="Ressources/img/fiole.png" alt=""></div>
             ${ongletCorrectionBruitDeFond}
+            <div class="bouton boutonFonce" onclick="afficherOngletParametre(5)">Convertir en concentrations<img src="Ressources/img/calculatrice.png" alt=""></div>
         </div>
         
         <div class="separator" id="1">
@@ -223,8 +223,8 @@ function afficherPopupParametresGraphiques() {
             
             <div class="boutonFonce bouton boutonOrange" onclick="lancerCorrectionTurbidite()">TERMINER</div></div><span class="illu"><h2>Correction de la turbidité</h2><img src="Ressources/img/data.png" alt=""></span></div>
         
-        <div class="separator" id="3">
-        <div class="ongletParam" id="3">        <span class="rappel vert"></span>   
+        <div class="separator" id="5">
+        <div class="ongletParam" id="5">        <span class="rappel vert"></span>   
             <br>
             <p>Sélectionnez le traceur à afficher :</p>
             <select class="selectOrange" onchange="metAJourTraceurAModifier(this.value)">
@@ -255,7 +255,7 @@ function afficherPopupParametresGraphiques() {
         }
         selectNbTraceurs += '</select>';
 
-        popupHTML += `<div class="separator" id="4"><div class="ongletParam" id="4">  <span class="rappel jaune"></span>          
+        popupHTML += `<div class="separator" id="3"><div class="ongletParam" id="3">  <span class="rappel jaune"></span>          
             <br>
             
             <p>Choisissez le nombre de traceurs présents :</p>
@@ -307,7 +307,7 @@ function afficherPopupParametresGraphiques() {
             }
 
 
-            popupHTML += `<div class="separator" id="5"><div class="ongletParam" id="5"><span class="rappel bleuGris"></span>
+            popupHTML += `<div class="separator" id="4"><div class="ongletParam" id="4"><span class="rappel bleuGris"></span>
             <br>
             <p>Facultatif (à faire en premier lieu) - Sélectionnez la période influencée par le traceur :</p>
             <div class="boutonFonce bouton boutonOrange" onclick="selectionnerZoneGraphique()">SELECTIONNER</div>
@@ -457,12 +457,14 @@ function afficherOngletParametre(idOnglet) {
     }
     onglets1[idOnglet - 1].classList.add('active');
 
+
     const onglets = document.querySelectorAll('.separator');
 
     for (let i = 0; i < onglets.length; i++) {
         onglets[i].style.display = 'none';
     }
-    onglets[idOnglet - 1].style.display = 'flex';
+    //onglets[idOnglet - 1].style.display = 'flex';
+    document.querySelector(`.separator[id="${idOnglet}"]`).style.display = 'flex';
 
     if (idOnglet === 2) {
         preparerInputRange();
