@@ -18,7 +18,6 @@ function calculerConcentration(idLampe, traceur) {
 
     let resultat = [];
 
-    //TODO: CORRIGER LE IF !!!
     if (traceur.unite.toLowerCase() === 'ntu' && idLampe !== 4) {
 
         afficherCourbeParasites3Valeurs(effectuerCalculsParasites(traceur, idLampe), idLampe, traceur);

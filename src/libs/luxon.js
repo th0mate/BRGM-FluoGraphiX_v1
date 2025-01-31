@@ -795,8 +795,6 @@ var luxon = (function (exports) {
     var _excluded = ["base"],
         _excluded2 = ["padTo", "floor"];
 
-    // todo - remap caching
-
     var intlLFCache = {};
     function getCachedLF(locString, opts) {
         if (opts === void 0) {

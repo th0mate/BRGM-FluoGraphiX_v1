@@ -59,7 +59,7 @@ function vueGraphique() {
             
             <div class="separatorGraphique"><span></span><span class="text">EXPORT DES DONNÉES</span><span></span></div>
             
-            <div class="elementBandeau" onclick="preparerTelechargement()">
+            <div class="elementBandeau" onclick="afficherPopupTelecharger()">
                 <span>EXPORTER LES DONNÉES</span>
                 <img src="Ressources/img/dl.png" alt="Ajouter">
             </div>

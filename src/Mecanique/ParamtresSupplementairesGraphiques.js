@@ -874,6 +874,8 @@ function ajouterCourbeConcentrationTraceur(traceur) {
  * Affiche un pop-up permettant de choisir entre un export normal et un export TRAC
  */
 function afficherPopupTelecharger() {
+
+
     let overlay = document.createElement('div');
     overlay.style.position = 'fixed';
     overlay.style.top = '0';
@@ -883,7 +885,6 @@ function afficherPopupTelecharger() {
     overlay.classList.add('overlayExport');
     overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
     overlay.style.zIndex = '1000';
-    document.body.appendChild(overlay);
 
     document.body.style.overflowY = 'hidden';
 
@@ -902,6 +903,14 @@ function afficherPopupTelecharger() {
 
     let select = '';
     let border = '';
+
+    if (listeTraceursConcentration.length === 0) {
+        preparerTelechargement();
+        return;
+    }
+
+    document.body.appendChild(overlay);
+
     if (listeTraceursConcentration.length > 1) {
         select = '<p>Choisissez le traceur à exporter</p>';
         select += '<select class="selectOrange" id="selectTraceurExport">';

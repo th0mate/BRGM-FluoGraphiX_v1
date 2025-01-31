@@ -215,6 +215,7 @@ function effectuerCalculsCourbes(idLampe, traceur) {
             equationCourbeCalibration.ajouterParametreCalcul('a0', resultat[0][0]);
             equationCourbeCalibration.ajouterParametreCalcul('a1', resultat[0][1]);
             equationCourbeCalibration.ajouterParametreCalcul('a2', resultat[0][2]);
+            //TODO : mettre les bonnes équations !
 
             resultat.push(erreurType);
 
@@ -227,8 +228,10 @@ function effectuerCalculsCourbes(idLampe, traceur) {
 }
 
 function afficherEquationDroite() {
-    document.querySelector('.equation').innerHTML = `<span>${equationCourbeCalibration.toStringEquation()}</span>`;
-    document.querySelector('.equation').innerHTML += `${equationCourbeCalibration.toStringValeursParametres()}`;
+    if (document.querySelector('.equation')) {
+        document.querySelector('.equation').innerHTML = `<span>${equationCourbeCalibration.toStringEquation()}</span>`;
+        document.querySelector('.equation').innerHTML += `${equationCourbeCalibration.toStringValeursParametres()}`;
+    }
 }
 
 
