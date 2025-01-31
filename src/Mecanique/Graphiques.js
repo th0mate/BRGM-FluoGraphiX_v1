@@ -277,8 +277,8 @@ function afficherGraphiqueTraceur(traceur, idData) {
 
 
     if (idData === traceur.lampePrincipale) {
-        labelX = `Signaux (mV)`;
-        labelY = `Concentrations (${traceur.unite})`;
+        labelX = `Signal (mV)`;
+        labelY = `Concentration (${traceur.unite})`;
 
         for (let i = 1; i <= 4; i++) {
             let data = [];

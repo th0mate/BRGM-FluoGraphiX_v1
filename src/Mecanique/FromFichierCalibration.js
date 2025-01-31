@@ -536,7 +536,7 @@ function afficherTableauTraceur(traceur) {
     document.querySelector('.descriptionConcentration').style.display = 'block';
     document.querySelector('.descriptionConcentration').innerHTML = `<h2>Données de l'appareil <span>${numeroFluorimetre}</span> du <span>${traceur.dateMesure}</span> :</h2>`;
     tableau.appendChild(tbody);
-    tableau.insertAdjacentHTML('afterbegin', `<caption>Signaux en mV du traceur ${traceur.nom}</caption>`);
+    tableau.insertAdjacentHTML('afterbegin', `<caption>Signal en mV du traceur ${traceur.nom}</caption>`);
     document.querySelector('.donnees').appendChild(tableau);
 }
 
