@@ -859,10 +859,6 @@ function ajouterCourbeConcentrationTraceur(traceur) {
         existingChart.data.datasets.push(data);
         existingChart.update();
 
-        document.querySelector('.downloadFile').onclick = function () {
-            afficherPopupTelecharger();
-        }
-
         fermerPopupParametres();
     }
 }
