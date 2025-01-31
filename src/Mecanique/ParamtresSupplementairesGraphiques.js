@@ -262,6 +262,9 @@ function afficherPopupParametresGraphiques() {
        
             ${selectNbTraceurs}
             
+            <!-- texte en italique -->
+            <p style="font-style: italic;">Note : les valeurs utilisées en priorité pour cette correction sont celles issues de courbes "_corr".</p>
+            
             <div class="listeSelectsTraceurs">
             </div>
             
