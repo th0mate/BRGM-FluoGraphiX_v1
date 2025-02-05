@@ -292,6 +292,10 @@ function afficherPopupParametresGraphiques() {
                     continue;
                 }
 
+                if (listeLampesPrincipalesTraceurs.includes('_nat')) {
+                    continue;
+                }
+
                 if (existingChart.data.datasets[i].label.includes('Corr')) {
                     checkBoxCourbesBruitFond += `<label><input type="checkbox" onchange="modifierListeLampesBruitDeFond(this.value)" checked value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
                     listeLampeBruitDeFond.push(existingChart.data.datasets[i].label);
@@ -1820,16 +1824,6 @@ function modifierListeLampesBruitDeFond(valeurCheckBox) {
  *
  */
 function calculerEtAfficherCorrectionBruitFond() {
-
-    //on affiche au format d/m/y - h:m:s la sélection
-    let date1 = DateTime.fromFormat(zoneSelectionnee[0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toFormat('dd/MM/yyyy-HH:mm:ss');
-    let date2 = DateTime.fromFormat(zoneSelectionnee[1], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toFormat('dd/MM/yyyy-HH:mm:ss');
-    console.log(date1, date2);
-
-    if (listeLampeBruitDeFond.length < 2) {
-        afficherMessageFlash('Veuillez sélectionner au moins deux variables pour effectuer le calcul.', 'warning');
-        return;
-    }
 
     let traceursBruitDeFond = [];
     const eau = traceurs.find(traceur => traceur.unite === '');
