@@ -149,6 +149,7 @@ function afficherGraphique(mvContent) {
 
     cacherDoublons();
     document.querySelector('.bandeauGraphiques').style.display = 'flex';
+    document.querySelector('.outilSuppressionCourbes').style.display = 'flex';
     document.querySelector('.infos').style.display = 'none';
 }
 

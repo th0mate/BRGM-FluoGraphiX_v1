@@ -3,6 +3,9 @@
 ------------------------------------------------------  GRAPHIQUE  -----------------------------------------------------
  */
 
+body {
+    overflow-x: hidden;
+}
 
 .graphiques {
     display: flex;
@@ -776,7 +779,7 @@
     width: 350px;
     height: 450px;
     padding: 0;
-    display: flex;
+    display: none;
     transition: all 0.5s ease;
 
     .pastille {
@@ -850,6 +853,34 @@
             height: 100%;
             width: 100%;
         }
+    }
+}
+
+
+.wrapSelectionDates {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+
+    .bouton {
+        margin: 0;
+    }
+
+    input[type="datetime-local"] {
+        color: white;
+        background-color: var(--orangeBRGM);
+        border: 5px solid var(--orangeBRGM);
+        box-shadow: none;
+        width: 200px;
+        height: 30px;
+        border-radius: 0;
+    }
+
+    input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+        width: 30px;
+        height: 30px;
+        margin-left: 10px;
+        cursor: pointer;
     }
 }
 

@@ -313,7 +313,14 @@ function afficherPopupParametresGraphiques() {
             popupHTML += `<div class="separator" id="4"><div class="ongletParam" id="4"><span class="rappel bleuGris"></span>
             <br>
             <p>Facultatif (à faire en premier lieu) - Sélectionnez la période influencée par le traceur :</p>
-            <div class="boutonFonce bouton boutonOrange" onclick="selectionnerZoneGraphique()">SELECTIONNER</div>
+            <div class="wrapSelectionDates">
+                <div class="boutonFonce bouton boutonOrange" onclick="selectionnerZoneGraphique()">Sélection Graphique</div>
+                <span>Du :</span>
+                <input type="datetime-local" id="dateDebutSelection" class="dateDebut" min="${getDateHeureMinimaleGraphique()}" max="${getDateHeureMaximaleGraphique()}" onchange="updateDateDebutSelectionnee(this.value)">
+                
+                <span>au :</span>
+                <input type="datetime-local" id="dateFinSelection" class="dateFin" min="${getDateHeureMinimaleGraphique()}" max="${getDateHeureMaximaleGraphique()}" onchange="updateDateFinSelectionnee(this.value)">      
+            </div>
             <br>
             <p>Sélectionnez les variables explicatives :</p>
             <div class="checkBoxLampes">
@@ -342,6 +349,25 @@ function afficherPopupParametresGraphiques() {
         afficherMessageFlash("Veuillez importer un fichier de données d'abord", 'info');
         fermerPopupParametres();
     }
+}
+
+
+function getDateHeureMinimaleGraphique() {
+    const canvas = document.getElementById('graphique');
+    const existingChart = Chart.getChart(canvas);
+    if (!existingChart || !existingChart.data.datasets.length) return null;
+
+    const dates = existingChart.data.datasets[0].data.map(data => new Date(data.x).getTime());
+    return new Date(Math.min(...dates)).toISOString().slice(0, 16);
+}
+
+function getDateHeureMaximaleGraphique() {
+    const canvas = document.getElementById('graphique');
+    const existingChart = Chart.getChart(canvas);
+    if (!existingChart || !existingChart.data.datasets.length) return null;
+
+    const dates = existingChart.data.datasets[0].data.map(data => new Date(data.x).getTime());
+    return new Date(Math.max(...dates)).toISOString().slice(0, 16);
 }
 
 
@@ -1739,11 +1765,34 @@ function selectionnerZoneGraphique() {
             myChart.options.plugins.zoom.zoom.wheel.enabled = true;
 
             afficherPopupParametresGraphiques();
-            afficherOngletParametre(5);
+            afficherOngletParametre(4);
 
             zoneSelectionnee = [startDate, endDate];
+            const dateDebutElement = document.querySelector('#dateDebutSelection');
+            const dateFinElement = document.querySelector('#dateFinSelection');
+
+            if (dateDebutElement && dateFinElement) {
+                const startDateFormatted = DateTime.fromFormat(startDate, 'dd/MM/yyyy-HH:mm:ss').toFormat('yyyy-MM-dd\'T\'HH:mm');
+                const endDateFormatted = DateTime.fromFormat(endDate, 'dd/MM/yyyy-HH:mm:ss').toFormat('yyyy-MM-dd\'T\'HH:mm');
+
+                dateDebutElement.value = startDateFormatted;
+                dateFinElement.value = endDateFormatted;
+            } else {
+                console.error('Elements not found');
+            }
         }
     });
+}
+
+
+function updateDateDebutSelectionnee(dateFromInputDateTimeLocal) {
+    const formattedDate = DateTime.fromFormat(dateFromInputDateTimeLocal, 'yyyy-MM-dd\'T\'HH:mm').toFormat('dd/MM/yyyy-HH:mm:ss');
+    zoneSelectionnee[0] = formattedDate;
+}
+
+function updateDateFinSelectionnee(dateFromInputDateTimeLocal) {
+    const formattedDate = DateTime.fromFormat(dateFromInputDateTimeLocal, 'yyyy-MM-dd\'T\'HH:mm').toFormat('dd/MM/yyyy-HH:mm:ss');
+    zoneSelectionnee[1] = formattedDate;
 }
 
 
@@ -1771,6 +1820,11 @@ function modifierListeLampesBruitDeFond(valeurCheckBox) {
  *
  */
 function calculerEtAfficherCorrectionBruitFond() {
+
+    //on affiche au format d/m/y - h:m:s la sélection
+    let date1 = DateTime.fromFormat(zoneSelectionnee[0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toFormat('dd/MM/yyyy-HH:mm:ss');
+    let date2 = DateTime.fromFormat(zoneSelectionnee[1], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toFormat('dd/MM/yyyy-HH:mm:ss');
+    console.log(date1, date2);
 
     if (listeLampeBruitDeFond.length < 2) {
         afficherMessageFlash('Veuillez sélectionner au moins deux variables pour effectuer le calcul.', 'warning');
