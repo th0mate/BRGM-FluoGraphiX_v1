@@ -582,3 +582,71 @@ window.addEventListener('DOMContentLoaded', (event) => {
 });
 
 
+/**
+ * ---------------------------------------------------------------------------------------------------------------------
+ * GESTION DE LA SUPPRESSION DE COURBES
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+
+function ouvrirPanneauSuppression() {
+    const panneau = document.querySelector('.outilSuppressionCourbes');
+
+
+    panneau.style.right = '0';
+    //on parcoure le graphique pour récupérer toutes les courbes, on les affiche toutes dans le panneau dans un span, avec une checkbox et un label
+    //les courbes cachées sur le graphique doivent être déjà cochées pour la suppression
+
+    const canvas = document.getElementById('graphique');
+    const existingChart = Chart.getChart(canvas);
+    if (existingChart) {
+        const datasets = existingChart.data.datasets;
+        const panneau = document.querySelector('.outilSuppressionCourbes');
+        const listeCourbes = document.querySelector('.listeCourbesSupprimer');
+        listeCourbes.innerHTML = '';
+        datasets.forEach(dataset => {
+            const isHidden = !existingChart.isDatasetVisible(datasets.indexOf(dataset));
+            console.log(isHidden);
+            const span = document.createElement('span');
+            span.classList.add('courbe');
+            span.innerHTML = `<input type="checkbox" id="${dataset.label}" name="${dataset.label}" value="${dataset.label}" ${isHidden ? 'checked' : ''}>
+                              <label for="${dataset.label}">${dataset.label}</label>`;
+            listeCourbes.appendChild(span);
+        });
+    }
+}
+
+
+function fermerPanneauSuppression() {
+    const panneau = document.querySelector('.outilSuppressionCourbes');
+    panneau.style.right = '-350px';
+}
+
+
+/**
+ * Supprime complètement les courbes sélectionnées du graphique
+ */
+function supprimerCourbes() {
+    //on ne veut pas juste cacher les courbes, on veut les supprimer complètement
+    const canvas = document.getElementById('graphique');
+    const existingChart = Chart.getChart(canvas);
+    if (existingChart) {
+        const datasets = existingChart.data.datasets;
+        const listeCourbes = document.querySelector('.listeCourbesSupprimer');
+        const courbes = listeCourbes.querySelectorAll('.courbe');
+        courbes.forEach(courbe => {
+            const checkbox = courbe.querySelector('input');
+            if (checkbox.checked) {
+                const index = datasets.findIndex(dataset => dataset.label === checkbox.id);
+                existingChart.data.datasets.splice(index, 1);
+            }
+        });
+        existingChart.update();
+    }
+
+    afficherMessageFlash('Courbe(s) supprimée(s) avec succès', 'success');
+    fermerPanneauSuppression();
+
+}
+
+
+

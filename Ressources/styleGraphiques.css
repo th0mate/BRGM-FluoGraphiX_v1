@@ -768,6 +768,95 @@
 }
 
 
+
+.outilSuppressionCourbes {
+    position: absolute;
+    top: 10%;
+    right: -350px;
+    width: 350px;
+    height: 450px;
+    padding: 0;
+    display: flex;
+    transition: all 0.5s ease;
+
+    .pastille {
+        position: absolute;
+        width: 45px;
+        height: 45px;
+        background-color: var(--orangeBRGM);
+        border-top-left-radius: 50%;
+        border-bottom-left-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: 0;
+        left: -45px;
+
+        img {
+            width: 30px;
+            height: 30px;
+        }
+    }
+
+    .fermer {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 25px;
+        height: 25px;
+        padding: 5px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.5s ease;
+
+        &:hover {
+            background-color: var(--orangeBRGM);
+        }
+    }
+
+    .main {
+        color: white;
+        background-color: var(--grisBRGM);
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        overflow-y: auto;
+
+        h2 {
+            margin: 0;
+            font-size: 1.5em;
+            color: var(--orangeBRGM);
+        }
+
+        .bouton {
+            background-color: var(--orangeBRGM);
+            border: 5px solid var(--orangeBRGM);
+            width: 150px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .listeCourbesSupprimer {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            height: 100%;
+            width: 100%;
+        }
+    }
+}
+
+
+
+
+
 /*
 ------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------  RESPONSIVE  ----------------------------------------------------
@@ -882,3 +971,5 @@
     }
 
 }
+
+

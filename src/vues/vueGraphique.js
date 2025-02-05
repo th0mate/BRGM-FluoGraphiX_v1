@@ -144,6 +144,23 @@ function vueGraphique() {
             <p>Note : une prochaine version de l'outil FluoGraphiX vous permettra d'utiliser l'entièreté du site sur smartphone.</p>
         </div>
         <div class="donnees" style="display: none;"></div>
+        
+        
+        <section class="outilSuppressionCourbes">
+            <div class="pastille"><img src="Ressources/img/parametres.png" alt="" onclick="ouvrirPanneauSuppression()"></div>
+            <img src="Ressources/img/close.png" alt="Fermer" class="fermer" onclick="fermerPanneauSuppression()">
+            <div class="main">
+                <h2>Supprimer des courbes</h2>
+                <div class="listeCourbesSupprimer"></div>
+                
+                <br>
+                
+                <div class="bouton boutonFonce" onclick="supprimerCourbes()">SUPPRIMER</div>
+            </div>
+        </section>
+        
+        
+        
     </div>
 </div>
 
