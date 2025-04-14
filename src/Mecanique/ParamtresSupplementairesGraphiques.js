@@ -128,7 +128,7 @@ function afficherPopupParametresGraphiques() {
             nbTraceursInterferences = calculsInterferences[0].getParametreParNom('nombreTraceurs');
             ongletCorrectionBruitDeFond = '<div class="bouton boutonFonce" onclick="afficherOngletParametre(4)">Corriger le bruit de fond<img src="Ressources/img/graphique.png" alt=""></div>';
         } else {
-            ongletCorrectionBruitDeFond = '<div class="bouton boutonFonce disabled">Corriger le bruit de fond<img src="Ressources/img/graphique.png" alt=""></div>';
+            ongletCorrectionBruitDeFond = '<div class="bouton boutonFonce disabled" onclick="informerUtilisateur()">Corriger le bruit de fond<img src="Ressources/img/graphique.png" alt=""></div>';
         }
 
         let popupHTML = "";
@@ -154,11 +154,11 @@ function afficherPopupParametresGraphiques() {
 
 
         if (calibrationEstLieGraphiques()) {
-            popupHTML += `<div class="alert alert-success" id="flash"><img src="Ressources/img/success.png" alt="">Les courbes ont été liées aux labels du fichier de calibration automatiquement. Aucune action n'est requise de votre part.</div>`;
+            popupHTML += `<div class="alert alert-success"><img src="Ressources/img/success.png" alt="">Les courbes ont été liées aux labels du fichier de calibration automatiquement. Aucune action n'est requise de votre part.</div>`;
         } else {
             popupHTML += `
            
-            <div class="alert alert-warning" id="flash"><img src="Ressources/img/warning.png" alt="">Veuillez renommer les courbes de votre graphique pour les faire correspondre à votre fichier de calibration.</div>
+            <div class="alert alert-warning"><img src="Ressources/img/warning.png" alt="">Veuillez renommer les courbes de votre graphique pour les faire correspondre à votre fichier de calibration.</div>
             <table class="">
                 <tr>
                     <th>Label</th>
@@ -346,7 +346,7 @@ function afficherPopupParametresGraphiques() {
         afficherOngletParametre(1);
 
         if (donneesCorrompues) {
-            document.querySelector('.message').innerHTML = `<div class="alert alert-warning" id="flash"><img src="Ressources/img/warning.png" alt="">Certaines de vos données de calibration sont susceptibles d'être incorrectes, veuillez les vérifier. <span onclick="fermerAlerte()">Fermer</span></div>`;
+            document.querySelector('.message').innerHTML = `<div class="alert alert-warning"><img src="Ressources/img/warning.png" alt="">Certaines de vos données de calibration sont susceptibles d'être incorrectes, veuillez les vérifier. <span onclick="fermerAlerte()">Fermer</span></div>`;
         }
 
     } else {
@@ -2333,6 +2333,14 @@ function afficherAnnotationEnDehorsZoneSelectionnee() {
 
     existingChart.options.plugins.annotation.annotations = [annotation1, annotation2];
 
+}
+
+
+/**
+ * Informe l'utilisateur lorsqu'il tente d'effectuer une correction de bruit de fond alors qu'il n'a pas corrigé les interférences.
+ */
+function informerUtilisateur() {
+    afficherMessageFlash("Veuillez d'abord réaliser la correction d'interférence.", "info");
 }
 
 
