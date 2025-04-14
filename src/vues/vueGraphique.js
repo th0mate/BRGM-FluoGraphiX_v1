@@ -40,23 +40,6 @@ function vueGraphique() {
                 <img src="Ressources/img/circulaire.png" alt="Ajouter">
             </div>
             
-            <div class="separatorGraphique"><span></span><span class="text">FORMATS DE DATES</span><span></span></div>
-
-            <div class="elementBandeau" id="amj" onclick="modifierFormat('2')">
-                <span>FORMAT JOUR/MOIS/ANNÉE</span>
-                <img src="Ressources/img/format_jma.png" alt="Ajouter">
-            </div>
-            
-            <div class="elementBandeau" id="jma" onclick="modifierFormat('1')">
-                <span>FORMAT ANNÉE/MOIS/JOUR</span>
-                <img src="Ressources/img/format_amj.png" alt="Ajouter">
-            </div>
-            
-            <div class="elementBandeau disabled" id="auto" onclick="modifierFormat('0')">
-                <span>DÉTECTION AUTOMATIQUE</span>
-                <img src="Ressources/img/automatique.png" alt="Ajouter">
-            </div>
-            
             <div class="separatorGraphique"><span></span><span class="text">EXPORT DES DONNÉES</span><span></span></div>
             
             <div class="elementBandeau" onclick="afficherPopupTelecharger()">
