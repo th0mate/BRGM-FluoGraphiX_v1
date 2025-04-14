@@ -627,7 +627,6 @@ function fermerPanneauSuppression() {
  * Supprime complètement les courbes sélectionnées du graphique
  */
 function supprimerCourbes() {
-    //on ne veut pas juste cacher les courbes, on veut les supprimer complètement
     const canvas = document.getElementById('graphique');
     const existingChart = Chart.getChart(canvas);
     if (existingChart) {
@@ -638,7 +637,10 @@ function supprimerCourbes() {
             const checkbox = courbe.querySelector('input');
             if (checkbox.checked) {
                 const index = datasets.findIndex(dataset => dataset.label === checkbox.id);
-                existingChart.data.datasets.splice(index, 1);
+                if (index !== -1) {
+                    courbesSupprimees.push(datasets[index].label);
+                    existingChart.data.datasets.splice(index, 1);
+                }
             }
         });
         existingChart.update();
@@ -646,8 +648,6 @@ function supprimerCourbes() {
 
     afficherMessageFlash('Courbe(s) supprimée(s) avec succès', 'success');
     fermerPanneauSuppression();
-
 }
-
 
 

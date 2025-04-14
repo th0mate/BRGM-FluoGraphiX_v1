@@ -34,6 +34,11 @@ let premiereDate = "";
  */
 let contenuFichierCalibration = "";
 
+/**
+ * Une liste contenant toutes les coubes supprimées par l'utilisateur
+ */
+let courbesSupprimees = [];
+
 
 /**
  * ---------------------------------------------------------------------------------------------------------------------
@@ -67,6 +72,7 @@ async function traiterFichier() {
     contenuFichierMesures = "";
     contenuFichierCalibration = "";
     nbLignes = 0;
+    courbesSupprimees = [];
     let derniereDate;
 
     let fichierCalibrationFormatDat = true;
@@ -416,37 +422,29 @@ function telechargerFichier() {
         contenuFichierMesures += ligne;
         contenuFichierMesures += temp.split('\n').slice(2).join('\n');
 
-        const canvas = document.getElementById('graphique');
-        const existingChart = Chart.getChart(canvas);
-        let fichier = contenuFichierMesures;
+        const lignesFichier = contenuFichierMesures.split('\n');
+        const header = lignesFichier[2].split(';');
 
-        if (existingChart) {
-            for (let i = 0; i < existingChart.data.datasets.length; i++) {
+        // Récupérer les indices des colonnes à supprimer
+        const indicesASupprimer = courbesSupprimees
+            .map(courbe => header.indexOf(courbe))
+            .filter(index => index !== -1);
 
-                const index = existingChart.data.datasets.findIndex(dataset => dataset.label === existingChart.data.datasets[i].label);
+        // Supprimer les colonnes dans l'ordre inverse
+        indicesASupprimer.sort((a, b) => b - a);
+        indicesASupprimer.forEach(index => {
+            lignesFichier.forEach((ligne, i) => {
+                const colonnes = ligne.split(';');
+                colonnes.splice(index, 1);
+                lignesFichier[i] = colonnes.join(';');
+            });
+        });
 
-                if (!existingChart.isDatasetVisible(index)) {
-                    let nomCourbe = existingChart.data.datasets[i].label;
-                    const lignes = fichier.split('\n');
-                    const header = lignes[2].replace(/[\n\r]/g, '').split(';');
-                    nomCourbe = nomCourbe.replace(/[\n\r]/g, '');
-                    let index = header.indexOf(nomCourbe);
-                    if (index !== -1) {
-                        fichier = lignes.map(ligne => {
-                            const colonnes = ligne.split(';');
-                            colonnes.splice(index, 1);
-                            return colonnes.join(';');
-                        }).join('\n');
-                    }
-                }
-            }
-
-        }
-
+        contenuFichierMesures = lignesFichier.join('\n');
 
         const element = document.createElement('a');
         const universalBOM = "\uFEFF";
-        const csv = universalBOM + fichier;
+        const csv = universalBOM + contenuFichierMesures;
         element.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv));
         element.download = 'FluoGraphiX-ExportDonnees-' + new Date().toLocaleString().replace(/\/|:|,|\s/g, '-') + '.csv';
         document.body.appendChild(element);
