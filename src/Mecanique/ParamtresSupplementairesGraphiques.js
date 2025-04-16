@@ -296,18 +296,22 @@ function afficherPopupParametresGraphiques() {
                     continue;
                 }
 
-                if (existingChart.data.datasets[i].label.includes('Corr')) {
-                    checkBoxCourbesBruitFond += `<label><input type="checkbox" onchange="modifierListeLampesBruitDeFond(this.value)" checked value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
-                    listeLampeBruitDeFond.push(existingChart.data.datasets[i].label);
+                if (existingChart.data.datasets[i].label.includes('_nat')) {
+                    checkBoxCourbesBruitFond += `<label><input type="checkbox" onchange="modifierListeLampesBruitDeFond(this.value)" value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
                 } else {
-                    if (courbesString.includes(`${existingChart.data.datasets[i].label}Corr`) || !existingChart.data.datasets[i].label.charAt(0) === 'L') {
-                        checkBoxCourbesBruitFond += `<label><input type="checkbox" onchange="modifierListeLampesBruitDeFond(this.value)" value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
+                    if (existingChart.data.datasets[i].label.includes('Corr')) {
+                        checkBoxCourbesBruitFond += `<label><input type="checkbox" onchange="modifierListeLampesBruitDeFond(this.value)" checked value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
+                        listeLampeBruitDeFond.push(existingChart.data.datasets[i].label);
                     } else {
-                        if (existingChart.data.datasets[i].label.includes(`L`)) {
-                            checkBoxCourbesBruitFond += `<label><input type="checkbox" checked onchange="modifierListeLampesBruitDeFond(this.value)" value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
-                            listeLampeBruitDeFond.push(existingChart.data.datasets[i].label);
-                        } else {
+                        if (courbesString.includes(`${existingChart.data.datasets[i].label}Corr`) || !existingChart.data.datasets[i].label.charAt(0) === 'L') {
                             checkBoxCourbesBruitFond += `<label><input type="checkbox" onchange="modifierListeLampesBruitDeFond(this.value)" value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
+                        } else {
+                            if (existingChart.data.datasets[i].label.includes(`L`)) {
+                                checkBoxCourbesBruitFond += `<label><input type="checkbox" checked onchange="modifierListeLampesBruitDeFond(this.value)" value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
+                                listeLampeBruitDeFond.push(existingChart.data.datasets[i].label);
+                            } else {
+                                checkBoxCourbesBruitFond += `<label><input type="checkbox" onchange="modifierListeLampesBruitDeFond(this.value)" value="${existingChart.data.datasets[i].label}">${existingChart.data.datasets[i].label}</label>`;
+                            }
                         }
                     }
                 }
