@@ -987,17 +987,18 @@ function afficherPopupTelecharger() {
     <span class="ligne"></span>
     <div>
     <h3>Format TRAC :</h3>
-    <div class="separateur">
+    <div class="separateur" style="margin: 0">
     <span ${border}>
     <p>Choisissez la date d'injection</p>
     <input type="datetime-local" step="1" id="dateInjection" ${dateMax} onchange="dateInjection = this.value;">
+    <p style="font-size: 0.8em">Export en heures pour le temps et en ppb pour les concentrations.</p>
     </span>
     <br>
     <span>
     ${select}
     </span>
     </div>
-    <div style="display: flex; justify-content: space-around; width: 95%">
+    <div style="display: flex; justify-content: space-around; width: 95%; margin: 0">
     <div class="boutonFonce bouton boutonOrange dl" onclick="copierTracPresserPapier(dateInjection, traceurAExporter);">Copier dans le presse-papiers (TRAC)</div>
     <div class="boutonFonce bouton boutonOrange dl" onclick="telechargerTRAC(dateInjection, traceurAExporter);">Exporter un fichier CSV (TRAC)</div>
     </div>
@@ -1089,7 +1090,7 @@ function getBlobCsvTrac(dateInjection, traceur, estPourPressePapier = false) {
 
         const diff = date.diff(dateInjectionObj, 'seconds').seconds;
 
-        const diffString = diff / 86400;
+        const diffString = diff / 3600;
 
         if (colonnes[indexTraceur] === '') {
             contenuCSVTRAC += '\n' + setEspaces(arrondirA2Decimales(diffString), 6) + separateur + setEspaces("NaN", 6);
