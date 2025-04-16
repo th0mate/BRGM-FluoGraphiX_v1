@@ -314,16 +314,22 @@ function afficherPopupParametresGraphiques() {
             }
 
 
-            popupHTML += `<div class="separator" id="4"><div class="ongletParam" id="4"><span class="rappel bleuGris"></span>
+        popupHTML += `<div class="separator" id="4"><div class="ongletParam" id="4"><span class="rappel bleuGris"></span>
             <br>
             <p>Facultatif (à faire en premier lieu) - Sélectionnez la période influencée par le traceur :</p>
             <div class="wrapSelectionDates">
                 <div class="boutonFonce bouton boutonOrange" onclick="selectionnerZoneGraphique()">Sélection Graphique</div>
                 <span>Du :</span>
-                <input type="datetime-local" id="dateDebutSelection" class="dateDebut" min="${getDateHeureMinimaleGraphique()}" max="${getDateHeureMaximaleGraphique()}" onchange="updateDateDebutSelectionnee(this.value)">
+                <div class="gestionBoutons">
+                    <div class="boutonFonce bouton boutonOrange boutonSpecial" onclick="DateDebutSelectionneePremiereDate()">Depuis le début</div>
+                    <input type="datetime-local" id="dateDebutSelection" class="dateDebut" min="${getDateHeureMinimaleGraphique()}" max="${getDateHeureMaximaleGraphique()}" onchange="updateDateDebutSelectionnee(this.value)">
+                </div>
                 
                 <span>au :</span>
-                <input type="datetime-local" id="dateFinSelection" class="dateFin" min="${getDateHeureMinimaleGraphique()}" max="${getDateHeureMaximaleGraphique()}" onchange="updateDateFinSelectionnee(this.value)">      
+                <div class="gestionBoutons">
+                    <div class="boutonFonce bouton boutonOrange boutonSpecial" onclick="DateFinSelectionneeDerniereDate()">Jusqu'à la fin</div>
+                    <input type="datetime-local" id="dateFinSelection" class="dateFin" min="${getDateHeureMinimaleGraphique()}" max="${getDateHeureMaximaleGraphique()}" onchange="updateDateFinSelectionnee(this.value)">      
+                </div>
             </div>
             <br>
             <p>Sélectionnez les variables explicatives :</p>
@@ -1790,13 +1796,40 @@ function selectionnerZoneGraphique() {
 
 
 function updateDateDebutSelectionnee(dateFromInputDateTimeLocal) {
-    const formattedDate = DateTime.fromFormat(dateFromInputDateTimeLocal, 'yyyy-MM-dd\'T\'HH:mm').toFormat('dd/MM/yyyy-HH:mm:ss');
-    zoneSelectionnee[0] = formattedDate;
+    zoneSelectionnee[0] = DateTime.fromFormat(dateFromInputDateTimeLocal, 'yyyy-MM-dd\'T\'HH:mm').toFormat('dd/MM/yyyy-HH:mm:ss');
 }
 
+
 function updateDateFinSelectionnee(dateFromInputDateTimeLocal) {
-    const formattedDate = DateTime.fromFormat(dateFromInputDateTimeLocal, 'yyyy-MM-dd\'T\'HH:mm').toFormat('dd/MM/yyyy-HH:mm:ss');
-    zoneSelectionnee[1] = formattedDate;
+    zoneSelectionnee[1] = DateTime.fromFormat(dateFromInputDateTimeLocal, 'yyyy-MM-dd\'T\'HH:mm').toFormat('dd/MM/yyyy-HH:mm:ss');
+}
+
+
+/**
+ * Fonction pour attribuer la date de fin de la période sélectionnée à la dernière date du fichier de mesures
+ */
+function DateFinSelectionneeDerniereDate() {
+    const lignes = contenuFichierMesures.split('\n');
+    const derniereLigne = lignes[lignes.length - 2];
+    const colonnes = derniereLigne.split(';');
+    const date = colonnes[0] + '-' + colonnes[1];
+    zoneSelectionnee[1] = DateTime.fromFormat(date, 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toFormat('dd/MM/yyyy-HH:mm:ss');
+    const dateFinElement = document.querySelector('#dateFinSelection');
+    dateFinElement.value = DateTime.fromFormat(zoneSelectionnee[1], 'dd/MM/yyyy-HH:mm:ss').toFormat('yyyy-MM-dd\'T\'HH:mm');
+}
+
+
+/**
+ * Fonction pour attribuer la date de début de la période sélectionnée à la première date du fichier de mesures
+ */
+function DateDebutSelectionneePremiereDate() {
+    const lignes = contenuFichierMesures.split('\n');
+    const premiereLigne = lignes[3];
+    const colonnes = premiereLigne.split(';');
+    const date = colonnes[0] + '-' + colonnes[1];
+    zoneSelectionnee[0] = DateTime.fromFormat(date, 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toFormat('dd/MM/yyyy-HH:mm:ss');
+    const dateDebutElement = document.querySelector('#dateDebutSelection');
+    dateDebutElement.value = DateTime.fromFormat(zoneSelectionnee[0], 'dd/MM/yyyy-HH:mm:ss').toFormat('yyyy-MM-dd\'T\'HH:mm');
 }
 
 
