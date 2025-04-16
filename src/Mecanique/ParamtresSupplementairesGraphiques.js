@@ -2207,7 +2207,12 @@ function calculerEtAfficherCorrectionBruitFond() {
 
             const coeffCorrelation = arrondirA2Decimales(correlationPearson(LxNatPourCoeff, yPourCoeff));
             calcul.ajouterParametreCalcul(`${traceur.nom}`, `R2 = ${coeffCorrelation}`);
-            afficherMessageFlash(`Le coefficient de corrélation de Pearson pour "${traceur.nom}" est de ${coeffCorrelation}.`, 'info');
+
+            if (coeffCorrelation <= 0.5) {
+                afficherPopup(`<img alt="" src="Ressources/img/attention.png">`, 'Attention - coefficient de corrélation', `Le coefficient de corrélation de Pearson pour "${traceur.nom}" est de ${coeffCorrelation}. Il est conseillé de vérifier l'absence de dérive instrumentale ou de choisir une plage de donnée différente pour ce calcul.`, '<div class="bouton boutonFonce" onclick="fermerPopup()">FERMER</div>');
+            } else {
+                afficherMessageFlash(`Le coefficient de corrélation de Pearson pour "${traceur.nom}" est de ${coeffCorrelation}.`, 'info');
+            }
 
 
             const data = {
