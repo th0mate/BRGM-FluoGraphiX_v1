@@ -581,6 +581,8 @@ function corrigerTurbidite(idLampe, TS = niveauCorrection) {
             calcul.ajouterParametreCalcul(`a${i}`, resultat[0][i]);
         }
         calcul.ajouterParametreCalcul(`TS`, TS);
+
+        listeCalculs.filter(calcul => calcul.nom !== `Correction de turbidité (L${idLampe})`);
         listeCalculs.push(calcul);
     }
 
@@ -777,6 +779,7 @@ function ajouterCourbeConcentrationTraceur(traceur) {
 
         if (!listeCalculs.includes(calcul)) {
             calcul.ajouterParametreCalcul(`Coefficients`, resultat);
+            listeCalculs.filter(calcul => calcul.nom !== `${traceur.nom}: Coefficients mV->${traceur.unite}`);
             listeCalculs.push(calcul);
         }
 
@@ -2073,6 +2076,8 @@ function calculerEtAfficherCorrectionBruitFond() {
         existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur.lampePrincipale}Corr_nat`);
         existingChart.data.datasets = existingChart.data.datasets.filter(dataset => dataset.label !== `L${traceur.lampePrincipale}Nat`);
 
+        listeCalculs = listeCalculs.filter(c => c.nom !== 'Correction de bruit de fond');
+
         listeCalculs.push(calcul);
         existingChart.data.datasets.push(data);
         existingChart.data.datasets.push(data1);
@@ -2285,6 +2290,8 @@ function calculerEtAfficherCorrectionBruitFond() {
             existingChart.data.datasets.push(data);
             existingChart.data.datasets.push(data1);
         }
+
+        listeCalculs.filter(c => c.nom !== 'Correction de bruit de fond');
 
         listeCalculs.push(calcul);
 
