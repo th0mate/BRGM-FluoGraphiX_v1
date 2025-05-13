@@ -139,6 +139,7 @@ Le projet sera bientôt publié sous la licence **MIT**.
 Développé par **Thomas LOYE**  
 📍 Stage réalisé au [**BRGM**](https://www.brgm.fr), d’avril à juin 2024  
 ✉️ Contact : [thomasloye1@gmail.com](mailto:thomasloye1@gmail.com)
+
 🖥️ Site web [thomasloye.fr](https://thomasloye.fr)
 
 ---
