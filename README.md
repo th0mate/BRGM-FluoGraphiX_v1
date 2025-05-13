@@ -89,7 +89,7 @@ Ce projet a été initié lors d’un stage de deuxième année de BUT Informati
 
 ---
 
-## 📦 Installation (version VueJS)
+## 📦 Installation
 
 > 💡 Vous pouvez télécharger le ZIP de l'outil depuis le site de FluoGraphiX
 
