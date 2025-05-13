@@ -31,6 +31,7 @@ Ce projet a été initié lors d’un stage de deuxième année de BUT Informati
 - 🔧 Outils de correction et conversion des mesures
 - 🖥️ Interface utilisateur claire et épurée (UI/UX)
 - 💾 Utilisable hors ligne après téléchargement d'un fichier ZIP
+<em>Pour en savoir plus : [Présentation de FluoGraphiX]((https://thomasloye.fr/projets/fluographix)</em>
 
 ---
 
@@ -38,11 +39,11 @@ Ce projet a été initié lors d’un stage de deuxième année de BUT Informati
 
 > 📌 Exemples des interfaces de l'outil :
 
-```markdown
+
 [Accueil](./Ressources/img/586_1x_shots_so.png)
 [Responsive](./Ressources/img/79_shots_so.png)
 [Calculs](./Ressources/img/907shots_so.png)
-```
+
 
 ---
 
@@ -137,6 +138,7 @@ Le projet sera bientôt publié sous la licence **MIT**.
 Développé par **[Thomas LOYE]**  
 📍 Stage réalisé au [**BRGM**](https://www.brgm.fr), d’avril à juin 2024  
 ✉️ Contact : [thomasloye1@gmail.com](mailto:thomasloye1@gmail.com)
+🖥️ Site web [thomasloye.fr](https://thomasloye.fr)
 
 ---
 
