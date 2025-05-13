@@ -4,6 +4,8 @@
   <img src="https://img.shields.io/badge/status-en%20développement-blue.svg" />
   <img src="https://img.shields.io/badge/vuejs-3.x-brightgreen.svg" />
   <img src="https://img.shields.io/badge/license-MIT-lightgrey.svg" />
+  <img src="https://wakatime.com/badge/user/018c3a39-c0b0-45a5-bd13-e6b59361621b/project/018d5fec-03ad-4ebf-9cf8-b1d15b95bd98.svg" />
+  
 </p>
 
 <p align="center">
