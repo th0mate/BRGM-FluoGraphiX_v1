@@ -66,7 +66,7 @@ Ce projet a été initié lors d’un stage de deuxième année de BUT Informati
 
 ## 📈 Phases de développement
 
-> 🕒 **275+ heures de développement**  
+> 🕒 **260+ heures de développement**  
 > 👤 **Seul développeur**  
 > 🧑‍🔬 En collaboration avec les hydrogéologues du BRGM
 
