@@ -32,7 +32,7 @@ Ce projet a été initié lors d’un stage de deuxième année de BUT Informati
 - 🖥️ Interface utilisateur claire et épurée (UI/UX)
 - 💾 Utilisable hors ligne après téléchargement d'un fichier ZIP
 
-<em>Pour en savoir plus : [Présentation de FluoGraphiX]((https://thomasloye.fr/projets/fluographix)</em>
+<em>Pour en savoir plus : [Présentation de FluoGraphiX](https://thomasloye.fr/projets/fluographix)</em>
 
 ---
 
@@ -40,9 +40,8 @@ Ce projet a été initié lors d’un stage de deuxième année de BUT Informati
 
 > 📌 Exemples des interfaces de l'outil :
 
-
+<img src="./Ressources/img/79shots_so.png" />
 <img src="./Ressources/img/586_1x_shots_so.png" />
-<img src="./Ressources/img/79_shots_so.png" />
 <img src="./Ressources/img/907shots_so.png" />
 
 
