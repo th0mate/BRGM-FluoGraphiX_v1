@@ -34,15 +34,17 @@ Ce projet a été initié lors d’un stage de deuxième année de BUT Informati
 
 <em>Pour en savoir plus : [Présentation de FluoGraphiX](https://thomasloye.fr/projets/fluographix)</em>
 
+
 ---
+  
+## 📸 Aperçu visuel  
 
-## 📸 Aperçu visuel
+> 📌 Exemples des interfaces de l'outil :  
 
-> 📌 Exemples des interfaces de l'outil :
-
-<img src="./Ressources/img/79shots_so.png" />
-<img src="./Ressources/img/586_1x_shots_so.png" />
-<img src="./Ressources/img/907shots_so.png" />
+<img src="https://thomasloye.fr/assets/0-DdGaaZvq.png" />
+<img src="https://thomasloye.fr/assets/8-AZtcXM-X.png" />
+<img src="https://thomasloye.fr/assets/1-wQS3PKZW.png" />  
+<img src="https://thomasloye.fr/assets/2-fQXsPaXC.png" />  
 
 
 
