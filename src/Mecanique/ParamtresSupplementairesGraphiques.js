@@ -152,7 +152,6 @@ function afficherPopupParametresGraphiques() {
         <div class="separator" id="1">
         <div class="ongletParam onglet1" id="1"><p></p><span class="rappel bleu"></span>`;
 
-
         if (calibrationEstLieGraphiques()) {
             popupHTML += `<div class="alert alert-success"><img src="Ressources/img/success.png" alt="">Les courbes ont été liées aux labels du fichier de calibration automatiquement. Aucune action n'est requise de votre part.</div>`;
         } else {
@@ -443,6 +442,7 @@ function initParasites() {
     };
 
     fermerPopupParametres();
+
     setTimeout(() => {
         afficherPopupParametresGraphiques();
     }, 500);
@@ -552,7 +552,7 @@ function remplacerDonneesFichier(ancien, nouveau) {
     }
 
 
-    if (calibrationEstLieGraphiques()) {
+    if (calibrationEstLieGraphiques() && document.querySelector('.onglet1')) {
         document.querySelector('.onglet1').innerHTML = `<p></p><div class="alert alert-success" id="flash"><img src="Ressources/img/success.png" alt="">Les courbes ont été liées aux labels du fichier de calibration avec succès.</div>
         <div class="boutonFonce bouton boutonOrange" style="width: 50%" onclick="reinitialiserGraphique()">RÉINITIALISER LE GRAPHIQUE</div>`;
     }

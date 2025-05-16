@@ -325,8 +325,16 @@ function estPlusDeUnJour(date1, date2) {
     const date1Month = parseInt(date1Parts[1]);
     const date2Month = parseInt(date2Parts[1]);
 
-    const date1Year = parseInt(date1Parts[2].substring(0, 2));
-    const date2Year = parseInt(date2Parts[2].substring(0, 2));
+    let date1Year;
+    let date2Year;
+
+    try {
+        date1Year = parseInt(date1Parts[2].substring(0, 2));
+        date2Year = parseInt(date2Parts[2].substring(0, 2));
+    } catch (e) {
+        console.warn("Erreur lors de la vérification de dates initiale  - cette erreur ne bloque pas la suite du processus.");
+        return false;
+    }
 
     if (date1Year !== date2Year) {
         return true;
