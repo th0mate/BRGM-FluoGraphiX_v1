@@ -421,8 +421,9 @@ function vueDocumentation() {
                 <div class="etape">
                     <div>
                         <h3 class="findable"><span>1</span>Importation d'un fichier de calibration .dat</h3>
-                        <p>Vous pouvez importer un fichier de calibration .dat issu d'un fluorimètre. Cela vous permettra de visualiser les données de calibration de vos traceurs sous la forme d'un tableau et d'un graphique.</p>
+                        <p>Vous pouvez importer un fichier de calibration .dat issu d'un fluorimètre albillia sàrl à 4 optiques. Cela vous permettra de visualiser les données de calibration de vos traceurs sous la forme d'un tableau et d'un graphique.</p>
                         <p>Vous pouvez également importer un fichier de calibration simplifié (CSV) issu de FluoGraphiX, vous permettant de modifier facilement les données de ce fichier.</p>
+                        <p>Notez que tout autre fluorimètre permettant d'avoir un signal brut peut être utilisé.</p>
                     </div>
                     <img src="Ressources/img/screen17.png" alt="">
                 </div>
