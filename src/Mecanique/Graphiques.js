@@ -606,7 +606,6 @@ function ouvrirPanneauSuppression() {
         listeCourbes.innerHTML = '';
         datasets.forEach(dataset => {
             const isHidden = !existingChart.isDatasetVisible(datasets.indexOf(dataset));
-            console.log(isHidden);
             const span = document.createElement('span');
             span.classList.add('courbe');
             span.innerHTML = `<input type="checkbox" id="${dataset.label}" name="${dataset.label}" value="${dataset.label}" ${isHidden ? 'checked' : ''}>

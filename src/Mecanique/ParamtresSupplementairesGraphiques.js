@@ -267,7 +267,7 @@ function afficherPopupParametresGraphiques() {
             <div class="listeSelectsTraceurs">
             </div>
             
-            <div class="boutonFonce bouton boutonOrange boutonCorrectionInterferences">TERMINER</div>
+            <div class="boutonFonce bouton boutonOrange boutonCorrectionInterferences">CALCULER</div>
         </div><span class="illu"><h2>Correction des interférences</h2><img src="Ressources/img/personnalisation.png" alt=""></span></div>`;
 
         if (nbTraceursInterferences > 0 && nbTraceursInterferences < 3) {
