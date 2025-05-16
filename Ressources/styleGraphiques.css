@@ -21,12 +21,13 @@ body {
 .graphique {
     min-width: 0;
     min-height: 0;
-    max-width: calc(99% - 55px);
-    max-height: 85vh;
     display: none;
     position: relative;
-    padding-left: 70px;
-    padding-top: 50px;
+    margin: 0 auto;
+    padding-top: 30px;
+    width: 80% !important;
+    height: auto !important;
+    padding-bottom: 80px;
 }
 
 .disabled {
@@ -197,7 +198,7 @@ body {
     color: white;
     margin-top: 10px;
     position: absolute;
-    top: 50%;
+    top: 45%;
     left: 0;
     transform: translateY(-50%);
     z-index: 3;
@@ -800,7 +801,7 @@ body {
         display: flex;
         justify-content: center;
         align-items: center;
-        top: 0;
+        top: -60px;
         left: -45px;
 
         img {

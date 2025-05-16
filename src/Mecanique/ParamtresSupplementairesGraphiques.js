@@ -1721,63 +1721,92 @@ function selectionnerZoneGraphique() {
     let isSelecting = false;
     let startX = null;
     let currentX = null;
+    let animationFrameId = null;
 
-    canvas.addEventListener('mousedown', function (e) {
+    // Pour éviter les doublons d'annotations
+    if (!myChart.options.plugins.annotation.annotations) {
+        myChart.options.plugins.annotation.annotations = {};
+    }
+
+    function getRelativeX(e) {
+        const rect = canvas.getBoundingClientRect();
+        return (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+    }
+
+    function drawSelection() {
+        if (!isSelecting) return;
+
+        const scale = myChart.scales['x'];
+
+        // Conversion des pixels en valeurs de l'axe X
+        const xMinPx = Math.min(startX, currentX);
+        const xMaxPx = Math.max(startX, currentX);
+        const xMinVal = scale.getValueForPixel(xMinPx);
+        const xMaxVal = scale.getValueForPixel(xMaxPx);
+
+        // Mise à jour de l'annotation
+        myChart.options.plugins.annotation.annotations['zoneSelection'] = {
+            type: 'box',
+            xMin: xMinVal,
+            xMax: xMaxVal,
+            yMin: -Infinity,
+            yMax: Infinity,
+            backgroundColor: 'rgba(255, 99, 132, 0.25)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 2
+        };
+
+        myChart.update('none'); // Mise à jour sans animation
+        animationFrameId = null;
+    }
+
+    function onMouseDown(e) {
         if (flag) {
             isSelecting = true;
-            const rect = canvas.getBoundingClientRect();
-            startX = e.clientX - rect.left;
+            startX = getRelativeX(e);
             currentX = startX;
+            // Dessiner immédiatement au clic pour un feedback initial
+            drawSelection();
         }
-    });
+    }
 
-    canvas.addEventListener('mousemove', function (e) {
+    function onMouseMove(e) {
         if (isSelecting && flag) {
-            currentX = e.clientX - canvas.getBoundingClientRect().left;
-
-            const width = Math.abs(currentX - startX);
-
-            myChart.options.plugins.annotation.annotations = [{
-                type: 'box',
-                xMin: myChart.scales['x'].getValueForPixel(Math.min(startX, currentX)),
-                xMax: myChart.scales['x'].getValueForPixel(Math.max(startX, currentX)),
-                yMin: -Infinity,
-                yMax: Infinity,
-                backgroundColor: 'rgba(255, 99, 132, 0.25)',
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 2
-            }];
-            myChart.update();
-
-            const xMin = Math.min(startX, currentX);
-            const xMax = Math.max(startX, currentX);
-            const startDate = new Date(myChart.scales['x'].getValueForPixel(xMin));
-            const endDate = new Date(myChart.scales['x'].getValueForPixel(xMax));
+            currentX = getRelativeX(e);
+            if (!animationFrameId) {
+                animationFrameId = requestAnimationFrame(drawSelection);
+            }
         }
-    });
+    }
 
-    canvas.addEventListener('mouseup', function (e) {
+    function onMouseUp(e) {
         if (isSelecting && flag) {
             isSelecting = false;
-            const rect = canvas.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const xMin = Math.min(startX, x);
-            const xMax = Math.max(startX, x);
+            const x = getRelativeX(e);
+            const xMinPx = Math.min(startX, x);
+            const xMaxPx = Math.max(startX, x);
 
-            const startDate = DateTime.fromMillis(myChart.scales['x'].getValueForPixel(xMin), {zone: 'UTC'}).toFormat('dd/MM/yyyy-HH:mm:ss');
-            const endDate = DateTime.fromMillis(myChart.scales['x'].getValueForPixel(xMax), {zone: 'UTC'}).toFormat('dd/MM/yyyy-HH:mm:ss');
+            const scale = myChart.scales['x'];
+            const xMinVal = scale.getValueForPixel(xMinPx);
+            const xMaxVal = scale.getValueForPixel(xMaxPx);
 
-            myChart.options.plugins.annotation.annotations = [];
-            myChart.update();
+            const startDate = DateTime.fromMillis(xMinVal, {zone: 'UTC'}).toFormat('dd/MM/yyyy-HH:mm:ss');
+            const endDate = DateTime.fromMillis(xMaxVal, {zone: 'UTC'}).toFormat('dd/MM/yyyy-HH:mm:ss');
 
-            canvas.removeEventListener('mousedown', function () {
-            });
-            canvas.removeEventListener('mousemove', function () {
-            });
-            canvas.removeEventListener('mouseup', function () {
-            });
+            // Nettoyage annotation
+            delete myChart.options.plugins.annotation.annotations['zoneSelection'];
+            myChart.update('none');
+
+            // Nettoyage des events
+            canvas.removeEventListener('mousedown', onMouseDown);
+            canvas.removeEventListener('mousemove', onMouseMove);
+            canvas.removeEventListener('mouseup', onMouseUp);
+            // Pour le tactile
+            canvas.removeEventListener('touchstart', onMouseDown);
+            canvas.removeEventListener('touchmove', onMouseMove);
+            canvas.removeEventListener('touchend', onMouseUp);
+
             flag = false;
-
 
             myChart.options.plugins.zoom.pan.enabled = true;
             myChart.options.plugins.zoom.zoom.wheel.enabled = true;
@@ -1799,17 +1828,15 @@ function selectionnerZoneGraphique() {
                 console.error('Elements not found');
             }
         }
-    });
-}
+    }
 
-
-function updateDateDebutSelectionnee(dateFromInputDateTimeLocal) {
-    zoneSelectionnee[0] = DateTime.fromFormat(dateFromInputDateTimeLocal, 'yyyy-MM-dd\'T\'HH:mm').toFormat('dd/MM/yyyy-HH:mm:ss');
-}
-
-
-function updateDateFinSelectionnee(dateFromInputDateTimeLocal) {
-    zoneSelectionnee[1] = DateTime.fromFormat(dateFromInputDateTimeLocal, 'yyyy-MM-dd\'T\'HH:mm').toFormat('dd/MM/yyyy-HH:mm:ss');
+    // Ajout des écouteurs (souris et tactile)
+    canvas.addEventListener('mousedown', onMouseDown);
+    canvas.addEventListener('mousemove', onMouseMove);
+    canvas.addEventListener('mouseup', onMouseUp);
+    canvas.addEventListener('touchstart', onMouseDown, { passive: false });
+    canvas.addEventListener('touchmove', onMouseMove, { passive: false });
+    canvas.addEventListener('touchend', onMouseUp, { passive: false });
 }
 
 
@@ -2392,5 +2419,6 @@ function afficherAnnotationEnDehorsZoneSelectionnee() {
 function informerUtilisateur() {
     afficherMessageFlash("Veuillez d'abord réaliser la correction d'interférence.", "info");
 }
+
 
 
