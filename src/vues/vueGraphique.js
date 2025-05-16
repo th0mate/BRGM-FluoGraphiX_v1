@@ -13,6 +13,7 @@ function vueGraphique() {
 
             <div class="elementBandeau" onclick="afficherPopupParametresGraphiques()">
                 <span>OUVRIR LE PANNEAU DE CALCULS</span>
+                <span>OUVRIR LE PANNEAU DE CALCULS</span>
                 <img src="Ressources/img/grandCalibration.png" alt="Ajouter">
             </div>
             
