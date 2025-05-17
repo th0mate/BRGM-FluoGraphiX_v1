@@ -1,7 +1,7 @@
 function vueDocumentation() {
     return `
     <div class="bannierePage">
-        <img src="Ressources/img/traceurs.jpg.webp" alt="Sources">
+        <img src="Ressources/img/water/img8.jpg" alt="Sources">
         <div class="contenu">
             <p><span onclick="afficherVue('vueAccueil')"><span></span>Accueil</span> <strong> / Documentation</strong></p>
             <h1>Documentation</h1>

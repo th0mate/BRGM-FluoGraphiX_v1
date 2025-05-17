@@ -1,7 +1,7 @@
 function vueCookies() {
     return `
     <div class="bannierePage">
-        <img src="Ressources/img/image1.jpg" alt="Sources">
+        <img src="Ressources/img/water/img13.jpg" alt="Sources">
         <div class="contenu">
             <p><span onclick="afficherVue('vueAccueil')"><span></span>Accueil</span> <strong> / Gestion des Cookies</strong></p>
             <h1>Gestion des Cookies</h1>

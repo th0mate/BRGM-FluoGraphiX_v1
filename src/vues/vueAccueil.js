@@ -1,7 +1,7 @@
 function vueAccueil() {
     return `
     <div class="accueilBanniere">
-        <img src="Ressources/img/accueil.jpg" alt="banniere">
+        <img src="Ressources/img/water/img6.jpg" alt="banniere">
         <div class="contenu">
             <h1>FluoGraphiX : l'outil de visualisation et de traitement des données issues de fluorimètres</h1>
             <div onclick="redirectTo('actionsRapides')" class="bouton boutonFonce">DÉCOUVRIR</div>

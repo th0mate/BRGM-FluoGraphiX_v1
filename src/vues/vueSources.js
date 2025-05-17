@@ -1,7 +1,7 @@
 function vueSources() {
     return `
     <div class="bannierePage">
-        <img src="Ressources/img/image2.jpg" alt="Sources">
+        <img src="Ressources/img/water/img14.jpg" alt="Sources">
         <div class="contenu">
             <p><span onclick="afficherVue('vueAccueil')"><span></span>Accueil</span> <strong> / Sources du Contenu</strong></p>
             <h1>Sources du Contenu</h1>
