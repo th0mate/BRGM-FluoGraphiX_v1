@@ -73,8 +73,10 @@ function initialiserCalculsCourbes(idLampe, traceur) {
     } else {
 
         if (nbValeurLampe !== 1) {
+            console.log("afficherCourbeDepuis3Valeurs");
             afficherCourbeDepuis3Valeurs(resultat, idLampe, traceur);
         } else {
+            console.log("afficherCourbeDepuis1Valeur");
             afficherCourbeDepuis1Valeur(resultat, idLampe, traceur);
         }
 
@@ -128,12 +130,6 @@ function effectuerCalculsCourbes(idLampe, traceur) {
             const pointX = traceur.getDataParNom('L' + traceur.lampePrincipale + '-' + index);
             const pointY = traceur.getDataParNom('L' + idLampe + '-' + index);
 
-            equationCourbeCalibration = new Calculs('Ln(C)=a0+a1*ln(dmV)');
-            equationCourbeCalibration.ajouterParametreCalcul('a0', (pointY - eauValeurLampe) / (pointX - eauValeurLampePrincipale));
-            equationCourbeCalibration.ajouterParametreCalcul('a1', NaN);
-            equationCourbeCalibration.ajouterParametreCalcul('a2', NaN);
-            afficherEquationDroite();
-
             return [[(pointY - eauValeurLampe) / (pointX - eauValeurLampePrincipale), NaN, NaN]];
 
         } else if (nbValeurLampe === 2) {
@@ -144,14 +140,17 @@ function effectuerCalculsCourbes(idLampe, traceur) {
 
     } else {
         if (nbValeurLampe < 4 && nbValeurLampe !== 1) {
+            console.log("cas1");
             const dmV = creerTableauValeursNettes(traceur, idLampe);
             let X = creerMatriceLn(traceur, dmV);
+            //TODO - on est bien dans ce cas pour Uranine L1 - travailler les équations !
             X = inverse(X);
+            console.log(X);
             const matriceEntetes = dmV[0];
             return multiply([matriceEntetes], X);
 
         } else if (nbValeurLampe === 1) {
-
+            console.log("cas2");
             const eau = traceurs.find(traceur => traceur.unite === '');
             const dmv = [];
             let temp = 0;
@@ -167,15 +166,10 @@ function effectuerCalculsCourbes(idLampe, traceur) {
             dmv.push(temp - eau.getDataParNom('L' + idLampe + '-1'));
             resultat.push(arrondir8Chiffres((y[1] - y[0]) / (dmv[1] - dmv[0])));
 
-            equationCourbeCalibration = new Calculs('Ln(C)=a0+a1*ln(dmV)');
-            equationCourbeCalibration.ajouterParametreCalcul('a0', NaN);
-            equationCourbeCalibration.ajouterParametreCalcul('a1', resultat[0][0]);
-            equationCourbeCalibration.ajouterParametreCalcul('a2', NaN);
-            afficherEquationDroite();
-
             return resultat;
 
         } else {
+            console.log("cas3");
             const regLin = creerTableauValeursNettesLn(traceur, idLampe);
             let colonne1 = [];
             let colonne2 = [];
@@ -210,12 +204,6 @@ function effectuerCalculsCourbes(idLampe, traceur) {
             }
 
             const erreurType = 1.96 * (Math.sqrt(derniereColonne / (colonne1.length - 3)));
-
-            equationCourbeCalibration = new Calculs('Ln(C)=a0+a1*ln(dmV)+a2*ln(dmV)^2');
-            equationCourbeCalibration.ajouterParametreCalcul('a0', resultat[0][0]);
-            equationCourbeCalibration.ajouterParametreCalcul('a1', resultat[0][1]);
-            equationCourbeCalibration.ajouterParametreCalcul('a2', resultat[0][2]);
-            //TODO : mettre les bonnes équations !
 
             resultat.push(erreurType);
 
@@ -472,8 +460,6 @@ function afficherCourbeDepuis3Valeurs(resultat, idLampe, traceur) {
         }
 
     } else {
-
-
         if (existingChart && !existingChart.data.datasets.find(dataset => dataset.label === data.label)) {
             existingChart.data.datasets.push(data);
             existingChart.update();

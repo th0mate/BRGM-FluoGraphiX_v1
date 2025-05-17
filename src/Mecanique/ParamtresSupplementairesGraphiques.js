@@ -495,6 +495,17 @@ function calibrationEstLieGraphiques() {
 function afficherOngletParametre(idOnglet) {
     const onglets1 = document.querySelectorAll('.ongletsParam .bouton');
 
+    if (idOnglet !== 1 && !calibrationEstLieGraphiques()) {
+        afficherOngletParametre(1);
+        afficherMessageFlash("Veuillez renommer les courbes de votre graphique pour les faire correspondre à votre fichier de calibration.", 'warning');
+        for (let i = 0; i < onglets1.length; i++) {
+            if (!onglets1[i].classList.contains('disabled')) {
+                onglets1[i].classList.add('disabled');
+            }
+        }
+        return;
+    }
+
     for (let i = 0; i < onglets1.length; i++) {
         onglets1[i].classList.remove('active');
     }
@@ -577,9 +588,6 @@ function corrigerTurbidite(idLampe, TS = niveauCorrection) {
     const calcul = new Calculs(`Correction de turbidité (L${idLampe})`, 'oui');
 
     if (!listeCalculs.includes(calcul)) {
-        for (let i = 0; i < resultat.length; i++) {
-            calcul.ajouterParametreCalcul(`a${i}`, resultat[0][i]);
-        }
         calcul.ajouterParametreCalcul(`TS`, TS);
 
         listeCalculs.filter(calcul => calcul.nom !== `Correction de turbidité (L${idLampe})`);
