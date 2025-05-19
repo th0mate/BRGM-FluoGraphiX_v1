@@ -88,15 +88,6 @@ function afficherPopupParametresGraphiques() {
     if (contenuFichierMesures !== '') {
         fermerPopupParametres();
 
-        let estFichierDat = true;
-        if (contenuFichierCalibration.split('\n')[0].includes('FluoriGraphix') || contenuFichierCalibration.split('\n')[0].includes('FluoGraphiX')) {
-            estFichierDat = false;
-        }
-
-        if (traceurs.length === 0) {
-            initFichierCalibration(estFichierDat, false);
-        }
-
         const canvas = document.getElementById('graphique');
         const existingChart = Chart.getChart(canvas);
 

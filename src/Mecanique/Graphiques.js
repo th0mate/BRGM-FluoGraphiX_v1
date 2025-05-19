@@ -151,6 +151,22 @@ function afficherGraphique(mvContent) {
     document.querySelector('.bandeauGraphiques').style.display = 'flex';
     document.querySelector('.outilSuppressionCourbes').style.display = 'flex';
     document.querySelector('.infos').style.display = 'none';
+
+    let estFichierDat = true;
+    if (contenuFichierCalibration.split('\n')[0].includes('FluoriGraphix') || contenuFichierCalibration.split('\n')[0].includes('FluoGraphiX')) {
+        estFichierDat = false;
+    }
+
+    if (traceurs.length === 0) {
+        initFichierCalibration(estFichierDat, false);
+    }
+
+    //On renomme les fichiers XML pour les faire correspondre aux fichiers de calibration
+    if (contenuFichierMesures.includes('A145') && contenuFichierMesures.includes('A146') && contenuFichierMesures.includes('A147') && contenuFichierMesures.includes('A148')) {
+        for (let i = 0; i < traceurs.length; i++) {
+            remplacerDonneesFichier(`A${145 + i}`, `L${1 + i}`);
+        }
+    }
 }
 
 

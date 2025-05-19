@@ -34,13 +34,6 @@ function parametrerSiteDepuisCalibrat(string) {
     if (fichiers.length > 1) {
         afficherMessageFlash(`Nouveau format de date détecté : ${formatTexte}`, 'info');
     }
-
-    //On renomme les fichiers XML pour les faire correspondre aux fichiers de calibration
-    if (contenuFichierMesures.includes('A145') && contenuFichierMesures.includes('A146') && contenuFichierMesures.includes('A147') && contenuFichierMesures.includes('A148')) {
-        for (let i = 0; i < traceurs.length; i++) {
-            remplacerDonneesFichier(`A${145 + i}`, `L${1 + i}`);
-        }
-    }
 }
 
 /**
