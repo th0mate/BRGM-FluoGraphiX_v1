@@ -99,7 +99,8 @@ function initialiserCalculsCourbes(idLampe, traceur) {
  */
 function effectuerCalculsCourbes(idLampe, traceur) {
     nbValeurLampe = 0;
-    equationCourbeCalibration = null;
+    equationCourbeCalibration = new Calculs("Aucune équation à afficher pour le moment.");
+    afficherEquationDroite();
 
     for (let i = 0; i < traceur.echelles.length; i++) {
         if (!isNaN(traceur.getDataParNom('L' + idLampe + '-' + (i + 1)))) {
@@ -112,8 +113,10 @@ function effectuerCalculsCourbes(idLampe, traceur) {
     if (traceur.lampePrincipale !== idLampe) {
 
         if (nbValeurLampe < 4 && nbValeurLampe !== 1 && nbValeurLampe !== 2) {
+            console.log("cas01");
             return effectuerCalculsParasites(traceur, idLampe);
         } else if (nbValeurLampe === 1) {
+            console.log("cas02");
             let index = 0;
 
             for (let i = 1; i <= traceur.echelles.length; i++) {
@@ -130,6 +133,15 @@ function effectuerCalculsCourbes(idLampe, traceur) {
             const pointX = traceur.getDataParNom('L' + traceur.lampePrincipale + '-' + index);
             const pointY = traceur.getDataParNom('L' + idLampe + '-' + index);
 
+            const a0 = (pointY - eauValeurLampe) / (pointX - eauValeurLampePrincipale);
+            const a1 = pointY - a0 * pointX;
+
+            equationCourbeCalibration = new Calculs("Equation du type Y-Y0= a1 * (X-X0) ")
+            equationCourbeCalibration.ajouterParametreCalcul('a1', a1);
+            equationCourbeCalibration.ajouterParametreCalcul('X0', eauValeurLampePrincipale);
+            equationCourbeCalibration.ajouterParametreCalcul('Y0', eauValeurLampe);
+            afficherEquationDroite();
+
             return [[(pointY - eauValeurLampe) / (pointX - eauValeurLampePrincipale), NaN, NaN]];
 
         } else if (nbValeurLampe === 2) {
@@ -143,11 +155,46 @@ function effectuerCalculsCourbes(idLampe, traceur) {
             console.log("cas1");
             const dmV = creerTableauValeursNettes(traceur, idLampe);
             let X = creerMatriceLn(traceur, dmV);
-            //TODO - on est bien dans ce cas pour Uranine L1 - travailler les équations !
             X = inverse(X);
-            console.log(X);
+            const eau = traceurs.find(traceur => traceur.unite === '');
             const matriceEntetes = dmV[0];
-            return multiply([matriceEntetes], X);
+            const coeffs = multiply([matriceEntetes], X);
+
+            if (traceur.unite.toLowerCase() === 'ntu') {
+                const matriceLnEchelles = dmV[0];
+                let matriceMv = [];
+
+                for (let i = 0; i < matriceLnEchelles.length; i += 1) {
+                    matriceMv.push([1]);
+                    matriceMv[i].push(Math.log(traceur.getDataParNom('L' + traceur.lampePrincipale + '-' + (i + 1)) - eau.getDataParNom('L' + traceur.lampePrincipale + '-1')));
+                    matriceMv[i].push(matriceMv[i][1] ** 2);
+                }
+
+                matriceMv = transpose(matriceMv);
+                matriceMv = inverse(matriceMv);
+                console.log(matriceLnEchelles);
+                console.log(matriceMv);
+                const coeffsTurbidite = multiply([matriceLnEchelles], matriceMv);
+                console.log(coeffsTurbidite);
+
+                equationCourbeCalibration = new Calculs("Equation du type type log(Y-Y0)=a0 + a1*log(X-X0) + a2*log(X-X0)^2 ");
+                equationCourbeCalibration.ajouterParametreCalcul('a0', coeffsTurbidite[0][0]);
+                equationCourbeCalibration.ajouterParametreCalcul('a1', coeffsTurbidite[0][1]);
+                equationCourbeCalibration.ajouterParametreCalcul('a2', coeffsTurbidite[0][2]);
+                equationCourbeCalibration.ajouterParametreCalcul('X0', eau.getDataParNom('L' + idLampe + '-1'));
+                equationCourbeCalibration.ajouterParametreCalcul('Y0', 0);
+                afficherEquationDroite();
+
+            } else {
+                equationCourbeCalibration = new Calculs("Equation du type log(Y-Y0)=a0 + a1*log(X-X0)")
+                equationCourbeCalibration.ajouterParametreCalcul('a0', coeffs[0][0]);
+                equationCourbeCalibration.ajouterParametreCalcul('a1', coeffs[0][1]);
+                equationCourbeCalibration.ajouterParametreCalcul('X0', eau.getDataParNom('L' + idLampe + '-1'));
+                equationCourbeCalibration.ajouterParametreCalcul('Y0', 0);
+                afficherEquationDroite();
+            }
+
+            return coeffs;
 
         } else if (nbValeurLampe === 1) {
             console.log("cas2");
@@ -189,6 +236,14 @@ function effectuerCalculsCourbes(idLampe, traceur) {
             resultat = multipleLinearRegression(colonne2_3, [colonne1]);
             resultat = transpose(resultat);
 
+            equationCourbeCalibration = new Calculs("Equation du type type log(Y-Y0)=a0 + a1*log(X-X0) + a2*log(X-X0)^2");
+            equationCourbeCalibration.ajouterParametreCalcul('a0', resultat[0][0]);
+            equationCourbeCalibration.ajouterParametreCalcul('a1', resultat[0][1]);
+            equationCourbeCalibration.ajouterParametreCalcul('a2', resultat[0][2]);
+            equationCourbeCalibration.ajouterParametreCalcul('X0', 0.1);
+            equationCourbeCalibration.ajouterParametreCalcul('Y0', 0);
+            afficherEquationDroite();
+
             let tableauIntervaleConfiance = [];
             let derniereColonne = 0;
             for (let i = 0; i < colonne1.length; i++) {
@@ -204,10 +259,7 @@ function effectuerCalculsCourbes(idLampe, traceur) {
             }
 
             const erreurType = 1.96 * (Math.sqrt(derniereColonne / (colonne1.length - 3)));
-
             resultat.push(erreurType);
-
-            afficherEquationDroite();
             return resultat;
 
         }

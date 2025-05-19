@@ -97,13 +97,10 @@ function vueConcentrations() {
             <h2>Équation de la droite de calibration</h2>
         
             <div class="equation">
-                <span>Ln(C)=a0+a1*ln(dmV)+a2*ln(dmV)^2</span>
-                <span>a0 = NaN</span>
-                <span>a1 = NaN</span>
-                <span>a2 = NaN</span>
+                <span>Aucune équation à afficher pour le moment.</span>
             </div>
         
-            <div class="boutonOrange boutonFonce boutonBandeauCalibration">
+            <div class="boutonOrange boutonFonce boutonBandeauCalibration" onclick="copierTexte('.equation')">
                 <span>Copier</span>
                 <img src="Ressources/img/copier.png" alt="Copier">
             </div>

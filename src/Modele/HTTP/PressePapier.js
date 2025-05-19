@@ -29,5 +29,26 @@ async function copierScreenElement(querySelectorElement) {
         afficherMessageFlash('Impossible de copier l\'image dans le presse-papiers.', 'danger');
         console.error(error);
     }
+}
 
+
+/**
+ * Copie dans le presse papier le texte de l'élément du DOM passé en paramètre
+ * @param {string} querySelectorElement Nom de la classe de l'élément à copier
+ */
+async function copierTexte(querySelectorElement) {
+    const element = document.querySelector(`${querySelectorElement}`);
+
+    if (!element) {
+        afficherMessageFlash('Element introuvable dans le DOM', 'danger');
+        return;
+    }
+
+    try {
+        await navigator.clipboard.writeText(element.innerText);
+        afficherMessageFlash('Texte copié dans le presse-papiers.', 'success');
+    } catch (error) {
+        afficherMessageFlash('Impossible de copier le texte dans le presse-papiers.', 'danger');
+        console.error(error);
+    }
 }
