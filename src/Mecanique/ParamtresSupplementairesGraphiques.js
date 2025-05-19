@@ -1339,6 +1339,7 @@ function calculerInterferences(listeTraceur) {
                 }
             }
 
+
             for (let i = 3; i < lignes.length - 1; i++) {
                 const colonnes = lignes[i].split(';');
                 if (colonnes[indexLampeATraiter] !== '' && colonnes[indexLampePrincipale] !== '') {
@@ -1394,7 +1395,6 @@ function calculerInterferences(listeTraceur) {
                         data.data.push({x: timestamp, y: 0.01});
                         lignes[k + 3] = lignes[k + 3].replace(/[\n\r]/g, '');
                         lignes[k + 3] += `;0.01`;
-
                     }
                 }
             }
@@ -1458,8 +1458,16 @@ function calculerInterferences(listeTraceur) {
             }
         }
 
+        for (let j = 0; j < colonnes.length; j++) {
+            if (colonnes[j] === `L${traceur1.lampePrincipale}_corr`) {
+                indexLa = j;
+            }
+            if (colonnes[j] === `L${traceur2.lampePrincipale}_corr`) {
+                indexLb = j;
+            }
+        }
+
         for (let i = 3; i < lignes.length - 1; i++) {
-            //TODO : il manque la dernière lignes de données, même sur le graphique, même avec L1 L2 L3 L4.
             const colonnes = lignes[i].split(';');
             if (colonnes[indexLa] !== '' && colonnes[indexLb] !== '') {
                 const ligneContenu = [];
