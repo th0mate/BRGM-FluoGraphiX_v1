@@ -177,7 +177,7 @@ function effectuerCalculsCourbes(idLampe, traceur) {
                 const coeffsTurbidite = multiply([matriceLnEchelles], matriceMv);
                 console.log(coeffsTurbidite);
 
-                equationCourbeCalibration = new Calculs("Equation du type type log(Y-Y0)=a0 + a1*log(X-X0) + a2*log(X-X0)^2 ");
+                equationCourbeCalibration = new Calculs("Equation du type ln(Y-Y0)=a0 + a1*ln(X-X0) + a2*ln(X-X0)^2 ");
                 equationCourbeCalibration.ajouterParametreCalcul('a0', coeffsTurbidite[0][0]);
                 equationCourbeCalibration.ajouterParametreCalcul('a1', coeffsTurbidite[0][1]);
                 equationCourbeCalibration.ajouterParametreCalcul('a2', coeffsTurbidite[0][2]);
@@ -186,7 +186,7 @@ function effectuerCalculsCourbes(idLampe, traceur) {
                 afficherEquationDroite();
 
             } else {
-                equationCourbeCalibration = new Calculs("Equation du type log(Y-Y0)=a0 + a1*log(X-X0)")
+                equationCourbeCalibration = new Calculs("Equation du type ln(Y-Y0)=a0 + a1*ln(X-X0)")
                 equationCourbeCalibration.ajouterParametreCalcul('a0', coeffs[0][0]);
                 equationCourbeCalibration.ajouterParametreCalcul('a1', coeffs[0][1]);
                 equationCourbeCalibration.ajouterParametreCalcul('X0', eau.getDataParNom('L' + idLampe + '-1'));
@@ -236,7 +236,7 @@ function effectuerCalculsCourbes(idLampe, traceur) {
             resultat = multipleLinearRegression(colonne2_3, [colonne1]);
             resultat = transpose(resultat);
 
-            equationCourbeCalibration = new Calculs("Equation du type type log(Y-Y0)=a0 + a1*log(X-X0) + a2*log(X-X0)^2");
+            equationCourbeCalibration = new Calculs("Equation du type type ln(Y-Y0)=a0 + a1*ln(X-X0) + a2*ln(X-X0)^2");
             equationCourbeCalibration.ajouterParametreCalcul('a0', resultat[0][0]);
             equationCourbeCalibration.ajouterParametreCalcul('a1', resultat[0][1]);
             equationCourbeCalibration.ajouterParametreCalcul('a2', resultat[0][2]);
