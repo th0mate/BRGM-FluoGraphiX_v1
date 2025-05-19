@@ -10,7 +10,7 @@
 
 <p align="center">
   <strong>Un outil de visualisation et de traitement des données fluorimétriques, conçu pour les campagnes de traçage en hydrogéologie.</strong><br/>
-  Développé au <a href="https://www.brgm.fr/">BRGM</a> — 2024
+  Développé au <a href="https://www.brgm.fr/">BRGM</a> Montpellier — 2024
 </p>
 
 ---
