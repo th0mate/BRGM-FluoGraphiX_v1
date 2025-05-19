@@ -7,14 +7,16 @@ function parametrerSiteDepuisCalibrat(string) {
     const derniereLigne = lignes[lignes.length - 2];
     const caractere = derniereLigne.charAt(0);
 
-    document.querySelector('#auto').classList.add('active');
+    if (document.querySelector('#auto') && document.querySelector('#amj') && document.querySelector('#jma')) {
+        document.querySelector('#auto').classList.add('active');
 
-    if (document.querySelector('#amj').classList.contains('active')) {
-        document.querySelector('#amj').classList.remove('active');
-    }
+        if (document.querySelector('#amj').classList.contains('active')) {
+            document.querySelector('#amj').classList.remove('active');
+        }
 
-    if (document.querySelector('#jma').classList.contains('active')) {
-        document.querySelector('#jma').classList.remove('active');
+        if (document.querySelector('#jma').classList.contains('active')) {
+            document.querySelector('#jma').classList.remove('active');
+        }
     }
 
     let formatTexte = '';
