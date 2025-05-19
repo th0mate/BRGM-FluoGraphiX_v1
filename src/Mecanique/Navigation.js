@@ -212,4 +212,4 @@ function redirectTo(anchorId, isElement = false) {
 /**
  * Signature
  */
-console.log('%c Développé avec ❤️ par Thomas Loye en 2024 - thomasloye.fr', 'color: #1283ff; font-size: 1.5em; font-weight: bold; text-shadow: 2px 2px 0 #000000;)');
+console.log('%c Développé avec ❤️ par Thomas Loye pour le compte du BRGM (2024/2025) - thomasloye.fr', 'color: #1283ff; font-size: 1.5em; font-weight: bold; text-shadow: 2px 2px 0 #000000;)');

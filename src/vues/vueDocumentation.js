@@ -1,7 +1,7 @@
 function vueDocumentation() {
     return `
     <div class="bannierePage">
-        <img src="Ressources/img/traceurs.jpg.webp" alt="Sources">
+        <img src="Ressources/img/water/img8.jpg" alt="Sources">
         <div class="contenu">
             <p><span onclick="afficherVue('vueAccueil')"><span></span>Accueil</span> <strong> / Documentation</strong></p>
             <h1>Documentation</h1>
@@ -22,7 +22,7 @@ function vueDocumentation() {
                 </span>
                 <img src="Ressources/img/rechercher.png" alt="">
             </span>
-            <a class="bouton boutonFonce" target="_blank" href="mailto:thomasloye1@gmail.com?subject=Signalement de bug FluoGraphiX&cc=v.bailly-comte@brgm.fr">Signaler un bug <img src="Ressources/img/bugs.png" alt=""> </a>
+            <a class="bouton boutonFonce" target="_blank" href="https://github.com/th0mate/BRGM-FluoGraphiX_v1/issues">Signaler un bug <img src="Ressources/img/bugs.png" alt=""> </a>
         </div>
     </div>
     

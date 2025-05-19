@@ -4,7 +4,7 @@
  */
 
 body {
-    overflow-x: hidden;
+    overflow-x: hidden !important;
 }
 
 .graphiques {
@@ -782,7 +782,7 @@ body {
 
 .outilSuppressionCourbes {
     position: absolute;
-    top: 10%;
+    top: 2%;
     right: -350px;
     width: 350px;
     height: 450px;
@@ -801,7 +801,7 @@ body {
         display: flex;
         justify-content: center;
         align-items: center;
-        top: -60px;
+        top: 0;
         left: -45px;
 
         img {

@@ -1,7 +1,7 @@
 function vueMentionsLegales() {
     return`
     <div class="bannierePage">
-        <img src="Ressources/img/image3.jpg" alt="Sources">
+        <img src="Ressources/img/water/img10.jpg" alt="Sources">
         <div class="contenu">
             <p><span onclick="afficherVue('vueAccueil')"><span></span>Accueil</span> <strong> / Mentions Légales</strong></p>
             <h1>Mentions Légales</h1>
