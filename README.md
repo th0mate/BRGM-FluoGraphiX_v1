@@ -20,8 +20,8 @@
 **FluoGraphiX** est une application web et de bureau permettant aux hydrogéologues de **visualiser**, **calibrer** et **traiter** des données issues de **fluorimètres**, utilisées lors de **campagnes de traçage**.
 
 Ce projet a été initié lors d’un stage de deuxième année de BUT Informatique (avril–juin 2024), puis poursuivi en développement open source. Deux versions sont en cours :
-- Une version HTML/CSS/JS légère, utilisable **hors-ligne** (via un ZIP téléchargeable - version actuelle)
-- Une version **ElectronJS + VueJS** avec **mise à jour automatique**, disponible en téléchargement (via un .EXE - à venir)
+- Une version v1 HTML/CSS/JS légère, utilisable **hors-ligne** (via un ZIP téléchargeable - version actuelle)
+- Une version v2 **ElectronJS + VueJS** avec **mise à jour automatique**, disponible en téléchargement (via un .EXE - [en cours de développement](https://github.com/th0mate/BRGM-FluoGraphiX_v2))
 
 ---
 
@@ -57,8 +57,8 @@ Ce projet a été initié lors d’un stage de deuxième année de BUT Informati
 | Catégorie                 | Technologies                                   |
 |--------------------------|-------------------------------------------------|
 | **Langages**             | JavaScript, HTML5, CSS3                         |
-| **Framework**            | VueJS (à venir)                                 |
-| **Librairies**           | ChartJS, ElectronJS (à venir)                   |
+| **Framework**            | VueJS (v2)                                      |
+| **Librairies**           | ChartJS, ElectronJS (v2)                        |
 | **Développement**        | Git, GitHub, WebStorm                           |
 | **Design & gestion**     | Figma (UI/UX), Notion (gestion de projet)       |
 
@@ -75,11 +75,12 @@ Ce projet a été initié lors d’un stage de deuxième année de BUT Informati
 | **Phase 0**        | Essais avec ChartJS sur données lourdes                                     |
 | **Phase 1**        | Implémentation de la navigation (routing basique)                           |
 | **Phase 2**        | Création des pages satellites (import, export, aide)                        |
-| **Phase 3**        | Affichage des mesures en graphique                                           |
+| **Phase 3**        | Affichage des mesures en graphique                                          |
 | **Phase 4**        | Affichage/calcul des données de calibration                                 |
 | **Phase 5**        | Ajout de traitements correctifs et conversions                              |
 | **Phase 6**        | Refonte graphique complète (UI/UX sur Figma)                                |
-| **Phase 7 (actuelle)** | Migration vers **VueJS + ElectronJS** pour version installable             |
+| **Phase 7** | Publication de la v1 de l'outil                                         |
+| **Phase 8 (en cours)** | Travail sur la v2 : **VueJS + ElectronJS** pour version installable     |
 
 ---
 
